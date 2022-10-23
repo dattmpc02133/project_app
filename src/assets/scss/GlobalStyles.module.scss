@@ -1,6 +1,6 @@
 
 :root {
-   
+   --color-while: #fff;
 }
 
 * {
@@ -41,4 +41,12 @@ li {
 a[href] {
     color: var(--text-color);
     text-decoration: none;
+}
+// mobile width < 740px
+@media only screen and (max-width: 46.1875em) {
+
+}
+// Table: width < 740px and width < 1024px
+@media only screen and (min-width: 46.25em) and (max-width:63.9375em) {
+    
 }
