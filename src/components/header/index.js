@@ -6,14 +6,17 @@ import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
-function Header(props) {
+function Header(props)
+{
     const { ItemMenu } = props;
     const [search, setSearch] = useState();
     const [open, setOpen] = useState();
-    const handleSearch = () => {
+    const handleSearch = () =>
+    {
         setSearch(!search);
     };
-    const handleNavBarClick = () => {
+    const handleNavBarClick = () =>
+    {
         setOpen(!open);
     };
     return (

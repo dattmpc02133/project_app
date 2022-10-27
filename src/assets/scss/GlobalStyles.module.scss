@@ -1,6 +1,5 @@
-
 :root {
-   --color-while: #fff;
+    --color-while: #fff;
 }
 
 * {
@@ -14,7 +13,8 @@ html {
 }
 
 body {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande',
+        sans-serif;
     font-weight: 300;
     font-size: 1rem;
     line-height: 1.5rem;
@@ -44,9 +44,7 @@ a[href] {
 }
 // mobile width < 740px
 @media only screen and (max-width: 46.1875em) {
-
 }
 // Table: width < 740px and width < 1024px
-@media only screen and (min-width: 46.25em) and (max-width:63.9375em) {
-    
+@media only screen and (min-width: 46.25em) and (max-width: 63.9375em) {
 }

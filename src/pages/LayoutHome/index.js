@@ -1,8 +1,10 @@
 import Header from '~/components/header';
+import Footer from '~/components/Footer';
 import { Layout } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 
-function LayoutHome() {
+function LayoutHome()
+{
     const ItemMenu = [
         {
             title: 'iPhone',
@@ -44,6 +46,9 @@ function LayoutHome() {
             <main>
                 <Outlet />
             </main>
+
+            <Footer />
+
         </>
         // </Layout>
     );
