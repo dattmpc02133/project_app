@@ -93,6 +93,7 @@ function Home() {
                                 <div className={cx('olw-btn-next')}>
                                     <VscArrowRight className={cx('icon-slide')} />
                                 </div>
+                                <p>Test</p>
                             </div>
                         </div>
                     </div>
