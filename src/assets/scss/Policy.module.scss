@@ -1,0 +1,50 @@
+.Policy {
+    width: 100%;
+    display: block;
+    background: #323232;
+    overflow: hidden;
+    .pr_Policy {
+        display: block;
+        overflow: hidden;
+        background: #323232;
+        text-align: center;
+        padding: 25px 0;
+        max-width: var(--sub-maxWidth);
+        min-width: 1024px;
+        margin: auto;
+        li {
+            display: inline-block;
+            vertical-align: top;
+            width: 24%;
+            .icon-policy {
+                display: block;
+                margin: 0 auto 15px;
+                font-size: 3.5rem;
+                color: var(--sub-white-color);
+            }
+            span {
+                display: block;
+                overflow: hidden;
+                color: #fff;
+                font-size: 1.5rem;
+                line-height: 20px;
+                text-align: center;
+            }
+        }
+    }
+}
+@media (max-width: 1023px) {
+    .Policy {
+        .pr_Policy {
+            width: 100%;
+            min-width: 100%;
+            li {
+                width: 50%;
+                padding: 10px 0;
+                .icon-policy {
+                    font-size: 4rem;
+                }
+            }
+        }
+    }
+}

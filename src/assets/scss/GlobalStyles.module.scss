@@ -1,6 +1,11 @@
-
 :root {
-   --color-while: #fff;
+    --color-while: #fff;
+    --sub-background-color: #323232;
+    --sub-maxWidth: 1440px;
+    --sub-Width: 1200px;
+    --width-height-logo: 35px;
+    --sub-icon-size: 2rem;
+    --sub-width-height: 40px;
 }
 
 * {
@@ -14,7 +19,8 @@ html {
 }
 
 body {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande',
+        sans-serif;
     font-weight: 300;
     font-size: 1rem;
     line-height: 1.5rem;
@@ -41,12 +47,4 @@ li {
 a[href] {
     color: var(--text-color);
     text-decoration: none;
-}
-// mobile width < 740px
-@media only screen and (max-width: 46.1875em) {
-
-}
-// Table: width < 740px and width < 1024px
-@media only screen and (min-width: 46.25em) and (max-width:63.9375em) {
-    
 }

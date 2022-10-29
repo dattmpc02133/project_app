@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LayoutHome from '~/pages/LayoutHome';
+import LayoutView from './pages/LayoutView';
 import AccesSories from './pages/AccesSories';
+import Home from './pages/Home';
 import Ipad from './pages/iPad';
 import Iphone from './pages/iPhone';
 import Mac from './pages/Mac';
@@ -12,7 +13,8 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<LayoutHome />}>
+                <Route path="/" element={<LayoutView />}>
+                    <Route path="" element={<Home />} />
                     <Route path="/iphone" element={<Iphone />} />
                     <Route path="/mac" element={<Mac />} />
                     <Route path="/ipad" element={<Ipad />} />

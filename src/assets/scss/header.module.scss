@@ -1,6 +1,5 @@
 :root {
     --height: 60px;
-    --height-logo: 35px;
     --color--primary: #101010;
     --sub-white-color: #fff;
 }
@@ -16,7 +15,7 @@
         width: 100%;
         height: var(--height);
         position: relative;
-        max-width: 1200px;
+        max-width: var(--sub-Width);
         margin: 0 auto;
         .MenuBarIcon {
             display: none;
@@ -34,8 +33,8 @@
     }
     .personal-logo {
         background-position: 0 0;
-        width: 103px;
-        height: var(--height-logo);
+        width: 100px;
+        height: var(--width-height-logo);
         .personal-logo,
         .personal_auth-logo {
             display: inline-block;
@@ -43,20 +42,17 @@
         }
     }
     .personal_auth-logo {
-        width: 35px;
-        height: var(--height-logo);
+        width: var(--width-height-logo);
+        height: var(--width-height-logo);
     }
 }
 
 .menu {
     display: flex;
-    align-items: start;
+    align-items: center;
     list-style-type: none;
-    flex: 0 auto;
-
     .menu-item {
         padding: 0 25px;
-
         .menu-link {
             position: relative;
             display: block;
@@ -182,7 +178,8 @@
     opacity: 0.8;
     z-index: 9998;
 }
-@media (max-width: 739px) {
+// table width >= 740px and width < 1024px
+@media (max-width: 1023px) {
     .header {
         .head {
             padding: 0 20px;
@@ -242,24 +239,6 @@
                     color: var(--color--primary);
                 }
             }
-        }
-    }
-}
-// table width >= 740px and width < 1024px
-@media (min-width: 740px) and (max-width: 1024px) {
-    .header {
-        width: 100%;
-        min-width: 1024px;
-        padding: 0 20px;
-        .head {
-            .MenuBarIcon {
-                display: none;
-            }
-        }
-    }
-    .menu {
-        .menu-item {
-            padding: 0 20px;
         }
     }
 }
