@@ -23,11 +23,7 @@
     min-width: 1024px;
     width: 100%;
     margin: auto;
-    .slide-owl-stage {
-        padding: 10px 0;
-        position: relative;
-        z-index: 99999;
-    }
+
     .olw-btn_nav,
     .button-slide {
         position: absolute;
@@ -57,17 +53,15 @@
         }
     }
 
-    .slide-olw-box {
-        display: flex !important;
-        transform: translate3d(0px, 0px, 0px);
-        transition: all 0.25s ease 0s;
+    .slide-owl-stage {
+        padding: 10px 0;
+        position: relative;
         .olw-item {
             background: #323232;
             border-radius: 24px;
             padding: 0 0 30px;
             margin: 0 10px 0 10px;
-            max-width: 30%;
-            flex: 0 0 23.4%;
+            max-width: 90%;
             &:hover {
                 box-shadow: rgba(134, 134, 134, 0.15) 1.95px 1.95px 2.6px;
             }
@@ -131,4 +125,16 @@
             }
         }
     }
+}
+@media (max-width: 768px) {
+    .slide-cate-product {
+        .slide-owl-stage {
+            .olw-item {
+                max-width: 40%;
+                margin: 10px;
+            }
+        }
+    }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
 }
