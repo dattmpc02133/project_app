@@ -61,14 +61,14 @@ function Home() {
                                 </div>
                                 <div className={cx('olw-btn_nav')} style={{ display: 'none' }}></div>
                             </Slider>
-                            {/* <div className={cx('button-slide')}>
+                            <div className={cx('button-slide')}>
                                 <div className={cx('olw-btn-prev')} onClick={() => slider?.current?.slickPrev()}>
                                     <VscArrowLeft className={cx('icon-slide')} />
                                 </div>
                                 <div className={cx('olw-btn-next')}>
                                     <VscArrowRight className={cx('icon-slide')} />
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                     </div>
                 </div>
