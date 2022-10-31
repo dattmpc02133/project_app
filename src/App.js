@@ -9,13 +9,16 @@ import Sound from './pages/Sound';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
 import Watch from './pages/Watch';
+import ProductDetail from './pages/ProductDetail';
 function App() {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
-                    <Route path="/iphone" element={<Iphone />} />
+                    <Route path="/iphone" element={<Iphone />}>
+                        <Route path="iphone:id" element={<ProductDetail />}></Route>
+                    </Route>
                     <Route path="/mac" element={<Mac />} />
                     <Route path="/ipad" element={<Ipad />} />
                     <Route path="/watch" element={<Watch />} />

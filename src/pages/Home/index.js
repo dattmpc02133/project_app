@@ -9,6 +9,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 const cx = classNames.bind(style);
 function Home() {
     const slider = useRef();
@@ -61,8 +62,8 @@ function Home() {
                         <div className={cx('slide-owl-stage')}>
                             <Slider ref={slider} {...settings}>
                                 {product.children.map((item, index) => (
-                                    <div className={cx('olw-item')} key={index}>
-                                        <a href="#" className={cx('olw-item-link')}>
+                                    <div className={cx('olw-item')} key={item.id}>
+                                        <Link to={`/${product.path}/${item.id}`} className={cx('olw-item-link')}>
                                             <div className={cx('olw-newDiscount-head')}>
                                                 <label>{item.news}</label>
                                                 <div className={cx('olw-percent')}>{item.discount}</div>
@@ -78,7 +79,7 @@ function Home() {
                                             <span className={cx('price')}>
                                                 {item.priceReducer} <del>{item.price}</del>
                                             </span>
-                                        </a>
+                                        </Link>
                                     </div>
                                 ))}
                                 {/* <div className={cx('slide-olw-box')}>
@@ -86,15 +87,14 @@ function Home() {
                                 </div> */}
                                 <div className={cx('olw-btn_nav')} style={{ display: 'none' }}></div>
                             </Slider>
-                            <div className={cx('button-slide')}>
+                            {/* <div className={cx('button-slide')}>
                                 <div className={cx('olw-btn-prev')}>
                                     <VscArrowLeft className={cx('icon-slide')} />
                                 </div>
                                 <div className={cx('olw-btn-next')}>
                                     <VscArrowRight className={cx('icon-slide')} />
                                 </div>
-                                <p>Test</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
