@@ -5,6 +5,9 @@ const images = {
     footer_tnm: require('~/assets/images/footer_tnm.png'),
     footer_dmca: require('~/assets/images/footer_dmca.png'),
     logotest: require('~/assets/images/logotest.png'),
+    tekzone__1: require('~/assets/images/tekzone__1.png'),
+    tekzone__2: require('~/assets/images/tekzone__2.png'),
+    tekzone__3: require('~/assets/images/tekzone__3.png'),
 
 };
 export default images;

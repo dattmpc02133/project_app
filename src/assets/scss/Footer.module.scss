@@ -170,6 +170,8 @@
 // talet and mobile
 @media (min-width: 740px) and (max-width: 1024px) {
     .footer {
+        border-top: 1px solid;
+        border-color: rgba(229, 229, 229, 0.5);
         width: 100%;
         max-width: 1024px;
         min-width: 740px;
@@ -210,6 +212,12 @@
                     top: calc(100% - 10px);
                     right: 4px;
                 }
+            }
+            li .color-active {
+                color: #2997ff;
+                padding: 0;
+                padding-top: 10px;
+                font-size: 1.5rem;
             }
 
             li span {
@@ -252,6 +260,9 @@
 
             .show-active {
                 display: block;
+                a {
+                    padding: 10px 25px 0;
+                }
             }
         }
 
@@ -287,6 +298,8 @@
         max-width: 740px;
         min-width: 200px;
         padding: 0 20px;
+        border-top: 1px solid;
+        border-color: rgba(229, 229, 229, 0.5);
 
         .list-info,
         .footer-text__certify,
@@ -325,12 +338,17 @@
                     right: 4px;
                 }
             }
-
+            li .color-active {
+                color: #2997ff;
+                padding: 0;
+                padding-top: 10px;
+                font-size: 1.3rem;
+            }
             li span {
                 display: block;
                 overflow: hidden;
                 color: var(--color-while);
-                font-size: 1.5rem;
+                font-size: 1.3rem;
                 line-height: 20px;
                 padding: 10px 0 0;
                 font-weight: 500;
@@ -360,8 +378,15 @@
                 margin-right: 4px;
             }
 
-            .show-next {
+            .show-none {
                 display: none;
+            }
+
+            .show-active {
+                display: block;
+                a {
+                    padding: 10px 25px 0;
+                }
             }
         }
 
