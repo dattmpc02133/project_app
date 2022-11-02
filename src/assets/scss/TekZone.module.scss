@@ -1,5 +1,6 @@
 :root {
     --border-radius-tek: 24px;
+    --padding-left: 8px;
 }
 .wrapper {
     width: 100%;
@@ -22,9 +23,9 @@
                 border-bottom-left-radius: var(--border-radius-tek);
                 .itemsl {
                     width: 100%;
-                    border-top-left-radius: var(--border-radius-tek);
-                    border-bottom-left-radius: var(--border-radius-tek);
+                    height: auto;
                     object-fit: cover;
+
                     &:hover {
                         width: 100%;
                         transform: scale(1.1);
@@ -35,35 +36,34 @@
         }
 
         .tekimg-tow {
-            padding-bottom: 6px;
-            .tekzone-img {
-                overflow: hidden;
-                border-top-right-radius: var(--border-radius-tek);
-
-                .items1 {
-                    width: 100%;
-                    height: 220px;
+            .item-tek {
+                padding-bottom: 6px;
+                .tekzone-imgs {
+                    overflow: hidden;
                     border-top-right-radius: var(--border-radius-tek);
-                    object-fit: cover;
-                    &:hover {
+                    .items1 {
+                        height: auto;
                         width: 100%;
-                        transform: scale(1.1);
-                        transition: all 500ms ease-in-out;
+                        object-fit: cover;
+                        &:hover {
+                            width: 100%;
+                            transform: scale(1.1);
+                            transition: all 500ms ease-in-out;
+                        }
                     }
                 }
-            }
-            .tekzone-img {
-                overflow: hidden;
-                border-bottom-right-radius: var(--border-radius-tek);
-                .items2 {
-                    width: 100%;
-                    height: 220px;
+                .tekzone-img {
+                    overflow: hidden;
                     border-bottom-right-radius: var(--border-radius-tek);
-                    object-fit: cover;
-                    &:hover {
+                    .items2 {
                         width: 100%;
-                        transform: scale(1.1);
-                        transition: all 500ms ease-in-out;
+                        height: auto;
+                        object-fit: cover;
+                        &:hover {
+                            width: 100%;
+                            transform: scale(1.1);
+                            transition: all 500ms ease-in-out;
+                        }
                     }
                 }
             }

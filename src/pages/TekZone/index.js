@@ -18,14 +18,14 @@ function TekZone()
 
                     </div>
 
-                    <div className={"c-4"} >
-                        <div className={cx('tekimg-tow')}>
-                            <div className={cx('tekzone-img')}>
+                    <div className={cx('tekimg-tow', "c-4")} >
+                        <div className={cx('item-tek')}>
+                            <div className={cx('tekzone-imgs')}>
                                 <img className={cx('items1')} src={images.tekzone__2} alt="iphone12 " />
                             </div>
                         </div>
 
-                        <div className={cx('tekimg-tow')}>
+                        <div className={cx('item-tek')}>
                             <div className={cx('tekzone-img')}>
                                 <img className={cx('items2')} src={images.tekzone__3} alt="iphone12 " />
                             </div>
