@@ -168,12 +168,12 @@
     }
 }
 // talet and mobile
-@media (min-width: 740px) and (max-width: 1024px) {
+@media (min-width: 740px) and (max-width: 1023px) {
     .footer {
         border-top: 1px solid;
         border-color: rgba(229, 229, 229, 0.5);
         width: 100%;
-        max-width: 1024px;
+        max-width: 1023px;
         min-width: 740px;
         padding: 0 20px;
         .list-info,

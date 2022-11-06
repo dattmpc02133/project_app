@@ -8,6 +8,13 @@ const images = {
     tekzone__1: require('~/assets/images/tekzone__1.png'),
     tekzone__2: require('~/assets/images/tekzone__2.png'),
     tekzone__3: require('~/assets/images/tekzone__3.png'),
-
+    cate_iphone: require('~/assets/images/cate_iPhone.png'),
+    cate_mac: require('~/assets/images/cate_Mac.png'),
+    cate_ipad: require('~/assets/images/cate_Ipad.png'),
+    cate_watch: require('~/assets/images/cate_Watch.png'),
+    cate_airpods: require('~/assets/images/cate_AirPods.png'),
+    cate_pk: require('~/assets/images/cate_PK.png'),
+    cate_dichvu: require('~/assets/images/cate_Dich-vu.png'),
+    tekitem: require('~/assets/images/tekitem.png'),
 };
 export default images;

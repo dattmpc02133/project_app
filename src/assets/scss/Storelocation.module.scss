@@ -32,6 +32,7 @@
             width: 250px;
             position: relative;
             display: inline-block;
+            margin-bottom: 6px;
             span {
                 border: 1px solid #757575;
                 border-radius: 12px;
@@ -60,7 +61,50 @@
                     margin: auto;
                 }
             }
+
+            .list-item {
+                position: absolute;
+                left: 0;
+                top: 55px;
+                background-color: #fff;
+                width: 100%;
+                text-align: left;
+                border-radius: 12px;
+                color: #323232;
+                font-size: 1.4rem;
+                z-index: 100;
+                ul {
+                    padding: 0 20px;
+                    max-height: 300px;
+                    overflow-y: scroll;
+                    li {
+                        padding-bottom: 15px;
+                        &:first-child {
+                            padding-top: 20px;
+                        }
+                    }
+                    &::before {
+                        content: '';
+                        width: 20px;
+                        height: 20px;
+                        background-color: #fff;
+                        position: absolute;
+                        transform: rotate(45deg);
+                        top: -2px;
+                        left: 30px;
+                        // box-shadow: -2px -2px 5px -4px;
+                    }
+                }
+            }
         }
+    }
+
+    .show-actice {
+        display: block;
+    }
+
+    .show-none {
+        display: none;
     }
 
     .list-store {
@@ -130,9 +174,9 @@
 }
 
 // talet anf mobile
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
     .store-location {
-        max-width: 1024px;
+        max-width: 1023px;
         min-width: 200px;
         margin: 0 auto;
         padding: 0 10px;
