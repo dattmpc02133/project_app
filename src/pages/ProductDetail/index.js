@@ -4,12 +4,15 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { GoChevronUp, GoPackage } from 'react-icons/go';
+import { FcApproval } from 'react-icons/fc';
 import style from '~/assets/scss/ProductDetail.module.scss';
 import classNames from 'classnames/bind';
-// antd tab descriptions
+// tab descriptions
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-// end antd tab descriptions
+import { useState } from 'react';
+// end tab descriptions
 const cx = classNames.bind(style);
 const images = [
     {
@@ -143,6 +146,18 @@ const settings = {
     ],
 };
 const ProductDetail = () => {
+    const [seeliststore, setSeeListStore] = useState();
+    const [cityprovince, setCityProvince] = useState();
+    const [city, setCity] = useState();
+    const handleSeenList = () => {
+        setSeeListStore(!seeliststore);
+    };
+    const HandleCityProvince = () => {
+        setCityProvince(!cityprovince);
+    };
+    const HandleCity = () => {
+        setCity(!city);
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('detail-box')}>
@@ -257,6 +272,96 @@ const ProductDetail = () => {
                                     <em>(*)</em> Giá hoặc khuyến mãi không áp dụng trả góp lãi suất đặc biệt (0%, 0.5%,
                                     1%)
                                 </p>
+                            </div>
+                            <div className={cx('check-goods')} onClick={handleSeenList}>
+                                <GoPackage />
+                                Xem TopZone có hàng
+                            </div>
+                            <div
+                                className={cx('popup-list-store')}
+                                style={{ display: seeliststore ? 'block' : 'none' }}
+                            >
+                                <div className={cx('bg-popup')} onClick={handleSeenList}></div>
+                                <div className={cx('list-store')}>
+                                    <b>Danh sách cửa hàng TopZone</b>
+                                    <div className={cx('close-list-store')} onClick={handleSeenList}>
+                                        &times;
+                                    </div>
+                                    <div className={cx('tab-store')}>
+                                        <div className={cx('ts-province')}>
+                                            <span onClick={HandleCityProvince}>
+                                                Hồ Chí Minh <GoChevronUp className={cityprovince ? cx('icon') : ''} />
+                                            </span>
+                                            <ul style={{ display: cityprovince ? 'block' : 'none' }}>
+                                                <li>Thái Nguyên</li>
+                                                <li>Đồng Nai</li>
+                                                <li>Hồ Chí Minh</li>
+                                                <li>Hà Nội</li>
+                                                <li>Tây Ninh</li>
+                                                <li>Bình Thuận</li>
+                                                <li>Bình Dương</li>
+                                                <li>Cần Thơ</li>
+                                                <li>Gia Lai</li>
+                                                <li>Nam Định</li>
+                                            </ul>
+                                        </div>
+                                        <div className={cx('ts-district')}>
+                                            <span onClick={HandleCity}>
+                                                Chọn quận huyện <GoChevronUp className={city ? cx('icon') : ''} />
+                                            </span>
+                                            <ul style={{ display: city ? 'block' : 'none' }}>
+                                                <li>Quận Bình Tân</li>
+                                                <li>Quận Tân Phú</li>
+                                                <li>Hồ Chí Minh</li>
+                                                <li>Quận 4</li>
+                                                <li>TP.Thủ Đức</li>
+                                                <li>Quận 10</li>
+                                                <li>Quận 12</li>
+                                                <li>Quận 8</li>
+                                                <li>Quận Tân Bình</li>
+                                                <li>Quận 7</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <ul className={cx('tab-list-store', 'tab-box')}>
+                                        <li className={cx('tab-item-wrap')}>
+                                            <div className={cx('info-store')}>
+                                                <strong>TopZone Nguyễn Thị Tú</strong>
+                                                <span>
+                                                    229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí Minh
+                                                </span>
+                                                <small>
+                                                    <FcApproval /> Có hàng
+                                                </small>
+                                            </div>
+                                            <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                        </li>
+                                        <li className={cx('tab-item-wrap')}>
+                                            <div className={cx('info-store')}>
+                                                <strong>TopZone Nguyễn Thị Tú</strong>
+                                                <span>
+                                                    229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí Minh
+                                                </span>
+                                                <small>
+                                                    <FcApproval /> Có hàng
+                                                </small>
+                                            </div>
+                                            <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                        </li>
+                                        <li className={cx('tab-item-wrap')}>
+                                            <div className={cx('info-store')}>
+                                                <strong>TopZone Nguyễn Thị Tú</strong>
+                                                <span>
+                                                    229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí Minh
+                                                </span>
+                                                <small>
+                                                    <FcApproval /> Có hàng
+                                                </small>
+                                            </div>
+                                            <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div className={cx('policy')}>
                                 <span>

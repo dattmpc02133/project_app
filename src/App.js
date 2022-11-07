@@ -10,6 +10,7 @@ import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
 import Watch from './pages/Watch';
 import ProductDetail from './pages/ProductDetail';
+import NotFound from './pages/NotFound';
 function App() {
     return (
         <Router>
@@ -17,7 +18,7 @@ function App() {
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path="/iphone" element={<Iphone />}>
-                        <Route path="iphone:id" element={<ProductDetail />}></Route>
+                        <Route path="iphone:slug" element={<ProductDetail />} />
                     </Route>
                     <Route path="/mac" element={<Mac />} />
                     <Route path="/ipad" element={<Ipad />} />
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/accessories" element={<AccesSories />} />
                     <Route path="/tekzone" element={<TekZone />} />
                     <Route path="/topcare" element={<TopCare />} />
+                    <Route path="*" element={<NotFound />} />
                 </Route>
             </Routes>
         </Router>

@@ -1,5 +1,6 @@
 :root {
     --size-text-title: 2rem;
+    --sub-size: 1.5rem;
     --p-m-primary: 20px;
 }
 .wrapper {
@@ -47,7 +48,7 @@
         display: inline-block;
         overflow: hidden;
         color: var(--sub-white-color);
-        font-size: 1.5rem;
+        font-size: var(--sub-size);
         line-height: var(--p-m-primary);
         cursor: pointer;
         padding-right: 15px;
@@ -72,7 +73,7 @@
             border-radius: 8px;
             padding: 10px 12px;
             text-align: center;
-            font-size: 1.5rem;
+            font-size: var(--sub-size);
             line-height: 21px;
             border: 1px solid transparent;
         }
@@ -166,6 +167,161 @@
         margin-bottom: var(--p-m-primary);
         .cart-pays {
             display: block;
+        }
+    }
+    .check-goods {
+        margin-bottom: var(--p-m-primary);
+        font-size: var(--sub-size);
+        line-height: 25px;
+        color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    // list store
+    .popup-list-store {
+        .bg-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
+            opacity: 0.8;
+            z-index: 1;
+        }
+        .list-store {
+            position: fixed;
+            top: 0;
+            width: 620px;
+            background: #fff;
+            border-radius: 12px;
+            margin: auto;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            bottom: 0;
+            max-height: 420px;
+            b {
+                display: block;
+                overflow: hidden;
+                color: var(--sub-background-color);
+                font-size: 20px;
+                line-height: 25px;
+                text-align: center;
+                padding: 40px 0 24px;
+            }
+            .close-list-store {
+                position: absolute;
+                top: 31px;
+                right: 31px;
+                font-size: 30px;
+                cursor: pointer;
+            }
+            .tab-store {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                .ts-province,
+                .ts-district {
+                    position: relative;
+                    width: 235px;
+                    display: inline-block;
+                    vertical-align: top;
+                    .icon {
+                        transition: transform 0.5s;
+                        transform: rotate(180deg);
+                    }
+                    span {
+                        border: 1px solid #e5e5e5;
+                        border-radius: 12px;
+                        background-color: #fff;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        height: 50px;
+                        position: relative;
+                        color: var(--sub-background-color);
+                        padding: 0 30px 0 20px;
+                        cursor: pointer;
+                    }
+                    ul {
+                        position: absolute;
+                        left: 0;
+                        top: 55px;
+                        padding: 0 20px 15px 20px;
+                        background-color: #fff;
+                        width: 100%;
+                        text-align: left;
+                        border-radius: 12px;
+                        display: none;
+                        z-index: 2;
+                        border: 1px solid #e5e5e5;
+                        max-height: 40vh;
+                        overflow-y: auto;
+                        li {
+                            cursor: pointer;
+                            padding-top: 15px;
+                            position: relative;
+                            z-index: 1;
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }
+            .tab-list-store {
+                overflow: hidden;
+                margin: 25px auto;
+                width: 480px;
+                max-height: 225px;
+                overflow-y: scroll;
+                padding-right: 10px;
+                border: 1px solid #eee;
+            }
+            .tab-item-wrap {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                overflow: hidden;
+                padding: 15px 0;
+                border-bottom: 1px solid #e5e5e5;
+                .oder-store {
+                    display: inline-block;
+                    vertical-align: middle;
+                    color: #171d29;
+                    font-size: 14px;
+                    line-height: 21px;
+                    text-align: center;
+                    width: 122px;
+                    padding: 10px 0;
+                    border: 1px solid #171d29;
+                    border-radius: 100px;
+                }
+                .info-store {
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: 100%;
+                    strong,
+                    span {
+                        display: block;
+                        overflow: hidden;
+                        color: #3a3a3a;
+                        font-size: 15px;
+                        line-height: 20px;
+                        display: block;
+                        padding: 5px;
+                    }
+                    small {
+                        display: block;
+                        overflow: hidden;
+                        font-size: 15px;
+                        line-height: 20px;
+                        font-weight: 500;
+                        color: #00a651;
+                    }
+                }
+            }
         }
     }
 }
