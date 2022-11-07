@@ -1,7 +1,6 @@
 import CategoryContent from '../../components/CategoryContent';
 import Slideshow from '../../components/slideshow';
 import classNames from 'classnames/bind';
-import { VscArrowLeft, VscArrowRight } from 'react-icons/vsc';
 import style from '~/assets/scss/Home.module.scss';
 import images from '../../assets/images';
 import { Products_list } from '../../services/ApiServices';
@@ -62,8 +61,8 @@ function Home() {
                         <div className={cx('slide-owl-stage')}>
                             <Slider ref={slider} {...settings}>
                                 {product.children.map((item, index) => (
-                                    <div className={cx('olw-item')} key={item.id}>
-                                        <Link to={`/${product.path}/${item.id}`} className={cx('olw-item-link')}>
+                                    <div className={cx('olw-item')} key={index}>
+                                        <Link to={`/${product.path}/${item.slug}`} className={cx('olw-item-link')}>
                                             <div className={cx('olw-newDiscount-head')}>
                                                 <label>{item.news}</label>
                                                 <div className={cx('olw-percent')}>{item.discount}</div>
@@ -82,19 +81,8 @@ function Home() {
                                         </Link>
                                     </div>
                                 ))}
-                                {/* <div className={cx('slide-olw-box')}>
-                                    
-                                </div> */}
                                 <div className={cx('olw-btn_nav')} style={{ display: 'none' }}></div>
                             </Slider>
-                            {/* <div className={cx('button-slide')}>
-                                <div className={cx('olw-btn-prev')}>
-                                    <VscArrowLeft className={cx('icon-slide')} />
-                                </div>
-                                <div className={cx('olw-btn-next')}>
-                                    <VscArrowRight className={cx('icon-slide')} />
-                                </div>
-                            </div> */}
                         </div>
                     </div>
                 </div>
