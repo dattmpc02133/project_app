@@ -1,9 +1,10 @@
 import classNames from 'classnames/bind';
+import { Link } from 'react-router-dom';
 import styles from '../../assets/scss/TekZone.module.scss';
 import '../../assets/scss/Grid.scss';
 import images from '../../assets/images';
 // import Slideshow from '../../components/slideshow';
-import React, { Component } from 'react';
+import React from 'react';
 import Slider from 'react-slick';
 
 const cx = classNames.bind(styles);
@@ -63,7 +64,7 @@ function TekZone() {
                 <div className={cx('list__slider-mb')}>
                     <Slider {...settings}>
                         <li>
-                            <a href="#">
+                            <a href="">
                                 <div className={cx('size-img-title')}>
                                     <img src={images.tekzone__1} alt="Slider2" />
                                     <h3 className={cx('title')}>
@@ -156,7 +157,7 @@ function TekZone() {
                     </div>
                     <div className={cx('newsest')}>
                         <div className={cx('news-item')}>
-                            <a href="#">
+                            <Link to={'tekzonedetail'}>
                                 <div className={cx('img-item')}>
                                     <img src={images.tekitem} alt="Anh post" />
                                 </div>
@@ -170,7 +171,7 @@ function TekZone() {
                                         <p>1 giờ trước</p>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
 
                         <div className={cx('news-item')}>
