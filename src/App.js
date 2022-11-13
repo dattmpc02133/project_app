@@ -12,7 +12,7 @@ import Watch from './pages/Watch';
 import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
-import Pay from './pages/Pay';
+import Cart from './pages/Cart';
 import LayoutAdmin from './pages/LayoutAdmin';
 import Login from './components/Login';
 function App() {
@@ -33,7 +33,7 @@ function App() {
                     <Route path="/tekzone" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
-                    <Route path="/pay" element={<Pay />} />
+                    <Route path="/cart" element={<Cart />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
                 <Route path="/admin" element={<LayoutAdmin />}>

@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import style from '~/assets/scss/Pay.module.scss';
+import style from '~/assets/scss/Cart.module.scss';
 import { SlArrowLeft, SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { CiSearch } from 'react-icons/ci';
 const cx = classNames.bind(style);
-const Pay = () => {
+const Cart = () => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('content-pay')}>
@@ -304,4 +304,4 @@ const Pay = () => {
     );
 };
 
-export default Pay;
+export default Cart;
