@@ -66,10 +66,33 @@
             position: relative;
             margin-bottom: var(--SpacePadingInput);
             .prd-size-and-color {
-                padding: 6px 28px 6px var(--GapPadding);
+                padding: 6px 12px 6px var(--GapPadding);
                 border-radius: 8px;
                 position: relative;
                 border: 1px solid var(--BorderSoLid);
+                label {
+                    display: flex;
+                    gap: 10px;
+                }
+                .prd-listColor {
+                    position: absolute;
+                    top: 30px;
+                    border-radius: 12px;
+                    left: 0;
+                    border: 0;
+                    width: 210px;
+                    padding: 0 10px;
+                    background: #fff;
+                    box-shadow: 4px 4px 8px #23232300, 5px 4px 8px #9d9d9d38;
+                    .select-color {
+                        padding: 12px 0;
+                        cursor: pointer;
+                        border-bottom: 1px solid var(--BorderSoLid);
+                        img {
+                            width: 35px;
+                        }
+                    }
+                }
             }
             .prd-choosenumber {
                 display: flex;

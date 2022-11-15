@@ -15,6 +15,7 @@ import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
 import LayoutAdmin from './pages/LayoutAdmin';
 import Login from './components/Login';
+import Pay from './pages/Pay';
 function App() {
     return (
         <Router>
@@ -34,6 +35,7 @@ function App() {
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
                 <Route path="/admin" element={<LayoutAdmin />}>
