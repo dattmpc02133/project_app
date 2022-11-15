@@ -11,10 +11,15 @@ import TopCare from './pages/TopCare';
 import Watch from './pages/Watch';
 import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
+import TekZoneDetail from './pages/TekZoneDetail';
+import Cart from './pages/Cart';
+import LayoutAdmin from './pages/LayoutAdmin';
+import Login from './components/Login';
 function App() {
     return (
         <Router>
             <Routes>
+                <Route path="/login" element={<Login />} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path="/iphone" element={<Iphone />}>
@@ -26,8 +31,13 @@ function App() {
                     <Route path="/sound" element={<Sound />} />
                     <Route path="/accessories" element={<AccesSories />} />
                     <Route path="/tekzone" element={<TekZone />} />
+                    <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
+                    <Route path="/cart" element={<Cart />} />
                     <Route path="*" element={<NotFound />} />
+                </Route>
+                <Route path="/admin" element={<LayoutAdmin />}>
+                    <Route></Route>
                 </Route>
             </Routes>
         </Router>

@@ -35,17 +35,18 @@ function Header() {
                         <img className={cx('personal_auth-logo')} src={images.logo2} alt="Logo" />
                     </a>
                 </div>
-                {/* Menu */}
-                <ul className={!open ? cx('menu') : cx('SubMenu-Item')}>
-                    {ItemMenu.map((data, index) => (
-                        <li className={cx('menu-item')} key={index}>
-                            <Link to={data.path} className={cx('menu-link')}>
-                                <span>{data.title}</span>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-                {/* navbar mobile */}
+
+                <div className={cx('search-header')}>
+                    <div className={cx('search-input')}>
+                        <input type="text" placeholder="Nhập Tên sản phẩm muốn tìm kiếm ..." spellCheck="false" />
+                        <div>&times;</div>
+                    </div>
+                    <div className={cx('search-btn')}>
+                        <button type="submit">
+                            <CiSearch className={cx('search-icon')} />
+                        </button>
+                    </div>
+                </div>
 
                 {/* search + cart */}
                 <div className={cx('search-cart')}>
@@ -67,6 +68,20 @@ function Header() {
                 </form>
             </div>
             <div onClick={handleSearch} className={!search ? cx('bg-bg') : cx('bg-bg', 'active')}></div>
+
+            <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
+                {ItemMenu.map((data, index) => (
+                    <li className={cx('menu-item')} key={index}>
+                        <Link to={data.path} className={cx('menu-link')}>
+                            <span>{data.title}</span>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+
+            {/* Menu */}
+
+            {/* navbar mobile */}
         </div>
     );
 }

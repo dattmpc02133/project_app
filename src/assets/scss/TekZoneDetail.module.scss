@@ -1,0 +1,404 @@
+:root {
+    --margin-content: 10px;
+}
+.wrapper {
+    width: 100%;
+    background-color: var(--color--primary);
+    color: var(--color-while);
+}
+
+.tekZoneDetail {
+    max-width: 1200px;
+    min-width: 1024px;
+    margin: 0 auto;
+
+    .tekzone-link {
+        font-size: 1.4rem;
+        padding: 20px 0 40px 0;
+
+        .link {
+            position: relative;
+            margin-right: 15px;
+            padding-right: 20px;
+
+            &::before {
+                content: '';
+                position: absolute;
+                border-top: 1px solid #bababa;
+                border-right: 1px solid #bababa;
+                width: 6px;
+                height: 6px;
+                transform: rotate(45deg);
+                right: 0;
+                vertical-align: middle;
+                top: 5px;
+            }
+        }
+    }
+
+    .detail-contents {
+        max-width: 800px;
+        margin: 0 auto;
+
+        .detail-title-user {
+            .detail-title {
+                h1 {
+                    font-size: 4rem;
+                    line-height: 52px;
+                }
+            }
+            .detail-user {
+                font-size: 1.2rem;
+                padding: 15px 0;
+
+                span {
+                    padding-right: 10px;
+                    &:last-child {
+                        padding-right: 0;
+                    }
+                }
+                .time {
+                    &::before {
+                        content: '•';
+                        padding-right: 10px;
+                        font-size: 2rem;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+
+        .detail-content {
+            background-color: #f1f1f1;
+            padding-bottom: 20px;
+            .img-content {
+                margin-top: 4px;
+                min-height: 100px;
+                img {
+                    width: 100%;
+                }
+            }
+
+            h2 {
+                max-width: 600px;
+                margin: 20px auto;
+                color: #333;
+                font-size: 16px;
+                line-height: 1.5;
+                font-weight: 400;
+            }
+            h3 {
+                max-width: 600px;
+                margin: 20px auto;
+                color: #333;
+                strong {
+                    font-size: 30px;
+                    line-height: 1.3;
+                }
+            }
+            p {
+                max-width: 600px;
+                margin: 20px auto;
+                color: #333;
+                font-size: 16px;
+                line-height: 1.5;
+
+                .buy {
+                    margin: auto;
+                    width: 250px;
+                    text-align: center;
+                    line-height: 25px;
+                    display: block;
+                    padding: 10px;
+                    margin-bottom: 10px;
+                    border-radius: 4px;
+                    -webkit-border-radius: 4px;
+                    -moz-border-radius: 4px;
+                    -o-border-radius: 4px;
+                    background: #ff920c;
+                    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f76b1c), to(#ff920c));
+                    background: -webkit-linear-gradient(top, #ff920c, #f76b1c);
+                    color: rgb(255, 255, 0);
+                    font-size: 1.8rem;
+                    font-weight: 600;
+                }
+            }
+            a {
+                color: #0071e3;
+                font-size: 16px;
+            }
+
+            ul {
+                margin: 10px auto;
+                color: #333;
+                font-size: 16px;
+                line-height: 1.5;
+                max-width: 600px;
+
+                li {
+                    list-style-type: disc;
+                    margin-left: 15px;
+                    line-height: 25px;
+                    font-size: 16px;
+                }
+            }
+
+            .detail-info {
+                color: #757575;
+                font-size: 1.5rem;
+                line-height: 1.5;
+                max-width: 600px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                .info-editor {
+                }
+                .share-viewtek {
+                    .info-share {
+                        margin-right: 50px;
+                        a {
+                            color: #757575;
+                            margin: 0 4px;
+                            font-size: 1.7rem;
+                            vertical-align: middle;
+                        }
+                    }
+
+                    .info-view {
+                        .icon-info {
+                            margin: 0 8px;
+                            vertical-align: middle;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .related-posts {
+        max-width: 800px;
+        padding: 15px;
+        background: #3e3e3f;
+        margin: 0 auto;
+
+        .posts-title {
+            position: relative;
+            padding-left: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            h3 {
+                text-transform: uppercase;
+            }
+
+            &::before {
+                content: url('../images/aftertitle.png');
+                width: 4px;
+                height: 20px;
+                position: absolute;
+                left: 0;
+            }
+        }
+        .slider {
+            margin: 0 10px;
+            .posts-row {
+                display: flex;
+                padding: 12px 8px;
+                .item-posts {
+                    width: 31.333%;
+                    display: inline-block;
+                    background: #323232;
+                    overflow: hidden;
+                    border-radius: 12px;
+                    margin-left: 10px;
+                    .img-slider {
+                        width: 100%;
+                        img {
+                            border-radius: 12px 12px 0 0;
+                            width: 100%;
+                        }
+                    }
+
+                    .title-posts {
+                        padding: 8px;
+                    }
+
+                    span {
+                        padding: 8px;
+                    }
+                }
+            }
+        }
+    }
+
+    .posts-mobile {
+        display: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    .tekZoneDetail {
+        max-width: 1023px;
+        min-width: 200px;
+        margin: 0 auto;
+        background-color: #fff;
+        color: #101010;
+
+        .tekzone-link {
+            padding: 10px;
+        }
+
+        .detail-contents {
+            max-width: 800px;
+            margin: 0 auto;
+
+            .detail-title-user {
+                .detail-title {
+                    padding: 10px 10px 5px;
+                    h1 {
+                        font-size: 2.2rem;
+                        line-height: 25px;
+                    }
+                }
+                .detail-user {
+                    padding: 5px 10px;
+                }
+            }
+
+            .detail-content {
+                padding-bottom: 0;
+                .img-content {
+                    margin-top: 4px;
+                    min-height: 100px;
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                h2 {
+                    max-width: 1023px;
+                    margin: var(--margin-content);
+                }
+                h3 {
+                    max-width: 1023px;
+                    margin: var(--margin-content);
+                    color: #333;
+                    strong {
+                        font-size: 2.2rem;
+                        line-height: 1.3;
+                    }
+                }
+                p {
+                    max-width: 1024px;
+                    margin: var(--margin-content);
+                    font-size: 16px;
+                    line-height: 1.5;
+                }
+
+                ul {
+                    margin: 10px;
+                    max-width: 1023px;
+                }
+
+                .detail-info {
+                    color: #757575;
+                    font-size: 1.2rem;
+                    line-height: 1.5;
+                    max-width: 1023px;
+                    margin: 10px 10px 0;
+                    padding-bottom: 8px;
+                    display: block;
+                    .info-editor {
+                        margin-bottom: 10px;
+                    }
+                    .share-viewtek {
+                        margin-top: 5px;
+                        display: flex;
+                        justify-content: space-between;
+                        .info-share {
+                            a {
+                                margin: 0 4px;
+                                font-size: 1.4rem;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .related-posts {
+            display: none;
+        }
+
+        .posts-mobile {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #3e3e3f;
+            color: #fff;
+            .newsest__list {
+                .title-new {
+                    text-transform: uppercase;
+                    h1 {
+                        display: inline-block;
+                        font-weight: 700;
+                        font-size: 1.4rem;
+                        line-height: 23px;
+                        letter-spacing: 0.03em;
+                        text-transform: uppercase;
+                    }
+                }
+
+                .news-item {
+                    display: block;
+                    overflow: hidden;
+                    border-bottom: 1px solid #4f4f4f;
+                    padding: 15px 0;
+                    position: relative;
+                    a {
+                        display: block;
+                        overflow: hidden;
+                        position: relative;
+                        .img-item {
+                            float: left;
+                            position: relative;
+                            margin: 5px 15px 5px 0;
+                            overflow: hidden;
+                            img {
+                                display: block;
+                                max-width: 100%;
+                                height: auto;
+                                width: 100px;
+                                height: auto;
+                                float: left;
+                                border-radius: 8px;
+                            }
+                        }
+
+                        .title-item {
+                            h3 {
+                                line-height: 18px;
+                                font-size: 1.4rem;
+                                color: #fbfbfb;
+                                font-weight: 400;
+                            }
+                        }
+                        .time-post {
+                            display: block;
+                            overflow: hidden;
+                            font-size: 12px;
+                            color: #999;
+                            margin-top: 10px;
+                            margin-left: 116px;
+                        }
+                    }
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                }
+            }
+        }
+    }
+}
