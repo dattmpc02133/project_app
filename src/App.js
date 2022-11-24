@@ -18,10 +18,8 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
-                    <Route path=":slug" element={<Product />}>
-                        <Route path=":id" element={<Product />} />
-                        <Route path=":id/:product" element={<Product />} />
-                    </Route>
+                    <Route path=":slug" element={<Product />} />
+                    <Route path="/productDetail" element={<ProductDetail />} />
                     <Route path="/tekzone" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />

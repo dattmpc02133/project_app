@@ -3,6 +3,7 @@ import style from '~/assets/scss/iPhone.module.scss';
 import Slideshow from '../../components/slideshow';
 import images from '../../assets/images';
 import Category from '../../components/Category';
+import { useParams } from 'react-router-dom';
 
 const cx = classNames.bind(style);
 function Product() {

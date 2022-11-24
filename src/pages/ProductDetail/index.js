@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import Slider from 'react-slick';
@@ -11,7 +11,8 @@ import classNames from 'classnames/bind';
 // tab descriptions
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 // end tab descriptions
 const cx = classNames.bind(style);
 const images = [
@@ -158,239 +159,252 @@ const ProductDetail = () => {
     const HandleCity = () => {
         setCity(!city);
     };
+    // console.log('productID', productID);
+    const { state } = useLocation();
+    const productID = state.productID;
+    const [productDetail, setProductDetail] = useState();
+    useEffect(() => {
+        axios.get(`https://duynh404.cf/api/client/products/${productID}`).then((resData) => {
+            const ProductDetailItem = resData.data.data;
+            setProductDetail(ProductDetailItem);
+        });
+    }, [productID]);
+    console.log('productDetail', productDetail);
     return (
         <div className={cx('wrapper')}>
             <div className={cx('detail-box')}>
-                <div className={cx('content')}>
-                    <div className={cx('article', 'c-6')}>
-                        <ImageGallery
-                            showFullscreenButton={false}
-                            showPlayButton={false}
-                            items={images}
-                            className={cx('thumbnail-image')}
-                        />
-                        ;
-                    </div>
-                    <div className={cx('aside', 'c-6')}>
-                        <div style={{ width: '100%' }}>
-                            <h1>
-                                iPhone 14 <div className={cx('aside-new')}>Mới</div>
-                            </h1>
-                            <div className={cx('promotion-local')}>
-                                <span>Giá và khuyến mãi tại: Hồ Chí Minh</span>
-                            </div>
-                            <div className={cx('price-product-detail')}>
-                                23.490.000₫ *<del>24.990.000₫</del>
-                                <small>-6%</small>
-                            </div>
-                            <div className={cx('capacity')}>
-                                <span>Dung lượng</span>
-                                <div className={cx('capacity-gb')}>
-                                    <Link className={cx('capacity-gb_link')}>128GB</Link>
-                                    <Link className={cx('capacity-gb_link')}>128GB</Link>
-                                    <Link className={cx('capacity-gb_link')}>128GB</Link>
+                {productDetail ? (
+                    <div className={cx('content')}>
+                        <div className={cx('article', 'c-6')}>
+                            <ImageGallery
+                                showFullscreenButton={false}
+                                showPlayButton={false}
+                                items={images}
+                                className={cx('thumbnail-image')}
+                            />
+                            ;
+                        </div>
+                        <div className={cx('aside', 'c-6')}>
+                            <div style={{ width: '100%' }}>
+                                <h1>
+                                    {productDetail.name} <div className={cx('aside-new')}>Mới</div>
+                                </h1>
+                                <div className={cx('promotion-local')}>
+                                    <span>Giá và khuyến mãi tại: Hồ Chí Minh</span>
                                 </div>
-                            </div>
-                            <div className={cx('detail-color')}>
-                                <span>Màu: Xanh Dương</span>
-                                <div className={cx('item-color')}>
-                                    <div className={cx('item-color-li')}>
-                                        <Link className={cx('item-color-link')}></Link>
-                                        <Link
-                                            className={cx('item-color-link')}
-                                            style={{ backgroundColor: '#222930' }}
-                                        ></Link>
-                                        <Link
-                                            className={cx('item-color-link')}
-                                            style={{ backgroundColor: '#faf6f2' }}
-                                        ></Link>
-                                        <Link
-                                            className={cx('item-color-link')}
-                                            style={{ backgroundColor: '#fc0324' }}
-                                        ></Link>
-                                        <Link
-                                            className={cx('item-color-link')}
-                                            style={{ backgroundColor: '#e6ddeb' }}
-                                        ></Link>
+                                <div className={cx('price-product-detail')}>
+                                    23.490.000₫ *<del>24.990.000₫</del>
+                                    <small>-6%</small>
+                                </div>
+                                <div className={cx('capacity')}>
+                                    <span>Dung lượng</span>
+                                    <div className={cx('capacity-gb')}>
+                                        {productDetail.variants.map((variant, index) => (
+                                            <div className={cx('capacity-gb_link')} key={index}>
+                                                {variant.variant_name}GB
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            </div>
-                            <div className={cx('btn-pays')}>
-                                <Link className={cx('cart-pays')}>Mua ngay</Link>
-                            </div>
-                            <div className={cx('box-promotion')}>
-                                <span>Khuyến mãi</span>
-                                <small>Giá và khuyến mãi dự kiến áp dụng đến 23:00 | 31/10</small>
-                                <div className={cx('content-promotion')}>
-                                    <p>
-                                        <i></i>
-                                        <b>Tặng Gói bảo hiểm rơi vỡ 12 tháng</b>
-                                    </p>
-                                    <p>
-                                        <i></i>
-                                        <b>Tặng gói bảo hành 24 tháng chính hãng</b>
-                                    </p>
-                                    <p>
-                                        <i></i>
-                                        <b>
-                                            Thu cũ Đổi mới: Giảm đến 2 triệu (Tuỳ model máy cũ, không áp dụng kèm giảm
-                                            giá qua cổng thanh toán)
-                                            <Link>Xem chi tiết</Link>
-                                        </b>
-                                    </p>
-                                    <p>
-                                        <i></i>
-                                        <b>
-                                            Giảm giá 35% iPad (Tuỳ model) khi mua kèm iPhone (Không kèm khuyến mãi khác
-                                            của iPad)
-                                            <Link>Xem chi tiết</Link>
-                                        </b>
-                                    </p>
-                                    <p>
-                                        <i></i>
-                                        <b>
-                                            Phụ kiện chính hãng Apple giảm 30% khi mua kèm iPhone{' '}
-                                            <Link>Xem chi tiết</Link>
-                                        </b>
-                                    </p>
-                                    <p>
-                                        <i></i>
-                                        <b>
-                                            Nhập mã SPPMWG giảm 10% tối đa 100.000đ khi thanh toán qua Ví ShopeePay{' '}
-                                            <Link>Xem chi tiết</Link>
-                                        </b>
-                                    </p>
-                                    <p>
-                                        <i></i>
-                                        <b>
-                                            Nhập mã TGDD giảm 4% tối đa 200.000đ cho đơn hàng từ 500.000đ trở lên khi
-                                            thanh toán qua Ví Moca trên ứng dụng Grab <Link>Xem chi tiết</Link>
-                                        </b>
-                                    </p>
-                                </div>
-                                <p className={cx('text')}>
-                                    <em>(*)</em> Giá hoặc khuyến mãi không áp dụng trả góp lãi suất đặc biệt (0%, 0.5%,
-                                    1%)
-                                </p>
-                            </div>
-                            <div className={cx('check-goods')} onClick={handleSeenList}>
-                                <GoPackage />
-                                Xem TopZone có hàng
-                            </div>
-                            <div
-                                className={cx('popup-list-store')}
-                                style={{ display: seeliststore ? 'block' : 'none' }}
-                            >
-                                <div className={cx('bg-popup')} onClick={handleSeenList}></div>
-                                <div className={cx('list-store')}>
-                                    <b>Danh sách cửa hàng TopZone</b>
-                                    <div className={cx('close-list-store')} onClick={handleSeenList}>
-                                        &times;
-                                    </div>
-                                    <div className={cx('tab-store')}>
-                                        <div className={cx('ts-province')}>
-                                            <span onClick={HandleCityProvince}>
-                                                Hồ Chí Minh <GoChevronUp className={cityprovince ? cx('icon') : ''} />
-                                            </span>
-                                            <ul style={{ display: cityprovince ? 'block' : 'none' }}>
-                                                <li>Thái Nguyên</li>
-                                                <li>Đồng Nai</li>
-                                                <li>Hồ Chí Minh</li>
-                                                <li>Hà Nội</li>
-                                                <li>Tây Ninh</li>
-                                                <li>Bình Thuận</li>
-                                                <li>Bình Dương</li>
-                                                <li>Cần Thơ</li>
-                                                <li>Gia Lai</li>
-                                                <li>Nam Định</li>
-                                            </ul>
-                                        </div>
-                                        <div className={cx('ts-district')}>
-                                            <span onClick={HandleCity}>
-                                                Chọn quận huyện <GoChevronUp className={city ? cx('icon') : ''} />
-                                            </span>
-                                            <ul style={{ display: city ? 'block' : 'none' }}>
-                                                <li>Quận Bình Tân</li>
-                                                <li>Quận Tân Phú</li>
-                                                <li>Hồ Chí Minh</li>
-                                                <li>Quận 4</li>
-                                                <li>TP.Thủ Đức</li>
-                                                <li>Quận 10</li>
-                                                <li>Quận 12</li>
-                                                <li>Quận 8</li>
-                                                <li>Quận Tân Bình</li>
-                                                <li>Quận 7</li>
-                                            </ul>
+                                <div className={cx('detail-color')}>
+                                    <span>Màu: Xanh Dương</span>
+                                    <div className={cx('item-color')}>
+                                        <div className={cx('item-color-li')}>
+                                            {productDetail.dataVariants.map((dataVariants, index) => (
+                                                <div
+                                                    className={cx('item-color-link')}
+                                                    style={{ backgroundColor: dataVariants.color_name }}
+                                                    key={index}
+                                                >
+                                                    {dataVariants.color_name}
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
-                                    <ul className={cx('tab-list-store', 'tab-box')}>
-                                        <li className={cx('tab-item-wrap')}>
-                                            <div className={cx('info-store')}>
-                                                <strong>TopZone Nguyễn Thị Tú</strong>
-                                                <span>
-                                                    229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí Minh
-                                                </span>
-                                                <small>
-                                                    <FcApproval /> Có hàng
-                                                </small>
-                                            </div>
-                                            <a className={cx('oder-store')}>Đặt giữ hàng</a>
-                                        </li>
-                                        <li className={cx('tab-item-wrap')}>
-                                            <div className={cx('info-store')}>
-                                                <strong>TopZone Nguyễn Thị Tú</strong>
-                                                <span>
-                                                    229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí Minh
-                                                </span>
-                                                <small>
-                                                    <FcApproval /> Có hàng
-                                                </small>
-                                            </div>
-                                            <a className={cx('oder-store')}>Đặt giữ hàng</a>
-                                        </li>
-                                        <li className={cx('tab-item-wrap')}>
-                                            <div className={cx('info-store')}>
-                                                <strong>TopZone Nguyễn Thị Tú</strong>
-                                                <span>
-                                                    229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí Minh
-                                                </span>
-                                                <small>
-                                                    <FcApproval /> Có hàng
-                                                </small>
-                                            </div>
-                                            <a className={cx('oder-store')}>Đặt giữ hàng</a>
-                                        </li>
-                                    </ul>
                                 </div>
-                            </div>
-                            <div className={cx('policy')}>
-                                <span>
-                                    <i></i>
-                                    Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning - Type C
-                                </span>
-                                <span>
-                                    Hư gì đổi nấy 12 tháng tại 3452 siêu thị trên toàn quốc
-                                    <a style={{ color: '#0071e3' }}> Xem chi tiết chính sách bảo hành, đổi trả </a>
-                                </span>
-                                <span>
-                                    <i></i>
-                                    Bảo hành chính hãng 1 năm{' '}
-                                </span>
-                                <span>
-                                    Giao hàng nhanh toàn quốc
-                                    <a style={{ color: '#0071e3' }}> Xem chi tiết </a>
-                                </span>
-                                <span>
-                                    Tổng đài:&nbsp;
-                                    <a href="tel:1900.9696.42" style={{ color: '#0071e3' }}>
-                                        1900.9696.42
-                                    </a>
-                                    &nbsp;(9h00 - 21h00 mỗi ngày)
-                                </span>
+                                <div className={cx('btn-pays')}>
+                                    <div className={cx('cart-pays')}>Mua ngay</div>
+                                </div>
+                                <div className={cx('box-promotion')}>
+                                    <span>Khuyến mãi</span>
+                                    <small>Giá và khuyến mãi dự kiến áp dụng đến 23:00 | 31/10</small>
+                                    <div className={cx('content-promotion')}>
+                                        <p>
+                                            <i></i>
+                                            <b>Tặng Gói bảo hiểm rơi vỡ 12 tháng</b>
+                                        </p>
+                                        <p>
+                                            <i></i>
+                                            <b>Tặng gói bảo hành 24 tháng chính hãng</b>
+                                        </p>
+                                        <p>
+                                            <i></i>
+                                            <b>
+                                                Thu cũ Đổi mới: Giảm đến 2 triệu (Tuỳ model máy cũ, không áp dụng kèm
+                                                giảm giá qua cổng thanh toán)
+                                                <Link>Xem chi tiết</Link>
+                                            </b>
+                                        </p>
+                                        <p>
+                                            <i></i>
+                                            <b>
+                                                Giảm giá 35% iPad (Tuỳ model) khi mua kèm iPhone (Không kèm khuyến mãi
+                                                khác của iPad)
+                                                <Link>Xem chi tiết</Link>
+                                            </b>
+                                        </p>
+                                        <p>
+                                            <i></i>
+                                            <b>
+                                                Phụ kiện chính hãng Apple giảm 30% khi mua kèm iPhone{' '}
+                                                <Link>Xem chi tiết</Link>
+                                            </b>
+                                        </p>
+                                        <p>
+                                            <i></i>
+                                            <b>
+                                                Nhập mã SPPMWG giảm 10% tối đa 100.000đ khi thanh toán qua Ví ShopeePay{' '}
+                                                <Link>Xem chi tiết</Link>
+                                            </b>
+                                        </p>
+                                        <p>
+                                            <i></i>
+                                            <b>
+                                                Nhập mã TGDD giảm 4% tối đa 200.000đ cho đơn hàng từ 500.000đ trở lên
+                                                khi thanh toán qua Ví Moca trên ứng dụng Grab <Link>Xem chi tiết</Link>
+                                            </b>
+                                        </p>
+                                    </div>
+                                    <p className={cx('text')}>
+                                        <em>(*)</em> Giá hoặc khuyến mãi không áp dụng trả góp lãi suất đặc biệt (0%,
+                                        0.5%, 1%)
+                                    </p>
+                                </div>
+                                <div className={cx('check-goods')} onClick={handleSeenList}>
+                                    <GoPackage />
+                                    Xem TopZone có hàng
+                                </div>
+                                <div
+                                    className={cx('popup-list-store')}
+                                    style={{ display: seeliststore ? 'block' : 'none' }}
+                                >
+                                    <div className={cx('bg-popup')} onClick={handleSeenList}></div>
+                                    <div className={cx('list-store')}>
+                                        <b>Danh sách cửa hàng TopZone</b>
+                                        <div className={cx('close-list-store')} onClick={handleSeenList}>
+                                            &times;
+                                        </div>
+                                        <div className={cx('tab-store')}>
+                                            <div className={cx('ts-province')}>
+                                                <span onClick={HandleCityProvince}>
+                                                    Hồ Chí Minh{' '}
+                                                    <GoChevronUp className={cityprovince ? cx('icon') : ''} />
+                                                </span>
+                                                <ul style={{ display: cityprovince ? 'block' : 'none' }}>
+                                                    <li>Thái Nguyên</li>
+                                                    <li>Đồng Nai</li>
+                                                    <li>Hồ Chí Minh</li>
+                                                    <li>Hà Nội</li>
+                                                    <li>Tây Ninh</li>
+                                                    <li>Bình Thuận</li>
+                                                    <li>Bình Dương</li>
+                                                    <li>Cần Thơ</li>
+                                                    <li>Gia Lai</li>
+                                                    <li>Nam Định</li>
+                                                </ul>
+                                            </div>
+                                            <div className={cx('ts-district')}>
+                                                <span onClick={HandleCity}>
+                                                    Chọn quận huyện <GoChevronUp className={city ? cx('icon') : ''} />
+                                                </span>
+                                                <ul style={{ display: city ? 'block' : 'none' }}>
+                                                    <li>Quận Bình Tân</li>
+                                                    <li>Quận Tân Phú</li>
+                                                    <li>Hồ Chí Minh</li>
+                                                    <li>Quận 4</li>
+                                                    <li>TP.Thủ Đức</li>
+                                                    <li>Quận 10</li>
+                                                    <li>Quận 12</li>
+                                                    <li>Quận 8</li>
+                                                    <li>Quận Tân Bình</li>
+                                                    <li>Quận 7</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <ul className={cx('tab-list-store', 'tab-box')}>
+                                            <li className={cx('tab-item-wrap')}>
+                                                <div className={cx('info-store')}>
+                                                    <strong>TopZone Nguyễn Thị Tú</strong>
+                                                    <span>
+                                                        229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí
+                                                        Minh
+                                                    </span>
+                                                    <small>
+                                                        <FcApproval /> Có hàng
+                                                    </small>
+                                                </div>
+                                                <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                            </li>
+                                            <li className={cx('tab-item-wrap')}>
+                                                <div className={cx('info-store')}>
+                                                    <strong>TopZone Nguyễn Thị Tú</strong>
+                                                    <span>
+                                                        229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí
+                                                        Minh
+                                                    </span>
+                                                    <small>
+                                                        <FcApproval /> Có hàng
+                                                    </small>
+                                                </div>
+                                                <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                            </li>
+                                            <li className={cx('tab-item-wrap')}>
+                                                <div className={cx('info-store')}>
+                                                    <strong>TopZone Nguyễn Thị Tú</strong>
+                                                    <span>
+                                                        229 Nguyễn Thị Tú, P.Bình Hưng Hòa B, Q.Bình Tân, TP. Hồ Chí
+                                                        Minh
+                                                    </span>
+                                                    <small>
+                                                        <FcApproval /> Có hàng
+                                                    </small>
+                                                </div>
+                                                <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className={cx('policy')}>
+                                    <span>
+                                        <i></i>
+                                        Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning - Type C
+                                    </span>
+                                    <span>
+                                        Hư gì đổi nấy 12 tháng tại 3452 siêu thị trên toàn quốc
+                                        <a style={{ color: '#0071e3' }}> Xem chi tiết chính sách bảo hành, đổi trả </a>
+                                    </span>
+                                    <span>
+                                        <i></i>
+                                        Bảo hành chính hãng 1 năm{' '}
+                                    </span>
+                                    <span>
+                                        Giao hàng nhanh toàn quốc
+                                        <a style={{ color: '#0071e3' }}> Xem chi tiết </a>
+                                    </span>
+                                    <span>
+                                        Tổng đài:&nbsp;
+                                        <a href="tel:1900.9696.42" style={{ color: '#0071e3' }}>
+                                            1900.9696.42
+                                        </a>
+                                        &nbsp;(9h00 - 21h00 mỗi ngày)
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    false
+                )}
             </div>
             <div className={cx('description-box')}>
                 <div className={cx('description-product')}>

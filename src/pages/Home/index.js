@@ -1,4 +1,3 @@
-import CategoryContent from '../../components/CategoryContent';
 import Slideshow from '../../components/slideshow';
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/Home.module.scss';
@@ -48,7 +47,6 @@ function Home() {
     return (
         <>
             <Slideshow />
-            <CategoryContent />
             {Products_list.map((product, index) => (
                 <div className={cx('carousel-slide-box')} key={index}>
                     <a href="#" className={cx('logo-slide')}>

@@ -5,13 +5,14 @@ import { CiSearch } from 'react-icons/ci';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 const cx = classNames.bind(styles);
 function Header() {
     const [search, setSearch] = useState();
     const [categories, setCategories] = useState();
     const [open, setOpen] = useState();
+    const navigate = useNavigate();
     const handleSearch = () => {
         setSearch(!search);
     };
@@ -84,9 +85,18 @@ function Header() {
             <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
                 {categories?.map((data, index) => (
                     <li className={cx('menu-item')} key={index}>
-                        <Link to={`/${data?.slug}?id=${data?.id}`} className={cx('menu-link')}>
+                        <div
+                            onClick={() => {
+                                navigate(`${data.slug}`, {
+                                    state: {
+                                        CateID: data.id,
+                                    },
+                                });
+                            }}
+                            className={cx('menu-link')}
+                        >
                             <span>{data.name}</span>
-                        </Link>
+                        </div>
                     </li>
                 ))}
             </ul>
