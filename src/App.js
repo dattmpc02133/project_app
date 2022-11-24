@@ -8,7 +8,12 @@ import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
-import LayoutAdmin from './pages/LayoutAdmin';
+import LayoutAdmin from './pages/Admin/LayoutAdmin';
+import CreateCatePost from './pages/Admin/CreateCatePost';
+import ListCatePost from './pages/Admin/ListCatePost';
+import CreatePost from './pages/Admin/CreatePost';
+import LoginAdmin from './pages/Admin/LoginAdmin';
+
 import Login from './components/Login';
 import Pay from './pages/Pay';
 function App() {
@@ -27,7 +32,18 @@ function App() {
                     <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
-                <Route path="/admin" element={<LayoutAdmin />}></Route>
+
+                <Route path="login-admin" element={<LoginAdmin />} />
+                <Route path="admin" element={<LayoutAdmin />}>
+                    <Route index element={<NotFound />} />
+                    <Route path="layout" element={<NotFound />} />
+                    <Route path="phone" element={<NotFound />} />
+                    <Route path="location" element={<NotFound />} />
+                    <Route path="catepost/add" element={<CreateCatePost />} />
+                    <Route path="catepost/list" element={<ListCatePost />} />
+                    <Route path="post/add" element={<CreatePost />} />
+                    <Route path="post/list" element={<NotFound />} />
+                </Route>
             </Routes>
         </Router>
     );
