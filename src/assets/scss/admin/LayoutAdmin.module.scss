@@ -1,0 +1,58 @@
+:root {
+    --background-color-ad: #f1f5f9;
+    --primary-color-ad: #4f46e5;
+    --main-color-ad: #fff;
+    --header-header-ad: 64px;
+    --text-color-ad: #1b2535;
+    --box-shadow-ad: 0px 1px 12px 0px rgb(0 0 0 / 20%);
+    --navbar-width-ad: 280px;
+    --navbar-color-ad: #0f172a;
+    --navbar-text-color-ad: #ffffffb3;
+    --navbar-sub-color-ad: rgb(156, 163, 175);
+    --navbar-sub-text-color-ad: #94a3b8;
+    --btn-color-ad: #3730a3;
+}
+
+.wrapper {
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: var(--box-shadow-ad);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--navbar-color-ad);
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: rgb(54, 56, 58);
+    }
+
+    background-color: var(--background-color-ad);
+    display: flex;
+    flex-direction: row-reverse;
+
+    .content__wrapper {
+        height: 100vh;
+        overflow-y: scroll;
+        flex: 1;
+        .content {
+            // padding: 72px 64px 80px;
+            padding: 32px;
+        }
+    }
+}
+
+.btn {
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+}
+
+img {
+    max-width: 100%;
+}

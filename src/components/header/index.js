@@ -1,21 +1,34 @@
 import classNames from 'classnames/bind';
 import images from '../../assets/images';
 import styles from '~/assets/scss/header.module.scss';
-import { CiSearch, CiShoppingCart } from 'react-icons/ci';
+import { CiSearch } from 'react-icons/ci';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ItemMenu } from '../../services/ApiServices';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const cx = classNames.bind(styles);
 function Header() {
     const [search, setSearch] = useState();
+    const [categories, setCategories] = useState();
     const [open, setOpen] = useState();
+    const navigate = useNavigate();
     const handleSearch = () => {
         setSearch(!search);
     };
     const handleNavBarClick = () => {
         setOpen(!open);
     };
+    useEffect(() => {
+        axios
+            .get('https://duynh404.cf/api/client/categories')
+            .then((response) => {
+                setCategories(response?.data?.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
     return (
         <div className={cx('header')}>
             <div className={!search ? cx('head') : cx('head', 'active-search')}>
@@ -54,7 +67,7 @@ function Header() {
                         <CiSearch className={cx('icon-search')} />
                     </div>
                     <div className={cx('cart-product')}>
-                        <CiShoppingCart className={cx('icon-cart')} />
+                        <AiOutlineShoppingCart className={cx('icon-cart')} />
                     </div>
                 </div>
                 <form className={!search ? cx('form-search') : cx('form-search', 'active')}>
@@ -70,11 +83,20 @@ function Header() {
             <div onClick={handleSearch} className={!search ? cx('bg-bg') : cx('bg-bg', 'active')}></div>
 
             <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
-                {ItemMenu.map((data, index) => (
+                {categories?.map((data, index) => (
                     <li className={cx('menu-item')} key={index}>
-                        <Link to={data.path} className={cx('menu-link')}>
-                            <span>{data.title}</span>
-                        </Link>
+                        <div
+                            onClick={() => {
+                                navigate(`${data.slug}`, {
+                                    state: {
+                                        CateID: data.id,
+                                    },
+                                });
+                            }}
+                            className={cx('menu-link')}
+                        >
+                            <span>{data.name}</span>
+                        </div>
                     </li>
                 ))}
             </ul>

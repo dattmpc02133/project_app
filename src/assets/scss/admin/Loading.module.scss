@@ -1,0 +1,19 @@
+.loading__block {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999999;
+    background-color: rgba(0, 0, 0, 0.3);
+    .loading__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        img {
+            width: 80px;
+            border-radius: 50%;
+        }
+    }
+}

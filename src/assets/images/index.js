@@ -16,5 +16,8 @@ const images = {
     cate_pk: require('~/assets/images/cate_PK.png'),
     cate_dichvu: require('~/assets/images/cate_Dich-vu.png'),
     tekitem: require('~/assets/images/tekitem.png'),
+    iconCB: require('~/assets/images/iconCB.png'),
+    loading: require('~/assets/images/loading.gif'),
+    user1: require('~/assets/images/khôi.jpg'),
 };
 export default images;

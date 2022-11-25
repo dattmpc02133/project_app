@@ -1,20 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LayoutView from './pages/LayoutView';
-import AccesSories from './pages/AccesSories';
 import Home from './pages/Home';
-import Ipad from './pages/iPad';
-import Iphone from './pages/iPhone';
-import Mac from './pages/Mac';
-import Sound from './pages/Sound';
+import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
-import Watch from './pages/Watch';
 import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
-import LayoutAdmin from './pages/LayoutAdmin';
+import LayoutAdmin from './pages/Admin/LayoutAdmin';
+import CreateCatePost from './pages/Admin/CreateCatePost';
+import ListCatePost from './pages/Admin/ListCatePost';
+import CreatePost from './pages/Admin/CreatePost';
+import LoginAdmin from './pages/Admin/LoginAdmin';
+
 import Login from './components/Login';
+import Pay from './pages/Pay';
 function App() {
     return (
         <Router>
@@ -22,22 +23,26 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
-                    <Route path="/iphone" element={<Iphone />}>
-                        <Route path="iphone:slug" element={<ProductDetail />} />
-                    </Route>
-                    <Route path="/mac" element={<Mac />} />
-                    <Route path="/ipad" element={<Ipad />} />
-                    <Route path="/watch" element={<Watch />} />
-                    <Route path="/sound" element={<Sound />} />
-                    <Route path="/accessories" element={<AccesSories />} />
+                    <Route path=":slug" element={<Product />} />
+                    <Route path="/productDetail" element={<ProductDetail />} />
                     <Route path="/tekzone" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
                 </Route>
-                <Route path="/admin" element={<LayoutAdmin />}>
-                    <Route></Route>
+
+                <Route path="login-admin" element={<LoginAdmin />} />
+                <Route path="admin" element={<LayoutAdmin />}>
+                    <Route index element={<NotFound />} />
+                    <Route path="layout" element={<NotFound />} />
+                    <Route path="phone" element={<NotFound />} />
+                    <Route path="location" element={<NotFound />} />
+                    <Route path="catepost/add" element={<CreateCatePost />} />
+                    <Route path="catepost/list" element={<ListCatePost />} />
+                    <Route path="post/add" element={<CreatePost />} />
+                    <Route path="post/list" element={<NotFound />} />
                 </Route>
             </Routes>
         </Router>

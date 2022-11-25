@@ -45,11 +45,19 @@ const Cart = () => {
                                     <div className={cx('prd-size-and-color')}>
                                         <aside>
                                             <label>
-                                                <span className={cx('prd-text-color')}>
-                                                    Xám <SlArrowDown style={{ fontSize: '1.3rem' }} />
-                                                </span>
+                                                <span className={cx('prd-text-color')}>Xám</span>
+                                                <SlArrowDown style={{ fontSize: '1.3rem' }} />
                                             </label>
-                                            <div className={cx('prd-spColor')}></div>
+                                            <div className={cx('prd-listColor')}>
+                                                <div className={cx('select-color')}>
+                                                    <img src="https://cdn.tgdd.vn/Products/Images/42/247508/s16/iPhone-14-Pro-topzone%20(4)-200x200.png" />
+                                                    <small>Vàng</small>
+                                                </div>
+                                                <div className={cx('select-color')}>
+                                                    <img src="https://cdn.tgdd.vn/Products/Images/42/247508/s16/iPhone-14-Pro-topzone%20(4)-200x200.png" />
+                                                    <small>Đỏ</small>
+                                                </div>
+                                            </div>
                                         </aside>
                                     </div>
                                     <div className={cx('prd-choosenumber')}>
