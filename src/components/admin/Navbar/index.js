@@ -220,13 +220,13 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="post/add"
+                                        to="product/add"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="post/list"
+                                        to="product/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách

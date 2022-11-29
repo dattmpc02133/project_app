@@ -12,6 +12,9 @@ import LayoutAdmin from './pages/Admin/LayoutAdmin';
 import CreateCatePost from './pages/Admin/CreateCatePost';
 import ListCatePost from './pages/Admin/ListCatePost';
 import CreatePost from './pages/Admin/CreatePost';
+import CreateProduct from './pages/Admin/CreateProduct';
+import ListProduct from './pages/Admin/ListProduct';
+import EditProduct from './pages/Admin/EditProduct';
 import LoginAdmin from './pages/Admin/LoginAdmin';
 
 import Login from './components/Login';
@@ -43,6 +46,9 @@ function App() {
                     <Route path="catepost/list" element={<ListCatePost />} />
                     <Route path="post/add" element={<CreatePost />} />
                     <Route path="post/list" element={<NotFound />} />
+                    <Route path="product/add" element={<CreateProduct />} />
+                    <Route path="product/list" element={<ListProduct />} />
+                    <Route path="product/edit/:id/:slug" element={<EditProduct />} />
                 </Route>
             </Routes>
         </Router>
