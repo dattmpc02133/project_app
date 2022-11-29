@@ -280,14 +280,18 @@ const EditProduct = () => {
                 if (Array.isArray(product.dataVariants) && product.dataVariants.length > 0) {
                     product.dataVariants.map((data, i) => {
                         // addFormSubVariant(index);
-                        const a = inputData.filter((item, index) => {
-                            // console.log('GB', item.GB);
+                        console.log('data', data);
+                        const formSubVR = inputData.filter((item, index) => {
+                            // console.log(item.GB == data.variant_id);
+                            // addFormSubVariant(index);
                             return item.GB == data.variant_id;
                         });
-                        const newListFormVariant = [...formVariant];
-                        newListFormVariant[index].data = newListFormSubVariant[index];
-                        setFormVariant(newListFormVariant);
-                        console.log(a);
+
+                        if (Array.isArray(formSubVR) && formSubVR.length > 0) {
+                            formSubVR.map((ip, index) => {
+                                console.log(ip, index);
+                            });
+                        }
                         //
                         // inputData[index][i].discount = valueInput.target.value;
                         // setFormSubVariant(inputData);
