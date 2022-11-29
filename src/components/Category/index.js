@@ -1,75 +1,66 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/Category.module.scss';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useMemo } from 'react';
+import productApi from '~/api/productApi';
+import cateProductApi from '~/api/cateProductApi';
 const cx = classNames.bind(style);
-function useQuery() {
-    const { search } = useLocation();
-    return React.useMemo(() => new URLSearchParams(search), [search]);
-}
-
 const Category = () => {
-    const navigate = useNavigate();
-
+    const { state } = useLocation();
+    const slugCate = state.data.slug;
+    const CateID = state.data.id;
     const [select, SetSelect] = useState();
+
     const [dataCategory, setDataCategory] = useState();
     const [listProducts, setListProducts] = useState();
-    const [listProductsID, setListProductsID] = useState();
+    const [itemProductsActive, setItemColorActive] = useState();
     const [render, setRender] = useState(false);
     const handleSelect = () => {
         SetSelect(!select);
     };
-    const { state } = useLocation();
-    const CateID = state.CateID;
-    const subCategoryId = useMemo(() => {
-        const result = dataCategory?.filter((item, i) => item?.id === CateID);
-        if (result) {
-            return result[0]?.subs;
+
+    useEffect(() => {
+        const fetchAllCategory = async () => {
+            try {
+                const Category = await cateProductApi.getAll();
+                const ListCategoryData = Category?.data?.filter((item) => item.id === CateID);
+                if (ListCategoryData.length > 0) {
+                    setDataCategory(ListCategoryData[0].subs);
+                }
+            } catch (error) {}
+        };
+        fetchAllCategory();
+    }, [CateID]);
+
+    useEffect(() => {
+        const fetchAllProducts = async () => {
+            try {
+                const resData = await productApi.getAll();
+                const ListProductsData = resData?.data?.filter((item) => item?.cartegory_id == CateID);
+                setListProducts(ListProductsData);
+                setItemColorActive(ListProductsData);
+            } catch (error) {}
+        };
+        fetchAllProducts();
+    }, [CateID]);
+
+    const handleChangeTypeSubById = ({ item, index }) => {
+        if (listProducts) {
+            const resultKQ = listProducts.filter((itemID) => {
+                return itemID.subcategory_id == item.id;
+            });
+            setItemColorActive(resultKQ);
         }
-    }, [CateID, dataCategory]);
-
-    useEffect(() => {
-        axios
-            .get('https://duynh404.cf/api/client/categories')
-            .then((res) => {
-                const related = res?.data?.data?.map((data) => {
-                    return data;
-                });
-                setDataCategory(related);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
-    useEffect(() => {
-        axios.get('https://duynh404.cf/api/client/products').then((resData) => {
-            const ListProductsData = resData?.data?.data?.map((item) => {
-                return item;
-            });
-            setListProducts(ListProductsData);
-        });
-    }, []);
-    const handleSelectProduct = (id) => {
-        const filProducts = listProducts.filter((product) => {
-            product.price = product.variantsDetailsByProduct[0].price;
-
-            return Number(product.subcategory_id) === id;
-        });
-        setListProductsID(filProducts);
-        return filProducts;
     };
     const ChangeVariant = ({ itemVariant, listVariants, itemProduct }) => {
-        // let priceByVariant = 0;
         const result = listVariants?.filter((element) => {
             if (element?.variant_id == itemVariant?.id) {
                 return element;
             }
         });
-        console.log('itemProduct', itemProduct);
         if (result.length > 0) {
-            itemProduct.price = result[0].price;
+            itemProduct.price = result[0]?.price;
             setRender(!render);
         }
     };
@@ -78,8 +69,12 @@ const Category = () => {
             <div className={cx('menuByCategory')}>
                 <div className={cx('ft-Category')}>
                     {/* <div className={cx('item-Link')} onClick={()=>{}}>Tất cả sản phẩm</div> */}
-                    {subCategoryId?.map((item, index) => (
-                        <div className={cx('item-Link')} onClick={() => handleSelectProduct(item.id)} key={index}>
+                    {dataCategory?.map((item, index) => (
+                        <div
+                            className={cx('item-Link')}
+                            onClick={() => handleChangeTypeSubById({ item, index })}
+                            key={index}
+                        >
                             {item?.name}
                         </div>
                     ))}
@@ -113,17 +108,13 @@ const Category = () => {
                 </div>
             </div>
             <div className={cx('container-productbox')}>
-                {listProducts &&
-                    listProductsID?.map((item, index) => (
+                {itemProductsActive?.map((item, index) => {
+                    return (
                         <div className={cx('olw-item')} key={item.id}>
-                            <div
-                                onClick={() => {
-                                    navigate(`/productDetail?id=${item.slug}`, {
-                                        state: {
-                                            productID: item.id,
-                                        },
-                                    });
-                                }}
+                            <Link
+                                to={`/productdetail?slug=${slugCate}/${item.slug}`}
+                                state={{ item }}
+                                end="true"
                                 className={cx('olw-item-link')}
                             >
                                 <div className={cx('olw-newDiscount-head')}>
@@ -154,13 +145,18 @@ const Category = () => {
                                 </div>
                                 <h3>{item.name}</h3>
                                 <span className={cx('price')}>
-                                    {/* {item.price_reducer */}
-                                    <del>{item?.price}</del> &nbsp;
-                                    {/* {item.discount} */}
+                                    <>
+                                        {Number(
+                                            item.price || item?.variantsDetailsByProduct[0]?.price,
+                                        ).toLocaleString()}
+                                        đ
+                                    </>
+                                    &nbsp;
                                 </span>
-                            </div>
+                            </Link>
                         </div>
-                    ))}
+                    );
+                })}
             </div>
         </>
     );

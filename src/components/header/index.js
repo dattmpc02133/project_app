@@ -5,8 +5,9 @@ import { CiSearch } from 'react-icons/ci';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import cateProductApi from '~/api/cateProductApi';
+
 const cx = classNames.bind(styles);
 function Header() {
     const [search, setSearch] = useState();
@@ -20,15 +21,18 @@ function Header() {
         setOpen(!open);
     };
     useEffect(() => {
-        axios
-            .get('https://duynh404.cf/api/client/categories')
-            .then((response) => {
-                setCategories(response?.data?.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        const fetchHeaderCategory = async (id) => {
+            try {
+                const headerCategory = await cateProductApi.getAll();
+                const ListCategoryData = headerCategory?.data;
+                setCategories(ListCategoryData);
+            } catch (error) {
+                console.log('Failed to fetch Categories: ', error);
+            }
+        };
+        fetchHeaderCategory();
     }, []);
+
     return (
         <div className={cx('header')}>
             <div className={!search ? cx('head') : cx('head', 'active-search')}>
@@ -85,18 +89,9 @@ function Header() {
             <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
                 {categories?.map((data, index) => (
                     <li className={cx('menu-item')} key={index}>
-                        <div
-                            onClick={() => {
-                                navigate(`${data.slug}`, {
-                                    state: {
-                                        CateID: data.id,
-                                    },
-                                });
-                            }}
-                            className={cx('menu-link')}
-                        >
+                        <Link to={data.slug} state={{ data }} className={cx('menu-link')}>
                             <span>{data.name}</span>
-                        </div>
+                        </Link>
                     </li>
                 ))}
             </ul>
