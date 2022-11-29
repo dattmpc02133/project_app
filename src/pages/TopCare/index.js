@@ -1,100 +1,106 @@
 import classNames from 'classnames/bind';
 import styles from '../../assets/scss/TopCare.module.scss';
+import SimpleSlider from '~/components/ListSlideStore';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';      
 const cx = classNames.bind(styles);
  
 
 
 
 function TopCare() {
-    return <div className={cx('repair-service')}>
-        <section>
-            <h2 className={cx('title-big')}>
-            Dịch vụ sửa chữa TopCare 
-            </h2> 
-                <div className={cx('grid wide')}>
-                    <div className={cx('row')}>
-                        <div className={cx('category col l-4 m-12 c-12')}> 
-                        <div className={cx('category-item')}>
-                        <img className=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/iphone.png" width="200" height="200" alt="Dịch vụ sửa chữa iPhone tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/iphone.png"></img>
-                            <h3>Sửa chửa iphone</h3>    
-                            <div className={cx('type-names')}>Rung | Loa ngoài | Màn hình</div>
-                        <a href=''  className={cx('href')}>Xem bảng giá</a>
-                        </div>
-                        </div>
-                
-
-                        <div className={cx('category col l-4 m-12 c-12')}> 
-                        <div className={cx('category-item')}>
-                        <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/ipad.png" width="200" height="200" alt="Dịch vụ sửa chữa iPad tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/ipad.png"></img>
-                            <h3>Sửa chửa Ipad</h3>    
-                            <div className={cx('type-names')}>Đổi máy</div>
-                        <a href='' >Xem bảng giá</a>
-                        </div>
-                        </div>
-                        
-                        <div className={cx('category col l-4 m-12 c-12')}> 
-                        <div className={cx('category-item')}>
-                        <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/macbook.png" width="200" height="200" alt="Dịch vụ sửa chữa MacBook tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/macbook.png"></img>
-                            <h3>Sửa chửa Macbook</h3>    
-                            <div className={cx('type-names')}>Pin Logic Board Bàn phím</div>
-                        <a href='' >Xem bảng giá</a>
-                        </div>
-                        </div>
-
-                        <div className={cx('category col l-4 m-12 c-12')}> 
-                        <div className={cx('category-item')}>
-                        <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/watch.png" width="200" height="200" alt="Dịch vụ sửa chữa Watch tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/watch.png"></img>
-                            <h3>Sửa chửa Watch</h3>    
-                            <div className={cx('type-names')}>Đổi máy</div>
-                        <a href='' >Xem bảng giá</a>
-                        </div>
-                        </div>
-
-
-                        <div className={cx('category col l-4 m-12 c-12')}> 
-                        <div className={cx('category-item')}>
-                        <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/airpods.png" width="200" height="200" alt="Dịch vụ sửa chữa AirPods tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/airpods.png"></img>
-                            <h3>Sửa chửa AirPods</h3>    
-                            <div className={cx('type-names')}>Đổi máy</div>
-                        <a href='' className={cx('category-item')} >Xem bảng giá</a>
-                        </div>
-                        </div>
-                    
-
-{/* 
-                        <div className={cx('popup-container')} >
-                                <div className={cx('bg-overplay')}></div>
-                                <div className={cx('popup')}>
-                                    <p>Bảng giá sửa chửa Aripods</p>
-                                    <span className={cx('close')}></span>
-                                        <div className={cx('type')}>
-                                        <span className={cx('active')} data-id="23">Đổi máy</span>
-                                        </div>
-                                        <div className={cx('table-container active')} data-id="23">
-                                        <table>
-                                            <tbody><tr>
-                                                <th>Dòng máy</th>
-                                                <th>Chi phí</th>
-                                            </tr>
-                                                <tr>
-                                                    <td>AirPods Max</td>
-                                                        <td>15.000.000₫</td>
-                                                </tr>
-                                               
-                                                
-                                        </tbody>
-                                        </table>
-                                    </div>
+    return <div className={cx('wapper')}>
+            <div className={cx('repair-service')}>
+                <section>
+                    <h2 className={cx('title-big')}>
+                    Dịch vụ sửa chữa TopCare 
+                    </h2> 
+                        <div className={cx('grid wide')}>
+                            <div className={cx('row')}>
+                                <div className={cx('category col l-4 m-12 c-12')}> 
+                                <div className={cx('category-item')}>
+                                <img className=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/iphone.png" width="200" height="200" alt="Dịch vụ sửa chữa iPhone tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/iphone.png"></img>
+                                    <h3>Sửa chữa iphone</h3>    
+                                    <div className={cx('type-names')}>Rung | Loa ngoài | Màn hình</div>
+                               <a className={cx('type-price')}href='' >Xem bảng giá</a>
                                 </div>
-                               </div>    */}
+                                </div>
+                        
 
-                               
-                    </div>
-                </div>
+                                <div className={cx('category col l-4 m-12 c-12')}> 
+                                <div className={cx('category-item')}>
+                                <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/ipad.png" width="200" height="200" alt="Dịch vụ sửa chữa iPad tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/ipad.png"></img>
+                                    <h3>Sửa chữa Ipad</h3>    
+                                    <div className={cx('type-names')}>Đổi máy</div>
+                                <a className={cx('type-price')}href='' >Xem bảng giá</a>
+                                </div>
+                                </div>
+                                
+                                <div className={cx('category col l-4 m-12 c-12')}> 
+                                <div className={cx('category-item')}>
+                                <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/macbook.png" width="200" height="200" alt="Dịch vụ sửa chữa MacBook tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/macbook.png"></img>
+                                    <h3>Sửa chữa Macbook</h3>    
+                                    <div className={cx('type-names')}>Pin Logic Board Bàn phím</div>
+                                <a href='' >Xem bảng giá</a>
+                                </div>
+                                </div>
 
+                                <div className={cx('category col l-4 m-12 c-12')}> 
+                                <div className={cx('category-item')}>
+                                <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/watch.png" width="200" height="200" alt="Dịch vụ sửa chữa Watch tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/watch.png"></img>
+                                    <h3>Sửa chữa Watch</h3>    
+                                    <div className={cx('type-names')}>Đổi máy</div>
+                                <a href='' >Xem bảng giá</a>
+                                </div>
+                                </div>
+
+
+                                <div className={cx('category col l-4 m-12 c-12')}> 
+                                <div className={cx('category-item')}>
+                                <img class=" lazyloaded" data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/airpods.png" width="200" height="200" alt="Dịch vụ sửa chữa AirPods tại TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/repair_service/airpods.png"></img>
+                                    <h3>Sửa chữa AirPods</h3>    
+                                    <div className={cx('type-names')}>Đổi máy</div>
+                                <a href='' className={cx('category-item')} >Xem bảng giá</a>
+                                </div>
+                                </div>
+                            
+
+        {/* 
+                                <div className={cx('popup-container')} >
+                                        <div className={cx('bg-overplay')}></div>
+                                        <div className={cx('popup')}>
+                                            <p>Bảng giá sửa chữa Aripods</p>
+                                            <span className={cx('close')}></span>
+                                                <div className={cx('type')}>
+                                                <span className={cx('active')} data-id="23">Đổi máy</span>
+                                                </div>
+                                                <div className={cx('table-container active')} data-id="23">
+                                                <table>
+                                                    <tbody><tr>
+                                                        <th>Dòng máy</th>
+                                                        <th>Chi phí</th>
+                                                    </tr>
+                                                        <tr>
+                                                            <td>AirPods Max</td>
+                                                                <td>15.000.000₫</td>
+                                                        </tr>
+                                                    
+                                                        
+                                                </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>    */}
+
+                                    
+                            </div>
+                        </div>
+                        </section>
+            </div>
          
             <div className={cx('why-chooses')}>
-            <section>
+                   <section>
                 <h2 className={cx('title-big')}>Lý do lựa chọn TopCare</h2>
                 <div className={cx('grid wide')}>
                     <div className={cx('row')}>
@@ -326,30 +332,77 @@ function TopCare() {
             <div className={cx('introduce')}>
                 <section>
                 <h3 className={cx('tittle-big')}>TopCare Nguyễn Văn Luông - Đẳng cấp khác biệt</h3>
-                <img classNane={cx('big-logo ls-is-cached lazyloaded')} data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/logo.png" width="469" height="164" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/logo.png"></img>
-                <p className={cx('info')}>
-                  Tại TopCare Nguyễn Văn Luông, khách hàng yêu mến hệ sinh thái Apple sẽ trải nghiệm đầy đủ và đa dạng nhất các dịch vụ bảo hành chính hãng Apple từ iPhone, iPad đến những chiếc tai nghe AirPods... trong một không gian đẳng cấp và hiện đại.
-                </p>
+                <div className={cx('grid wide')}>
+                    <div className={cx('row')}>
+                    <div className={cx('category col l-12 m-12 c-12')}> 
+                        <img classNane={cx('big-logo ls-is-cached lazyloaded')} data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/logo.png" width="469" height="164" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/logo.png"></img>
+                        <p className={cx('info')}>
+                        Tại TopCare Nguyễn Văn Luông, khách hàng yêu mến hệ sinh thái Apple sẽ trải nghiệm đầy đủ và đa dạng nhất các dịch vụ bảo hành chính hãng Apple từ iPhone, iPad đến những chiếc tai nghe AirPods... trong một không gian đẳng cấp và hiện đại.
+                        </p>
+               
+                    </div>
+                    </div>
+                    
+                </div>
                 </section>
+
+<div className={cx('slider')}>
+ <SimpleSlider/>
+ </div>
+
 
 {/* roong */}
                 <section>
-                    <div className={cx('sotre')}>
-                    <p className={cx('store-name')}>TopCare Nguyễn Văn Linh</p>
+                    <div className={cx('store')}>
+                    <p className={cx('title-big')}>TopCare Nguyễn Văn Linh</p>
+                    <div className={cx('grid wide')}>
+                    <div className={cx('row')}>
+                    <div className={cx('category col l-12 m-12 c-12')}> 
+                    <div className={cx('store-address')}>
+                    <img className={cx('ls-is-cached lazyloaded')} data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/icon_1.png" width="24" height="24" alt="Địa chỉ TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/icon_1.png"></img>
+                    <div>
+                        <p>
+                            Số 249 Nguyễn Văn Luông, Phường 11, Quận 6, Thành phố Hồ Chí Minh.
+                        </p>
+                        <a className={cx('adress-map')}href="https://goo.gl/maps/zuFh7ESP6vGtAm6RA">Xem chỉ đường</a>
+                    </div>
+                    </div>
+                    <div className={cx('store-time')}>
+                    <div className={cx('store-address')}>
+                        <img className={cx('ls-is-cached lazyloaded')} data-src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/icon_2.png" width="24" height="24" alt="Thời gian làm việc TopCare" src="//cdn.tgdd.vn/mwgcart/topzone/images/topcare/introduce/icon_2.png"></img>
+                        <ul>
+                            <li>
+                                T2 - T7: 8h - 20h (không nghỉ trưa)
+                            </li>
+                            <li>
+                                Chủ Nhật: 8h - 17h (không nghỉ trưa)
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
                     </div>
                 </section>
             </div>
-            <div className={cx('new')}>
-                <section>
-                    <h2 className={cx('title-big')}>
-                        Tin tức TekZone
-                    </h2>
-                </section>
-                </div>       
-              
-        </section>
-    </div>
-        
+           
+            
+        <div className={cx('news')}>
+            <section>
+            <h2 className={cx('title-big')}>Tin tức TekZone</h2>
+            <div className={cx('grid wide')}>
+                    <div className={cx('row')}>
+                    <div className={cx('category col l-12 m-12 c-12')}> 
+{/*                 
+                    <SimpleSlider/> */}
+                    </div>
+                    </div> 
+                    </div>
+            </section>
+        </div>
+               
+    </div>          
         ;
 }
 
