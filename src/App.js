@@ -18,6 +18,7 @@ import EditProduct from './pages/Admin/EditProduct';
 import CreateColor from './pages/Admin/CreateColor';
 import ListColor from './pages/Admin/ListColor';
 import LoginAdmin from './pages/Admin/LoginAdmin';
+import CreateWareHouse from './pages/Admin/CreateWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 function App() {
@@ -52,7 +53,7 @@ function App() {
                     <Route path="product/edit/:id/:slug" element={<EditProduct />} />
                     <Route path="color/add" element={<CreateColor />} />
                     <Route path="color/list" element={<ListColor />} />
-                    <Route path="warehouse/add" element={<ListColor />} />
+                    <Route path="warehouse/add" element={<CreateWareHouse />} />
                 </Route>
             </Routes>
         </Router>

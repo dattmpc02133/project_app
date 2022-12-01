@@ -308,13 +308,13 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="catepost/add"
+                                        to="warehouse/add"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="catepost/list"
+                                        to="warehouse/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
