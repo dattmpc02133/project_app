@@ -13,7 +13,8 @@ import CreateCatePost from './pages/Admin/CreateCatePost';
 import ListCatePost from './pages/Admin/ListCatePost';
 import CreatePost from './pages/Admin/CreatePost';
 import LoginAdmin from './pages/Admin/LoginAdmin';
-
+import LayoutDetailFooter from './pages/LayoutDetailFooter';
+import Insurance from './pages/Insurance';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 function App() {
@@ -25,11 +26,14 @@ function App() {
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<ProductDetail />} />
-                    <Route path="/tekzone" element={<TekZone />} />
+                    <Route path="/bai-viet" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
+                    <Route path="layoutfooter" element={<LayoutDetailFooter />}>
+                        <Route path="insurance" element={<Insurance />} />
+                    </Route>
                     <Route path="*" element={<NotFound />} />
                 </Route>
 

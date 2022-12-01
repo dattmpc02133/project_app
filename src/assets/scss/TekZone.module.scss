@@ -108,7 +108,7 @@
         justify-content: space-between;
         margin: 5px 0 40px 0;
         li {
-            width: 14%;
+            width: 20%;
             height: 60px;
             background: #323232;
             box-sizing: border-box;
@@ -122,6 +122,7 @@
                 height: 100%;
                 display: flex;
                 justify-content: space-around;
+                align-items: center;
                 img {
                     width: 50px;
                     height: 50px;
@@ -129,9 +130,10 @@
                 }
 
                 h3 {
-                    line-height: 44px;
+                    line-height: 20px;
                     font-size: 1.4rem;
                     font-weight: 500;
+                    margin-right: 8px;
                 }
             }
 

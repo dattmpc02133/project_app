@@ -8,6 +8,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import Storelocation from '~/components/Storelocation';
 const cx = classNames.bind(style);
 function Home() {
     const slider = useRef();
@@ -85,6 +86,7 @@ function Home() {
                     </div>
                 </div>
             ))}
+            <Storelocation />
         </>
     );
 }

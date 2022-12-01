@@ -926,4 +926,38 @@ const product_list_store = [
     //     new: 'mới',
     // },
 ];
-export { categories, products, Products_list, product_list_store };
+
+const cateFooter = [
+    {
+        id: 1,
+        name: 'Giới thiệu TopZone',
+        class: 'list-item',
+    },
+    {
+        id: 2,
+        name: 'Điều kiện gian dịch chung',
+        class: 'list-item',
+    },
+    {
+        id: 3,
+        name: 'Hướng dẫn mua hành online',
+        class: 'list-item',
+    },
+    {
+        id: 4,
+        name: 'chính sách bảo mật thông tin',
+    },
+    {
+        id: 5,
+        name: 'Chính sách giao hàng',
+    },
+    {
+        id: 6,
+        name: 'Hướng dẫn thanh toán',
+    },
+    {
+        id: 7,
+        name: 'Chính sách bảo hành & đổi trả',
+    },
+];
+export { categories, products, Products_list, product_list_store, cateFooter };
