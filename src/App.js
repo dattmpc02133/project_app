@@ -15,8 +15,9 @@ import CreatePost from './pages/Admin/CreatePost';
 import CreateProduct from './pages/Admin/CreateProduct';
 import ListProduct from './pages/Admin/ListProduct';
 import EditProduct from './pages/Admin/EditProduct';
+import CreateColor from './pages/Admin/CreateColor';
+import ListColor from './pages/Admin/ListColor';
 import LoginAdmin from './pages/Admin/LoginAdmin';
-
 import Login from './components/Login';
 import Pay from './pages/Pay';
 function App() {
@@ -49,6 +50,9 @@ function App() {
                     <Route path="product/add" element={<CreateProduct />} />
                     <Route path="product/list" element={<ListProduct />} />
                     <Route path="product/edit/:id/:slug" element={<EditProduct />} />
+                    <Route path="color/add" element={<CreateColor />} />
+                    <Route path="color/list" element={<ListColor />} />
+                    <Route path="warehouse/add" element={<ListColor />} />
                 </Route>
             </Routes>
         </Router>

@@ -22,6 +22,10 @@ const productApi = {
         const url = `/products`;
         return axiosClient.post(url, data);
     },
+    update: (data, id) => {
+        const url = `/products/update/${id}`;
+        return axiosClient.put(url, data);
+    },
 };
 
 export default productApi;
