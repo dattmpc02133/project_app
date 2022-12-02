@@ -16,7 +16,6 @@ function Footer() {
     const [activeThere, setActiveThere] = useState('');
     const [activeFor, setActiveFor] = useState('');
     const [footerAll, setFooterAll] = useState([]);
-    const [footerContent, setFooterContent] = useState([]);
 
     useEffect(() => {
         const allFooter = async () => {
@@ -31,26 +30,6 @@ function Footer() {
         allFooter();
     }, []);
 
-    useEffect(() => {
-        const footerContent = async () => {
-            try {
-                const contentSbus = await footerApi.getAllContent();
-                console.log('content', contentSbus.data);
-                setFooterContent(contentSbus.data);
-            } catch (error) {
-                console.log('Lỗi Content', error);
-            }
-        };
-        footerContent();
-    }, []);
-
-    const getContentFooter = (id) => {
-        const listContentFooter = footerContent.filter((item) => item.category_id == id);
-        return listContentFooter.title;
-    };
-
-    const handleFooter = (id, e) => {};
-
     return (
         <div className={cx('wrapper')}>
             <footer className={cx('footer')}>
@@ -58,9 +37,6 @@ function Footer() {
                     <div className={cx('footer__logo')}>
                         <a href="#">
                             <img src={images.logotest} className={cx('logo-left')} alt="logo1" />
-                        </a>
-                        <a href="#">
-                            <img src={images.logo2} className={cx('logo-rigth')} alt="logo2" />
                         </a>
                     </div>
                     {/* desktop */}
@@ -103,39 +79,28 @@ function Footer() {
                                 </a>
                             </div>
                         </li>
-                        {footerAll?.map((item, index) => (
-                            <li key={index}>
-                                <span>{item.name}</span>
-                            </li>
-                        ))}
-
-                        {/* <li>
-                            <span>Hỗ trợ khách hàng</span>
-                            <a href="#">Điều kiện giao dịch chung</a>
-                            <a href="#">Xem cửa hàng</a>
-                            <a href="#">Nội quy cửa hàng</a>
-                            <a href="#">Chất lượng phục vụ</a>
-                            <a href="#">Chính sách đổi hành & đổi trả</a>
-                        </li>
-                        <li>
-                            <span>Về thương hiệu TopZone</span>
-                            <a href="#" className={cx('color-active')}>
-                                Tích điểm quà tặng VIP
-                            </a>
-                            <a href="#">Giới thiệu TopZone</a>
-                            <a href="#">Bán hàng doanh nghiệp </a>
-                            <a href="#">Chính sách bảo mật thông tin</a>
-                        </li>
-                        <li>
-                            <span>Trung tâm bảo hành TopCare</span>
-                            <a href="#">Giới thiệu TopCare</a>
-                        </li> */}
+                        {footerAll?.map((item, index) => {
+                            return (
+                                <li key={index}>
+                                    <span>{item.name}</span>
+                                    {item.footerContent.map((items, index) => {
+                                        return (
+                                            <Link to={`footer/insurance?=${item.slug}`} state={items} key={index}>
+                                                {items.title}
+                                            </Link>
+                                        );
+                                    })}
+                                </li>
+                            );
+                        })}
+                        {/* {cateFooter?.map((title, index) => (
+                                    <Link key={index}>{title.title}</Link>
+                                ))} */}
                     </ul>
                     <div className={cx('footer-text__certify')}>
                         <div className={cx('footer-text')}>
                             <p>
-                                © 2018. Công ty cổ phần Thế Giới Di Động. GPDKKD: 0303217354 do sở KH & ĐT TP.HCM cấp
-                                ngày 02/01/2007.
+                                © 2018. Công ty cổ phần . GPDKKD: 0303217354 do sở KH & ĐT TP.HCM cấp ngày 02/01/2007.
                                 <br />
                                 Địa chỉ: 128 Trần Quang Khải, P. Tân Định, Q.1, TP. Hồ Chí Minh. Điện thoại: 028
                                 38125960.

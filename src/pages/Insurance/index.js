@@ -6,6 +6,7 @@ const cx = classNames.bind(styles);
 
 function Insurance() {
     const { state } = useLocation();
+
     console.log(state);
     const contentId = state.content;
     console.log(contentId);

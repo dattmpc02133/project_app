@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from '~/assets/scss/AsideFoooter.module.scss';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import footerApi from '~/api/footerApi';
 const cx = classNames.bind(styles);
 
@@ -9,6 +9,7 @@ function AsideFooter() {
     const handleClick = (id) => {
         console.log('id là', id);
     };
+    const { state } = useLocation();
 
     const [footer, setFooter] = useState([]);
 

@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
-import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
@@ -15,11 +14,17 @@ import CreatePost from './pages/Admin/CreatePost';
 import CreateProduct from './pages/Admin/CreateProduct';
 import ListProduct from './pages/Admin/ListProduct';
 import EditProduct from './pages/Admin/EditProduct';
+import CreateColor from './pages/Admin/CreateColor';
+import ListColor from './pages/Admin/ListColor';
 import LoginAdmin from './pages/Admin/LoginAdmin';
 import LayoutDetailFooter from './pages/LayoutDetailFooter';
 import Insurance from './pages/Insurance';
+import CreateWareHouse from './pages/Admin/CreateWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
+import DetailProduct from './components/DetailProduct';
+import CreateFooter from './pages/Admin/CreateFooter';
+import ListCateFooter from './pages/Admin/ListCateFooter';
 function App() {
     return (
         <Router>
@@ -28,13 +33,13 @@ function App() {
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
-                    <Route path="/productDetail" element={<ProductDetail />} />
-                    <Route path="/bai-viet" element={<TekZone />} />
+                    <Route path="/productDetail" element={<DetailProduct />} />
+                    <Route path="/daimond" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
-                    <Route path="layoutfooter" element={<LayoutDetailFooter />}>
+                    <Route path="footer" element={<LayoutDetailFooter />}>
                         <Route path="insurance" element={<Insurance />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
@@ -53,6 +58,11 @@ function App() {
                     <Route path="product/add" element={<CreateProduct />} />
                     <Route path="product/list" element={<ListProduct />} />
                     <Route path="product/edit/:id/:slug" element={<EditProduct />} />
+                    <Route path="color/add" element={<CreateColor />} />
+                    <Route path="color/list" element={<ListColor />} />
+                    <Route path="warehouse/add" element={<CreateWareHouse />} />
+                    <Route path="footer/add" element={<CreateFooter />} />
+                    <Route path="footer/list" element={<ListCateFooter />} />
                 </Route>
             </Routes>
         </Router>

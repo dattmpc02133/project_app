@@ -1,15 +1,14 @@
 import aixosClient from './axiosClient';
 
 const footerApi = {
+    create: (data) => {
+        const url = 'client/footer-category/load-all';
+        return aixosClient.get(url, { data });
+    },
+
     getAll: (params) => {
-        const url = '/footer-category';
+        const url = 'client/footer-category/load-all';
         return aixosClient.get(url, { params });
     },
-
-    getAllContent: (param) => {
-        const url = 'client/footer-content/load-all';
-        return aixosClient.get(url, { param });
-    },
 };
-
 export default footerApi;
