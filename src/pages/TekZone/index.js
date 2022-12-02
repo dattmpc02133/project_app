@@ -5,9 +5,7 @@ import styles from '~/assets/scss/TekZone.module.scss';
 import '~/assets/scss/Grid.scss';
 import images from '~/assets/images';
 import Slider from 'react-slick';
-
 import Loading from '~/components/Loading';
-import axios from 'axios';
 import catePostApi from '~/api/catePostApi';
 
 const cx = classNames.bind(styles);
@@ -20,34 +18,27 @@ function TekZone() {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-    const [subCategory, setSubCategory] = useState();
+    // const [subCategory, setSubCategory] = useState();
+    const [dataCategory, setDataCategory] = useState();
     const [loading, setLoading] = useState(false);
     const { state } = useLocation();
-    const CateID = state.CateID;
-    const subCategoryId = useMemo(() => {
-        const result = subCategory?.filter((item, i) => item?.id === CateID);
-        console.log('danh mục số', CateID);
-        if (result) {
-            return result[0]?.subs;
-        }
-    }, [CateID, subCategory]);
-
+    const slugCate = state.data.slug;
+    const CateID = state.data.id;
     useEffect(() => {
-        const getCateId = async () => {
+        const fetchAllCategory = async () => {
             try {
-                const subCateId = await catePostApi.getAll();
-                setSubCategory(subCateId.data);
-            } catch (error) {
-                console.log('lỗi danh mục ', error);
-            }
+                const Category = await catePostApi.getAll();
+                const ListCategoryData = Category?.data?.filter((item) => item?.id === CateID);
+                if (ListCategoryData.length > 0) {
+                    setDataCategory(ListCategoryData[0].subs);
+                }
+            } catch (error) {}
         };
-        getCateId();
-    });
+        fetchAllCategory();
+    }, [CateID]);
 
-    const handleCateId = ({ id, e }) => {
-        console.log('id là', id);
-        setLoading(true);
-        e.preventDefault();
+    const handleCateId = (id) => {
+        console.log('danh mục', id);
     };
 
     return (
@@ -134,23 +125,16 @@ function TekZone() {
                 </div>
 
                 <ul className={cx('list__cate')}>
-                    {Array.isArray(subCategoryId)
-                        ? subCategoryId.map((list) => (
-                              <li key={list.id}>
-                                  <Link to="" onClick={() => handleCateId(list.id, list.e)}>
-                                      <img src={images.cate_iphone} alt={list.name} />
-                                      <h3>{list.name}</h3>
-                                  </Link>
+                    {Array.isArray(dataCategory)
+                        ? dataCategory?.map((list) => (
+                              <li key={list?.id}>
+                                  <div onClick={() => handleCateId(list.id)}>
+                                      <img src={images.cate_iphone} alt={list?.name} />
+                                      <h3>{list?.name}</h3>
+                                  </div>
                               </li>
                           ))
                         : false}
-
-                    {/* <li>
-                        <a href="#">
-                            <img src={images.cate_mac} alt="Mac" />
-                            <h3>Mac</h3>
-                        </a>
-                    </li> */}
                 </ul>
 
                 <div className={cx('newsest__list')}>

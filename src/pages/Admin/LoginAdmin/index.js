@@ -22,7 +22,7 @@ const LoginAdmin = () => {
 
     useEffect(() => {
         const objDataAd = JSON.parse(localStorage.getItem('dataAd'));
-        if (objDataAd != null && objDataAd.role === 'Admin') {
+        if (objDataAd != null && (objDataAd.role_id == 1 || objDataAd.role_id == 4)) {
             navigate('/admin');
         }
     }, [loginStatus]);

@@ -17,9 +17,13 @@
         &:first-child {
             margin-top: 0;
         }
-    }
 
-    .tab-active {
-        background-color: #323232;
+        .tab-active {
+            background-color: #323232;
+        }
+
+        .active {
+            background-color: #323232;
+        }
     }
 }

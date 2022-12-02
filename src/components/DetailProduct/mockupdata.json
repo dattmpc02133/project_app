@@ -1,0 +1,304 @@
+{
+    "data": [
+        {
+            "id": 206,
+            "code": "SP20221127075711",
+            "meta_title": "Asus ExpertBook B5402CB i5 1240P (KI0353W)",
+            "meta_keywords": "Asus ExpertBook B5402CB i5 1240P (KI0353W)",
+            "meta_description": "Asus ExpertBook B5402CB i5 1240P (KI0353W)",
+            "name": "Asus ExpertBook B5402CB i5 1240P (KI0353W)",
+            "slug": "asus-expertbook-b5402cb-i5-1240p-ki0353w",
+            "description": "Asus ExpertBook B5402CB i5 1240P (KI0353W) description",
+            "url_image": "https://cdn.tgdd.vn/Products/Images/42/235838/Galaxy-S22-Ultra-Burgundy-600x600.jpg",
+            "specification_infomation": null,
+            "brand_id": "20",
+            "subcategory_id": "49",
+            "is_active": "1",
+            "created_by": "2",
+            "created_at": "2022-11-27T00:57:11.000000Z",
+            "updated_at": "2022-11-27T00:57:11.000000Z",
+            "updated_by": "2",
+            "deleted_at": null,
+            "deleted_by": null,
+            "cartegory_id": "28",
+            "variantsDetailsByProduct": [
+                {
+                    "product_id": "206",
+                    "color_id": "1",
+                    "price": "23900000",
+                    "discount": "5",
+                    "quantity": "0",
+                    "color_name": "Đỏ",
+                    "color_code": "#FF0000",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "206",
+                    "color_id": "2",
+                    "price": "25900000",
+                    "discount": "10",
+                    "quantity": "0",
+                    "color_name": "Trắng",
+                    "color_code": "#FFFFFF",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "206",
+                    "color_id": "3",
+                    "price": "26900000",
+                    "discount": "5",
+                    "quantity": "0",
+                    "color_name": "Đen",
+                    "color_code": "#000000",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "206",
+                    "color_id": "1",
+                    "price": "29900000",
+                    "discount": "10",
+                    "quantity": "0",
+                    "color_name": "Đỏ",
+                    "color_code": "#FF0000",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                },
+                {
+                    "product_id": "206",
+                    "color_id": "2",
+                    "price": "31900000",
+                    "discount": "15",
+                    "quantity": "0",
+                    "color_name": "Trắng",
+                    "color_code": "#FFFFFF",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                },
+                {
+                    "product_id": "206",
+                    "color_id": "3",
+                    "price": "33900000",
+                    "discount": "20",
+                    "quantity": "0",
+                    "color_name": "Đen",
+                    "color_code": "#000000",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                }
+            ],
+            "variants": [
+                {
+                    "id": "1",
+                    "variant_name": "128"
+                },
+                {
+                    "id": "2",
+                    "variant_name": "256"
+                }
+            ]
+        },
+        {
+            "id": 207,
+            "code": "SP20221127101140",
+            "meta_title": "Bá Nha",
+            "meta_keywords": "Bá Nha",
+            "meta_description": "Bá Nha",
+            "name": "Bá Nha",
+            "slug": "ba-nha",
+            "description": "Bá Nha description",
+            "url_image": "https://cdn.tgdd.vn/Products/Images/42/235838/Galaxy-S22-Ultra-Burgundy-600x600.jpg",
+            "specification_infomation": null,
+            "brand_id": "20",
+            "subcategory_id": "49",
+            "is_active": "1",
+            "created_by": "2",
+            "created_at": "2022-11-27T03:11:40.000000Z",
+            "updated_at": "2022-11-27T03:11:40.000000Z",
+            "updated_by": "2",
+            "deleted_at": null,
+            "deleted_by": null,
+            "cartegory_id": "28",
+            "variantsDetailsByProduct": [
+                {
+                    "product_id": "207",
+                    "color_id": "1",
+                    "price": "1234567",
+                    "discount": "0",
+                    "quantity": "0",
+                    "color_name": "Đỏ",
+                    "color_code": "#FF0000",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "207",
+                    "color_id": "2",
+                    "price": "7890897",
+                    "discount": "10",
+                    "quantity": "0",
+                    "color_name": "Trắng",
+                    "color_code": "#FFFFFF",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "207",
+                    "color_id": "3",
+                    "price": "12424546",
+                    "discount": "5",
+                    "quantity": "0",
+                    "color_name": "Đen",
+                    "color_code": "#000000",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "207",
+                    "color_id": "1",
+                    "price": "4357576",
+                    "discount": "10",
+                    "quantity": "0",
+                    "color_name": "Đỏ",
+                    "color_code": "#FF0000",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                },
+                {
+                    "product_id": "207",
+                    "color_id": "2",
+                    "price": "45454654",
+                    "discount": "5",
+                    "quantity": "0",
+                    "color_name": "Trắng",
+                    "color_code": "#FFFFFF",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                },
+                {
+                    "product_id": "207",
+                    "color_id": "3",
+                    "price": "34345433",
+                    "discount": "15",
+                    "quantity": "0",
+                    "color_name": "Đen",
+                    "color_code": "#000000",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                }
+            ],
+            "variants": [
+                {
+                    "id": "1",
+                    "variant_name": "128"
+                },
+                {
+                    "id": "2",
+                    "variant_name": "256"
+                }
+            ]
+        },
+        {
+            "id": 208,
+            "code": "SP20221127110031",
+            "meta_title": "Bá Nha",
+            "meta_keywords": "Bá Nha",
+            "meta_description": "Bá Nha",
+            "name": "Bá Nha",
+            "slug": "ba-nha",
+            "description": "Bá Nha description",
+            "url_image": "https://cdn.tgdd.vn/Products/Images/42/235838/Galaxy-S22-Ultra-Burgundy-600x600.jpg",
+            "specification_infomation": null,
+            "brand_id": "20",
+            "subcategory_id": "49",
+            "is_active": "1",
+            "created_by": "2",
+            "created_at": "2022-11-27T04:00:31.000000Z",
+            "updated_at": "2022-11-27T04:00:31.000000Z",
+            "updated_by": "2",
+            "deleted_at": null,
+            "deleted_by": null,
+            "cartegory_id": "28",
+            "variantsDetailsByProduct": [
+                {
+                    "product_id": "208",
+                    "color_id": "1",
+                    "price": "34343434",
+                    "discount": "0",
+                    "quantity": "0",
+                    "color_name": "Đỏ",
+                    "color_code": "#FF0000",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "208",
+                    "color_id": "2",
+                    "price": "2323564",
+                    "discount": "10",
+                    "quantity": "0",
+                    "color_name": "Trắng",
+                    "color_code": "#FFFFFF",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "208",
+                    "color_id": "3",
+                    "price": "2345343",
+                    "discount": "5",
+                    "quantity": "0",
+                    "color_name": "Đen",
+                    "color_code": "#000000",
+                    "variant_name": "128",
+                    "variant_id": "1"
+                },
+                {
+                    "product_id": "208",
+                    "color_id": "1",
+                    "price": "45343433",
+                    "discount": "10",
+                    "quantity": "0",
+                    "color_name": "Đỏ",
+                    "color_code": "#FF0000",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                },
+                {
+                    "product_id": "208",
+                    "color_id": "2",
+                    "price": "3434467345",
+                    "discount": "5",
+                    "quantity": "0",
+                    "color_name": "Trắng",
+                    "color_code": "#FFFFFF",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                },
+                {
+                    "product_id": "208",
+                    "color_id": "3",
+                    "price": "243654353",
+                    "discount": "15",
+                    "quantity": "0",
+                    "color_name": "Đen",
+                    "color_code": "#000000",
+                    "variant_name": "256",
+                    "variant_id": "2"
+                }
+            ],
+            "variants": [
+                {
+                    "id": "1",
+                    "variant_name": "128"
+                },
+                {
+                    "id": "2",
+                    "variant_name": "256"
+                }
+            ]
+        }
+    ]
+}

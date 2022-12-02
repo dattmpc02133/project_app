@@ -1,18 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { FaFacebookF, FaYoutube } from 'react-icons/fa';
 import { SiZalo } from 'react-icons/si';
-import styles from '../../assets/scss/Footer.module.scss';
-import images from '../../assets/images';
+import styles from '~/assets/scss/Footer.module.scss';
+import images from '~/assets/images';
+import footerApi from '~/api/footerApi';
+import 'axios';
+import { Link } from 'react-router-dom';
+
 const cx = classNames.bind(styles);
 
-function Footer()
-{
+function Footer() {
     const [active, setActive] = useState('');
     const [activeTow, setActiveTow] = useState('');
     const [activeThere, setActiveThere] = useState('');
     const [activeFor, setActiveFor] = useState('');
+    const [footerAll, setFooterAll] = useState([]);
+    const [footerContent, setFooterContent] = useState([]);
 
+    useEffect(() => {
+        const allFooter = async () => {
+            try {
+                const footer = await footerApi.getAll();
+                setFooterAll(footer.data);
+                console.log('danh muc', footer.data);
+            } catch (error) {
+                console.log('lỗi footer', error);
+            }
+        };
+        allFooter();
+    }, []);
+
+    useEffect(() => {
+        const footerContent = async () => {
+            try {
+                const contentSbus = await footerApi.getAllContent();
+                console.log('content', contentSbus.data);
+                setFooterContent(contentSbus.data);
+            } catch (error) {
+                console.log('Lỗi Content', error);
+            }
+        };
+        footerContent();
+    }, []);
+
+    const getContentFooter = (id) => {
+        const listContentFooter = footerContent.filter((item) => item.category_id == id);
+        return listContentFooter.title;
+    };
+
+    const handleFooter = (id, e) => {};
 
     return (
         <div className={cx('wrapper')}>
@@ -47,6 +84,7 @@ function Footer()
                             </a>
 
                             <div className={cx('footer__social')}>
+                                {}
                                 <p className={cx('text')}>Kết nối với chúng tôi</p>
                                 <a href="#" className={cx('icon-item')}>
                                     <i>
@@ -65,15 +103,13 @@ function Footer()
                                 </a>
                             </div>
                         </li>
+                        {footerAll?.map((item, index) => (
+                            <li key={index}>
+                                <span>{item.name}</span>
+                            </li>
+                        ))}
 
-                        <li>
-                            <span>Hệ thống cửa hàng</span>
-                            <a href="#">Xem cửa hàng</a>
-                            <a href="#">Nội quy cửa hàng</a>
-                            <a href="#">Chất lượng phục vụ</a>
-                            <a href="#">Chính sách đổi hành & đổi trả</a>
-                        </li>
-                        <li>
+                        {/* <li>
                             <span>Hỗ trợ khách hàng</span>
                             <a href="#">Điều kiện giao dịch chung</a>
                             <a href="#">Xem cửa hàng</a>
@@ -93,15 +129,16 @@ function Footer()
                         <li>
                             <span>Trung tâm bảo hành TopCare</span>
                             <a href="#">Giới thiệu TopCare</a>
-                        </li>
+                        </li> */}
                     </ul>
                     <div className={cx('footer-text__certify')}>
                         <div className={cx('footer-text')}>
                             <p>
-                                © 2018. Công ty cổ phần Thế Giới Di Động. GPDKKD: 0303217354 do sở KH & ĐT TP.HCM cấp ngày
-                                02/01/2007.
+                                © 2018. Công ty cổ phần Thế Giới Di Động. GPDKKD: 0303217354 do sở KH & ĐT TP.HCM cấp
+                                ngày 02/01/2007.
                                 <br />
-                                Địa chỉ: 128 Trần Quang Khải, P. Tân Định, Q.1, TP. Hồ Chí Minh. Điện thoại: 028 38125960.
+                                Địa chỉ: 128 Trần Quang Khải, P. Tân Định, Q.1, TP. Hồ Chí Minh. Điện thoại: 028
+                                38125960.
                             </p>
                         </div>
                         <div className={cx('footer-certify')}>
@@ -217,8 +254,8 @@ function Footer()
                         </p>
                     </div>
                 </div>
-            </footer >
-        </div >
+            </footer>
+        </div>
     );
 }
 

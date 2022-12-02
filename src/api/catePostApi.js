@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const catePostApi = {
     create: (data) => {
-        const url = '/post-categories';
+        const url = '/admin/categories_post';
         return axiosClient.post(url, data);
     },
     getAll: (params) => {
