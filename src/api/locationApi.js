@@ -14,6 +14,10 @@ const location = {
         const url = '/location/getAllWard';
         return axiosClient.get(url, { params });
     },
+    getByIdVariant: (product_id, variant_id) => {
+        const url = `/client/productsfindbylocation?product_id=${product_id}&variant_id=${variant_id}`;
+        return axiosClient.get(url);
+    },
 };
 
 export default location;

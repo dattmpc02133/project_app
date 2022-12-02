@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
-import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';

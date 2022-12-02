@@ -14,7 +14,7 @@ import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 // api
 import productApi from '../../api/productApi';
-import warehouseStockApi from '../../api/warehouseStockApi';
+import location from '../../api/locationApi.js';
 import productsBySubCateApi from '../../api/ProductsBySubCateApi';
 
 // tab descriptions
@@ -190,7 +190,7 @@ const DetailProduct = () => {
     }, [variantID, dataVariants]); // 1: 128, 2: 256
     const ProvinceDistrictWard = useMemo(() => {
         if (districtID) {
-            const result = shopProductById.filter((address) => address.district_id == districtID);
+            const result = shopProductById?.filter((address) => address?.district_id == districtID);
             setProvinceDistrictWardActive(result);
             return result;
         }
@@ -236,7 +236,7 @@ const DetailProduct = () => {
     useEffect(() => {
         const fetchProvince = async () => {
             try {
-                const resProvide = await warehouseStockApi.getAllProvince();
+                const resProvide = await location.getAllProvince();
                 const dataProvide = resProvide?.data;
                 setDataAllProVince(dataProvide);
             } catch (error) {
@@ -245,7 +245,7 @@ const DetailProduct = () => {
         };
         const fetchDistrict = async () => {
             try {
-                const resDistrict = await warehouseStockApi.getAllDistrict();
+                const resDistrict = await location.getAllDistricts();
                 const dataDistrict = resDistrict?.data;
                 const FinDataIdDistrict = dataDistrict.filter((district) => {
                     return district?.province_id == provinceID;
@@ -257,7 +257,7 @@ const DetailProduct = () => {
         };
         const fetchStockings = async () => {
             try {
-                const ListStocking = await warehouseStockApi.getByIdVariant(productID, itemColorActive?.variant_id);
+                const ListStocking = await location.getByIdVariant(productID, itemColorActive?.variant_id);
                 setShopProductById(ListStocking.data);
                 setProvinceDistrictWardActive(ListStocking.data);
             } catch (error) {
