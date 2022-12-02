@@ -2,13 +2,11 @@ import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/Category.module.scss';
 import React, { useEffect, useState } from 'react';
-import { useMemo } from 'react';
 import productApi from '~/api/productApi';
 import cateProductApi from '~/api/cateProductApi';
 const cx = classNames.bind(style);
 const Category = () => {
     const { state } = useLocation();
-    const slugCate = state.data.slug;
     const CateID = state.data.id;
     const [select, SetSelect] = useState();
 
@@ -112,8 +110,11 @@ const Category = () => {
                     return (
                         <div className={cx('olw-item')} key={item.id}>
                             <Link
-                                to={`/productdetail?slug=${slugCate}/${item.slug}`}
-                                state={{ item }}
+                                to={`/productdetail?slug=${item.slug}`}
+                                state={{
+                                    id: item.id,
+                                    subcategory_id: item.subcategory_id,
+                                }}
                                 end="true"
                                 className={cx('olw-item-link')}
                             >

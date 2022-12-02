@@ -19,6 +19,7 @@ import LoginAdmin from './pages/Admin/LoginAdmin';
 
 import Login from './components/Login';
 import Pay from './pages/Pay';
+import DetailProduct from './components/DetailProduct';
 function App() {
     return (
         <Router>
@@ -27,7 +28,7 @@ function App() {
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
-                    <Route path="/productdetail" element={<ProductDetail />} />
+                    <Route path="/productdetail" element={<DetailProduct />} />
                     <Route path="/tekzone" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
