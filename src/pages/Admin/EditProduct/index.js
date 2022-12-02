@@ -98,15 +98,17 @@ const EditProduct = () => {
             } catch (error) {
                 console.log('Failed to get product: ', error);
                 setLoading(false);
-                navigate('/admin/pagenotfound');
+                // navigate('/admin/pagenotfound');
             }
         };
         getProduct();
     }, []);
 
     // Logic Form Variant
-    const [formSubVariant, setFormSubVariant] = useState([[{ color: '', price: '', discount: '' }]]);
-    const [formVariant, setFormVariant] = useState([{ GB: '', data: [...formSubVariant] }]);
+    // const [formSubVariant, setFormSubVariant] = useState([[{ color: '', price: '', discount: '' }]]);
+    // const [formVariant, setFormVariant] = useState([{ GB: '', data: [...formSubVariant] }]);
+    const [formSubVariant, setFormSubVariant] = useState([]);
+    const [formVariant, setFormVariant] = useState([]);
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -125,18 +127,18 @@ const EditProduct = () => {
             discount_by_variant_id: discountByVariant,
         };
 
-        // const createProduct = async () => {
-        //     setLoading(true);
-        //     try {
-        //         const result = await productApi.create(data);
-        //         console.log(result);
-        //         setLoading(false);
-        //     } catch (error) {
-        //         console.log('Fail to create product', error);
-        //         setLoading(false);
-        //     }
-        // };
-        // createProduct();
+        const updateProduct = async () => {
+            setLoading(true);
+            try {
+                const result = await productApi.update(data, params.id);
+                console.log(result);
+                setLoading(false);
+            } catch (error) {
+                console.log('Fail to create product', error);
+                setLoading(false);
+            }
+        };
+        updateProduct();
         console.log('data', data);
 
         // setColorByVariant([]);
@@ -248,6 +250,8 @@ const EditProduct = () => {
     // const arrvariantProduct = [];
     const [arrVariantProduct, setArrvariantProduct] = useState([]);
     useEffect(() => {
+        const newFormVR = [...formVariant];
+        const newFormSubVR = [...formSubVariant];
         // setNameProduct
         product.name ? setNameProduct(product.name) : console.log('Not Found');
         product.meta_title ? setMetaTitle(product.meta_title) : console.log('Not Found');
@@ -257,12 +261,20 @@ const EditProduct = () => {
         product.subcategory_id ? setCategory(product.subcategory_id) : console.log('Not Found');
         product.brand_id ? setBrand(product.brand_id) : console.log('Not Found');
         product.description ? setDescription(product.description) : console.log('Not Found');
-        if (Array.isArray(product.variants) && product.variants.length > 0) {
+        if (Array.isArray(product.variants) && product.variants.length > 0 && newFormVR.length == 0) {
             product.variants.map((item, index) => {
                 // const newArr = [...arrVariantProduct, item.id];
+
+                // addFormVariant();
+                // const newListFormVariant = [...newFormVR, { GB: '', data: [{ color: '', price: '', discount: '' }] }];
+                newFormVR.push({ GB: '', data: [{ color: '', price: '', discount: '' }] });
+
+                setFormVariant(newFormVR);
+                // const newListFormSubVariant = [...newFormSubVR, [{ color: '', price: '', discount: '' }]];
+                newFormSubVR.push([{ color: '', price: '', discount: '' }]);
+                setFormSubVariant(newFormSubVR);
                 arrVariantProduct.push(item.id);
                 setArrvariantProduct([...arrVariantProduct]);
-                addFormVariant();
             });
         }
     }, [product]);
@@ -277,43 +289,70 @@ const EditProduct = () => {
             inputData.map((item, index) => {
                 inputData[index].GB = arrVariantProduct[index];
                 setFormVariant(inputData);
-                if (Array.isArray(product.dataVariants) && product.dataVariants.length > 0) {
-                    product.dataVariants.map((data, i) => {
-                        // addFormSubVariant(index);
-                        console.log('data', data);
-                        const formSubVR = inputData.filter((item, index) => {
-                            // console.log(item.GB == data.variant_id);
-                            // addFormSubVariant(index);
-                            return item.GB == data.variant_id;
-                        });
-
-                        if (Array.isArray(formSubVR) && formSubVR.length > 0) {
-                            formSubVR.map((ip, index) => {
-                                console.log(ip, index);
-                            });
-                        }
-                        //
-                        // inputData[index][i].discount = valueInput.target.value;
-                        // setFormSubVariant(inputData);
-                        // const newListFormVariant = [...formVariant];
-                        // newListFormVariant[index].data = formSubVariant[index];
-                        // setFormVariant(newListFormVariant);
-
-                        //
-                    });
-                }
             });
         }
+
+        // const [formSubVariant, setFormSubVariant] = useState([[{ color: '', price: '', discount: '' }]]);
+        if (Array.isArray(product.dataVariants) && product.dataVariants.length > 0) {
+            const newListFormSubVariant = [...formSubVariant];
+            // const newListFormSubVariant = [];
+            product.dataVariants.map((data, i) => {
+                inputData.map((item, index) => {
+                    // if (inputData[index].GB == data.variant_id) {
+                    //     console.log('newListFormSubVariant', newListFormSubVariant);
+                    //     // console.log('formSubVariant', formSubVariant[index]);
+                    //     newListFormSubVariant[index] = [
+                    //         ...formSubVariant[index],
+                    //         { color: '', price: '', discount: '' },
+                    //     ];
+                    //     newListFormSubVariant[index].push({ color: '', price: '', discount: '' });
+                    //     setFormSubVariant(newListFormSubVariant);
+                    //     // const newListFormVariant = [...formVariant];
+                    //     // newListFormVariant[index].data = newListFormSubVariant[index];
+                    //     // setFormVariant(newListFormVariant);
+                    //     console.log('newListFormSubVariant', newListFormSubVariant);
+                    // }
+                });
+            });
+
+            inputData.map((item, index) => {
+                const listVByID = product.dataVariants.filter((variant) => {
+                    return item.GB == variant.variant_id;
+                });
+                const tempArr = [];
+                listVByID.map((data, i) => {
+                    tempArr.push({ color: '', price: '', discount: '' });
+                    newListFormSubVariant[index] = tempArr;
+                    setFormSubVariant(newListFormSubVariant);
+                    const newListFormVariant = [...formVariant];
+                    newListFormVariant[index].data = newListFormSubVariant[index];
+                    setFormVariant(newListFormVariant);
+
+                    // Set Value
+                    item.data[i].price = data.price;
+                    item.data[i].color = data.color_id;
+                    item.data[i].discount = data.discount;
+                });
+            });
+
+            // inputData.map((item, index) => {
+            //     const listVByID = product.dataVariants.filter((variant) => {
+            //         return item.GB == variant.variant_id;
+            //     });
+            //     listVByID.map((data, i) => {
+            //         item.data[i].price = data.price;
+            //         item.data[i].color = data.color_id;
+            //         item.data[i].discount = data.discount;
+            //     });
+            // });
+        }
     }, [arrVariantProduct]);
-    // console.log('formVariant', formVariant);
-    // console.log('product', product);
-    // console.log('formVariant', formVariant);
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             <div className="content__heading">
-                <h2 className="content__heading--title">Thêm mới sản phẩm</h2>
+                <h2 className="content__heading--title">Cập nhật sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
             </div>
 
@@ -616,7 +655,7 @@ const EditProduct = () => {
                             false
                         )} */}
                         <div className="btn__form">
-                            <button className="btn__form--ctrl">Thêm sản phẩm</button>
+                            <button className="btn__form--ctrl">Cập nhật sản phẩm</button>
                         </div>
                     </form>
                 </div>
