@@ -4,7 +4,6 @@ import Home from './pages/Home';
 import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
-import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
@@ -22,6 +21,7 @@ import CreateWareHouse from './pages/Admin/CreateWareHouse';
 import ListWareHouse from './pages/Admin/ListWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
+import DetailProduct from './components/DetailProduct';
 function App() {
     return (
         <Router>
@@ -30,7 +30,7 @@ function App() {
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
-                    <Route path="/productdetail" element={<ProductDetail />} />
+                    <Route path="/productdetail" element={<DetailProduct />} />
                     <Route path="/tekzone" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
