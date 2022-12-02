@@ -10,6 +10,7 @@ const CreateCatePost = () => {
     const [modal, setModal] = useState(false);
     const [name, setName] = useState();
     const [colorCode, setColorCode] = useState();
+    const [messStatus, setMessStatus] = useState();
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -20,15 +21,17 @@ const CreateCatePost = () => {
             setLoading(true);
             try {
                 const result = await colorApi.create(data);
-                console.log(result);
                 setLoading(false);
+                setMessStatus(result.status);
+                setModal(true);
             } catch (error) {
                 console.log('Failed to create color: ', error);
+                setMessStatus('Không thành công');
                 setLoading(false);
+                setModal(true);
             }
         };
-        setModal(true);
-        // createColor();
+        createColor();
     };
     return (
         <div className="wrapper">
@@ -37,7 +40,7 @@ const CreateCatePost = () => {
                 <h2 className="content__heading--title">Thêm mới màu sắc</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
             </div>
-            {modal && <Modal closeModal={setModal} />}
+            {modal && <Modal closeModal={setModal} message={messStatus} />}
 
             <div className="content__wrapper">
                 <div className="content__main">

@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import style from '~/assets/scss/Modal.module.scss';
 import images from '~/assets/images';
 const cx = classNames.bind(style);
-const Modal = (closeModal) => {
+const Modal = ({ closeModal, message }) => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('modal__content')}>
@@ -10,7 +10,7 @@ const Modal = (closeModal) => {
                     <img src={images.successIcon} className={cx('modal__icon')} />
                 </div>
                 <div className={cx('modal__content--mess')}>
-                    <p className={cx('modal__mess')}>Thành công !</p>
+                    <p className={cx('modal__mess')}>{message}!</p>
                     <span className={cx('modal__sub--mess')}>Sản phẩm đã được thêm vào cửa hàng</span>
                 </div>
                 <div className={cx('modal__content--btn')}>

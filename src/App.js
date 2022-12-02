@@ -19,6 +19,7 @@ import CreateColor from './pages/Admin/CreateColor';
 import ListColor from './pages/Admin/ListColor';
 import LoginAdmin from './pages/Admin/LoginAdmin';
 import CreateWareHouse from './pages/Admin/CreateWareHouse';
+import ListWareHouse from './pages/Admin/ListWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 function App() {
@@ -54,6 +55,7 @@ function App() {
                     <Route path="color/add" element={<CreateColor />} />
                     <Route path="color/list" element={<ListColor />} />
                     <Route path="warehouse/add" element={<CreateWareHouse />} />
+                    <Route path="warehouse/list" element={<ListWareHouse />} />
                 </Route>
             </Routes>
         </Router>
