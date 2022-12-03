@@ -2,14 +2,17 @@ import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/Category.module.scss';
 import React, { useEffect, useState } from 'react';
-import { useMemo } from 'react';
 import productApi from '~/api/productApi';
 import cateProductApi from '~/api/cateProductApi';
+import { useMemo } from 'react';
 const cx = classNames.bind(style);
 const Category = () => {
-    const { state } = useLocation();
-    const slugCate = state.data.slug;
-    const CateID = state.data.id;
+    const { search } = useLocation();
+    const Search = useMemo(() => {
+        return new URLSearchParams(search);
+    }, [search]);
+    // const { state } = useLocation();
+    const CateID = Search.get('id');
     const [select, SetSelect] = useState();
 
     const [dataCategory, setDataCategory] = useState();
@@ -24,7 +27,7 @@ const Category = () => {
         const fetchAllCategory = async () => {
             try {
                 const Category = await cateProductApi.getAll();
-                const ListCategoryData = Category?.data?.filter((item) => item.id === CateID);
+                const ListCategoryData = Category?.data?.filter((item) => item.id == CateID);
                 if (ListCategoryData.length > 0) {
                     setDataCategory(ListCategoryData[0].subs);
                 }
@@ -110,11 +113,13 @@ const Category = () => {
             <div className={cx('container-productbox')}>
                 {itemProductsActive?.map((item, index) => {
                     return (
-                        <div className={cx('olw-item')} key={item.id}>
+                        <div className={cx('olw-item')} key={index}>
                             <Link
-                                to={`/productdetail?slug=${slugCate}/${item.slug}`}
-                                state={{ item }}
-                                end="true"
+                                to={`/productdetail?id=${item.id}&slug=${item.slug}`}
+                                state={{
+                                    id: item?.id,
+                                    subcategory_id: item?.subcategory_id,
+                                }}
                                 className={cx('olw-item-link')}
                             >
                                 <div className={cx('olw-newDiscount-head')}>

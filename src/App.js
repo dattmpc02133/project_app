@@ -1,11 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LayoutView from './pages/LayoutView';
 import Home from './pages/Home';
-import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
+<<<<<<< HEAD
 import LoginClient from './pages/LoginClient';
 import ProductDetail from './pages/ProductDetail';
+=======
+>>>>>>> 0d4ddbd38955a71d0bf952210a259e35bcd0904e
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
@@ -16,11 +18,19 @@ import CreatePost from './pages/Admin/CreatePost';
 import CreateProduct from './pages/Admin/CreateProduct';
 import ListProduct from './pages/Admin/ListProduct';
 import EditProduct from './pages/Admin/EditProduct';
+import CreateColor from './pages/Admin/CreateColor';
+import ListColor from './pages/Admin/ListColor';
 import LoginAdmin from './pages/Admin/LoginAdmin';
-
+import CreateWareHouse from './pages/Admin/CreateWareHouse';
+import ListWareHouse from './pages/Admin/ListWareHouse';
+import EditWareHouse from './pages/Admin/EditWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 
+import DetailProduct from './components/DetailProduct';
+import Product from './pages/Product';
+import CreateCategories from './pages/Admin/CreateCategories';
+import CreateBrand from './pages/Admin/CreateBrand';
 function App() {
     return (
         <Router>
@@ -29,7 +39,7 @@ function App() {
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
-                    <Route path="/productdetail" element={<ProductDetail />} />
+                    <Route path="/productdetail" element={<DetailProduct />} />
                     <Route path="/tekzone" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
@@ -52,6 +62,17 @@ function App() {
                     <Route path="product/add" element={<CreateProduct />} />
                     <Route path="product/list" element={<ListProduct />} />
                     <Route path="product/edit/:id/:slug" element={<EditProduct />} />
+                    <Route path="color/add" element={<CreateColor />} />
+                    <Route path="color/list" element={<ListColor />} />
+                    <Route path="warehouse/add" element={<CreateWareHouse />} />
+                    {/* categories admin*/}
+                    <Route path="categories/add" element={<CreateCategories />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
+                    {/* Brand */}
+                    <Route path="brand/add" element={<CreateBrand />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
+                    <Route path="warehouse/list" element={<ListWareHouse />} />
+                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                 </Route>
             </Routes>
         </Router>

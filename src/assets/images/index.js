@@ -19,5 +19,7 @@ const images = {
     iconCB: require('~/assets/images/iconCB.png'),
     loading: require('~/assets/images/loading.gif'),
     user1: require('~/assets/images/khôi.jpg'),
+    successIcon: require('~/assets/images/success.png'),
+    failIcon: require('~/assets/images/failed.png'),
 };
 export default images;

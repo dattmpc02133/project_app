@@ -6,10 +6,10 @@ const brandApi = {
         const url = '/admin/v1/brands';
         return axiosClient.get(url, { params });
     },
-    // get: (id) => {
-    //     const url = `/products/${id}`;
-    //     return axiosClient.get(url);
-    // },
+    create: (data) => {
+        const url = `/brands`;
+        return axiosClient.post(url, data);
+    },
 };
 
 export default brandApi;
