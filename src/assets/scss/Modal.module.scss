@@ -20,7 +20,7 @@
             justify-content: center;
             margin-bottom: 20px;
             .modal__icon {
-                width: 150px;
+                font-size: 12rem;
             }
         }
         .modal__content--mess {
@@ -29,7 +29,7 @@
             .modal__mess {
                 font-size: 2rem;
                 font-weight: 600;
-                color: #09b83e;
+
                 line-height: 2rem;
                 margin-bottom: 10px;
             }
@@ -54,5 +54,13 @@
                 }
             }
         }
+    }
+
+    .success {
+        color: #09b83e;
+    }
+
+    .failed {
+        color: #cd201f;
     }
 }

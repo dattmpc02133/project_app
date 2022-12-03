@@ -20,6 +20,8 @@ import LoginAdmin from './pages/Admin/LoginAdmin';
 import LayoutDetailFooter from './pages/LayoutDetailFooter';
 import Insurance from './pages/Insurance';
 import CreateWareHouse from './pages/Admin/CreateWareHouse';
+import ListWareHouse from './pages/Admin/ListWareHouse';
+import EditWareHouse from './pages/Admin/EditWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 import DetailProduct from './components/DetailProduct';
@@ -65,6 +67,8 @@ function App() {
                     <Route path="footer/add" element={<CreateFooter />} />
                     <Route path="footer/list" element={<ListCateFooter />} />
                     <Route path="footer/edit/:id" element={<EditFooter />} />
+                    <Route path="warehouse/list" element={<ListWareHouse />} />
+                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                 </Route>
             </Routes>
         </Router>

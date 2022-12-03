@@ -32,17 +32,17 @@ const CreateProduct = () => {
     const [discountByVariant, setDiscountByVariant] = useState([]);
 
     useEffect(() => {
-        const fetchBrand = async () => {
-            setLoading(true);
-            try {
-                const result = await brandApi.getAll();
-                setListBrand(result.data.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get brand', error);
-                setLoading(false);
-            }
-        };
+        // const fetchBrand = async () => {
+        //     setLoading(true);
+        //     try {
+        //         const result = await brandApi.getAll();
+        //         setListBrand(result.data.data);
+        //         setLoading(false);
+        //     } catch (error) {
+        //         console.log('Failed to get brand', error);
+        //         setLoading(false);
+        //     }
+        // };
         const fetchColor = async () => {
             setLoading(true);
             try {
@@ -77,7 +77,7 @@ const CreateProduct = () => {
             }
         };
 
-        fetchBrand();
+        // fetchBrand();
         fetchColor();
         fetchCateProduct();
         fetchVariant();

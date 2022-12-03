@@ -1,6 +1,6 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +8,8 @@ const ListCatePost = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [listCate, setListCate] = useState([]);
+    const [electCateFooter, setDelectCateFooter] = useState(false);
+    const deleteCateFoo = useRef();
     useEffect(() => {
         const fetchCatePost = async () => {
             setLoading(true);
@@ -24,20 +26,15 @@ const ListCatePost = () => {
         fetchCatePost();
     }, []);
 
-    const handleDelt = (e) => {
-        setLoading(true);
-        e.preventDefault();
-        const createFooter = async () => {
+    const handleDelete = (id) => {
+        setDelectCateFooter(true);
+        deleteCateFoo.current = id;
+        const deleteFooter = async () => {
             try {
-                const result = await footerApi.detele();
-                setMessage(result.message);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to create: ', error);
-                setLoading(false);
-            }
+                const dltFooter = await footerApi.delete(deleteCateFoo.current);
+            } catch (error) {}
         };
-        createFooter();
+        deleteFooter();
     };
 
     return (
@@ -84,8 +81,9 @@ const ListCatePost = () => {
                                               </td>
                                               <td className="text-center">
                                                   <Link
-                                                      to={`/admin/footer/delete/${item.id}`}
-                                                      onClick={(e) => handleDelt(e)}
+                                                      onClick={() => {
+                                                          handleDelete(item.id);
+                                                      }}
                                                   >
                                                       Xóa
                                                   </Link>

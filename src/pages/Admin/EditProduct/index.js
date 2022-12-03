@@ -37,17 +37,17 @@ const EditProduct = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchBrand = async () => {
-            setLoading(true);
-            try {
-                const result = await brandApi.getAll();
-                setListBrand(result.data.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get brand', error);
-                setLoading(false);
-            }
-        };
+        // const fetchBrand = async () => {
+        //     setLoading(true);
+        //     try {
+        //         const result = await brandApi.getAll();
+        //         setListBrand(result.data.data);
+        //         setLoading(false);
+        //     } catch (error) {
+        //         console.log('Failed to get brand', error);
+        //         setLoading(false);
+        //     }
+        // };
         const fetchColor = async () => {
             setLoading(true);
             try {
@@ -82,7 +82,7 @@ const EditProduct = () => {
             }
         };
 
-        fetchBrand();
+        // fetchBrand();
         fetchColor();
         fetchCateProduct();
         fetchVariant();
@@ -119,7 +119,7 @@ const EditProduct = () => {
             description: description,
             url_image: image,
             specification_infomation: null,
-            brand_id: brand,
+            // brand_id: brand,
             subcategory_id: category,
             variant_ids: variant,
             colors_by_variant_id: colorByVariant,
@@ -167,6 +167,7 @@ const EditProduct = () => {
                 setVariant(arrvariant);
             });
         });
+        console.log(formVariant);
     }, [formVariant]);
 
     useEffect(() => {
