@@ -25,6 +25,7 @@ import Pay from './pages/Pay';
 import DetailProduct from './components/DetailProduct';
 import CreateFooter from './pages/Admin/CreateFooter';
 import ListCateFooter from './pages/Admin/ListCateFooter';
+import EditFooter from './pages/Admin/EditFooter';
 function App() {
     return (
         <Router>
@@ -63,6 +64,7 @@ function App() {
                     <Route path="warehouse/add" element={<CreateWareHouse />} />
                     <Route path="footer/add" element={<CreateFooter />} />
                     <Route path="footer/list" element={<ListCateFooter />} />
+                    <Route path="footer/edit/:id" element={<EditFooter />} />
                 </Route>
             </Routes>
         </Router>

@@ -6,11 +6,6 @@ import footerApi from '~/api/footerApi';
 const cx = classNames.bind(styles);
 
 function AsideFooter() {
-    const handleClick = (id) => {
-        console.log('id là', id);
-    };
-    const { state } = useLocation();
-
     const [footer, setFooter] = useState([]);
 
     useEffect(() => {
@@ -18,7 +13,6 @@ function AsideFooter() {
             try {
                 const footerConAll = await footerApi.getAllContent();
                 setFooter(footerConAll.data);
-                console.log('content', footerConAll.data);
             } catch (error) {
                 console.log('lỗI CONTENT', error);
             }
@@ -30,10 +24,10 @@ function AsideFooter() {
         <div className={cx('wrapper')}>
             <ul className={cx('list-tabs')}>
                 {Array.isArray(footer)
-                    ? footer.map((content, index) => (
-                          <li key={index} onClick={() => handleClick(content.id)} className={cx('list-item')}>
-                              <Link to={`insurance?=${content.slug}`} state={{ content }}>
-                                  {content.title}
+                    ? footer.map((items, index) => (
+                          <li key={index} className={cx('list-item')}>
+                              <Link to={`insurance?=${items.slug}`} state={{ items }}>
+                                  {items.title}
                               </Link>
                           </li>
                       ))

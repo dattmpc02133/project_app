@@ -1,22 +1,36 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import footerApi from '../../../api/footerApi';
-function CreateFooter() {
+import { Link, useParams } from 'react-router-dom';
+
+function EditFooter() {
     const [loading, setLoading] = useState(false);
-    const [cateFooter, setCateFooter] = useState('');
-    const [catePath, setCatePath] = useState('');
+    const [editCateFooter, setEditCateFooter] = useState('');
     const [message, setMessage] = useState();
-    console.log('cateFooter', cateFooter);
-    console.log('catePath', catePath);
+    const [getById, setGetById] = useState();
+    const params = useParams();
+
+    useEffect(() => {
+        const getByIdFooter = async () => {
+            try {
+                const byIdFooter = await footerApi.getById(params.id);
+                setGetById(byIdFooter.data);
+                console.log('danhmcu', byIdFooter.data);
+            } catch (error) {
+                console.log('lỗi lấy id', error);
+            }
+        };
+        getByIdFooter();
+    }, []);
 
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const data = { name: cateFooter };
-        const createFooter = async () => {
+        const data = { name: editCateFooter };
+        const EditFooter = async () => {
             try {
-                const result = await footerApi.create(data);
+                const result = await footerApi.update(data, params.id);
                 setMessage(result.message);
                 setLoading(false);
             } catch (error) {
@@ -24,15 +38,18 @@ function CreateFooter() {
                 setLoading(false);
             }
         };
-        createFooter();
+        EditFooter();
+        console.log('data', data);
     };
+
+    console.log('cập nhật', editCateFooter);
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             <div className="content__heading">
-                <h2 className="content__heading--title">Thêm mới danh mục Footer</h2>
-                <p className="content__heading--subtitle">Danh mục Footer</p>
+                <h2 className="content__heading--title">Cập nhật danh mục Footer</h2>
+                <p className="content__heading--subtitle">Cập nhật Danh mục Footer</p>
             </div>
 
             <div className="content__wrapper">
@@ -40,14 +57,13 @@ function CreateFooter() {
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Tên danh mục Footer</label>
+                                <label htmlFor="ip-name">Cập nhật Tên danh mục Footer</label>
                             </div>
                             <div className="input__text">
                                 <input
-                                    value={cateFooter}
                                     className="input__text--ctrl"
-                                    placeholder="Tên danh mục footer..."
-                                    onChange={(e) => setCateFooter(e.target.value)}
+                                    placeholder="xin chào..."
+                                    onChange={(e) => setEditCateFooter(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -61,7 +77,7 @@ function CreateFooter() {
                         )}
 
                         <div className="btn__form">
-                            <button className="btn__form--ctrl">Thêm danh mục</button>
+                            <button className="btn__form--ctrl">Cập nhật danh mục</button>
                         </div>
                     </form>
                 </div>
@@ -70,4 +86,4 @@ function CreateFooter() {
     );
 }
 
-export default CreateFooter;
+export default EditFooter;

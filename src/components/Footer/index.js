@@ -12,9 +12,6 @@ const cx = classNames.bind(styles);
 
 function Footer() {
     const [active, setActive] = useState('');
-    const [activeTow, setActiveTow] = useState('');
-    const [activeThere, setActiveThere] = useState('');
-    const [activeFor, setActiveFor] = useState('');
     const [footerAll, setFooterAll] = useState([]);
 
     useEffect(() => {
@@ -85,7 +82,7 @@ function Footer() {
                                     <span>{item.name}</span>
                                     {item.footerContent.map((items, index) => {
                                         return (
-                                            <Link to={`footer/insurance?=${item.slug}`} state={items} key={index}>
+                                            <Link to={`footer/insurance?=${items.slug}`} state={{ items }} key={index}>
                                                 {items.title}
                                             </Link>
                                         );
@@ -140,45 +137,22 @@ function Footer() {
                             </a>
                         </li>
 
-                        <li>
-                            <a href="#" className={cx('color-active')}>
-                                Tích điểm quà tặng VIP
-                            </a>
-                        </li>
+                        {footerAll.map((mobi, index) => (
+                            <li key={index}>
+                                <label htmlFor="contentid">
+                                    <span onClick={() => setActive(!active)}> {mobi.name}</span>
+                                    <input type="checkbox" id="contentid" hidden />
+                                    <div className={!active ? cx('show-active') : cx('show-none')}>
+                                        {mobi.footerContent.map((items, index) => (
+                                            <Link to={`footer/insurance?=${items.slug}`} state={{ items }} key={index}>
+                                                {items.title}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </label>
+                            </li>
+                        ))}
 
-                        <li>
-                            <span onClick={() => setActive(!active)}>Hệ thống cửa hàng</span>
-                            <div className={!active ? cx('show-none') : cx('show-active')}>
-                                <a href="#">Xem cửa hàng</a>
-                                <a href="#">Nội quy cửa hàng</a>
-                                <a href="#">Chất lượng phục vụ</a>
-                                <a href="#">Chính sách đổi hành & đổi trả</a>
-                            </div>
-                        </li>
-                        <li>
-                            <span onClick={() => setActiveTow(!activeTow)}>Hỗ trợ khách hàng</span>
-                            <div className={!activeTow ? cx('show-none') : cx('show-active')}>
-                                <a href="#">Điều kiện giao dịch chung</a>
-                                <a href="#">Xem cửa hàng</a>
-                                <a href="#">Nội quy cửa hàng</a>
-                                <a href="#">Chất lượng phục vụ</a>
-                                <a href="#">Chính sách đổi hành & đổi trả</a>
-                            </div>
-                        </li>
-                        <li>
-                            <span onClick={() => setActiveThere(!activeThere)}>Về thương hiệu TopZone</span>
-                            <div className={!activeThere ? cx('show-none') : cx('show-active')}>
-                                <a href="#">Giới thiệu TopZone</a>
-                                <a href="#">Bán hàng doanh nghiệp </a>
-                                <a href="#">Chính sách bảo mật thông tin</a>
-                            </div>
-                        </li>
-                        <li>
-                            <span onClick={() => setActiveFor(!activeFor)}>Trung tâm bảo hành TopCare</span>
-                            <div className={!activeFor ? cx('show-none') : cx('show-active')}>
-                                <a href="#">Giới thiệu TopCare</a>
-                            </div>
-                        </li>
                         <div className={cx('footer__social')}>
                             <p className={cx('text')}>Kết nối với chúng tôi</p>
                             <a href="#" className={cx('icon-item')}>

@@ -8,7 +8,7 @@ function Insurance() {
     const { state } = useLocation();
 
     console.log(state);
-    const contentId = state.content;
+    const contentId = state.items;
     console.log(contentId);
 
     return (
@@ -18,11 +18,10 @@ function Insurance() {
                     <h1>{contentId.title}</h1>
                 </div>
                 <div className={cx('wrapper-content')}>
-                    <p>{contentId.content}</p>
+                    <p dangerouslySetInnerHTML={{ __html: contentId.content }}></p>
                 </div>
             </div>
         </div>
     );
 }
-
 export default Insurance;

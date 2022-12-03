@@ -223,6 +223,25 @@
                 font-weight: 500;
                 position: relative;
             }
+
+            #contentid:checked ~ .show-active {
+                display: block;
+                a {
+                    padding: 10px 25px 0;
+                }
+            }
+
+            .show-active {
+                display: block;
+                a {
+                    padding: 10px 25px 0;
+                }
+            }
+
+            .show-none {
+                display: none;
+            }
+
             li a {
                 display: block;
                 overflow: hidden;
@@ -245,17 +264,6 @@
                 font-weight: 400;
                 color: #2997ff;
                 margin-right: 4px;
-            }
-
-            .show-none {
-                display: none;
-            }
-
-            .show-active {
-                display: block;
-                a {
-                    padding: 10px 25px 0;
-                }
             }
         }
 

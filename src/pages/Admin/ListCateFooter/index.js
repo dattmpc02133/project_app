@@ -2,9 +2,11 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect } from 'react';
 import footerApi from '../../../api/footerApi';
+import { Link } from 'react-router-dom';
 
 const ListCatePost = () => {
     const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState();
     const [listCate, setListCate] = useState([]);
     useEffect(() => {
         const fetchCatePost = async () => {
@@ -18,8 +20,26 @@ const ListCatePost = () => {
                 setLoading(false);
             }
         };
+
         fetchCatePost();
     }, []);
+
+    const handleDelt = (e) => {
+        setLoading(true);
+        e.preventDefault();
+        const createFooter = async () => {
+            try {
+                const result = await footerApi.detele();
+                setMessage(result.message);
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to create: ', error);
+                setLoading(false);
+            }
+        };
+        createFooter();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -57,8 +77,19 @@ const ListCatePost = () => {
                                               </td>
                                               <td>{item.created_by == null ? 'Null' : item.created_by}</td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                              <td className="text-center">Sửa</td>
-                                              <td className="text-center">Xóa</td>
+                                              <td className="text-center">
+                                                  <Link to={`/admin/footer/edit/${item.id}`} state={{ item }}>
+                                                      Sửa
+                                                  </Link>
+                                              </td>
+                                              <td className="text-center">
+                                                  <Link
+                                                      to={`/admin/footer/delete/${item.id}`}
+                                                      onClick={(e) => handleDelt(e)}
+                                                  >
+                                                      Xóa
+                                                  </Link>
+                                              </td>
                                           </tr>
                                       ))
                                     : false}
