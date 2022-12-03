@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
+import LoginClient from './pages/LoginClient';
 import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
@@ -19,11 +20,12 @@ import LoginAdmin from './pages/Admin/LoginAdmin';
 
 import Login from './components/Login';
 import Pay from './pages/Pay';
+
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<Login/>} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
@@ -34,6 +36,7 @@ function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="/logins" element={<LoginClient/>} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
