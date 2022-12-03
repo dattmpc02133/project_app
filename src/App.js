@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LayoutView from './pages/LayoutView';
 import Home from './pages/Home';
-import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
 import NotFound from './pages/NotFound';
@@ -21,6 +20,9 @@ import CreateWareHouse from './pages/Admin/CreateWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 import DetailProduct from './components/DetailProduct';
+import Product from './pages/Product';
+import CreateCategories from './pages/Admin/CreateCategories';
+import CreateBrand from './pages/Admin/CreateBrand';
 function App() {
     return (
         <Router>
@@ -54,6 +56,12 @@ function App() {
                     <Route path="color/add" element={<CreateColor />} />
                     <Route path="color/list" element={<ListColor />} />
                     <Route path="warehouse/add" element={<CreateWareHouse />} />
+                    {/* categories admin*/}
+                    <Route path="categories/add" element={<CreateCategories />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
+                    {/* Brand */}
+                    <Route path="brand/add" element={<CreateBrand />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
                 </Route>
             </Routes>
         </Router>

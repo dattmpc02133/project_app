@@ -46,10 +46,7 @@ function Header() {
                 {/* Logo */}
                 <div className={cx('logo-personal')}>
                     <a href="/">
-                        <img className={cx('personal-logo')} src={images.logo} alt="Logo" />
-                    </a>
-                    <a href="#">
-                        <img className={cx('personal_auth-logo')} src={images.logo2} alt="Logo" />
+                        <img className={cx('personal-logo')} src={images.logotest} alt="Logo" />
                     </a>
                 </div>
 
@@ -89,7 +86,7 @@ function Header() {
             <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
                 {categories?.map((data, index) => (
                     <li className={cx('menu-item')} key={index}>
-                        <Link to={data.slug} state={{ data }} className={cx('menu-link')}>
+                        <Link to={`${data.slug}?id=${data.id}`} state={{ id: data.id }} className={cx('menu-link')}>
                             <span>{data.name}</span>
                         </Link>
                     </li>
