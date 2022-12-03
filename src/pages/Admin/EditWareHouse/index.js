@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import Loading from '~/components/Loading';
+
+import { useParams } from 'react-router-dom';
 import locationApi from '~/api/locationApi';
 import wareHouseApi from '~/api/wareHouseApi';
 import '~/assets/scss/admin/Content.scss';
-import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
 
 const CreateWareHouse = () => {
     const [loading, setLoading] = useState(false);
     const [modal, setModal] = useState(false);
+    const [statusHandle, setStatusHandle] = useState(false);
+    const [messageStatus, setMessStatus] = useState('');
     const [nameWareHouse, setNameWareHouse] = useState();
     const [address, setAddress] = useState();
     const [provinceId, setProvinceId] = useState();
@@ -18,9 +22,9 @@ const CreateWareHouse = () => {
     const [districtList, setDistrictList] = useState();
     const [newListDistrict, setNewListDistrict] = useState();
     const [newListWarn, setNewListWarn] = useState();
+    const [wareHouseDetails, setWareHouseDetails] = useState();
 
-    const [messStatus, setMessStatus] = useState();
-    const [statusHandle, setStatusHandle] = useState();
+    const params = useParams();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,68 +36,64 @@ const CreateWareHouse = () => {
             ward_id: wardId,
         };
 
-        const postWareHouse = async () => {
+        const updateWareHouse = async () => {
             setLoading(true);
             try {
-                const result = await wareHouseApi.create(data);
+                const result = await wareHouseApi.update(data, params.id);
                 console.log(result);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
+                setModal(true);
                 setStatusHandle(true);
-                setModal(true);
                 setLoading(false);
+                document.reload();
             } catch (error) {
-                console.log('Failed to createL: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
+                console.log('Failed to update: ', error);
                 setModal(true);
-                setStatusHandle(false);
                 setLoading(false);
             }
         };
-        postWareHouse();
+        updateWareHouse();
     };
 
     useEffect(() => {
-        const fetchAllProvince = async () => {
+        const fetchAllLocation = async () => {
             setLoading(true);
             try {
-                const result = await locationApi.getAllProvince();
-                setProvinceList(result.data);
+                const resultWareHouse = await wareHouseApi.getByID(params.id);
+                setWareHouseDetails(resultWareHouse.data);
+                setNameWareHouse(resultWareHouse.data.name);
+                setAddress(resultWareHouse.data.address);
+                //
+                const resultProvince = await locationApi.getAllProvince();
+                setProvinceList(resultProvince.data);
+                //
+                const resultDistricts = await locationApi.getAllDistricts();
+                setDistrictList(resultDistricts.data);
+
+                setProvinceId(resultWareHouse.data.province_id);
+                const fillerDis = resultDistricts.data?.filter((item) => item.province_id == provinceId);
+                setNewListDistrict(fillerDis);
+
+                //
+                const resultWard = await locationApi.getAllWard();
+                setWardList(resultWard.data);
+
+                setDistrictId(resultWareHouse.data.district_id);
+                const fillerWard = wardList?.filter((item) => item.district_id == resultWareHouse.data.district_id);
+                setNewListWarn(fillerWard);
+                setWardId(resultWareHouse.data.ward_id);
+
                 setLoading(false);
             } catch (error) {
-                console.log('Failed to get province', error);
+                console.log('Failed to get data: ', error);
                 setLoading(false);
             }
         };
-        const fetchAllDistricts = async () => {
-            setLoading(true);
-            try {
-                const result = await locationApi.getAllDistricts();
-                setDistrictList(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get province', error);
-                setLoading(false);
-            }
-        };
-        const fetchAllWard = async () => {
-            setLoading(true);
-            try {
-                const result = await locationApi.getAllWard();
-                setWardList(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get province', error);
-                setLoading(false);
-            }
-        };
-        fetchAllProvince();
-        fetchAllDistricts();
-        fetchAllWard();
+        fetchAllLocation();
     }, []);
 
     useEffect(() => {
-        setDistrictId('');
+        provinceId != wareHouseDetails?.province_id && setDistrictId('');
         const fillerDis = districtList?.filter((item) => item.province_id == provinceId);
         setNewListDistrict(fillerDis);
     }, [provinceId]);
@@ -105,8 +105,8 @@ const CreateWareHouse = () => {
 
     return (
         <div className="wrapper">
-            {loading ? <Loading /> : ''}
-            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
+            {loading && <Loading />}
+            {modal && <Modal closeModal={setModal} message={messageStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới kho</h2>
                 <p className="content__heading--subtitle">Kho sản phẩm</p>
@@ -124,6 +124,7 @@ const CreateWareHouse = () => {
                                     // value={name}
                                     id="name"
                                     type="text"
+                                    value={nameWareHouse}
                                     required
                                     onChange={(e) => setNameWareHouse(e.target.value)}
                                     className="input__text--ctrl"
@@ -139,6 +140,7 @@ const CreateWareHouse = () => {
                             <div className="input__text">
                                 <select
                                     id="CateProduct"
+                                    value={provinceId}
                                     onChange={(e) => setProvinceId(e.target.value)}
                                     className="input__text--ctrl"
                                     required
@@ -187,6 +189,7 @@ const CreateWareHouse = () => {
                                     onChange={(e) => setWardId(e.target.value)}
                                     className="input__text--ctrl"
                                     required
+                                    value={wardId}
                                 >
                                     <option>--Chọn phường, xã, thị trấn--</option>
                                     {Array.isArray(newListWarn) &&
@@ -209,6 +212,7 @@ const CreateWareHouse = () => {
                                     id="address"
                                     required
                                     type="text"
+                                    value={address}
                                     onChange={(e) => setAddress(e.target.value)}
                                     className="input__text--ctrl"
                                     placeholder="271/Nguyễn Văn Linh"
@@ -216,7 +220,7 @@ const CreateWareHouse = () => {
                             </div>
                         </div>
                         <div className="btn__form">
-                            <button className="btn__form--ctrl">Thêm kho sản phẩm</button>
+                            <button className="btn__form--ctrl">Cập nhật kho sản phẩm</button>
                         </div>
                     </form>
                 </div>

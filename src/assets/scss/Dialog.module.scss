@@ -1,0 +1,95 @@
+:root {
+    --warn-color: #ff5700;
+}
+.wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .content__wrapper {
+        display: flex;
+        // align-items: center;
+        // justify-content: center;
+        flex-direction: column;
+        background-color: #fff;
+        min-width: 500px;
+        .content__heading {
+            height: 50px;
+            width: 100%;
+            background-color: var(--warn-color);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            .close__btn {
+                padding: 10px;
+                cursor: pointer;
+                .closeIcon {
+                    font-size: 2.4rem;
+                    color: #fff;
+                }
+            }
+        }
+
+        .content__main {
+            padding: 10px;
+            .content__bottom {
+                padding: 20px 20px;
+                .content__notify {
+                    display: flex;
+                    align-items: center;
+                    .content__notify--icon {
+                        margin-right: 20px;
+                        .warningIcon {
+                            font-size: 4rem;
+                            color: var(--warn-color);
+                        }
+                    }
+                    .content__notify--mess {
+                        flex: 1;
+                        p {
+                            line-height: 2rem;
+                        }
+                    }
+                }
+            }
+
+            .content__control {
+                padding: 10px 20px;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                .content__btn {
+                    .btn__ctrl {
+                        background-color: transparent;
+                        padding: 10px;
+                        border: 1px solid #ccc;
+                        font-weight: 600;
+                        color: #777;
+                        cursor: pointer;
+                        &:hover {
+                            background-color: var(--warn-color);
+                            color: #fff;
+                        }
+                    }
+
+                    .active {
+                        background-color: var(--warn-color);
+                        color: #fff;
+                        &:hover {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+
+                .content__btn + .content__btn {
+                    margin-left: 20px;
+                }
+            }
+        }
+    }
+}

@@ -17,6 +17,8 @@ import CreateColor from './pages/Admin/CreateColor';
 import ListColor from './pages/Admin/ListColor';
 import LoginAdmin from './pages/Admin/LoginAdmin';
 import CreateWareHouse from './pages/Admin/CreateWareHouse';
+import ListWareHouse from './pages/Admin/ListWareHouse';
+import EditWareHouse from './pages/Admin/EditWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 import DetailProduct from './components/DetailProduct';
@@ -62,6 +64,8 @@ function App() {
                     {/* Brand */}
                     <Route path="brand/add" element={<CreateBrand />} />
                     <Route path="categories/list" element={<ListCatePost />} />
+                    <Route path="warehouse/list" element={<ListWareHouse />} />
+                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                 </Route>
             </Routes>
         </Router>
