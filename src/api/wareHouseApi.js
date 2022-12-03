@@ -10,7 +10,11 @@ const wareHouseApi = {
         const url = '/warehouses';
         return axiosClient.post(url, data);
     },
-    get: (id) => {
+    update: (data, id) => {
+        const url = `/warehouses/${id}`;
+        return axiosClient.put(url, data);
+    },
+    getByID: (id) => {
         const url = `/warehouses/${id}`;
         return axiosClient.get(url);
     },

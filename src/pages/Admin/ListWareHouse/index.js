@@ -1,17 +1,29 @@
+import { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import wareHouseApi from '~/api/wareHouseApi';
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
-import { useState, useEffect } from 'react';
-import wareHouseApi from '~/api/wareHouseApi';
 
 const ListWareHouse = () => {
     const [loading, setLoading] = useState(false);
     const [listWareHouse, setListWareHouse] = useState([]);
+    const [comfirm, setComfirm] = useState(false);
+    const [messStatus, setMessStatus] = useState(false);
+    const [statusHandle, setStatusHandle] = useState(false);
+    const [modal, setModal] = useState(false);
+
+    const idWarehouse = useRef();
+
+    const handleDelete = (id) => {
+        setComfirm(true);
+        idWarehouse.current = id;
+    };
+
     useEffect(() => {
         const fetchWareHouse = async () => {
             setLoading(true);
             try {
                 const result = await wareHouseApi.getAll();
-                console.log(result.data);
                 setListWareHouse(result.data);
                 setLoading(false);
             } catch (error) {
@@ -53,7 +65,7 @@ const ListWareHouse = () => {
                                 {Array.isArray(listWareHouse) &&
                                     listWareHouse.map((item, index) => (
                                         <tr key={item.id}>
-                                            <td>{index++}</td>
+                                            <td>{index + 1}</td>
                                             <td>{item.name}</td>
                                             <td>{item.province}</td>
                                             <td>{item.district}</td>
@@ -64,8 +76,17 @@ const ListWareHouse = () => {
                                             </td>
                                             <td>{item.created_by == null ? 'Null' : item.created_by}</td>
                                             <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                            <td className="text-center">Sửa</td>
-                                            <td className="text-center">Xóa</td>
+                                            <td className="text-center btn__tbl">
+                                                <Link to={`/admin/warehouse/edit/${item.id}`}>Sửa</Link>
+                                            </td>
+                                            <td
+                                                className="text-center btn__tbl"
+                                                onClick={() => {
+                                                    handleDelete(item.id);
+                                                }}
+                                            >
+                                                Xóa
+                                            </td>
                                         </tr>
                                     ))}
                             </tbody>
