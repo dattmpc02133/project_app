@@ -3,11 +3,8 @@ import LayoutView from './pages/LayoutView';
 import Home from './pages/Home';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
-<<<<<<< HEAD
 import LoginClient from './pages/LoginClient';
 import ProductDetail from './pages/ProductDetail';
-=======
->>>>>>> 0d4ddbd38955a71d0bf952210a259e35bcd0904e
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
@@ -46,7 +43,7 @@ function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
-                    <Route path="/logins" element={<LoginClient/>} />
+                    <Route path="/logins" element={<LoginClient />} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
