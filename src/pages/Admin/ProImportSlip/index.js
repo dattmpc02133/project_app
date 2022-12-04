@@ -28,9 +28,9 @@ const ProImportSlip = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = {
-            "name"
-        };
+        // const data = {
+        //     name:
+        // };
 
         // const postStore = async () => {
         //     setLoading(true);
