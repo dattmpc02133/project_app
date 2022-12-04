@@ -21,6 +21,10 @@ import Insurance from './pages/Insurance';
 import CreateWareHouse from './pages/Admin/CreateWareHouse';
 import ListWareHouse from './pages/Admin/ListWareHouse';
 import EditWareHouse from './pages/Admin/EditWareHouse';
+import CreateStore from './pages/Admin/CreateStore';
+import ListStore from './pages/Admin/ListStore';
+import EditStore from './pages/Admin/EditStore';
+import ProImportSlip from './pages/Admin/ProImportSlip';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 import DetailProduct from './components/DetailProduct';
@@ -39,7 +43,6 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login />} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
@@ -90,6 +93,10 @@ function App() {
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                     {/* subs */}
                     <Route path="subs/add" element={<CreateSubs />} />
+                    <Route path="store/add" element={<CreateStore />} />
+                    <Route path="store/list" element={<ListStore />} />
+                    <Route path="store/edit/:id" element={<EditStore />} />
+                    <Route path="importslip/add" element={<ProImportSlip />} />
                 </Route>
             </Routes>
         </Router>

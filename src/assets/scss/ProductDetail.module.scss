@@ -167,6 +167,10 @@
         margin-bottom: var(--p-m-primary);
         .cart-pays {
             display: block;
+            &:hover {
+                opacity: 0.8;
+                cursor: pointer;
+            }
         }
     }
     .check-goods {

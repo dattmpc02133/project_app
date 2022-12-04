@@ -6,6 +6,7 @@ import { GrClose } from 'react-icons/gr';
 import brandApi from '~/api/brandApi';
 import colorApi from '~/api/colorApi';
 import subCateProductApi from '~/api/subCateProductApi';
+import cateProductApi from '~/api/cateProductApi';
 import productApi from '~/api/productApi';
 import variantApi from '~/api/variantApi';
 import '~/assets/scss/admin/Content.scss';
@@ -26,6 +27,7 @@ const EditProduct = () => {
     const [listBrand, setListBrand] = useState([]);
     const [listColor, setListColor] = useState([]);
     const [listCategory, setListCategory] = useState([]);
+    const [listSubCategory, setListSubCategory] = useState([]);
     const [listVariant, setListVariant] = useState([]);
     const [variant, setVariant] = useState([[]]);
     const [colorByVariant, setColorByVariant] = useState([]);
@@ -37,55 +39,28 @@ const EditProduct = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // const fetchBrand = async () => {
-        //     setLoading(true);
-        //     try {
-        //         const result = await brandApi.getAll();
-        //         setListBrand(result.data.data);
-        //         setLoading(false);
-        //     } catch (error) {
-        //         console.log('Failed to get brand', error);
-        //         setLoading(false);
-        //     }
-        // };
-        const fetchColor = async () => {
+        const fetchData = async () => {
             setLoading(true);
             try {
-                const result = await colorApi.getAll();
-                setListColor(result.data);
+                const resultBrand = await brandApi.getAll();
+                setListBrand(resultBrand.data.data);
+                const resultColor = await colorApi.getAll();
+                setListColor(resultColor.data);
+                const resultSubCate = await subCateProductApi.getAll();
+                setListSubCategory(resultSubCate.data);
+                const resultCate = await cateProductApi.getAll();
+                setListCategory(resultCate.data);
+                const resultVariant = await variantApi.getAll();
+                setListVariant(resultVariant.data);
+
                 setLoading(false);
             } catch (error) {
-                console.log('Failed to get brand', error);
-                setLoading(false);
-            }
-        };
-        const fetchCateProduct = async () => {
-            setLoading(true);
-            try {
-                const result = await subCateProductApi.getAll();
-                setListCategory(result.data.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get brand', error);
-                setLoading(false);
-            }
-        };
-        const fetchVariant = async () => {
-            setLoading(true);
-            try {
-                const result = await variantApi.getAll();
-                setListVariant(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get brand', error);
+                console.log('Failed to get data', error);
                 setLoading(false);
             }
         };
 
-        // fetchBrand();
-        fetchColor();
-        fetchCateProduct();
-        fetchVariant();
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -241,11 +216,13 @@ const EditProduct = () => {
 
     const getColor = (id) => {
         if (id > 0) {
-            let color = listColor.filter((item) => item.id == id);
-            return color[0].color_code;
+            let color = listColor?.filter((item) => item.id == id);
+            return color[0]?.color_code;
         }
         return null;
     };
+
+    console.log(product);
 
     // End Logic Form Variant
     // const arrvariantProduct = [];
