@@ -2,6 +2,28 @@
     display: block;
     overflow: hidden;
     margin: 0 auto 80px;
+    .btn-class {
+        display: block;
+        overflow: hidden;
+        width: 370px;
+        background: #323232;
+        border: 2px solid #323232;
+        border-radius: 12px;
+        text-align: center;
+        color: var(--sub-white-color);
+        margin: 14px auto 57px;
+        position: relative;
+        .btn-add-More {
+            color: var(--sub-white-color);
+            padding: 18px 0;
+            display: block;
+            &:hover {
+                cursor: pointer;
+                border-radius: 12px;
+                box-shadow: rgba(134, 134, 134, 0.15) 1.95px 1.95px 2.6px;
+            }
+        }
+    }
 }
 .logo-slide {
     span {
@@ -9,7 +31,8 @@
         align-items: center;
         display: flex;
         justify-content: center;
-        margin: 0 auto 80px;
+        margin: 0 auto 50px;
+        line-height: 4rem;
         color: var(--sub-white-color);
         .personal_auth-logo {
             color: var(--sub-white-color);
@@ -59,7 +82,6 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
-        justify-content: space-between;
         .olw-item {
             background: #323232;
             border-radius: 24px;
