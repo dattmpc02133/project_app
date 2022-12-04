@@ -86,11 +86,7 @@ function Footer() {
                                     <span>{item.name}</span>
                                     {item.footerContent.map((items, index) => {
                                         return (
-                                            <Link
-                                                to={`footer/insurance/id=${items.id}`}
-                                                state={{ id: item.id }}
-                                                key={index}
-                                            >
+                                            <Link to={`footer/insurance?id=${items.id}`} state={{ items }} key={index}>
                                                 {items.title}
                                             </Link>
                                         );

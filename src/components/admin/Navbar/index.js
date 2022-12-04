@@ -566,13 +566,13 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="post/add"
+                                        to="footer/content/add"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="post/list"
+                                        to="footer/content/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách

@@ -23,7 +23,7 @@ const footerApi = {
 
     getAllContent: (param) => {
         const url = 'client/footer-content/load-all';
-        return axiosClient.get(url, { param });
+        return axiosClient.get(url, param);
     },
     getById: (id) => {
         const url = `/footer-category/${id}`;
@@ -38,6 +38,11 @@ const footerApi = {
     getByIdContent: (id) => {
         const url = `/footer-category/${id}`;
         return axiosClient.get(url);
+    },
+
+    createContent: (datas) => {
+        const url = '/client/footer-content/load-all';
+        return axiosClient.post(url, datas);
     },
 };
 
