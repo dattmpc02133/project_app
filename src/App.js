@@ -26,7 +26,10 @@ import Product from './pages/Product';
 import CreateCategories from './pages/Admin/CreateCategories';
 import CreateBrand from './pages/Admin/CreateBrand';
 import LoginClient from './pages/LoginClient';
-import LoginUser from './pages/LoginUser';
+import LoginUpdate from './pages/LoginUpdate';
+import LoginHistoryCart from './pages/LoginHistoryCart';
+
+
 function App() {
     return (
         <Router>
@@ -43,7 +46,8 @@ function App() {
                     <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
                     <Route path="/logins" element={<LoginClient />} />
-                    <Route path="/loginuser" element={<LoginUser />} />
+                    <Route path="/uplogin" element={<LoginUpdate />} />
+                    <Route path="/hislogin" element={<LoginHistoryCart />} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
