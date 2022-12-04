@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import locationApi from '~/api/locationApi';
 import wareHouseApi from '~/api/wareHouseApi';
 import storeApi from '~/api/storeApi';
+import proImportSlip from '~/api/proImportSlip';
 import productApi from '~/api/productApi';
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
@@ -27,27 +28,29 @@ const ProImportSlip = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const data = {};
-
-        const postStore = async () => {
-            setLoading(true);
-            try {
-                const result = await storeApi.create(data);
-
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to createL: ', error);
-                const res = error.response.data;
-                console.log(res);
-                setMessStatus(res.message);
-                setModal(true);
-                setStatusHandle(false);
-                setLoading(false);
-            }
+        const data = {
+            "name"
         };
-        postStore();
+
+        // const postStore = async () => {
+        //     setLoading(true);
+        //     try {
+        //         const result = await storeApi.create(data);
+
+        //         setStatusHandle(true);
+        //         setModal(true);
+        //         setLoading(false);
+        //     } catch (error) {
+        //         console.log('Failed to createL: ', error);
+        //         const res = error.response.data;
+        //         console.log(res);
+        //         setMessStatus(res.message);
+        //         setModal(true);
+        //         setStatusHandle(false);
+        //         setLoading(false);
+        //     }
+        // };
+        // postStore();
     };
 
     useEffect(() => {
@@ -56,7 +59,7 @@ const ProImportSlip = () => {
             try {
                 const resultWareHouse = await wareHouseApi.getAll();
                 setListWareHouse(resultWareHouse.data);
-                const resultProduct = await productApi.getAll();
+                const resultProduct = await proImportSlip.getProductSlip();
                 setListProduct(resultProduct.data);
                 setLoading(false);
             } catch (error) {
@@ -71,13 +74,12 @@ const ProImportSlip = () => {
         const idProduct = e.target.value;
         setProductId(idProduct);
         const listVariant = listProduct?.filter((item) => item.id == idProduct);
-        setListVariant(listVariant[0].variants);
+        setListVariant(listVariant[0]?.proVariant);
     };
 
     const changeVariantId = (e) => {
         const idVariant = e.target.value;
         setVariantId(idVariant);
-        console.log(listProduct);
     };
 
     return (
@@ -115,6 +117,22 @@ const ProImportSlip = () => {
                         ) : (
                             false
                         )}
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="note">Ghi chú</label>
+                            </div>
+                            <div className="input__text">
+                                <input
+                                    // value={name}
+                                    id="note"
+                                    type="text"
+                                    // onChange={(e) => changeTitle(e)}
+                                    className="input__text--ctrl"
+                                    placeholder="Ghi chú..."
+                                />
+                            </div>
+                        </div>
 
                         <div className="input__group">
                             <div className="input__label">

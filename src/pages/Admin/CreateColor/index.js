@@ -7,9 +7,9 @@ import '~/assets/scss/admin/Content.scss';
 
 const CreateCatePost = () => {
     const [loading, setLoading] = useState(false);
-    const [modal, setModal] = useState(false);
     const [name, setName] = useState();
     const [colorCode, setColorCode] = useState();
+    const [modal, setModal] = useState(false);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const handleSubmit = (e) => {

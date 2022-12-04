@@ -3,7 +3,7 @@ import axiosClient from './axiosClient';
 // api/productApi.js
 const cateProductApi = {
     create: (data) => {
-        const url = '/admin/v1/postcategories';
+        const url = '/admin/postcategories';
         return axiosClient.post(url, data);
     },
     getAll: (params) => {

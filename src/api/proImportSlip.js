@@ -1,9 +1,13 @@
 import axiosClient from './axiosClient';
 
 // api/productApi.js
-const subCateProductApi = {
+const proImportSlip = {
     getAll: (params) => {
         const url = '/client/subcategories';
+        return axiosClient.get(url, { params });
+    },
+    getProductSlip: (params) => {
+        const url = '/productsinfoimport';
         return axiosClient.get(url, { params });
     },
     // get: (id) => {
@@ -12,4 +16,4 @@ const subCateProductApi = {
     // },
 };
 
-export default subCateProductApi;
+export default proImportSlip;

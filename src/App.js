@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LayoutView from './pages/LayoutView';
 import Home from './pages/Home';
-import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
 import NotFound from './pages/NotFound';
@@ -27,11 +26,14 @@ import ProImportSlip from './pages/Admin/ProImportSlip';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 import DetailProduct from './components/DetailProduct';
+import Product from './pages/Product';
+import CreateCategories from './pages/Admin/CreateCategories';
+import CreateBrand from './pages/Admin/CreateBrand';
+import LoginClient from './pages/LoginClient';
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login />} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
@@ -42,6 +44,7 @@ function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="/logins" element={<LoginClient />} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
@@ -60,6 +63,12 @@ function App() {
                     <Route path="color/add" element={<CreateColor />} />
                     <Route path="color/list" element={<ListColor />} />
                     <Route path="warehouse/add" element={<CreateWareHouse />} />
+                    {/* categories admin*/}
+                    <Route path="categories/add" element={<CreateCategories />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
+                    {/* Brand */}
+                    <Route path="brand/add" element={<CreateBrand />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                     <Route path="store/add" element={<CreateStore />} />

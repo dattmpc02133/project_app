@@ -3,13 +3,13 @@ import axiosClient from './axiosClient';
 // api/productApi.js
 const brandApi = {
     getAll: (params) => {
-        const url = '/admin/v1/brands';
+        const url = '/admin/brands';
         return axiosClient.get(url, { params });
     },
-    // get: (id) => {
-    //     const url = `/products/${id}`;
-    //     return axiosClient.get(url);
-    // },
+    create: (data) => {
+        const url = `/admin/brands`;
+        return axiosClient.post(url, data);
+    },
 };
 
 export default brandApi;

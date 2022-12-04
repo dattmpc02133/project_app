@@ -3,10 +3,37 @@ import { Link } from 'react-router-dom';
 import style from '~/assets/scss/Cart.module.scss';
 import { SlArrowLeft, SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { CiSearch } from 'react-icons/ci';
+import { useEffect, useState } from 'react';
+import cartApi from '~/api/cartApi';
+import Loading from '~/components/Loading';
 const cx = classNames.bind(style);
 const Cart = () => {
+    const [loading, setLoading] = useState(false);
+    // const [modal, setModal] = useState(false);
+    // const [messStatus, setMessStatus] = useState();
+    // const [statusHandle, setStatusHandle] = useState();
+    const [cart, setCart] = useState();
+    const [listProducts, setListProducts] = useState();
+
+    useEffect(() => {
+        const getCart = async () => {
+            setLoading(true);
+            try {
+                const result = await cartApi.getAll();
+                setCart(result.data);
+                setListProducts(result.data.details);
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to get Cart', error);
+                setLoading(false);
+            }
+        };
+        getCart();
+    }, []);
+    console.log(listProducts);
     return (
         <div className={cx('wrapper')}>
+            {loading ? <Loading /> : ''}
             <div className={cx('content-pay')}>
                 <div className={cx('yourCartBuyMore')}>
                     <Link to="/" className={cx('BuyMore')}>
@@ -15,40 +42,41 @@ const Cart = () => {
                 </div>
                 <div className={cx('middleCart')}>
                     <ul className={cx('listing-cart')}>
-                        <li className={cx('prd-item')}>
-                            <div className={cx('imgsp')}>
-                                <Link to="/iphone">
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/289710/s16/iPhone-14-plus-topzone%20(2)-200x200.png" />
-                                </Link>
-                                <button>
-                                    <span>&times;</span>
-                                    Xóa
-                                </button>
-                            </div>
-                            <div className={cx('prd-infosp')}>
-                                <div className={cx('prd-name-price')}>
-                                    <Link>iPhone 14 Plus 256GB </Link>
-                                    <span>
-                                        26.990.000₫
-                                        <del>30.990.000₫</del>
-                                    </span>
+                        {listProducts?.map((item, index) => (
+                            <li key={index} className={cx('prd-item')}>
+                                <div className={cx('imgsp')}>
+                                    <Link to="/iphone">
+                                        <img src={item.product_image} />
+                                    </Link>
+                                    <button>
+                                        <span>&times;</span>
+                                        Xóa
+                                    </button>
                                 </div>
-                                <div className={cx('prd-promo')}>
-                                    <aside>
-                                        <small className={cx('prd-promotionName')}></small>
-                                        <label>
-                                            6 khuyến mãi <SlArrowDown style={{ fontSize: '1.3rem' }} />
-                                        </label>
-                                    </aside>
-                                </div>
-                                <div className={cx('prd-choose-color')}>
-                                    <div className={cx('prd-size-and-color')}>
+                                <div className={cx('prd-infosp')}>
+                                    <div className={cx('prd-name-price')}>
+                                        <Link>iPhone 14 Plus 256GB </Link>
+                                        <span>
+                                            26.990.000₫
+                                            <del>30.990.000₫</del>
+                                        </span>
+                                    </div>
+                                    <div className={cx('prd-promo')}>
                                         <aside>
+                                            <small className={cx('prd-promotionName')}></small>
                                             <label>
-                                                <span className={cx('prd-text-color')}>Xám</span>
-                                                <SlArrowDown style={{ fontSize: '1.3rem' }} />
+                                                6 khuyến mãi <SlArrowDown style={{ fontSize: '1.3rem' }} />
                                             </label>
-                                            <div className={cx('prd-listColor')}>
+                                        </aside>
+                                    </div>
+                                    <div className={cx('prd-choose-color')}>
+                                        <div className={cx('prd-size-and-color')}>
+                                            <aside>
+                                                <label>
+                                                    <span className={cx('prd-text-color')}>Xám</span>
+                                                    <SlArrowDown style={{ fontSize: '1.3rem' }} />
+                                                </label>
+                                                {/* <div className={cx('prd-listColor')}>
                                                 <div className={cx('select-color')}>
                                                     <img src="https://cdn.tgdd.vn/Products/Images/42/247508/s16/iPhone-14-Pro-topzone%20(4)-200x200.png" />
                                                     <small>Vàng</small>
@@ -57,17 +85,18 @@ const Cart = () => {
                                                     <img src="https://cdn.tgdd.vn/Products/Images/42/247508/s16/iPhone-14-Pro-topzone%20(4)-200x200.png" />
                                                     <small>Đỏ</small>
                                                 </div>
-                                            </div>
-                                        </aside>
-                                    </div>
-                                    <div className={cx('prd-choosenumber')}>
-                                        <div className={cx('minus')}>-</div>
-                                        <input type="text" defaultValue="1" className={cx('number')} />
-                                        <div className={cx('plus')}>+</div>
+                                            </div> */}
+                                            </aside>
+                                        </div>
+                                        <div className={cx('prd-choosenumber')}>
+                                            <div className={cx('minus')}>-</div>
+                                            <input type="text" defaultValue="1" className={cx('number')} />
+                                            <div className={cx('plus')}>+</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                        ))}
                     </ul>
                     <div className={cx('total-provisional')}>
                         <span className={cx('total-quantity')}>

@@ -1,14 +1,14 @@
 import axiosClient from './axiosClient';
 
 // api/productApi.js
-const loginApi = {
-    login: (data) => {
-        const url = '/auth/login';
+const cartApi = {
+    addCart: (data) => {
+        const url = '/carts/add';
         return axiosClient.post(url, data);
     },
-    callsms: (phone) => {
-        const url = `auth/sms?phone=${phone}&action=login`;
-        return axiosClient.get(url);
+    getAll: (params) => {
+        const url = '/carts/view';
+        return axiosClient.get(url, { params });
     },
     // login: (data) => {
     //     const url = '/posts';
@@ -20,4 +20,4 @@ const loginApi = {
     // },
 };
 
-export default loginApi;
+export default cartApi;

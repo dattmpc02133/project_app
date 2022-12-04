@@ -8,11 +8,14 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import cateProductApi from '~/api/cateProductApi';
 
+import cartApi from '~/api/cartApi';
+
 const cx = classNames.bind(styles);
 function Header() {
     const [search, setSearch] = useState();
     const [categories, setCategories] = useState();
     const [open, setOpen] = useState();
+    const [cartNum, setCartNum] = useState();
     const navigate = useNavigate();
     const handleSearch = () => {
         setSearch(!search);
@@ -26,6 +29,9 @@ function Header() {
                 const headerCategory = await cateProductApi.getAll();
                 const ListCategoryData = headerCategory?.data;
                 setCategories(ListCategoryData);
+
+                const resultListCart = await cartApi.getAll();
+                setCartNum(resultListCart?.data?.details?.length);
             } catch (error) {
                 console.log('Failed to fetch Categories: ', error);
             }
@@ -46,10 +52,7 @@ function Header() {
                 {/* Logo */}
                 <div className={cx('logo-personal')}>
                     <a href="/">
-                        <img className={cx('personal-logo')} src={images.logo} alt="Logo" />
-                    </a>
-                    <a href="#">
-                        <img className={cx('personal_auth-logo')} src={images.logo2} alt="Logo" />
+                        <img className={cx('personal-logo')} src={images.logotest} alt="Logo" />
                     </a>
                 </div>
 
@@ -71,7 +74,11 @@ function Header() {
                         <CiSearch className={cx('icon-search')} />
                     </div>
                     <div className={cx('cart-product')}>
-                        <AiOutlineShoppingCart className={cx('icon-cart')} />
+                        {cartNum > 0 && cartNum != undefined && <span className={cx('num-cart')}>{cartNum}</span>}
+
+                        <Link to="cart">
+                            <AiOutlineShoppingCart className={cx('icon-cart')} />
+                        </Link>
                     </div>
                 </div>
                 <form className={!search ? cx('form-search') : cx('form-search', 'active')}>
@@ -89,7 +96,7 @@ function Header() {
             <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
                 {categories?.map((data, index) => (
                     <li className={cx('menu-item')} key={index}>
-                        <Link to={data.slug} state={{ data }} className={cx('menu-link')}>
+                        <Link to={`${data.slug}?id=${data.id}`} state={{ id: data.id }} className={cx('menu-link')}>
                             <span>{data.name}</span>
                         </Link>
                     </li>
