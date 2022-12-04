@@ -9,6 +9,11 @@ const catePostApi = {
         const url = `/admin/categories_post`;
         return axiosClient.get(url, { params });
     },
+
+    createdSubs: (data) => {
+        const url = '/admin/subcategories';
+        return axiosClient.post(url, data);
+    },
     // login: (data) => {
     //     const url = '/posts';
     //     return axiosClient.post(url, data);

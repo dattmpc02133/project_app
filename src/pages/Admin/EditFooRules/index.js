@@ -28,6 +28,7 @@ function EditFooRules() {
                 setGetById(byIdFooter.data);
                 setContent(byIdFooter.data.content);
                 setNameInput(byIdFooter.data.title);
+                setIdSelect(byIdFooter.data);
                 console.log('lấy đc nè', byIdFooter.data);
             } catch (error) {
                 console.log('lỗi lấy id', error);
@@ -47,6 +48,8 @@ function EditFooRules() {
         getAllCate();
         getByIdFooter();
     }, []);
+
+    useEffect(() => {});
 
     const handleSubmit = (e) => {
         setLoading(true);
@@ -68,9 +71,9 @@ function EditFooRules() {
                 console.log('Failed to update: ', error);
                 const res = error.response.data;
                 setMessStatus(res.message);
-                setLoading(false);
                 setModal(true);
                 setStatusHandle(false);
+                setLoading(false);
             }
         };
         updateContents();

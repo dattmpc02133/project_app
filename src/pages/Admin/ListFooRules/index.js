@@ -18,7 +18,7 @@ function ListFooRules() {
         const fetchCatePost = async () => {
             setLoading(true);
             try {
-                const result = await footerApi.getAllContents();
+                const result = await footerApi.getAllContent();
                 setListCate(result.data);
                 setLoading(false);
                 console.log('data', result.data);
@@ -38,7 +38,7 @@ function ListFooRules() {
             try {
                 const dltFooter = await footerApi.deleteContent(deleteContent.current);
                 setMessage(dltFooter.message);
-                const result = await footerApi.getAllContents();
+                const result = await footerApi.getAllContent();
                 setListCate(result.data);
                 setMessStatus(result.status);
                 setStatusHandle(true);
@@ -48,9 +48,9 @@ function ListFooRules() {
                 console.log('Lỗi xóa', error);
                 const res = error.response.data;
                 setMessStatus(res.message);
+                setLoading(false);
                 setModal(true);
                 setStatusHandle(false);
-                setLoading(false);
             }
         };
         deleteFooter();

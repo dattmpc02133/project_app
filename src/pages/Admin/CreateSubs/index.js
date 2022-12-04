@@ -110,7 +110,7 @@ function CreateSubs() {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Danh mục Subs</label>
+                                <label htmlFor="ip-name">Danh mục tin tức</label>
                             </div>
                             <div className="input__text">
                                 <select
@@ -130,16 +130,16 @@ function CreateSubs() {
                                 </select>
                             </div>
                         </div>
-                        {message && typeof message == 'string' ? (
+                        {/* {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
                             </div>
                         ) : (
                             false
-                        )}
+                        )} */}
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Tên danh mục subs</label>
+                                <label htmlFor="ip-name">Tên danh mục chi tiết</label>
                             </div>
                             <div className="input__text">
                                 <input
@@ -151,13 +151,13 @@ function CreateSubs() {
                             </div>
                         </div>
 
-                        {message && typeof message == 'string' ? (
+                        {/* {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
                             </div>
                         ) : (
                             false
-                        )}
+                        )} */}
 
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Thêm danh mục</button>
