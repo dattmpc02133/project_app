@@ -9,7 +9,7 @@ function LoginUpdate() {
     <div className={cx('wapper')}>
        <section>
        <div className={cx('grid')}>
-       <h1 className='title-big'> Tài khoản khách hàng </h1>
+       <h1 className='title-big'> Tài khoản khách hàng </h1>    
             <div className={cx('grid wide')}>
       
             <div className={cx('row')}>
