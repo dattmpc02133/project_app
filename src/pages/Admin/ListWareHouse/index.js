@@ -1,8 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import wareHouseApi from '~/api/wareHouseApi';
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
+
+import Dialog from '~/components/Dialog';
+import Modal from '~/components/Modal';
 
 const ListWareHouse = () => {
     const [loading, setLoading] = useState(false);
@@ -17,6 +20,32 @@ const ListWareHouse = () => {
     const handleDelete = (id) => {
         setComfirm(true);
         idWarehouse.current = id;
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteWareHouse = async () => {
+                setLoading(true);
+                try {
+                    const result = await wareHouseApi.delete(idWarehouse.current);
+                    setMessStatus(result.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    const resultGetWarehouse = await wareHouseApi.getAll();
+                    setListWareHouse(resultGetWarehouse.data);
+                    setLoading(false);
+                } catch (error) {
+                    console.log('Failed to delete color ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteWareHouse();
+        }
     };
 
     useEffect(() => {
@@ -36,6 +65,8 @@ const ListWareHouse = () => {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách kho hàng</h2>
                 <p className="content__heading--subtitle">Kho hàng</p>

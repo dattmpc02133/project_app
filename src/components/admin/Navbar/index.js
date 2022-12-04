@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { BiCast, BiChevronDown, BiCollection, BiCreditCardFront, BiIntersect } from 'react-icons/bi';
 import { TiSocialInstagram, TiHomeOutline, TiLocationArrowOutline, TiPhoneOutline } from 'react-icons/ti';
-
+import { RiAncientGateLine, RiBankLine, RiCalendarEventLine } from 'react-icons/ri';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import images from '~/assets/images';
@@ -18,6 +18,8 @@ const Navbar = () => {
     const [openProduct, setOpenProduct] = useState(false);
     const [openColor, setOpenColor] = useState(false);
     const [openWareHouse, setOpenWareHouse] = useState(false);
+    const [openStore, setOpenStore] = useState(false);
+    const [openImportSlip, setOpenImportSlip] = useState(false);
 
     return (
         <div className={cx('wrapper')}>
@@ -290,7 +292,7 @@ const Navbar = () => {
                                         setOpenWareHouse(!openWareHouse);
                                     }}
                                 >
-                                    <BiCollection className={cx('navbar__content--icon')} />
+                                    <RiBankLine className={cx('navbar__content--icon')} />
                                     <span className={cx('navbar__content--text')}>Kho sản phẩm</span>
                                     <BiChevronDown
                                         className={
@@ -315,6 +317,84 @@ const Navbar = () => {
                                     </NavLink>
                                     <NavLink
                                         to="warehouse/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenStore(!openStore);
+                                    }}
+                                >
+                                    <RiAncientGateLine className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Cửa hàng</span>
+                                    <BiChevronDown
+                                        className={
+                                            openStore
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openStore
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="store/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="store/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenImportSlip(!openImportSlip);
+                                    }}
+                                >
+                                    <RiCalendarEventLine className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Phiếu nhập hàng</span>
+                                    <BiChevronDown
+                                        className={
+                                            openImportSlip
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openImportSlip
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="importslip/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="store/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách

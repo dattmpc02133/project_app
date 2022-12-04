@@ -1,41 +1,42 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
-import colorApi from '~/api/colorApi';
+import storeApi from '~/api/storeApi';
+import { Link } from 'react-router-dom';
 
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
 
-const ListColor = () => {
+const ListStore = () => {
     const [loading, setLoading] = useState(false);
-    const [listCorlor, setListColor] = useState([]);
+    const [listStore, setListStore] = useState([]);
     const [comfirm, setComfirm] = useState(false);
     const [messStatus, setMessStatus] = useState(false);
     const [statusHandle, setStatusHandle] = useState(false);
     const [modal, setModal] = useState(false);
 
-    const idColor = useRef();
+    const idStore = useRef();
 
     const handleDelete = (id) => {
         setComfirm(true);
-        idColor.current = id;
+        idStore.current = id;
     };
 
     const handleAction = (type) => {
         if (type) {
             setComfirm(false);
-            const deleteColor = async () => {
+            const deleteStore = async () => {
                 setLoading(true);
                 try {
-                    const result = await colorApi.delete(idColor.current);
+                    const result = await storeApi.delete(idStore.current);
                     setMessStatus(result.message);
                     setStatusHandle(true);
                     setModal(true);
-                    const resultGetColor = await colorApi.getAll();
-                    setListColor(resultGetColor.data);
+                    const resultGetStore = await storeApi.getAll();
+                    setListStore(resultGetStore.data);
                     setLoading(false);
                 } catch (error) {
-                    console.log('Failed to delete color ', error);
+                    console.log('Failed to delete store ', error);
                     const res = error.response.data;
                     setMessStatus(res.message);
                     setLoading(false);
@@ -43,18 +44,18 @@ const ListColor = () => {
                     setStatusHandle(false);
                 }
             };
-            deleteColor();
+            deleteStore();
         }
     };
 
     useEffect(() => {
         const fetchListColor = async () => {
             try {
-                const result = await colorApi.getAll();
-                setListColor(result.data);
+                const result = await storeApi.getAll();
+                setListStore(result.data);
                 setLoading(false);
             } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
+                console.log('Failed to fetch Store: ', error);
                 setLoading(false);
             }
         };
@@ -66,8 +67,8 @@ const ListColor = () => {
             {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách Màu sắc</h2>
-                <p className="content__heading--subtitle">Sản phẩm</p>
+                <h2 className="content__heading--title">Danh sách cửa hàng, showroom</h2>
+                <p className="content__heading--subtitle">Cửa hàng, showroom</p>
             </div>
 
             <div className="content__wrapper">
@@ -77,29 +78,33 @@ const ListColor = () => {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tên màu sắc</th>
-                                    <th>Mã màu</th>
+                                    <th>Tên cửa hàng</th>
+                                    <th>Kho hàng</th>
+                                    <th>Tỉnh, thành phố</th>
+                                    <th>Quận, huyện</th>
+                                    <th>Phường xã</th>
                                     <th>Trạng thái</th>
-                                    <th>Người tạo</th>
-                                    <th>Người cập nhật</th>
                                     <th colSpan="2" className="text-center">
                                         Thao tác
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(listCorlor)
-                                    ? listCorlor.map((item, index) => (
+                                {Array.isArray(listStore)
+                                    ? listStore.map((item, index) => (
                                           <tr key={item.id}>
                                               <td>{index}</td>
                                               <td>{item.name}</td>
-                                              <td>{item.color_code}</td>
+                                              <td>{item.warehouse}</td>
+                                              <td>{item.province}</td>
+                                              <td>{item.district}</td>
+                                              <td>{item.ward}</td>
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                                  {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
+                                                  {item.is_active == 1 ? 'Đang hoạt động' : 'Nghừng hoạt động'}
                                               </td>
-                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
-                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                              <td className="text-center btn__tbl">Sửa</td>
+                                              <td className="text-center btn__tbl">
+                                                  <Link to={`/admin/store/edit/${item.id}`}>Sửa</Link>
+                                              </td>
                                               <td
                                                   className="text-center btn__tbl"
                                                   onClick={(e) => {
@@ -120,4 +125,4 @@ const ListColor = () => {
     );
 };
 
-export default ListColor;
+export default ListStore;

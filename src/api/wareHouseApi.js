@@ -18,6 +18,10 @@ const wareHouseApi = {
         const url = `/warehouses/${id}`;
         return axiosClient.get(url);
     },
+    delete: (id) => {
+        const url = `/warehouses/${id}`;
+        return axiosClient.delete(url);
+    },
 };
 
 export default wareHouseApi;
