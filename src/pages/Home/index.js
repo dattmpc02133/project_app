@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Slideshow from '../../components/slideshow';
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/Home.module.scss';
-// import images from '../../assets/images';
-// import { Products_list } from '../../services/ApiServices';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Link } from 'react-router-dom';
@@ -11,73 +10,105 @@ import productApi from '../../api/productApi';
 const cx = classNames.bind(style);
 function Home() {
     const [listProducts, setListProducts] = useState();
-    // const svgRef = useRef(null);
-    // const [height, setHeight] = useState();
-    // const [heightProducts, setHeightProducts] = useState();
+    const [listProductItem, setListProductItem] = useState();
+    const [render, setRender] = useState(false);
+    // const [cars] = useState(carsList);
+    const [numberOfitemsShown, setNumberOfItemsToShown] = useState(5);
+
     useEffect(() => {
         const fetchHome = async () => {
             const dataHome = await productApi.getHomeAll();
             setListProducts(dataHome.data);
         };
-        const HomeList = () => {};
         fetchHome();
-    }, []);
-    // listProducts.map((item, index) => {
-    //     item.products.map((product=>{
-    //         console.log("product",);
-    //     }))
-    // });
-    // const handleSeeMore = () => {
-    //     const clientHeight = svgRef.current;
-    //     console.log('clientHeight', clientHeight);
-    // };
-    // console.log('listProducts', listProducts[0].products);
+    }, [listProducts]);
+    const showMore = () => {
+        // if (numberOfitemsShown + 4 <= cars.length) {
+        //     setNumberOfItemsToShown(numberOfitemsShown + 3);
+        // } else {
+        //     setNumberOfItemsToShown(cars.length);
+        // }
+    };
+    const ChangeVariant = ({ itemVariant, listVariants, itemProduct }) => {
+        const result = listVariants?.filter((element) => {
+            if (element?.variant_id == itemVariant?.id) {
+                return element;
+            }
+        });
+        if (result.length > 0) {
+            itemProduct.price = result[0]?.price;
+            setRender(!render);
+        }
+    };
+
     return (
         <>
             <Slideshow />
-            {listProducts?.map((ListPrd) => {
+            {listProducts?.map((ListPrd, index) => {
                 return (
-                    <div className={cx('carousel-slide-box')}>
-                        <a href="#" className={cx('logo-slide')}>
-                            <span>
-                                {/* <img className={cx('personal_auth-logo')} src={images.logo2} /> */}
-                                {ListPrd.name}
-                            </span>
+                    <div className={cx('carousel-slide-box')} key={index}>
+                        <a href="#" className={cx('logo-slide')} key={index}>
+                            <span>{ListPrd.name}</span>
                         </a>
                         <div className={cx('slide-cate-product')}>
                             <div className={cx('slide-owl-stage')}>
-                                {ListPrd.products.map((item) => {
+                                {ListPrd?.products?.map((item, index) => {
                                     return (
-                                        <>
-                                            <div className={cx('olw-item')}>
-                                                <Link
-                                                    // to={`/${product.path}/${item.slug}`}
-                                                    // key={index}
-                                                    className={cx('olw-item-link')}
-                                                >
-                                                    <div className={cx('olw-newDiscount-head')}>
-                                                        {/* <label>{item.news}</label> */}
-                                                        {/* <div className={cx('olw-percent')}>{item.discount}</div> */}
-                                                    </div>
-                                                    <div className={cx('olw-images-box')}>
-                                                        <img
-                                                            src={item.url_image}
-                                                            // alt={item.title}
-                                                            className={cx('olw-img-slide')}
-                                                        />
-                                                    </div>
-                                                    <h3>{item.name}</h3>
-                                                    <span className={cx('price')}>
-                                                        {/* {item.priceReducer} <del>{item.price}</del> */}
-                                                    </span>
-                                                </Link>
-                                            </div>
-                                        </>
+                                        <div className={cx('olw-item')} key={index}>
+                                            <Link
+                                                // to={`/${product.path}/${item.slug}`}
+                                                key={index}
+                                                className={cx('olw-item-link')}
+                                            >
+                                                <div className={cx('olw-newDiscount-head')}>
+                                                    {/* <label>{item.news}</label> */}
+                                                    {/* <div className={cx('olw-percent')}>{item.discount}</div> */}
+                                                </div>
+                                                <div className={cx('olw-images-box')}>
+                                                    <img
+                                                        src={item.url_image}
+                                                        // alt={item.title}
+                                                        className={cx('olw-img-slide')}
+                                                    />
+                                                </div>
+                                                <div className={cx('prods-group')}>
+                                                    <ul>
+                                                        {item?.variants?.map((variant, i) => (
+                                                            <li
+                                                                key={i}
+                                                                onClick={(e) =>
+                                                                    e.preventDefault(
+                                                                        ChangeVariant({
+                                                                            itemVariant: variant,
+                                                                            listVariants:
+                                                                                item?.variantsDetailsByProduct,
+                                                                            itemProduct: item,
+                                                                        }),
+                                                                    )
+                                                                }
+                                                            >
+                                                                {variant.variant_name}GB
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                                <h3>{item.name}</h3>
+
+                                                <span className={cx('price')}>
+                                                    <>
+                                                        {Number(
+                                                            item.price || item?.variantsDetailsByProduct[0]?.price,
+                                                        ).toLocaleString()}
+                                                        đ
+                                                    </>
+                                                </span>
+                                            </Link>
+                                        </div>
                                     );
                                 })}
-                                <div>Xem thêm</div>
                             </div>
                         </div>
+                        <div onClick={() => showMore()}>Xem thêm</div>
                     </div>
                 );
             })}
