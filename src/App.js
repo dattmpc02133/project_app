@@ -30,6 +30,7 @@ import EditFooter from './pages/Admin/EditFooter';
 import Product from './pages/Product';
 import CreateCategories from './pages/Admin/CreateCategories';
 import CreateBrand from './pages/Admin/CreateBrand';
+import LoginClient from './pages/LoginClient';
 function App() {
     return (
         <Router>
@@ -48,6 +49,7 @@ function App() {
                         <Route path="insurance/:id" element={<Insurance />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
+                    <Route path="/logins" element={<LoginClient />} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
