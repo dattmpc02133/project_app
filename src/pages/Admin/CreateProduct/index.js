@@ -6,10 +6,12 @@ import { GrClose } from 'react-icons/gr';
 import brandApi from '~/api/brandApi';
 import colorApi from '~/api/colorApi';
 import subCateProductApi from '~/api/subCateProductApi';
+import cateProductApi from '~/api/cateProductApi';
 import productApi from '~/api/productApi';
 import variantApi from '~/api/variantApi';
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
+import Modal from '~/components/Modal';
 
 const CreateProduct = () => {
     const [name, setName] = useState();
@@ -24,63 +26,43 @@ const CreateProduct = () => {
     const [metaDescription, setMetaDescription] = useState('');
     const [listBrand, setListBrand] = useState([]);
     const [listColor, setListColor] = useState([]);
+    const [listSubCategory, setListSubCategory] = useState([]);
     const [listCategory, setListCategory] = useState([]);
+    const [newSubListCategory, setNewSubListCategory] = useState([]);
+    const [subCategoryId, setSubCategoryId] = useState([]);
     const [listVariant, setListVariant] = useState([]);
     const [variant, setVariant] = useState([[]]);
     const [colorByVariant, setColorByVariant] = useState([]);
     const [priceByVariant, setPriceByVariant] = useState([]);
     const [discountByVariant, setDiscountByVariant] = useState([]);
 
+    const [modal, setModal] = useState(false);
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+
     useEffect(() => {
-        // const fetchBrand = async () => {
-        //     setLoading(true);
-        //     try {
-        //         const result = await brandApi.getAll();
-        //         setListBrand(result.data.data);
-        //         setLoading(false);
-        //     } catch (error) {
-        //         console.log('Failed to get brand', error);
-        //         setLoading(false);
-        //     }
-        // };
-        const fetchColor = async () => {
+        const fetchData = async () => {
             setLoading(true);
             try {
-                const result = await colorApi.getAll();
-                setListColor(result.data);
+                const resultBrand = await brandApi.getAll();
+                setListBrand(resultBrand.data.data);
+                const resultColor = await colorApi.getAll();
+                setListColor(resultColor.data);
+                const resultSubCate = await subCateProductApi.getAll();
+                setListSubCategory(resultSubCate.data);
+                const resultCate = await cateProductApi.getAll();
+                setListCategory(resultCate.data);
+                const resultVariant = await variantApi.getAll();
+                setListVariant(resultVariant.data);
+
                 setLoading(false);
             } catch (error) {
-                console.log('Failed to get brand', error);
-                setLoading(false);
-            }
-        };
-        const fetchCateProduct = async () => {
-            setLoading(true);
-            try {
-                const result = await subCateProductApi.getAll();
-                setListCategory(result.data.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get brand', error);
-                setLoading(false);
-            }
-        };
-        const fetchVariant = async () => {
-            setLoading(true);
-            try {
-                const result = await variantApi.getAll();
-                setListVariant(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get brand', error);
+                console.log('Failed to get data', error);
                 setLoading(false);
             }
         };
 
-        // fetchBrand();
-        fetchColor();
-        fetchCateProduct();
-        fetchVariant();
+        fetchData();
     }, []);
 
     // Logic Form Variant
@@ -96,8 +78,8 @@ const CreateProduct = () => {
             description: description,
             url_image: image,
             specification_infomation: null,
-            brand_id: brand,
-            subcategory_id: category,
+            subcategory_id: subCategoryId,
+
             variant_ids: variant,
             colors_by_variant_id: colorByVariant,
             prices_by_variant_id: priceByVariant,
@@ -108,17 +90,21 @@ const CreateProduct = () => {
             setLoading(true);
             try {
                 const result = await productApi.create(data);
-                console.log(result);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
                 setLoading(false);
             } catch (error) {
                 console.log('Fail to create product', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
                 setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
             }
         };
         createProduct();
         console.log('data', data);
-
-        // setColorByVariant([]);
     };
 
     useEffect(() => {
@@ -225,9 +211,26 @@ const CreateProduct = () => {
 
     // End Logic Form Variant
 
+    const changeCategoryId = (e) => {
+        const idCate = e.target.value;
+        setCategory(idCate);
+        const newListSubCate = listSubCategory.filter((item) => item.category_id == idCate && item.brand_id == brand);
+        setNewSubListCategory(newListSubCate);
+    };
+
+    const changeBrandId = (e) => {
+        const idBrand = e.target.value;
+        setBrand(idBrand);
+        const newListSubCate = listSubCategory.filter(
+            (item) => item.category_id == category && item.brand_id == idBrand,
+        );
+        setNewSubListCategory(newListSubCate);
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
@@ -318,12 +321,34 @@ const CreateProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
+                                <label htmlFor="brandProduct">Thương hiệu</label>
+                            </div>
+                            <div className="input__text">
+                                <select
+                                    id="brandProduct"
+                                    onChange={(e) => changeBrandId(e)}
+                                    className="input__text--ctrl"
+                                >
+                                    <option>--Chọn danh thương hiệu--</option>
+                                    {Array.isArray(listBrand)
+                                        ? listBrand.map((item, index) => (
+                                              <option key={index} value={item.id}>
+                                                  {item.brand_name}
+                                              </option>
+                                          ))
+                                        : console.log('Ko phải Arr')}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
                                 <label htmlFor="CateProduct">Danh mục sản phẩm</label>
                             </div>
                             <div className="input__text">
                                 <select
                                     id="CateProduct"
-                                    onChange={(e) => setCategory(e.target.value)}
+                                    onChange={(e) => changeCategoryId(e)}
                                     className="input__text--ctrl"
                                 >
                                     <option>--Chọn danh mục sản phẩm--</option>
@@ -340,22 +365,22 @@ const CreateProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="brandProduct">Thương hiệu</label>
+                                <label htmlFor="CateProduct">Danh mục chi tiết sản phẩm</label>
                             </div>
                             <div className="input__text">
                                 <select
-                                    id="brandProduct"
-                                    onChange={(e) => setBrand(e.target.value)}
+                                    id="CateProduct"
+                                    onChange={(e) => setSubCategoryId(e.target.value)}
                                     className="input__text--ctrl"
                                 >
-                                    <option>--Chọn danh mục sản phẩm--</option>
-                                    {Array.isArray(listBrand)
-                                        ? listBrand.map((item, index) => (
+                                    <option>--Chọn danh mục chi tiết sản phẩm--</option>
+                                    {Array.isArray(newSubListCategory)
+                                        ? newSubListCategory.map((item, index) => (
                                               <option key={index} value={item.id}>
-                                                  {item.brand_name}
+                                                  {item.name}
                                               </option>
                                           ))
-                                        : console.log('Ko phải Arr')}
+                                        : false}
                                 </select>
                             </div>
                         </div>

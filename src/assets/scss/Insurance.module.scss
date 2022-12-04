@@ -1,0 +1,19 @@
+.wrapper {
+    background-color: #323232;
+    padding: 30px 30px 20px;
+    border-radius: 12px;
+}
+
+.wrapper-container {
+    .wrapper-title {
+        margin-bottom: 15px;
+        line-height: 28px;
+    }
+
+    .wrapper-content {
+        p {
+            text-align: justify;
+            line-height: 18px;
+        }
+    }
+}

@@ -1,25 +1,28 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
-import 'react-image-gallery/styles/css/image-gallery.css';
-import { GoChevronUp, GoPackage } from 'react-icons/go';
-import { FcApproval } from 'react-icons/fc';
-import style from '~/assets/scss/ProductDetail.module.scss';
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
+import { FcApproval } from 'react-icons/fc';
+import { GoChevronUp, GoPackage } from 'react-icons/go';
+import 'react-image-gallery/styles/css/image-gallery.css';
+import style from '~/assets/scss/ProductDetail.module.scss';
 
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 // api
-import productApi from '../../api/productApi';
 import location from '../../api/locationApi.js';
+import productApi from '../../api/productApi';
 import productsBySubCateApi from '../../api/ProductsBySubCateApi';
+import cartApi from '~/api/cartApi';
 
 // tab descriptions
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import Modal from '~/components/Modal';
+import Loading from '~/components/Loading';
 
 const cx = classNames.bind(style);
 const settings = {
@@ -55,6 +58,7 @@ const settings = {
         },
     ],
 };
+
 const DetailProduct = () => {
     const { state, search } = useLocation();
     const Search = useMemo(() => {
@@ -83,6 +87,13 @@ const DetailProduct = () => {
     const [provinceDistrictWardActive, setProvinceDistrictWardActive] = useState();
 
     const [listProductsBySubCate, setListProductsBySubCate] = useState();
+
+    //
+    const [loading, setLoading] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+
     const listColors = useMemo(() => {
         if (dataVariants) {
             const results = dataVariants?.filter((variant) => variant?.variant_id == variantID);
@@ -120,6 +131,7 @@ const DetailProduct = () => {
     const HandleCityDist = () => {
         setCity(!city);
     };
+
     useEffect(() => {
         const fetchProductDetails = async () => {
             try {
@@ -174,6 +186,7 @@ const DetailProduct = () => {
         fetchDistrict();
         fetchStockings();
     }, [provinceID, productID, itemColorActive]);
+
     useEffect(() => {
         const fetchProductsBySubCateApi = async () => {
             const result = await productsBySubCateApi.getBySubCate(IDSubCategory);
@@ -182,9 +195,39 @@ const DetailProduct = () => {
         fetchProductsBySubCateApi();
     }, [IDSubCategory]);
 
+    const handleAddToCart = (e) => {
+        console.log(itemColorActive);
+        const data = {
+            product_id: itemColorActive.product_id,
+            variant_id: itemColorActive.variant_id,
+            quantity: 1,
+        };
+        const addToCart = async () => {
+            setLoading(true);
+            try {
+                const result = await cartApi.addCart(data);
+                console.log(result);
+                setLoading(false);
+                setMessStatus(result.message);
+                setStatusHandle(true);
+                setModal(true);
+            } catch (error) {
+                console.log('Failed to add to cart: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
+                setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
+            }
+        };
+        addToCart();
+    };
+
     return (
         <>
             <div className={cx('detail-box')}>
+                {loading ? <Loading /> : ''}
+                {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
                 {productDetail ? (
                     <div className={cx('content')}>
                         <div className={cx('article', 'c-6')}>
@@ -236,7 +279,9 @@ const DetailProduct = () => {
                                     </div>
                                 </div>
                                 <div className={cx('btn-pays')}>
-                                    <div className={cx('cart-pays')}>Mua ngay</div>
+                                    <div className={cx('cart-pays')} onClick={(e) => handleAddToCart(e)}>
+                                        Mua ngay
+                                    </div>
                                 </div>
                                 <div className={cx('box-promotion')}>
                                     <span>Khuyến mãi</span>

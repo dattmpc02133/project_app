@@ -3,7 +3,7 @@ import axiosClient from './axiosClient';
 // api/productApi.js
 const subCateProductApi = {
     getAll: (params) => {
-        const url = '/admin/subcategories';
+        const url = '/client/subcategories';
         return axiosClient.get(url, { params });
     },
     // get: (id) => {

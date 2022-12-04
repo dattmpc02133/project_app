@@ -6,19 +6,18 @@ import brandApi from '~/api/brandApi';
 const CreateBrand = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
-    const [nameCate, setNameCate] = useState('');
+    const [nameBrand, setNameBrand] = useState('');
     const [selection, setSelection] = useState();
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const data = {
-        //     brand_name:brand_name,
-        //     slug:slug
-        // };
-
+        const data = {
+            brand_name: nameBrand,
+            is_post: selection,
+        };
         const createBrand = async () => {
             setLoading(true);
             try {
-                const result = await brandApi.create();
+                const result = await brandApi.create(data);
                 console.log(result);
                 setLoading(false);
             } catch (error) {
@@ -27,11 +26,8 @@ const CreateBrand = () => {
             }
         };
         createBrand();
-
-        // setColorByVariant([]);
     };
     const handleChangeSelections = (id) => {
-        console.log('id', id);
         setSelection(id);
     };
     return (
@@ -57,31 +53,16 @@ const CreateBrand = () => {
                             {selection != null && (
                                 <div className="input__text">
                                     <input
-                                        // value={}
+                                        value={nameBrand}
                                         id="ip-name"
                                         type="text"
                                         className="input__text--ctrl"
-                                        placeholder="Tên danh mục..."
-                                        onChange={(e) => setNameCate(e.target.value)}
+                                        placeholder="Tên thương hiệu..."
+                                        onChange={(e) => setNameBrand(e.target.value)}
                                     />
                                 </div>
                             )}
                         </div>
-                        {/* <div className="input__group">
-                            <div className="input__label">
-                                <label htmlFor="ip-name">Tên thương hiệu</label>
-                            </div>
-                            <div className="input__text">
-                                <input
-                                    value={nameCate}
-                                    id="ip-name"
-                                    type="text"
-                                    className="input__text--ctrl"
-                                    placeholder="Tên danh mục..."
-                                    onChange={(e) => setNameCate(e.target.value)}
-                                />
-                            </div>
-                        </div> */}
                         {/* {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>

@@ -1,11 +1,12 @@
+import React, { useEffect, useState, useMemo } from 'react';
 import classNames from 'classnames/bind';
-import { Link } from 'react-router-dom';
-import styles from '../../assets/scss/TekZone.module.scss';
-import '../../assets/scss/Grid.scss';
-import images from '../../assets/images';
-// import Slideshow from '../../components/slideshow';
-import React from 'react';
+import { useLocation, Link } from 'react-router-dom';
+import styles from '~/assets/scss/TekZone.module.scss';
+import '~/assets/scss/Grid.scss';
+import images from '~/assets/images';
 import Slider from 'react-slick';
+import Loading from '~/components/Loading';
+import catePostApi from '~/api/catePostApi';
 
 const cx = classNames.bind(styles);
 
@@ -17,9 +18,32 @@ function TekZone() {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
+    // const [subCategory, setSubCategory] = useState();
+    const [dataCategory, setDataCategory] = useState();
+    const [loading, setLoading] = useState(false);
+    const { state } = useLocation();
+    const slugCate = state.data.slug;
+    const CateID = state.data.id;
+    useEffect(() => {
+        const fetchAllCategory = async () => {
+            try {
+                const Category = await catePostApi.getAll();
+                const ListCategoryData = Category?.data?.filter((item) => item?.id === CateID);
+                if (ListCategoryData.length > 0) {
+                    setDataCategory(ListCategoryData[0].subs);
+                }
+            } catch (error) {}
+        };
+        fetchAllCategory();
+    }, [CateID]);
+
+    const handleCateId = (id) => {
+        console.log('danh mục', id);
+    };
 
     return (
         <div className={cx('wrapper')}>
+            {loading ? <Loading /> : ''}
             <div className={cx('tekzone')}>
                 <div className={cx('tekzone__list')}>
                     <ul className={cx('list__slider')}>
@@ -101,54 +125,16 @@ function TekZone() {
                 </div>
 
                 <ul className={cx('list__cate')}>
-                    <li>
-                        <a href="#">
-                            <img src={images.cate_iphone} alt="Iphone" />
-                            <h3>iPhone</h3>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src={images.cate_mac} alt="Mac" />
-                            <h3>Mac</h3>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src={images.cate_ipad} alt="iPad" />
-                            <h3>iPad</h3>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src={images.cate_watch} alt="Watch" />
-                            <h3>Watch</h3>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img src={images.cate_airpods} alt="AirPods" />
-                            <h3>AirPods</h3>
-                        </a>
-                    </li>
-
-                    {/* <li>
-                        <a href="#">
-                            <img src={images.cate_pk} alt="Phụ Kiênk" />
-                            <h3>Phụ Kiện</h3>
-                        </a>
-                    </li> */}
-
-                    <li>
-                        <a href="#">
-                            <img src={images.cate_dichvu} alt="Dịch vụ" />
-                            <h3>Dịch vụ</h3>
-                        </a>
-                    </li>
+                    {Array.isArray(dataCategory)
+                        ? dataCategory?.map((list) => (
+                              <li key={list?.id}>
+                                  <div onClick={() => handleCateId(list.id)}>
+                                      <img src={images.cate_iphone} alt={list?.name} />
+                                      <h3>{list?.name}</h3>
+                                  </div>
+                              </li>
+                          ))
+                        : false}
                 </ul>
 
                 <div className={cx('newsest__list')}>
@@ -156,25 +142,25 @@ function TekZone() {
                         <h1>Mới nhất</h1>
                     </div>
                     <div className={cx('newsest')}>
-                        <div className={cx('news-item')}>
-                            <Link to={'tekzonedetail'}>
-                                <div className={cx('img-item')}>
-                                    <img src={images.tekitem} alt="Anh post" />
-                                </div>
-                                <div className={cx('title-item')}>
-                                    <h3>
-                                        Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn giá
-                                        hời, rinh ngay về nhà thôi kẻo lỡ
-                                    </h3>
+                        {/* {Array.isArray(posts)
+                            ? posts.map((listPost) => (
+                                  <div className={cx('news-item')} key={listPost.id}>
+                                      <Link to={'tekzonedetail'}>
+                                          <div className={cx('img-item')}>
+                                              <img src={images.tekitem} alt={listPost.title} />
+                                          </div>
+                                          <div className={cx('title-item')}>
+                                              <h3>{listPost.title}</h3>
+                                              <div className={cx('time-post')}>
+                                                  <p>1 giờ trước</p>
+                                              </div>
+                                          </div>
+                                      </Link>
+                                  </div>
+                              ))
+                            : false} */}
 
-                                    <div className={cx('time-post')}>
-                                        <p>1 giờ trước</p>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-
-                        <div className={cx('news-item')}>
+                        {/* <div className={cx('news-item')}>
                             <a href="#">
                                 <div className={cx('img-item')}>
                                     <img src={images.tekitem} alt="Anh post" />
@@ -225,7 +211,7 @@ function TekZone() {
                                     </div>
                                 </div>
                             </a>
-                        </div>
+                        </div> */}
 
                         <div className={cx('viewmore-news')}>
                             <a href="#">Xem thêm</a>
