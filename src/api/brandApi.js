@@ -7,7 +7,7 @@ const brandApi = {
         return axiosClient.get(url, { params });
     },
     create: (data) => {
-        const url = `/brands`;
+        const url = `/admin/brands`;
         return axiosClient.post(url, data);
     },
 };
