@@ -5,12 +5,13 @@ const cx = classNames.bind(styles);
 
 function LoginClient() {
     return <div className={cx('wapper')}>
+        <section>
      <div className={cx('grid')}>
         <div className={cx('grid wide')}>
-         
-            <div className={cx('col l-12 m-12 c-12')}> 
+        <div className={cx(' header col l-12 m-12 c-12')}> 
+               <div className={cx('from')}>
                <h1 className={cx('big-title')}> Đăng kí tài khoản</h1>
-              <section>
+            
                   <form  className={cx('form_login')}>
                      <label  className={cx('icon')}>
                        <BiUserPin className={cx('icons')}/> 
@@ -22,10 +23,12 @@ function LoginClient() {
                    <button  type='submit' className={cx('submit')}>Đăng kí</button>
          
                   </form>
-              </section>  
-           </div>
+                  </div>
+          
          </div>
       </div>
+      </div>
+      </section>
    </div>
            
         ;
