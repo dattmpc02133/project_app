@@ -3,8 +3,6 @@ import LayoutView from './pages/LayoutView';
 import Home from './pages/Home';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
-import LoginClient from './pages/LoginClient';
-import ProductDetail from './pages/ProductDetail';
 import NotFound from './pages/NotFound';
 import TekZoneDetail from './pages/TekZoneDetail';
 import Cart from './pages/Cart';
@@ -23,16 +21,16 @@ import ListWareHouse from './pages/Admin/ListWareHouse';
 import EditWareHouse from './pages/Admin/EditWareHouse';
 import Login from './components/Login';
 import Pay from './pages/Pay';
-
 import DetailProduct from './components/DetailProduct';
 import Product from './pages/Product';
 import CreateCategories from './pages/Admin/CreateCategories';
 import CreateBrand from './pages/Admin/CreateBrand';
+import LoginClient from './pages/LoginClient';
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login/>} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
