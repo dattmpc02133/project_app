@@ -1,30 +1,30 @@
-
-.wapper{
-    border: 1px solid rgb(88, 88, 88);  
-    border-radius: 4px;
-    margin: 50px 380px 50px 380px;
-
-    
-    .gird{
-       
-        text-align: center;
-        justify-content:center ;
-        border: 8px solid #b1154a;  
-    }
-    .big-title{
+.gird{
+        width: 100%;
+        display: block;
+        padding: 0;
         
+}      
+
+    .from{ 
+        margin-top: 20px;
+        margin-left: 15px;
+        margin-right: 15px;
+        box-shadow:   0 0 20px 0 rgba(0, 0, 0, 0.2), 0px 5px 5px 0 rgba(0, 0, 0, 0.24);
+          
+    .big-title{
         font-size: 3.5rem;
         align-items: center;
         text-align: center;
         justify-content: center;
         color: var(--sub-white-color);
-        padding: 90px 0 40px 0;
+        padding: 100px 0 40px 0;
         display: block;
         overflow: hidden;
         color: var(--color-while);
         line-height: 20px;
         font-weight: 500;
         cursor: pointer;
+
         
     }
         
@@ -32,6 +32,8 @@
             text-align: center;
             padding: 25px;
             margin-bottom: 15px;
+            
+            
             
 
             // .form__field{
@@ -51,6 +53,7 @@
                 font-weight: 600;
                 font-size: 1.5rem;
                 margin-bottom: -25px;   
+                text-align: left;
                 
                
                     }
@@ -109,8 +112,10 @@
                         background-color: #d44179;
                         cursor: pointer;
                     } 
+                }
                   
-                }   
+        }   
                 
-}
+
+
 // background-color: #EA4C8B;
