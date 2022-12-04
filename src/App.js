@@ -34,6 +34,7 @@ import LoginClient from './pages/LoginClient';
 import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
+import CreateSubs from './pages/Admin/CreateSubs';
 function App() {
     return (
         <Router>
@@ -43,7 +44,7 @@ function App() {
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
-                    <Route path="/daimond/:id" element={<TekZone />} />
+                    <Route path="/daimond?id=45" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
@@ -87,6 +88,8 @@ function App() {
                     <Route path="categories/list" element={<ListCatePost />} />
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
+                    {/* subs */}
+                    <Route path="subs/add" element={<CreateSubs />} />
                 </Route>
             </Routes>
         </Router>

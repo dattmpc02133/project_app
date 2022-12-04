@@ -208,7 +208,7 @@ const Navbar = () => {
                                     }}
                                 >
                                     <BiCreditCardFront className={cx('navbar__content--icon')} />
-                                    <span className={cx('navbar__content--text')}>Bảng tin</span>
+                                    <span className={cx('navbar__content--text')}>Danh mục chi tiết</span>
                                     <BiChevronDown
                                         className={
                                             openPost
@@ -225,13 +225,13 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="post/add"
+                                        to="subs/add"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="post/list"
+                                        to="subs/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
