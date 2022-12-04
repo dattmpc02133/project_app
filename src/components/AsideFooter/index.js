@@ -3,32 +3,32 @@ import classNames from 'classnames/bind';
 import styles from '~/assets/scss/AsideFoooter.module.scss';
 import { Link, useLocation } from 'react-router-dom';
 import footerApi from '~/api/footerApi';
+import Loading from '~/components/Loading';
 const cx = classNames.bind(styles);
 
 function AsideFooter() {
     const [footer, setFooter] = useState([]);
-    const [idBy, setIdBy] = useState([]);
-    const { state } = useLocation();
-    const idContent = state.items;
-    const idContents = idContent.id;
-    console.log('id', idContents);
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const FooterContentAll = async () => {
+            setLoading(true);
             try {
                 const footerConAll = await footerApi.getAllContent();
-                const idBy = footerConAll.data.filter((items) => items.id === idContents);
-                console.log('xin chào', idBy);
-                setIdBy(idBy);
                 setFooter(footerConAll.data);
+                setLoading(false);
+                console.log('data', footerConAll.data);
             } catch (error) {
                 console.log('lỗI CONTENT', error);
+                setLoading(false);
             }
         };
         FooterContentAll();
-    }, [idContents]);
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
+            {loading ? <Loading /> : ''}
             <ul className={cx('list-tabs')}>
                 {Array.isArray(footer)
                     ? footer.map((items, index) => (

@@ -3,18 +3,22 @@ import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
 import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
+import Modal from '~/components/Modal';
 
 const ListCatePost = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [listCate, setListCate] = useState([]);
     const [electCateFooter, setDelectCateFooter] = useState(false);
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+    const [modal, setModal] = useState(false);
     const deleteCateFoo = useRef();
     useEffect(() => {
         const fetchCatePost = async () => {
             setLoading(true);
             try {
-                const result = await footerApi.getAll();
+                const result = await footerApi.getAllFooter();
                 setListCate(result.data);
                 setLoading(false);
             } catch (error) {
@@ -33,9 +37,19 @@ const ListCatePost = () => {
             try {
                 const dltFooter = await footerApi.delete(deleteCateFoo.current);
                 setMessage(dltFooter.message);
-                const result = await footerApi.getAll();
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
+                const result = await footerApi.getAllFooter();
                 setListCate(result.data);
-            } catch (error) {}
+            } catch (error) {
+                console.log('Failed to delete: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
+                setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
+            }
         };
         deleteFooter();
     };
@@ -43,6 +57,7 @@ const ListCatePost = () => {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách danh mục Footer</h2>
                 <p className="content__heading--subtitle">Danh mục Footer</p>
@@ -56,7 +71,6 @@ const ListCatePost = () => {
                                 <tr>
                                     <th>#</th>
                                     <th>Tên danh mục</th>
-                                    <th>Đường dẫn</th>
                                     <th>Trạng thái</th>
                                     <th>Người tạo</th>
                                     <th>Người cập nhật</th>
@@ -71,7 +85,7 @@ const ListCatePost = () => {
                                           <tr key={item.id}>
                                               <td>{index + 1}</td>
                                               <td>{item.name}</td>
-                                              <td>{item.slug}</td>
+
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                               </td>

@@ -48,38 +48,6 @@ function Footer() {
                     </div>
                     {/* desktop */}
                     <ul className={cx('list-info')}>
-                        {contactAll.map((item, index) => (
-                            <li key={index}>
-                                <span>{item.name}</span>
-                                {item.contact.map((items, index) => (
-                                    <a href="tel:0905015900" key={index}>
-                                        <span>{items.name}:</span>
-                                        <b>{items.phone}</b>
-                                        (7:30 - 22:30)
-                                    </a>
-                                ))}
-
-                                <div className={cx('footer__social')}>
-                                    <p className={cx('text')}>Kết nối với chúng tôi</p>
-                                    <a href="#" className={cx('icon-item')}>
-                                        <i>
-                                            <FaFacebookF />
-                                        </i>
-                                    </a>
-                                    <a href="#" className={cx('icon-item')}>
-                                        <i>
-                                            <FaYoutube />
-                                        </i>
-                                    </a>
-                                    <a href="#" className={cx('icon-item')}>
-                                        <i>
-                                            <SiZalo />
-                                        </i>
-                                    </a>
-                                </div>
-                            </li>
-                        ))}
-
                         {footerAll?.map((item, index) => {
                             return (
                                 <li key={index}>
@@ -91,12 +59,16 @@ function Footer() {
                                             </Link>
                                         );
                                     })}
+                                    {item.contact.map((items, index) => (
+                                        <a href="tel:0905015900" key={index}>
+                                            <span>{items.name}:</span>
+                                            <b>{items.phone}</b>
+                                            (7:30 - 22:00)
+                                        </a>
+                                    ))}
                                 </li>
                             );
                         })}
-                        {/* {cateFooter?.map((title, index) => (
-                                    <Link key={index}>{title.title}</Link>
-                                ))} */}
                     </ul>
                     <div className={cx('footer-text__certify')}>
                         <div className={cx('footer-text')}>

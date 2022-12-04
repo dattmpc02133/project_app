@@ -2,11 +2,15 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState } from 'react';
 import footerApi from '../../../api/footerApi';
+import Modal from '~/components/Modal';
 function CreateFooter() {
     const [loading, setLoading] = useState(false);
     const [cateFooter, setCateFooter] = useState('');
     const [catePath, setCatePath] = useState('');
     const [message, setMessage] = useState();
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+    const [modal, setModal] = useState(false);
     console.log('cateFooter', cateFooter);
     console.log('catePath', catePath);
 
@@ -17,11 +21,17 @@ function CreateFooter() {
         const createFooter = async () => {
             try {
                 const result = await footerApi.create(data);
-                setMessage(result.message);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to create: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
                 setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
             }
         };
         createFooter();
@@ -30,6 +40,7 @@ function CreateFooter() {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới danh mục Footer</h2>
                 <p className="content__heading--subtitle">Danh mục Footer</p>
@@ -51,14 +62,6 @@ function CreateFooter() {
                                 />
                             </div>
                         </div>
-
-                        {message && typeof message == 'string' ? (
-                            <div className="input__group">
-                                <span className={('input__group--mess', 'suscess')}>{message}</span>
-                            </div>
-                        ) : (
-                            false
-                        )}
 
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Thêm danh mục</button>

@@ -3,7 +3,7 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import footerApi from '~/api/footerApi';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
-
+import Modal from '~/components/Modal';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 function CreateFooRules() {
@@ -13,6 +13,9 @@ function CreateFooRules() {
     const [dataInput, setDataInput] = useState('');
     const [allCateFooter, setAllCateFooter] = useState([]);
     const [editContent, setEditContent] = useState('');
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+    const [modal, setModal] = useState(false);
 
     console.log('select', dataselect);
     console.log('Input', dataInput);
@@ -34,20 +37,27 @@ function CreateFooRules() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const datas = {
+        const data = {
             category_id: dataselect,
             title: dataInput,
             content: editContent,
         };
-        console.log('data', datas);
+        console.log('data', data);
         const createFooter = async () => {
             try {
-                const result = await footerApi.createContent(datas);
+                const result = await footerApi.createContent(data);
                 setMessage(result.message);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to create: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
                 setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
             }
         };
         createFooter();
@@ -56,6 +66,7 @@ function CreateFooRules() {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm nội duy và chính sách</h2>
                 <p className="content__heading--subtitle">Thêm nội duy và chính sách</p>
@@ -74,7 +85,7 @@ function CreateFooRules() {
                                     value={dataselect}
                                     onChange={(e) => setDateSelect(e.target.value)}
                                 >
-                                    <option value="" selected>
+                                    <option value="0" selected>
                                         Chọn danh mục
                                     </option>
 

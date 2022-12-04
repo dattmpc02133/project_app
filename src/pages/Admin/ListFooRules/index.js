@@ -3,19 +3,25 @@ import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
 import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
+import Modal from '~/components/Modal';
 function ListFooRules() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [listCate, setListCate] = useState([]);
     const [electCateFooter, setDelectCateFooter] = useState(false);
-    const deleteCateFoo = useRef();
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+    const [modal, setModal] = useState(false);
+
+    const deleteContent = useRef();
     useEffect(() => {
         const fetchCatePost = async () => {
             setLoading(true);
             try {
-                const result = await footerApi.getAll();
+                const result = await footerApi.getAllContents();
                 setListCate(result.data);
                 setLoading(false);
+                console.log('data', result.data);
             } catch (error) {
                 console.log('Failed to fetch Categories: ', error);
                 setLoading(false);
@@ -27,25 +33,36 @@ function ListFooRules() {
 
     const handleDelete = (id) => {
         setDelectCateFooter(true);
-        deleteCateFoo.current = id;
+        deleteContent.current = id;
         const deleteFooter = async () => {
             try {
-                const dltFooter = await footerApi.delete(deleteCateFoo.current);
+                const dltFooter = await footerApi.deleteContent(deleteContent.current);
                 setMessage(dltFooter.message);
-                const result = await footerApi.getAll();
+                const result = await footerApi.getAllContents();
                 setListCate(result.data);
-            } catch (error) {}
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
+            } catch (error) {
+                console.log('Lỗi xóa', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
+                setModal(true);
+                setStatusHandle(false);
+                setLoading(false);
+            }
         };
         deleteFooter();
     };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}s
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách danh mục Footer</h2>
                 <p className="content__heading--subtitle">Danh mục Footer</p>
             </div>
-
             <div className="content__wrapper">
                 <div className="content__main">
                     <div className="table__block">
@@ -54,7 +71,7 @@ function ListFooRules() {
                                 <tr>
                                     <th>#</th>
                                     <th>Tên danh mục</th>
-                                    <th>Đường dẫn</th>
+                                    <th>Tên danh mục</th>
                                     <th>Trạng thái</th>
                                     <th>Người tạo</th>
                                     <th>Người cập nhật</th>
@@ -68,15 +85,15 @@ function ListFooRules() {
                                     ? listCate.map((item, index) => (
                                           <tr key={item.id}>
                                               <td>{index + 1}</td>
-                                              <td>{item.name}</td>
-                                              <td>{item.slug}</td>
+                                              <td>{item.category_name}</td>
+                                              <td>{item.title}</td>
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                               </td>
-                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
+                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
                                               <td className="text-center">
-                                                  <Link to={`/admin/footer/edit/${item.id}`} state={{ item }}>
+                                                  <Link to={`/admin/footer/content/edit/${item.id}`} state={{ item }}>
                                                       Sửa
                                                   </Link>
                                               </td>

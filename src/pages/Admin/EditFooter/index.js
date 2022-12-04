@@ -2,13 +2,19 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect } from 'react';
 import footerApi from '../../../api/footerApi';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import Modal from '~/components/Modal';
 
 function EditFooter() {
     const [loading, setLoading] = useState(false);
     const [editCateFooter, setEditCateFooter] = useState('');
     const [message, setMessage] = useState();
     const [getById, setGetById] = useState();
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+    const [modal, setModal] = useState(false);
+    const [nameFooter, setNameFooter] = useState('');
+
     const params = useParams();
 
     useEffect(() => {
@@ -16,6 +22,7 @@ function EditFooter() {
             try {
                 const byIdFooter = await footerApi.getById(params.id);
                 setGetById(byIdFooter.data);
+                setNameFooter(byIdFooter.data.name);
                 console.log('danhmcu', byIdFooter.data);
             } catch (error) {
                 console.log('lỗi lấy id', error);
@@ -27,15 +34,21 @@ function EditFooter() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const data = { name: editCateFooter };
+        const data = { name: nameFooter };
         const EditFooter = async () => {
             try {
                 const result = await footerApi.update(data, params.id);
-                setMessage(result.message);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
                 setLoading(false);
             } catch (error) {
-                console.log('Failed to create: ', error);
+                console.log('Failed to Edit: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
                 setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
             }
         };
         EditFooter();
@@ -47,6 +60,7 @@ function EditFooter() {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Cập nhật danh mục Footer</h2>
                 <p className="content__heading--subtitle">Cập nhật Danh mục Footer</p>
@@ -61,20 +75,21 @@ function EditFooter() {
                             </div>
                             <div className="input__text">
                                 <input
+                                    value={nameFooter}
                                     className="input__text--ctrl"
                                     placeholder="xin chào..."
-                                    onChange={(e) => setEditCateFooter(e.target.value)}
+                                    onChange={(e) => setNameFooter(e.target.value)}
                                 />
                             </div>
                         </div>
 
-                        {message && typeof message == 'string' ? (
+                        {/* {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
                             </div>
                         ) : (
                             false
-                        )}
+                        )} */}
 
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Cập nhật danh mục</button>

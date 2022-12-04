@@ -1,6 +1,7 @@
 import axiosClient from './axiosClient';
 
 const footerApi = {
+    // start client
     create: (data) => {
         const url = '/footer-category';
         return axiosClient.post(url, data);
@@ -21,28 +22,57 @@ const footerApi = {
         return axiosClient.get(url, { params });
     },
 
+    //end footer category
+
+    //start admin
+    createContent: (data) => {
+        const url = '/footer-content';
+        return axiosClient.post(url, data);
+    },
+
+    updateContent: (data, id) => {
+        const url = `/footer-content/${id}`;
+        return axiosClient.put(url, data);
+    },
+
+    deleteContent: (id) => {
+        const url = `/footer-content/${id}`;
+        return axiosClient.delete(url);
+    },
+
     getAllContent: (param) => {
-        const url = 'client/footer-content/load-all';
+        const url = '/client/footer-content/load-all';
         return axiosClient.get(url, param);
     },
+
+    getAllFooter: (params) => {
+        const url = '/footer-category/';
+        return axiosClient.get(url, { params });
+    },
+
+    //end
+
     getById: (id) => {
         const url = `/footer-category/${id}`;
         return axiosClient.get(url);
     },
 
-    getAllContact: (params) => {
-        const url = '/client/footer-category/categories_contact';
-        return axiosClient.get(url, params);
-    },
+    // getByIdContent: (id) => {
+    //     const url = `/footer-category/${id}`;
+    //     return axiosClient.get(url);
+    // },
+    // getAllContact: (params) => {
+    //     const url = '/client/footer-category/categories_contact';
+    //     return axiosClient.get(url, params);
+    // },
+    // getAllContents: (param) => {
+    //     const url = '/footer-content';
+    //     return axiosClient.get(url, param);
+    // },
 
-    getByIdContent: (id) => {
-        const url = `/footer-category/${id}`;
+    getIdContent: (id) => {
+        const url = `/footer-content/${id}`;
         return axiosClient.get(url);
-    },
-
-    createContent: (datas) => {
-        const url = '/client/footer-content/load-all';
-        return axiosClient.post(url, datas);
     },
 };
 
