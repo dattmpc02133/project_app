@@ -25,6 +25,7 @@ import DetailProduct from './components/DetailProduct';
 import Product from './pages/Product';
 import CreateCategories from './pages/Admin/CreateCategories';
 import CreateBrand from './pages/Admin/CreateBrand';
+import LoginClient from './pages/LoginClient';
 function App() {
     return (
         <Router>
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="*" element={<NotFound />} />
+                    <Route path="/logins" element={<LoginClient />} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
