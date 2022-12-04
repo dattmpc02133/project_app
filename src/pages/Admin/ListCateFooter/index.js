@@ -32,6 +32,9 @@ const ListCatePost = () => {
         const deleteFooter = async () => {
             try {
                 const dltFooter = await footerApi.delete(deleteCateFoo.current);
+                setMessage(dltFooter.message);
+                const result = await footerApi.getAll();
+                setListCate(result.data);
             } catch (error) {}
         };
         deleteFooter();

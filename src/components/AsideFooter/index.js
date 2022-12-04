@@ -26,7 +26,7 @@ function AsideFooter() {
                 {Array.isArray(footer)
                     ? footer.map((items, index) => (
                           <li key={index} className={cx('list-item')}>
-                              <Link to={`insurance?=${items.slug}`} state={{ items }}>
+                              <Link to={`insurance/id=${items.id}`} state={{ id: items.id }}>
                                   {items.title}
                               </Link>
                           </li>

@@ -29,6 +29,16 @@ const footerApi = {
         const url = `/footer-category/${id}`;
         return axiosClient.get(url);
     },
+
+    getAllContact: (params) => {
+        const url = '/client/footer-category/categories_contact';
+        return axiosClient.get(url, params);
+    },
+
+    getByIdContent: (id) => {
+        const url = `/footer-category/${id}`;
+        return axiosClient.get(url);
+    },
 };
 
 export default footerApi;

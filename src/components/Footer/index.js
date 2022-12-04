@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 function Footer() {
     const [active, setActive] = useState('');
     const [footerAll, setFooterAll] = useState([]);
-
+    const [contactAll, setContactAll] = useState([]);
     useEffect(() => {
         const allFooter = async () => {
             try {
@@ -24,7 +24,17 @@ function Footer() {
                 console.log('lỗi footer', error);
             }
         };
+
+        const allContact = async () => {
+            try {
+                const contact = await footerApi.getAllContact();
+                setContactAll(contact.data);
+            } catch (error) {
+                console.log('lỗi lấy liên hệ', error);
+            }
+        };
         allFooter();
+        allContact();
     }, []);
 
     return (
@@ -38,51 +48,49 @@ function Footer() {
                     </div>
                     {/* desktop */}
                     <ul className={cx('list-info')}>
-                        <li>
-                            <span>Tổng đài</span>
-                            <a href="tel:0905015900">
-                                <span>Mua hàng:</span>
-                                <b>0905.0159.00</b>
-                                (7:30 - 22:30)
-                            </a>
-                            <a href="tel:0905015900">
-                                <span>CSKH:</span>
-                                <b>0905.0159.00</b>
-                                (7:30 - 22:30)
-                            </a>
-                            <a href="tel:0905015900">
-                                <span>Kỹ thuật:</span>
-                                <b>0905.0159.00</b>
-                                (7:30 - 22:30)
-                            </a>
+                        {contactAll.map((item, index) => (
+                            <li key={index}>
+                                <span>{item.name}</span>
+                                {item.contact.map((items, index) => (
+                                    <a href="tel:0905015900" key={index}>
+                                        <span>{items.name}:</span>
+                                        <b>{items.phone}</b>
+                                        (7:30 - 22:30)
+                                    </a>
+                                ))}
 
-                            <div className={cx('footer__social')}>
-                                {}
-                                <p className={cx('text')}>Kết nối với chúng tôi</p>
-                                <a href="#" className={cx('icon-item')}>
-                                    <i>
-                                        <FaFacebookF />
-                                    </i>
-                                </a>
-                                <a href="#" className={cx('icon-item')}>
-                                    <i>
-                                        <FaYoutube />
-                                    </i>
-                                </a>
-                                <a href="#" className={cx('icon-item')}>
-                                    <i>
-                                        <SiZalo />
-                                    </i>
-                                </a>
-                            </div>
-                        </li>
+                                <div className={cx('footer__social')}>
+                                    <p className={cx('text')}>Kết nối với chúng tôi</p>
+                                    <a href="#" className={cx('icon-item')}>
+                                        <i>
+                                            <FaFacebookF />
+                                        </i>
+                                    </a>
+                                    <a href="#" className={cx('icon-item')}>
+                                        <i>
+                                            <FaYoutube />
+                                        </i>
+                                    </a>
+                                    <a href="#" className={cx('icon-item')}>
+                                        <i>
+                                            <SiZalo />
+                                        </i>
+                                    </a>
+                                </div>
+                            </li>
+                        ))}
+
                         {footerAll?.map((item, index) => {
                             return (
                                 <li key={index}>
                                     <span>{item.name}</span>
                                     {item.footerContent.map((items, index) => {
                                         return (
-                                            <Link to={`footer/insurance?=${items.slug}`} state={{ items }} key={index}>
+                                            <Link
+                                                to={`footer/insurance/id=${items.id}`}
+                                                state={{ id: item.id }}
+                                                key={index}
+                                            >
                                                 {items.title}
                                             </Link>
                                         );

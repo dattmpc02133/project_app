@@ -22,104 +22,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 
 const cx = classNames.bind(style);
-const images = [
-    {
-        original:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-1_purple_color-0-650x650.jpg',
-        thumbnail:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-1_purple_color-0-200x200.jpg',
-    },
-    {
-        original:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-1_purple_color-1-650x650.jpg',
-        thumbnail:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-1_purple_color-1-200x200.jpg',
-    },
-    {
-        original:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-2_design-2-4-650x650.jpg',
-        thumbnail:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-2_design-2-4-200x200.jpg',
-    },
-    {
-        original:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-3_camera-3-4-650x650.jpg',
-        thumbnail:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-3_camera-3-4-200x200.jpg',
-    },
-    {
-        original:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-4_lineup-4-4-650x650.jpg',
-        thumbnail:
-            'https://cdn.tgdd.vn/Products/Images/42/245545/s16/iphone_14_plus_pdp_position-4_lineup-4-4-650x650.jpg',
-    },
-];
-const list_accessory = [
-    {
-        id: 2000,
-        img: 'https://cdn.tgdd.vn/Products/Images/7077/234918/s16/apple-watch-se-40mm-vien-nhom-day-cao-su-vang-650x650.png',
-        title: 'Apple Watch SE GPS 40mm',
-        price_reducer: '6.990.000',
-        price: '8.990.000',
-        discount: '-22%',
-    },
-    {
-        id: 2001,
-        img: 'https://cdn.tgdd.vn/Products/Images/58/232630/s16/1-650x650.png',
-        title: 'Cáp USB - Lightning MFI Belkin CAA002 2m',
-        price_reducer: '405.000',
-        price: '580.000',
-        discount: '-30%',
-    },
-    {
-        id: 2003,
-        img: 'https://cdn.tgdd.vn/Products/Images/57/266084/s16/pin-apple-magsafe-battery-pack-211221-090310-650x650.png',
-        title: 'Pin Dự Phòng MagSafe',
-        price_reducer: '2.390.000',
-        price: '2.990.000',
-        discount: '-20%',
-    },
-    {
-        id: 2004,
-        img: 'https://cdn.tgdd.vn/Products/Images/7077/229063/s16/apple-watch-se-44mm-vien-nhom-day-cao-su-thumbtznew-650x650.png',
-        title: 'Apple Watch SE GPS 44mm',
-        price_reducer: '7.990.000',
-        price: '9.990.000',
-        discount: '-20%',
-    },
-    {
-        id: 2005,
-        img: 'https://cdn.tgdd.vn/Products/Images/58/232634/s16/cap-lightning-mfi-belkin-duratex-plus-f8j243-trang-thumb-650x650.png',
-        title: 'Cáp Type C - Lightning MFI Belkin Duratex Plus F8J243 1.2m',
-        price_reducer: '640.000',
-        price: '800.000',
-        discount: '-15%',
-    },
-    {
-        id: 2006,
-        img: 'https://cdn.tgdd.vn/Products/Images/57/221622/s16/sac-du-phong-10000mah-anker-powercore-ii-a1230-thumb-1-650x650.png',
-        title: 'Pin sạc dự phòng 10000mAh PowerIQ 2.0 Anker PowerCore II A1230',
-        price_reducer: '805.000',
-        price: '950.000',
-        discount: '-15%',
-    },
-    {
-        id: 2007,
-        img: 'https://cdn.tgdd.vn/Products/Images/7077/229059/s16/apple-watch-se-lte-44mm-1-650x650.png',
-        title: 'Apple Watch SE GPS + Cellular 44mm',
-        price_reducer: '9.790.000',
-        price: '11.990.000',
-        discount: '-18%',
-    },
-    {
-        id: 2008,
-        img: 'https://cdn.tgdd.vn/Products/Images/58/205792/s16/cap-lightning-mfi-09m-anker-a8121xx2-do-thumb-650x650.png',
-        title: 'Cáp sạc USB - Lightning 0.9m MFI Anker A8121xx2',
-        price_reducer: '310.000',
-        price: '370.000',
-        discount: '-16%',
-    },
-];
 const settings = {
     dots: false,
     infinite: false,
@@ -154,13 +56,17 @@ const settings = {
     ],
 };
 const DetailProduct = () => {
+    const { state, search } = useLocation();
+    const Search = useMemo(() => {
+        return new URLSearchParams(search);
+    }, [search]);
+    const productID = Search.get('id');
+    const IDSubCategory = state?.subcategory_id;
+    // console.log("IDSubCategory",IDSubCategory);
     const [seeliststore, setSeeListStore] = useState();
     const [cityprovince, setCityProvince] = useState();
     const [city, setCity] = useState();
 
-    const { state } = useLocation();
-    const productID = state.id;
-    const IDSubCategory = state.subcategory_id;
     const [productDetail, setProductDetail] = useState();
     const [listTypeGB, setListTypeGB] = useState();
     const [dataVariants, setDataVariants] = useState();
@@ -502,14 +408,13 @@ const DetailProduct = () => {
                     <strong className={cx('description-access')}>Phụ kiện gợi ý cho iPhone</strong>
                     <Slider {...settings}>
                         {listProductsBySubCate?.map((item, index) => {
-                            console.log(item);
                             return (
                                 <div className={cx('olw-item')} key={index}>
                                     <Link
-                                        to={`/productdetail?slug=${item.slug}`}
+                                        to={`/productdetail?id=${item.product_id}&slug=${item.slug}`}
                                         state={{
-                                            id: item.product_id,
-                                            subcategory_id: item.subcategory_id,
+                                            id: item?.product_id,
+                                            subcategory_id: item?.subcategory_id,
                                         }}
                                         className={cx('olw-item-link', 'c-3')}
                                         key={index}

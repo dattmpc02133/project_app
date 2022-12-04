@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LayoutView from './pages/LayoutView';
 import Home from './pages/Home';
-import Product from './pages/Product';
 import TekZone from './pages/TekZone';
 import TopCare from './pages/TopCare';
 import NotFound from './pages/NotFound';
@@ -28,6 +27,9 @@ import DetailProduct from './components/DetailProduct';
 import CreateFooter from './pages/Admin/CreateFooter';
 import ListCateFooter from './pages/Admin/ListCateFooter';
 import EditFooter from './pages/Admin/EditFooter';
+import Product from './pages/Product';
+import CreateCategories from './pages/Admin/CreateCategories';
+import CreateBrand from './pages/Admin/CreateBrand';
 function App() {
     return (
         <Router>
@@ -37,13 +39,13 @@ function App() {
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
-                    <Route path="/daimond" element={<TekZone />} />
+                    <Route path="/daimond/:id" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="footer" element={<LayoutDetailFooter />}>
-                        <Route path="insurance" element={<Insurance />} />
+                        <Route path="insurance/:id" element={<Insurance />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Route>
@@ -67,6 +69,12 @@ function App() {
                     <Route path="footer/add" element={<CreateFooter />} />
                     <Route path="footer/list" element={<ListCateFooter />} />
                     <Route path="footer/edit/:id" element={<EditFooter />} />
+                    {/* categories admin*/}
+                    <Route path="categories/add" element={<CreateCategories />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
+                    {/* Brand */}
+                    <Route path="brand/add" element={<CreateBrand />} />
+                    <Route path="categories/list" element={<ListCatePost />} />
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                 </Route>

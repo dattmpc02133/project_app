@@ -6,6 +6,10 @@ const productApi = {
         const url = '/client/products';
         return axiosClient.get(url, { params });
     },
+    getHomeAll: (params) => {
+        const url = '/client/getallproductbysubcategories';
+        return axiosClient.get(url, { params });
+    },
     getById: (id) => {
         const url = `/products/${id}`;
         return axiosClient.get(url);
