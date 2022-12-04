@@ -35,10 +35,20 @@ import Product from './pages/Product';
 import CreateCategories from './pages/Admin/CreateCategories';
 import CreateBrand from './pages/Admin/CreateBrand';
 import LoginClient from './pages/LoginClient';
+
+import LoginUpdate from './pages/LoginUpdate';
+import LoginHistoryCart from './pages/LoginHistoryCart';
+
+
+
 import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
+<<<<<<< HEAD
 import CreateSubs from './pages/Admin/CreateSubs';
+=======
+
+>>>>>>> 1a1d1f713d6992ff3b43279fa1c0f43eba84a64d
 function App() {
     return (
         <Router>
@@ -57,6 +67,8 @@ function App() {
                     </Route>
                     <Route path="*" element={<NotFound />} />
                     <Route path="/logins" element={<LoginClient />} />
+                    <Route path="/uplogin" element={<LoginUpdate />} />
+                    <Route path="/hislogin" element={<LoginHistoryCart />} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
