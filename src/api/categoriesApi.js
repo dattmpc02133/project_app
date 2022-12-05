@@ -5,6 +5,11 @@ const categoriesApi = {
         const url = '/admin/categories';
         return axiosClient.post(url, data);
     },
+
+    getAll: (params) => {
+        const url = '/admin/categories';
+        return axiosClient.get(url, params);
+    },
 };
 
 export default categoriesApi;

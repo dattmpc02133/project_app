@@ -8,11 +8,14 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import cateProductApi from '~/api/cateProductApi';
 
+import cartApi from '~/api/cartApi';
+
 const cx = classNames.bind(styles);
 function Header() {
     const [search, setSearch] = useState();
     const [categories, setCategories] = useState();
     const [open, setOpen] = useState();
+    const [cartNum, setCartNum] = useState();
     const navigate = useNavigate();
     const handleSearch = () => {
         setSearch(!search);
@@ -26,6 +29,9 @@ function Header() {
                 const headerCategory = await cateProductApi.getAll();
                 const ListCategoryData = headerCategory?.data;
                 setCategories(ListCategoryData);
+
+                const resultListCart = await cartApi.getAll();
+                setCartNum(resultListCart?.data?.details?.length);
             } catch (error) {
                 console.log('Failed to fetch Categories: ', error);
             }
@@ -68,7 +74,11 @@ function Header() {
                         <CiSearch className={cx('icon-search')} />
                     </div>
                     <div className={cx('cart-product')}>
-                        <AiOutlineShoppingCart className={cx('icon-cart')} />
+                        {cartNum > 0 && cartNum != undefined && <span className={cx('num-cart')}>{cartNum}</span>}
+
+                        <Link to="cart">
+                            <AiOutlineShoppingCart className={cx('icon-cart')} />
+                        </Link>
                     </div>
                 </div>
                 <form className={!search ? cx('form-search') : cx('form-search', 'active')}>

@@ -16,32 +16,59 @@ import EditProduct from './pages/Admin/EditProduct';
 import CreateColor from './pages/Admin/CreateColor';
 import ListColor from './pages/Admin/ListColor';
 import LoginAdmin from './pages/Admin/LoginAdmin';
+import LayoutDetailFooter from './pages/LayoutDetailFooter';
+import Insurance from './pages/Insurance';
 import CreateWareHouse from './pages/Admin/CreateWareHouse';
 import ListWareHouse from './pages/Admin/ListWareHouse';
 import EditWareHouse from './pages/Admin/EditWareHouse';
+import CreateStore from './pages/Admin/CreateStore';
+import ListStore from './pages/Admin/ListStore';
+import EditStore from './pages/Admin/EditStore';
+import ProImportSlip from './pages/Admin/ProImportSlip';
 import Login from './components/Login';
 import Pay from './pages/Pay';
 import DetailProduct from './components/DetailProduct';
+import CreateFooter from './pages/Admin/CreateFooter';
+import ListCateFooter from './pages/Admin/ListCateFooter';
+import EditFooter from './pages/Admin/EditFooter';
 import Product from './pages/Product';
 import CreateCategories from './pages/Admin/CreateCategories';
 import CreateBrand from './pages/Admin/CreateBrand';
 import LoginClient from './pages/LoginClient';
+
+import LoginUpdate from './pages/LoginUpdate';
+import LoginHistoryCart from './pages/LoginHistoryCart';
+
+
+
+import CreateFooRules from './pages/Admin/CreateFooRules';
+import ListFooRules from './pages/Admin/ListFooRules';
+import EditFooRules from './pages/Admin/EditFooRules';
+<<<<<<< HEAD
+import CreateSubs from './pages/Admin/CreateSubs';
+=======
+
+>>>>>>> 1a1d1f713d6992ff3b43279fa1c0f43eba84a64d
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login />} />
                 <Route path="/" element={<LayoutView />}>
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
-                    <Route path="/productdetail" element={<DetailProduct />} />
-                    <Route path="/tekzone" element={<TekZone />} />
+                    <Route path="/productDetail" element={<DetailProduct />} />
+                    <Route path="/daimond?id=45" element={<TekZone />} />
                     <Route path="/tekzonedetail" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
+                    <Route path="footer" element={<LayoutDetailFooter />}>
+                        <Route path="insurance" element={<Insurance />} />
+                    </Route>
                     <Route path="*" element={<NotFound />} />
                     <Route path="/logins" element={<LoginClient />} />
+                    <Route path="/uplogin" element={<LoginUpdate />} />
+                    <Route path="/hislogin" element={<LoginHistoryCart />} />
                 </Route>
 
                 <Route path="login-admin" element={<LoginAdmin />} />
@@ -60,6 +87,14 @@ function App() {
                     <Route path="color/add" element={<CreateColor />} />
                     <Route path="color/list" element={<ListColor />} />
                     <Route path="warehouse/add" element={<CreateWareHouse />} />
+                    {/* footer */}
+                    <Route path="footer/add" element={<CreateFooter />} />
+                    <Route path="footer/list" element={<ListCateFooter />} />
+                    <Route path="footer/edit/:id" element={<EditFooter />} />
+                    {/* footer content */}
+                    <Route path="footer/content/add" element={<CreateFooRules />} />
+                    <Route path="footer/content/list" element={<ListFooRules />} />
+                    <Route path="footer/content/edit/:id" element={<EditFooRules />} />
                     {/* categories admin*/}
                     <Route path="categories/add" element={<CreateCategories />} />
                     <Route path="categories/list" element={<ListCatePost />} />
@@ -68,6 +103,12 @@ function App() {
                     <Route path="categories/list" element={<ListCatePost />} />
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
+                    {/* subs */}
+                    <Route path="subs/add" element={<CreateSubs />} />
+                    <Route path="store/add" element={<CreateStore />} />
+                    <Route path="store/list" element={<ListStore />} />
+                    <Route path="store/edit/:id" element={<EditStore />} />
+                    <Route path="importslip/add" element={<ProImportSlip />} />
                 </Route>
             </Routes>
         </Router>

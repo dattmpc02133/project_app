@@ -6,7 +6,7 @@ import colorApi from '~/api/colorApi';
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
 
-const ListCatePost = () => {
+const ListColor = () => {
     const [loading, setLoading] = useState(false);
     const [listCorlor, setListColor] = useState([]);
     const [comfirm, setComfirm] = useState(false);
@@ -120,4 +120,4 @@ const ListCatePost = () => {
     );
 };
 
-export default ListCatePost;
+export default ListColor;

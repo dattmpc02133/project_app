@@ -7,7 +7,7 @@ import wareHouseApi from '~/api/wareHouseApi';
 import '~/assets/scss/admin/Content.scss';
 import Modal from '~/components/Modal';
 
-const CreateWareHouse = () => {
+const EditWareHouse = () => {
     const [loading, setLoading] = useState(false);
     const [modal, setModal] = useState(false);
     const [statusHandle, setStatusHandle] = useState(false);
@@ -229,4 +229,4 @@ const CreateWareHouse = () => {
     );
 };
 
-export default CreateWareHouse;
+export default EditWareHouse;

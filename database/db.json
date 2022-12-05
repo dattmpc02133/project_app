@@ -1,0 +1,105 @@
+{
+    "data": [
+        {
+            "id": 10,
+            "name": "SỰ KIỆN",
+            "slug": "su-kien",
+            "is_active": "1",
+            "created_at": "2022-11-13 13:25:29",
+            "updated_at": "2022-11-13 13:25:29",
+            "created_by": "Super admin",
+            "updated_by": "Super admin"
+        },
+        {
+            "id": 9,
+            "name": "FOR GAMES",
+            "slug": "for-games",
+            "is_active": "1",
+            "created_at": "2022-11-13 13:18:37",
+            "updated_at": "2022-11-13 13:18:37",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": 8,
+            "name": "THỦ THUẬT",
+            "slug": "thu-thuat",
+            "is_active": "1",
+            "created_at": "2022-11-12 14:08:48",
+            "updated_at": "2022-11-12 14:08:48",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": 7,
+            "name": "MẸO HAY",
+            "slug": "meo-hay",
+            "is_active": "1",
+            "created_at": "2022-11-11 11:53:28",
+            "updated_at": "2022-11-11 11:53:28",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": 6,
+            "name": "ĐÁNH GIÁ",
+            "slug": "danh-gia",
+            "is_active": "1",
+            "created_at": "2022-11-11 11:52:13",
+            "updated_at": "2022-11-11 11:52:13",
+            "created_by": null,
+            "updated_by": null
+        },
+        {
+            "id": 1,
+            "name": "SẢN PHẨM MỚI",
+            "slug": "san-pham-moi",
+            "is_active": "1",
+            "created_at": "2022-10-09 10:42:53",
+            "updated_at": "2022-11-11 11:57:33",
+            "created_by": null,
+            "updated_by": null
+        }
+    ],
+    "paginator": {
+        "currentPage": 1,
+        "totalPages": 1,
+        "perPage": 10,
+        "count": 6,
+        "total": 6,
+        "nextPageUrl": null,
+        "prevPageUrl": null
+    },
+    "post": {
+        "data": [
+            {
+                "id": 14,
+                "author": "Admin1",
+                "category_id": "8",
+                "category_name": "THỦ THUẬT",
+                "title": "test2222",
+                "short_des": "test create",
+                "content_post": "abc",
+                "image": null,
+                "meta_title": "testPost",
+                "meta_keywords": "test",
+                "meta_description": null,
+                "slug": "test2222",
+                "views": "7",
+                "is_active": "1",
+                "created_at": "2022-11-29 16:01:51",
+                "updated_at": "2022-11-29 16:21:46",
+                "updated_by": "Admin1"
+            }
+        ],
+        "paginator": {
+            "currentPage": 1,
+            "totalPages": 1,
+            "perPage": 5,
+            "count": 1,
+            "total": 1,
+            "nextPageUrl": null,
+            "prevPageUrl": null
+        }
+    }
+}
