@@ -10,6 +10,10 @@ const proImportSlip = {
         const url = '/productsinfoimport';
         return axiosClient.get(url, { params });
     },
+    create: (data) => {
+        const url = '/productImportSlip';
+        return axiosClient.post(url, data);
+    },
     // get: (id) => {
     //     const url = `/products/${id}`;
     //     return axiosClient.get(url);

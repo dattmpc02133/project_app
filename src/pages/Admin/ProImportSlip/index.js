@@ -22,35 +22,46 @@ const ProImportSlip = () => {
     const [noteSlip, setNoteSlip] = useState();
     const [productId, setProductId] = useState();
     const [variantId, setVariantId] = useState();
-    const [proVariantId, setProVariantId] = useState();
     const [quantity, setQuantity] = useState();
     const [priceImport, setPriceImport] = useState();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const data = {
-        //     name:
-        // };
+        const data = {
+            name: [titleSlip],
+            warehouse_id: [wareHouseId],
+            note: [noteSlip],
+            details: [
+                {
+                    product_id: productId,
+                    variant_id: variantId,
+                    pro_variant_id: variantId,
+                    quantity_import: quantity,
+                    price_import: priceImport,
+                },
+            ],
+        };
 
-        // const postStore = async () => {
-        //     setLoading(true);
-        //     try {
-        //         const result = await storeApi.create(data);
-
-        //         setStatusHandle(true);
-        //         setModal(true);
-        //         setLoading(false);
-        //     } catch (error) {
-        //         console.log('Failed to createL: ', error);
-        //         const res = error.response.data;
-        //         console.log(res);
-        //         setMessStatus(res.message);
-        //         setModal(true);
-        //         setStatusHandle(false);
-        //         setLoading(false);
-        //     }
-        // };
-        // postStore();
+        const postImportProduct = async () => {
+            setLoading(true);
+            try {
+                const result = await proImportSlip.create(data);
+                // console.log(result);
+                setMessStatus(result.message);
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to createL: ', error);
+                const res = error.response.data;
+                console.log(res);
+                setMessStatus(res.message);
+                setModal(true);
+                setStatusHandle(false);
+                setLoading(false);
+            }
+        };
+        postImportProduct();
     };
 
     useEffect(() => {
@@ -103,7 +114,7 @@ const ProImportSlip = () => {
                                     // value={name}
                                     id="name"
                                     type="text"
-                                    // onChange={(e) => changeTitle(e)}
+                                    onChange={(e) => setTitleSlip(e.target.value)}
                                     className="input__text--ctrl"
                                     placeholder="Nguyễn Văn Linh"
                                 />
@@ -127,7 +138,7 @@ const ProImportSlip = () => {
                                     // value={name}
                                     id="note"
                                     type="text"
-                                    // onChange={(e) => changeTitle(e)}
+                                    onChange={(e) => setNoteSlip(e.target.value)}
                                     className="input__text--ctrl"
                                     placeholder="Ghi chú..."
                                 />
@@ -141,7 +152,7 @@ const ProImportSlip = () => {
                             <div className="input__text">
                                 <select
                                     id="CateProduct"
-                                    // onChange={(e) => changeWareHouseId(e)}
+                                    onChange={(e) => setWareHouseId(e.target.value)}
                                     className="input__text--ctrl"
                                 >
                                     <option>--Chọn kho hàng--</option>
@@ -194,6 +205,38 @@ const ProImportSlip = () => {
                                             </option>
                                         ))}
                                 </select>
+                            </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="quantity">Số lượng</label>
+                            </div>
+                            <div className="input__text">
+                                <input
+                                    // value={name}
+                                    id="quantity"
+                                    type="text"
+                                    onChange={(e) => setQuantity(e.target.value)}
+                                    className="input__text--ctrl"
+                                    placeholder="Ghi chú..."
+                                />
+                            </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="note">Giá nhập vào</label>
+                            </div>
+                            <div className="input__text">
+                                <input
+                                    // value={name}
+                                    id="note"
+                                    type="text"
+                                    onChange={(e) => setPriceImport(e.target.value)}
+                                    className="input__text--ctrl"
+                                    placeholder="Ghi chú..."
+                                />
                             </div>
                         </div>
 
