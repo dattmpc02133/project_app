@@ -17,7 +17,7 @@ function AsideFooter() {
                 const footerConAll = await footerApi.getAllContent();
                 setFooter(footerConAll.data);
                 setLoading(false);
-                console.log('data', footerConAll.data);
+                // console.log('data', footerConAll.data);
             } catch (error) {
                 console.log('lỗI CONTENT', error);
                 setLoading(false);
@@ -33,7 +33,7 @@ function AsideFooter() {
                 {Array.isArray(footer)
                     ? footer.map((items, index) => (
                           <li key={index} className={cx('list-item')}>
-                              <Link to={`insurance?=${items.id}`} state={{ items }}>
+                              <Link to={`insurance/${items.id}`} state={{ items }}>
                                   {items.title}
                               </Link>
                           </li>

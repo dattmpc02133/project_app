@@ -5,9 +5,12 @@
 }
 
 .wrapper-container {
-    .wrapper-title {
+    .wrapper-titles {
         margin-bottom: 15px;
         line-height: 28px;
+        h1 {
+            margin: 0;
+        }
     }
 
     .wrapper-content {
