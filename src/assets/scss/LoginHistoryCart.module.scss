@@ -1,66 +1,59 @@
-.gird{
+.gird {
     width: 100%;
     display: block;
     padding: 0;
-}  
-h1{
-   color: #fff;
-   border-top: 2px #fff;
+}
+h1 {
+    color: #fff;
+    border-top: 2px #fff;
     text-align: center;
     margin: 50px;
-    border-bottom: 1px solid #fff  ;
+    border-bottom: 1px solid #fff;
     font-size: 2rem;
     font-weight: 600;
     line-height: 8rem;
 }
-.layout{
-    
-        .caterogy-name{
-            font-size: 1.2rem;
-            font-weight: 300;
-            color:#fff;
-            width: auto;
-            height: auto;
-            padding: 4px;
-            line-height: 50px;
-            text-align: left;
-            border: 1px solid rgb(248, 118, 113);
-            border-radius: 5px;
-            margin: 0 12px 32px 12px ;
-            .icon_setting{
-                padding-top:2px;
-                font-size: 2rem;    
-                
-            }
-            .icon_shopping{
-                padding-top:2px;
-                font-size: 2rem;
-            }
-            
+
+.layout {
+    .caterogy-name {
+        font-size: 1.2rem;
+        font-weight: 300;
+        color: #fff;
+        width: auto;
+        height: auto;
+        padding: 4px;
+        line-height: 50px;
+        text-align: left;
+        border: 1px solid rgb(248, 118, 113);
+        border-radius: 5px;
+        margin: 0 12px 32px 12px;
+        .icon_setting {
+            padding-top: 2px;
+            font-size: 2rem;
         }
-          .caterogy-name:hover{
- 
-            background-color: rgb(246, 74, 58);
-     
-     
-          }
+        .icon_shopping {
+            padding-top: 2px;
+            font-size: 2rem;
+        }
+    }
+    .caterogy-name:hover {
+        background-color: rgb(246, 74, 58);
+    }
 }
 
-.shopping{
-       border: 2px  solid #fff;  
-       text-align: center;
-
+.shopping {
+    border: 2px solid #fff;
+    text-align: center;
 }
-.history_group{
-    color:#fff;
+.history_group {
+    color: #fff;
     text-align: center;
     padding-bottom: 10px;
 }
-.history_name{
-    color:#fff;
+.history_name {
+    color: #fff;
     text-align: center;
     font-size: 1.3rem;
     font-weight: 200;
     margin: 10px 20px 20px 20px;
-    
 }
