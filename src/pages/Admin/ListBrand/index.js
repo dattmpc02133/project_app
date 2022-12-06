@@ -1,66 +1,65 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
-import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
-function ListFooRules() {
+import brandApi from '~/api/brandApi';
+
+function ListBrand() {
+    const [brandAll, setBrandAll] = useState([]);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
-    const [listCate, setListCate] = useState([]);
-    const [electCateFooter, setDelectCateFooter] = useState(false);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
-    const deleteContent = useRef();
+    const [deleteBrand, SetDeleteBrand] = useState();
+
+    const deleteBrands = useRef();
+
     useEffect(() => {
-        const fetchCatePost = async () => {
-            setLoading(true);
+        const getAllBrand = async () => {
             try {
-                const result = await footerApi.getAllContent();
-                setListCate(result.data);
-                setLoading(false);
-                console.log('data', result.data);
+                const allBrands = await brandApi.getAll();
+                setBrandAll(allBrands.data.data);
+                console.log('data', allBrands.data.data);
             } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
+                console.log('lỗi lấy danh sách', error);
             }
         };
-
-        fetchCatePost();
+        getAllBrand();
     }, []);
 
     const handleDelete = (id) => {
-        setDelectCateFooter(true);
-        deleteContent.current = id;
-        const deleteFooter = async () => {
+        SetDeleteBrand(true);
+        deleteBrands.current = id;
+        const getDeletBrand = async () => {
             try {
-                const dltFooter = await footerApi.deleteContent(deleteContent.current);
-                setMessage(dltFooter.message);
-                const result = await footerApi.getAllContent();
-                setListCate(result.data);
-                setMessStatus(result.status);
+                const deleteBrand = await brandApi.delete(deleteBrands.current);
+                setMessage(deleteBrand.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                const getAllBrand = await brandApi.getAll();
+                setBrandAll(getAllBrand.data.data);
             } catch (error) {
-                console.log('Lỗi xóa', error);
+                console.log('lỗi khi xóa', error);
                 const res = error.response.data;
                 setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
                 setStatusHandle(false);
+                setModal(true);
+                setLoading(false);
             }
         };
-        deleteFooter();
+        getDeletBrand();
     };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục Footer</h2>
-                <p className="content__heading--subtitle">Danh mục Footer</p>
+                <h2 className="content__heading--title">Danh sách danh mục thương hiệu</h2>
+                <p className="content__heading--subtitle">Danh mục thương hiệu</p>
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
@@ -69,8 +68,7 @@ function ListFooRules() {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tên danh mục</th>
-                                    <th>Tên danh mục</th>
+                                    <th>Tên thương hiệu</th>
                                     <th>Trạng thái</th>
                                     <th>Người tạo</th>
                                     <th>Người cập nhật</th>
@@ -80,19 +78,18 @@ function ListFooRules() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(listCate)
-                                    ? listCate.map((item, index) => (
+                                {Array.isArray(brandAll)
+                                    ? brandAll.map((item, index) => (
                                           <tr key={item.id}>
                                               <td>{index + 1}</td>
-                                              <td>{item.category_name}</td>
-                                              <td>{item.title}</td>
+                                              <td>{item.brand_name}</td>
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                               </td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
                                               <td className="text-center">
-                                                  <Link to={`/admin/footer/content/edit/${item.id}`} state={{ item }}>
+                                                  <Link to={`/admin/brand/edit/${item.id}`} state={{ item }}>
                                                       Sửa
                                                   </Link>
                                               </td>
@@ -117,4 +114,4 @@ function ListFooRules() {
     );
 }
 
-export default ListFooRules;
+export default ListBrand;

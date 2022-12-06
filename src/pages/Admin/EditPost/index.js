@@ -4,7 +4,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 import '~/assets/scss/admin/Content.scss';
 
-const CreateCatePost = () => {
+const EditPost = () => {
     return (
         <div className="wrapper">
             <div className="content__heading">
@@ -74,4 +74,4 @@ const CreateCatePost = () => {
     );
 };
 
-export default CreateCatePost;
+export default EditPost;

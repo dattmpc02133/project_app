@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
-function ListFooRules() {
+
+const ListPost = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [listCate, setListCate] = useState([]);
@@ -12,15 +13,14 @@ function ListFooRules() {
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
-    const deleteContent = useRef();
+    const deleteCateFoo = useRef();
     useEffect(() => {
         const fetchCatePost = async () => {
             setLoading(true);
             try {
-                const result = await footerApi.getAllContent();
+                const result = await footerApi.getAllFooter();
                 setListCate(result.data);
                 setLoading(false);
-                console.log('data', result.data);
             } catch (error) {
                 console.log('Failed to fetch Categories: ', error);
                 setLoading(false);
@@ -32,19 +32,18 @@ function ListFooRules() {
 
     const handleDelete = (id) => {
         setDelectCateFooter(true);
-        deleteContent.current = id;
+        deleteCateFoo.current = id;
         const deleteFooter = async () => {
             try {
-                const dltFooter = await footerApi.deleteContent(deleteContent.current);
+                const dltFooter = await footerApi.delete(deleteCateFoo.current);
                 setMessage(dltFooter.message);
-                const result = await footerApi.getAllContent();
-                setListCate(result.data);
-                setMessStatus(result.status);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                const result = await footerApi.getAllFooter();
+                setListCate(result.data);
             } catch (error) {
-                console.log('Lỗi xóa', error);
+                console.log('Failed to delete: ', error);
                 const res = error.response.data;
                 setMessStatus(res.message);
                 setLoading(false);
@@ -54,14 +53,16 @@ function ListFooRules() {
         };
         deleteFooter();
     };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục Footer</h2>
-                <p className="content__heading--subtitle">Danh mục Footer</p>
+                <h2 className="content__heading--title">Danh sách bài viết</h2>
+                <p className="content__heading--subtitle">bài viết</p>
             </div>
+
             <div className="content__wrapper">
                 <div className="content__main">
                     <div className="table__block">
@@ -69,7 +70,7 @@ function ListFooRules() {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tên danh mục</th>
+                                    <th>Title bài viết</th>
                                     <th>Tên danh mục</th>
                                     <th>Trạng thái</th>
                                     <th>Người tạo</th>
@@ -80,19 +81,19 @@ function ListFooRules() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(listCate)
+                                {/* {Array.isArray(listCate)
                                     ? listCate.map((item, index) => (
                                           <tr key={item.id}>
                                               <td>{index + 1}</td>
-                                              <td>{item.category_name}</td>
-                                              <td>{item.title}</td>
+                                              <td>{item.name}</td>
+
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                               </td>
-                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
+                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
                                               <td className="text-center">
-                                                  <Link to={`/admin/footer/content/edit/${item.id}`} state={{ item }}>
+                                                  <Link to={`/admin/footer/edit/${item.id}`} state={{ item }}>
                                                       Sửa
                                                   </Link>
                                               </td>
@@ -107,7 +108,7 @@ function ListFooRules() {
                                               </td>
                                           </tr>
                                       ))
-                                    : false}
+                                    : false} */}
                             </tbody>
                         </table>
                     </div>
@@ -115,6 +116,6 @@ function ListFooRules() {
             </div>
         </div>
     );
-}
+};
 
-export default ListFooRules;
+export default ListPost;

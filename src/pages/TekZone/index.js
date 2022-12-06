@@ -18,24 +18,11 @@ function TekZone() {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-    // const [subCategory, setSubCategory] = useState();
+    const { state } = useLocation();
+    const data = state.data;
+    console.log('data', data);
     const [dataCategory, setDataCategory] = useState();
     const [loading, setLoading] = useState(false);
-    const { state } = useLocation();
-    const slugCate = state.data.slug;
-    const CateID = state.data.id;
-    useEffect(() => {
-        const fetchAllCategory = async () => {
-            try {
-                const Category = await catePostApi.getAll();
-                const ListCategoryData = Category?.data?.filter((item) => item?.id === CateID);
-                if (ListCategoryData.length > 0) {
-                    setDataCategory(ListCategoryData[0].subs);
-                }
-            } catch (error) {}
-        };
-        fetchAllCategory();
-    }, [CateID]);
 
     const handleCateId = (id) => {
         console.log('danh mục', id);
@@ -125,21 +112,19 @@ function TekZone() {
                 </div>
 
                 <ul className={cx('list__cate')}>
-                    {Array.isArray(dataCategory)
-                        ? dataCategory?.map((list) => (
-                              <li key={list?.id}>
-                                  <div onClick={() => handleCateId(list.id)}>
-                                      <img src={images.cate_iphone} alt={list?.name} />
-                                      <h3>{list?.name}</h3>
-                                  </div>
-                              </li>
-                          ))
-                        : false}
+                    {data.subs.map((list) => (
+                        <li key={list?.id}>
+                            <div onClick={() => handleCateId(list.id)}>
+                                <img src={images.cate_iphone} alt={list?.name} />
+                                <h3>{list?.name}</h3>
+                            </div>
+                        </li>
+                    ))}
                 </ul>
 
                 <div className={cx('newsest__list')}>
                     <div className={cx('title-new')}>
-                        <h1>Mới nhất</h1>
+                        <h2>Mới nhất</h2>
                     </div>
                     <div className={cx('newsest')}>
                         {/* {Array.isArray(posts)

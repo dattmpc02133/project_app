@@ -19,7 +19,7 @@ function Footer() {
             try {
                 const footer = await footerApi.getAll();
                 setFooterAll(footer.data);
-                console.log('danh muc', footer.data);
+                // console.log('danh muc', footer.data);
             } catch (error) {
                 console.log('lỗi footer', error);
             }
@@ -54,7 +54,7 @@ function Footer() {
                                     <span>{item.name}</span>
                                     {item.footerContent.map((items, index) => {
                                         return (
-                                            <Link to={`footer/insurance?id=${items.id}`} state={{ items }} key={index}>
+                                            <Link to={`footer/insurance/${items.id}`} state={{ items }} key={index}>
                                                 {items.title}
                                             </Link>
                                         );
@@ -62,8 +62,7 @@ function Footer() {
                                     {item.contact.map((items, index) => (
                                         <a href="tel:0905015900" key={index}>
                                             <span>{items.name}:</span>
-                                            <b>{items.phone}</b>
-                                            (7:30 - 22:00)
+                                            <b>{items.phone}</b>({items.time})
                                         </a>
                                     ))}
                                 </li>
