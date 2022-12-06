@@ -10,6 +10,11 @@ const postsApi = {
         const url = `/posts/${id}`;
         return axiosClient.get(url);
     },
+
+    createPost: (data) => {
+        const url = '/posts';
+        return axiosClient.post(url, data);
+    },
 };
 
 export default postsApi;

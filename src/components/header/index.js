@@ -4,7 +4,7 @@ import styles from '~/assets/scss/header.module.scss';
 import { CiSearch } from 'react-icons/ci';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import cateProductApi from '~/api/cateProductApi';
 
@@ -20,7 +20,6 @@ function Header() {
     const [cartNum, setCartNum] = useState();
     const [searchTerm, setSearchTerm] = useState('');
     const [findProduct, setFindProduct] = useState();
-    const [render, setRender] = useState();
     const handleSearch = () => {
         setSearch(!search);
     };
@@ -32,6 +31,7 @@ function Header() {
             try {
                 const headerCategory = await cateProductApi.getAll();
                 const ListCategoryData = headerCategory?.data;
+                // console.log('cateOnle', headerCategory.data);
                 setCategories(ListCategoryData);
 
                 const resultListCart = await cartApi.getAll();
@@ -41,11 +41,8 @@ function Header() {
             }
         };
         const fetchSearchResults = async () => {
-            setTimeout(() => {
-                return searchTerm;
-            }, 2000);
             const ResultListSearch = await searchApi.searchItem(searchTerm);
-            if (searchTerm.length > 0) {
+            if (searchTerm.length > 3) {
                 setFindProduct(ResultListSearch.data);
             } else if (searchTerm.length === 0) {
                 setFindProduct([]);
@@ -80,7 +77,7 @@ function Header() {
                             placeholder="Nhập Tên sản phẩm muốn tìm kiếm ..."
                             spellCheck="false"
                         />
-                        <div>&times;</div>
+                        <div onClick={(e) => setSearchTerm('')}>&times;</div>
                     </div>
                     <div className={cx('search-btn')}>
                         <button type="submit">
@@ -88,10 +85,13 @@ function Header() {
                         </button>
                     </div>
                     {/* {Array.isArray(findProduct != null ? findProduct )} */}
-                    <div className={cx('filter_product-list')}>
+                    <div className={searchTerm.length ? cx('filter_product-list') : cx('filter_product-list-search')}>
                         {findProduct?.map((findPrd, index) => (
                             <div className={cx('product_suggest')} index={index}>
-                                <Link to={`/productdetail?id=${findPrd.id}&slug=${findPrd.slug}`}>
+                                <Link
+                                    onClick={(e) => setSearchTerm('')}
+                                    to={`/productdetail?id=${findPrd.id}&slug=${findPrd.slug}`}
+                                >
                                     <img src={findPrd.url_image} className={cx('product_item-img')} />
                                     <div className={cx('product_item-info')}>
                                         <h3>
@@ -133,7 +133,11 @@ function Header() {
             <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
                 {categories?.map((data, index) => (
                     <li className={cx('menu-item')} key={index}>
-                        <Link to={`${data.slug}?id=${data.id}`} state={{ id: data.id }} className={cx('menu-link')}>
+                        <Link
+                            to={`${data.slug}?id=${data.id}`}
+                            state={{ id: data.id, data }}
+                            className={cx('menu-link')}
+                        >
                             <span>{data.name}</span>
                         </Link>
                     </li>

@@ -12,12 +12,12 @@ function EditFooRules() {
     const [message, setMessage] = useState('');
     const [getById, setGetById] = useState();
     const [allCateFooter, setAllCateFooter] = useState([]);
-    const [editContent, setEditContent] = useState('');
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
     const [nameInput, setNameInput] = useState('');
-    const [idSelect, setIdSelect] = useState('');
+    const [idSelect, setIdSelect] = useState();
+    const [cateFooter, setCateFooter] = useState();
     const [contents, setContent] = useState('');
     const params = useParams();
 
@@ -25,10 +25,10 @@ function EditFooRules() {
         const getByIdFooter = async () => {
             try {
                 const byIdFooter = await footerApi.getIdContent(params.id);
-                setGetById(byIdFooter.data);
+                console.log('content', byIdFooter.data);
                 setContent(byIdFooter.data.content);
                 setNameInput(byIdFooter.data.title);
-                setIdSelect(byIdFooter.data);
+                setIdSelect(byIdFooter.data.footer_category_id);
                 console.log('lấy đc nè', byIdFooter.data);
             } catch (error) {
                 console.log('lỗi lấy id', error);
@@ -48,8 +48,6 @@ function EditFooRules() {
         getAllCate();
         getByIdFooter();
     }, []);
-
-    useEffect(() => {});
 
     const handleSubmit = (e) => {
         setLoading(true);

@@ -172,6 +172,9 @@
             font-size: 2rem;
         }
     }
+    .filter_product-list-search {
+        display: none;
+    }
     .filter_product-list {
         position: absolute;
         top: 104%;
@@ -181,7 +184,7 @@
         overflow: auto;
         z-index: 99999999;
         align-items: center;
-
+        display: block;
         .product_suggest {
             display: block;
             overflow: hidden;
@@ -189,6 +192,9 @@
             background: #fff;
             a {
                 display: flex;
+                .product_item-info {
+                    line-height: 19px;
+                }
                 img {
                     width: 10%;
                 }
