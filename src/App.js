@@ -44,11 +44,11 @@ import LoginHistoryCart from './pages/LoginHistoryCart';
 import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
-<<<<<<< HEAD
 import CreateSubs from './pages/Admin/CreateSubs';
-=======
+import CreateContact from './pages/Admin/CreateContact';
+import ListContact from './pages/Admin/ListContact';
+import EditContact from './pages/Admin/EditContact';
 
->>>>>>> 1a1d1f713d6992ff3b43279fa1c0f43eba84a64d
 function App() {
     return (
         <Router>
@@ -109,6 +109,9 @@ function App() {
                     <Route path="store/list" element={<ListStore />} />
                     <Route path="store/edit/:id" element={<EditStore />} />
                     <Route path="importslip/add" element={<ProImportSlip />} />
+                    <Route path="contact/add" element={<CreateContact />} />
+                    <Route path="contact/list" element={<ListContact />} />
+                    <Route path="contact/edit/:id" element={<EditContact />} />
                 </Route>
             </Routes>
         </Router>
