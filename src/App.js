@@ -60,7 +60,7 @@ function App() {
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
                     <Route path="/Daimond" element={<TekZone />} />
-                    <Route path="/tekzonedetail" element={<TekZoneDetail />} />
+                    <Route path="/tekzonedetail/:id" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
