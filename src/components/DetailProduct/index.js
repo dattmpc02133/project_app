@@ -196,10 +196,10 @@ const DetailProduct = () => {
     }, [IDSubCategory]);
 
     const handleAddToCart = (e) => {
-        console.log(itemColorActive);
         const data = {
             product_id: itemColorActive.product_id,
             variant_id: itemColorActive.variant_id,
+            color_id: itemColorActive.color_id,
             quantity: 1,
         };
         const addToCart = async () => {
@@ -222,7 +222,6 @@ const DetailProduct = () => {
         };
         addToCart();
     };
-
     return (
         <>
             <div className={cx('detail-box')}>
