@@ -23,6 +23,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Modal from '~/components/Modal';
 import Loading from '~/components/Loading';
+import commentsApi from '../../api/commentsAPi.js';
 
 const cx = classNames.bind(style);
 const settings = {
@@ -222,6 +223,27 @@ const DetailProduct = () => {
         };
         addToCart();
     };
+    // comments
+    const handleSubmitComments = (e) => {
+        e.preventDefault();
+        // const data = {
+        //     brand_name: nameBrand,
+        //     is_post: selection,
+        // };
+        const createComment = async () => {
+            setLoading(true);
+            try {
+                const result = await commentsApi.create();
+                console.log(result);
+                setLoading(false);
+            } catch (error) {
+                console.log('Fail to create product', error);
+                setLoading(false);
+            }
+        };
+        createComment();
+    };
+
     return (
         <>
             <div className={cx('detail-box')}>
@@ -489,31 +511,10 @@ const DetailProduct = () => {
                         </TabList>
 
                         <TabPanel>
-                            <div className={cx('specifications-text-detail')}>
-                                <p>
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-1.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-2.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-3.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-4.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-5.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-6.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-7.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-1.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-1.jpg" />
-                                </p>
-                                <h3>Nội dung tính năng</h3>
-                                <div className={cx('text-desrepcription')}>
-                                    <a href="#">iPhone 14</a>. Với hệ thống camera kép tiên tiến nhất từng có trên
-                                    <a href="#">iPhone </a>. Chụp những bức ảnh tuyệt đẹp trong điều kiện từ thiếu sáng
-                                    đến dư sáng. Phát hiện Va Chạm, một tính năng an toàn mới, thay bạn gọi trợ giúp khi
-                                    cần kíp.
-                                </div>
-                                <h3 style={{ textAlign: 'justify' }}>Pháp lý</h3>
-                                <p>SOS Khẩn Cấp sử dụng kết nối mạng di động hoặc Cuộc Gọi Wi-Fi.</p>
-                            </div>
+                            <div className={cx('specifications-text-detail')}>{productDetail?.description}</div>
                             <div className={cx('specifications-comment')}>
                                 <h3>Hỏi đáp về iPhone 14</h3>
-                                <form>
+                                <form onClick={handleSubmitComments}>
                                     <textarea
                                         name="txtContent"
                                         placeholder="Mời bạn thảo luận, vui lòng nhập tiếng Việt có dấu"
@@ -525,17 +526,7 @@ const DetailProduct = () => {
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            <div className={cx('specifiti')}>
-                                <div className={cx('grouplist')}>Màn hình</div>
-                                <ul className={cx('text-specifi')}>
-                                    <li>
-                                        <span className={cx('text-specifi-head')}>Công nghệ màn hình:</span>
-                                        <div>
-                                            <span>OLED</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                            <div className={cx('specifiti')}>{productDetail?.specification_infomation}</div>
                         </TabPanel>
                     </Tabs>
                 </div>
