@@ -10,6 +10,18 @@ const loginApi = {
         const url = `auth/sms?phone=${phone}&action=login`;
         return axiosClient.get(url);
     },
+    getUser: () => {
+        const url = '/client/userData';
+        return axiosClient.get(url);
+    },
+    logout: () => {
+        const url = '/logout';
+        return axiosClient.post(url);
+    },
+    updateUser: (data) => {
+        const url = '/client/updateUserData';
+        return axiosClient.put(url, data);
+    },
     // login: (data) => {
     //     const url = '/posts';
     //     return axiosClient.post(url, data);
