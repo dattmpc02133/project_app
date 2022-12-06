@@ -109,7 +109,6 @@
 
 .search-header {
     width: 50%;
-
     position: relative;
     display: flex;
     justify-content: center;
@@ -153,7 +152,9 @@
             cursor: pointer;
         }
     }
-
+    // input:not(:placeholder-shown) ~ button {
+    //     background-color: red;
+    // }
     .search-btn {
         width: 10%;
         align-items: center;
@@ -169,6 +170,29 @@
         }
         .search-icon {
             font-size: 2rem;
+        }
+    }
+    .filter_product-list {
+        position: absolute;
+        top: 104%;
+        width: 100%;
+        border-radius: 4px;
+        height: 500px;
+        overflow: auto;
+        z-index: 99999999;
+        align-items: center;
+
+        .product_suggest {
+            display: block;
+            overflow: hidden;
+            padding: 10px;
+            background: #fff;
+            a {
+                display: flex;
+                img {
+                    width: 10%;
+                }
+            }
         }
     }
 }
