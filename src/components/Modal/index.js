@@ -29,7 +29,7 @@ const Modal = ({ closeModal, message, status }) => {
                     </div>
                     <div className={cx('modal__content--mess')}>
                         <p className={cx('modal__mess', 'failed')}>Không thành công!</p>
-                        {/* <span className={cx('modal__sub--mess')}>Sản phẩm đã được thêm vào cửa hàng</span> */}
+                        <span className={cx('modal__sub--mess')}>{message != null && message}</span>
                     </div>
                     <div className={cx('modal__content--btn')}>
                         <button onClick={() => closeModal(false)} className={cx('modal__btn')}>

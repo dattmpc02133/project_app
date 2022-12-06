@@ -68,7 +68,7 @@ function App() {
                         <Route path="insurance/:id" element={<Insurance />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
-                    <Route path="/logins" element={<LoginClient />} />
+                    <Route path="/login" element={<LoginClient />} />
                     <Route path="/uplogin" element={<LoginUpdate />} />
                     <Route path="/hislogin" element={<LoginHistoryCart />} />
                 </Route>

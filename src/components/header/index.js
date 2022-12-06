@@ -3,6 +3,7 @@ import images from '../../assets/images';
 import styles from '~/assets/scss/header.module.scss';
 import { CiSearch } from 'react-icons/ci';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { BiUserCircle } from 'react-icons/bi';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -107,8 +108,10 @@ function Header() {
                 </form>
                 {/* search + cart */}
                 <div className={cx('search-cart')}>
-                    <div className={cx('search-product')} onClick={handleSearch}>
-                        <CiSearch className={cx('icon-search')} />
+                    <div className={cx('search-product')}>
+                        <Link to="login">
+                            <BiUserCircle className={cx('icon-search')} />
+                        </Link>
                     </div>
                     <div className={cx('cart-product')}>
                         {cartNum > 0 && cartNum != undefined && <span className={cx('num-cart')}>{cartNum}</span>}
