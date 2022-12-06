@@ -57,6 +57,7 @@ const footerApi = {
         return axiosClient.get(url);
     },
 
+<<<<<<< HEAD
     // getByIdContent: (id) => {
     //     const url = `/footer-category/${id}`;
     //     return axiosClient.get(url);
@@ -101,6 +102,12 @@ const footerApi = {
                     },
                    
 
+=======
+    getIdContent: (id) => {
+        const url = `/footer-content/${id}`;
+        return axiosClient.get(url);
+    },
+>>>>>>> 58fe33f07539eb7064c9b1cc8c067cfed211f6ea
 };
 
 

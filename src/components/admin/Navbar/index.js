@@ -22,7 +22,11 @@ const Navbar = () => {
     const [openBrand, setOpenBrand] = useState(false);
     const [openStore, setOpenStore] = useState(false);
     const [openImportSlip, setOpenImportSlip] = useState(false);
+<<<<<<< HEAD
     const [openContact, setOpenContact] = useState(false)
+=======
+    const [openSubsPost, setOpenSubsPost] = useState(false);
+>>>>>>> 58fe33f07539eb7064c9b1cc8c067cfed211f6ea
 
     return (
         <div className={cx('wrapper')}>
@@ -110,45 +114,7 @@ const Navbar = () => {
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="catepost/list"
-                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
-                                    >
-                                        Danh sách
-                                    </NavLink>
-                                </div>
-                            </li>
-                            <li className={cx('navbar__content--item')}>
-                                <p
-                                    className={cx('navbar__content--link')}
-                                    onClick={() => {
-                                        setOpenPost(!openPost);
-                                    }}
-                                >
-                                    <BiCreditCardFront className={cx('navbar__content--icon')} />
-                                    <span className={cx('navbar__content--text')}>Bảng tin</span>
-                                    <BiChevronDown
-                                        className={
-                                            openPost
-                                                ? cx('navbar__content--icon--arrow', 'open')
-                                                : cx('navbar__content--icon--arrow')
-                                        }
-                                    />
-                                </p>
-                                <div
-                                    className={
-                                        openPost
-                                            ? cx('navbar__content--dropdown', 'open')
-                                            : cx('navbar__content--dropdown')
-                                    }
-                                >
-                                    <NavLink
-                                        to="post/add"
-                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
-                                    >
-                                        Thêm mới
-                                    </NavLink>
-                                    <NavLink
-                                        to="post/list"
+                                        to="brand/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
@@ -203,51 +169,13 @@ const Navbar = () => {
                                     </NavLink>
                                 </div>
                             </li>
-                            <li className={cx('navbar__content--item')}>
-                                <p
-                                    className={cx('navbar__content--link')}
-                                    onClick={() => {
-                                        setOpenPost(!openPost);
-                                    }}
-                                >
-                                    <BiCreditCardFront className={cx('navbar__content--icon')} />
-                                    <span className={cx('navbar__content--text')}>Danh mục chi tiết</span>
-                                    <BiChevronDown
-                                        className={
-                                            openPost
-                                                ? cx('navbar__content--icon--arrow', 'open')
-                                                : cx('navbar__content--icon--arrow')
-                                        }
-                                    />
-                                </p>
-                                <div
-                                    className={
-                                        openPost
-                                            ? cx('navbar__content--dropdown', 'open')
-                                            : cx('navbar__content--dropdown')
-                                    }
-                                >
-                                    <NavLink
-                                        to="subs/add"
-                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
-                                    >
-                                        Thêm mới
-                                    </NavLink>
-                                    <NavLink
-                                        to="subs/list"
-                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
-                                    >
-                                        Danh sách
-                                    </NavLink>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                     {/* end */}
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
                             <span className={cx('navbar__content--heading-title')}>Tin tức</span>
-                            <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa tin tức</p>
+                            <p className={cx('navbar__content--heading-subtitle')}> tin tức</p>
                         </div>
                         <ul className={cx('navbar__content--list')}>
                             <li className={cx('navbar__content--item')}>
@@ -275,13 +203,13 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="catepost/add"
+                                        to="categories/add"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="catepost/list"
+                                        to="categories/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
@@ -292,11 +220,51 @@ const Navbar = () => {
                                 <p
                                     className={cx('navbar__content--link')}
                                     onClick={() => {
+                                        setOpenSubsPost(!openSubsPost);
+                                    }}
+                                >
+                                    <BiCreditCardFront className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Danh mục chi tiết</span>
+                                    <BiChevronDown
+                                        className={
+                                            openSubsPost
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openSubsPost
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="subs/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+
+                                    <NavLink
+                                        to="subs/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
                                         setOpenPost(!openPost);
                                     }}
                                 >
                                     <BiCreditCardFront className={cx('navbar__content--icon')} />
-                                    <span className={cx('navbar__content--text')}>Bảng tin</span>
+                                    <span className={cx('navbar__content--text')}>Bài Viết</span>
                                     <BiChevronDown
                                         className={
                                             openPost

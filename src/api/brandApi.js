@@ -10,6 +10,21 @@ const brandApi = {
         const url = `/admin/brands`;
         return axiosClient.post(url, data);
     },
+
+    update: (data, id) => {
+        const url = `/admin/brands/${id}`;
+        return axiosClient.patch(url, data);
+    },
+
+    delete: (id) => {
+        const url = `/admin/brands/${id}`;
+        return axiosClient.delete(url);
+    },
+
+    getById: (id) => {
+        const url = `/admin/brands/${id}`;
+        return axiosClient.get(url);
+    },
 };
 
 export default brandApi;

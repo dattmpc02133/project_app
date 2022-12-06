@@ -39,15 +39,23 @@ import LoginClient from './pages/LoginClient';
 import LoginUpdate from './pages/LoginUpdate';
 import LoginHistoryCart from './pages/LoginHistoryCart';
 
-
-
 import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
 import CreateSubs from './pages/Admin/CreateSubs';
+<<<<<<< HEAD
 import CreateContact from './pages/Admin/CreateContact';
 import ListContact from './pages/Admin/ListContact';
 import EditContact from './pages/Admin/EditContact';
+=======
+import EditCategories from './pages/Admin/EditCategories';
+import ListSubs from './pages/Admin/ListSubs';
+import EditSubs from './pages/Admin/EditSubs';
+import ListBrand from './pages/Admin/ListBrand';
+import EditBrand from './pages/Admin/EditBrand';
+import ListPost from './pages/Admin/ListPost';
+import EditPost from './pages/Admin/EditPost';
+>>>>>>> 58fe33f07539eb7064c9b1cc8c067cfed211f6ea
 
 function App() {
     return (
@@ -57,16 +65,16 @@ function App() {
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
-                    <Route path="/daimond?id=45" element={<TekZone />} />
-                    <Route path="/tekzonedetail" element={<TekZoneDetail />} />
+                    <Route path="/Daimond" element={<TekZone />} />
+                    <Route path="/tekzonedetail/:id" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="footer" element={<LayoutDetailFooter />}>
-                        <Route path="insurance" element={<Insurance />} />
+                        <Route path="insurance/:id" element={<Insurance />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
-                    <Route path="/logins" element={<LoginClient />} />
+                    <Route path="/login" element={<LoginClient />} />
                     <Route path="/uplogin" element={<LoginUpdate />} />
                     <Route path="/hislogin" element={<LoginHistoryCart />} />
                 </Route>
@@ -80,7 +88,8 @@ function App() {
                     <Route path="catepost/add" element={<CreateCatePost />} />
                     <Route path="catepost/list" element={<ListCatePost />} />
                     <Route path="post/add" element={<CreatePost />} />
-                    <Route path="post/list" element={<NotFound />} />
+                    <Route path="post/list" element={<ListPost />} />
+                    <Route path="post/edit/:id" element={<EditPost />} />
                     <Route path="product/add" element={<CreateProduct />} />
                     <Route path="product/list" element={<ListProduct />} />
                     <Route path="product/edit/:id/:slug" element={<EditProduct />} />
@@ -98,13 +107,19 @@ function App() {
                     {/* categories admin*/}
                     <Route path="categories/add" element={<CreateCategories />} />
                     <Route path="categories/list" element={<ListCatePost />} />
+                    <Route path="categories/edit/:id" element={<EditCategories />} />
                     {/* Brand */}
                     <Route path="brand/add" element={<CreateBrand />} />
-                    <Route path="categories/list" element={<ListCatePost />} />
+                    <Route path="brand/list" element={<ListBrand />} />
+                    <Route path="brand/edit/:id" element={<EditBrand />} />
+
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                     {/* subs */}
                     <Route path="subs/add" element={<CreateSubs />} />
+                    <Route path="subs/list" element={<ListSubs />} />
+                    <Route path="subs/edit/:id" element={<EditSubs />} />
+
                     <Route path="store/add" element={<CreateStore />} />
                     <Route path="store/list" element={<ListStore />} />
                     <Route path="store/edit/:id" element={<EditStore />} />

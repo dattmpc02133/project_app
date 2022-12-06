@@ -4,29 +4,31 @@ import Loading from '~/components/Loading';
 import catePostApi from '~/api/catePostApi';
 import brandApi from '~/api/brandApi';
 import Modal from '~/components/Modal';
-
-function CreateSubs() {
+import { useParams } from 'react-router-dom';
+function EditSubs() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [categories, setCategories] = useState([]);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
-    const [dataselect, setDateSelect] = useState('');
-    const [dataInput, setDataInput] = useState('');
+    const [dataCate, setDataCate] = useState('');
     const [dataBrand, setDataBrand] = useState('');
-    const [allBrand, setAllBrands] = useState([]);
-
-    console.log('select', dataselect);
-    console.log('Input', dataInput);
-    console.log('brand', dataBrand);
+    const [dataName, setDataName] = useState('');
+    const [allBrand, setAllBrand] = useState([]);
+    const [subsId, setSubsId] = useState([]);
+    const params = useParams();
 
     useEffect(() => {
         const getAllCate = async () => {
             try {
                 const cate = await catePostApi.getAll();
                 setCategories(cate.data);
+
+                const brand = await brandApi.getAll();
+                setAllBrand(brand.data.data);
                 console.log(cate.data);
+                console.log(brand.data.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -35,34 +37,20 @@ function CreateSubs() {
         getAllCate();
     }, []);
 
-    useEffect(() => {
-        const getAllBrand = async () => {
-            try {
-                const brand = await brandApi.getAll();
-                setAllBrands(brand.data.data);
-                console.log('dat', brand.data);
-            } catch (error) {
-                console.log('thương hiệu', error);
-            }
-        };
-        getAllBrand();
-    }, []);
-
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const data = { category_id: dataselect, name: dataInput, brand_id: dataBrand };
+        const data = { category_id: dataCate, name: dataName, brand_id: dataBrand };
         console.log('data', data);
-        const createSubs = async () => {
+        const EditSubs = async () => {
             try {
-                const result = await catePostApi.createdSubs(data);
-                // setMessStatus(result.status);
-
+                const result = await catePostApi.editSubs(data, params.id);
+                setMessStatus(result.status);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
             } catch (error) {
-                console.log('Failed to create: ', error);
+                console.log('Failed to Update: ', error);
                 const res = error.response.data;
                 setMessStatus(res.message);
                 setLoading(false);
@@ -70,16 +58,31 @@ function CreateSubs() {
                 setStatusHandle(false);
             }
         };
-        createSubs();
+        EditSubs();
     };
+
+    useEffect(() => {
+        const getByIdSub = async () => {
+            try {
+                const byIdSub = await catePostApi.getByIdSubs(params.id);
+                setDataBrand(byIdSub.data.brand_id);
+                setDataCate(byIdSub.data.category_id);
+                setDataName(byIdSub.data.name);
+                console.log(byIdSub.data);
+            } catch (error) {
+                console.log('lỗi cập nhật', error);
+            }
+        };
+        getByIdSub();
+    }, []);
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Thêm danh mục subs</h2>
-                <p className="content__heading--subtitle">Thêm danh mục subs</p>
+                <h2 className="content__heading--title">Cập nhật danh mục subs</h2>
+                <p className="content__heading--subtitle">Cập nhật danh mục subs</p>
             </div>
 
             <div className="content__wrapper">
@@ -115,8 +118,8 @@ function CreateSubs() {
                             <div className="input__text">
                                 <select
                                     className="input__text--ctrl"
-                                    value={dataselect}
-                                    onChange={(e) => setDateSelect(e.target.value)}
+                                    value={dataCate}
+                                    onChange={(e) => setDataCate(e.target.value)}
                                 >
                                     <option value="0" selected>
                                         Chọn danh mục
@@ -143,10 +146,10 @@ function CreateSubs() {
                             </div>
                             <div className="input__text">
                                 <input
-                                    value={dataInput}
+                                    value={dataName}
                                     className="input__text--ctrl"
                                     placeholder="Nội quy của hàng"
-                                    onChange={(e) => setDataInput(e.target.value)}
+                                    onChange={(e) => setDataName(e.target.value)}
                                 />
                             </div>
                         </div>
@@ -160,7 +163,7 @@ function CreateSubs() {
                         )} */}
 
                         <div className="btn__form">
-                            <button className="btn__form--ctrl">Thêm danh mục</button>
+                            <button className="btn__form--ctrl">Cập nhật danh mục</button>
                         </div>
                     </form>
                 </div>
@@ -169,4 +172,4 @@ function CreateSubs() {
     );
 }
 
-export default CreateSubs;
+export default EditSubs;

@@ -7,6 +7,7 @@ import images from '~/assets/images';
 import Slider from 'react-slick';
 import Loading from '~/components/Loading';
 import catePostApi from '~/api/catePostApi';
+import postsApi from '../../api/postApi';
 
 const cx = classNames.bind(styles);
 
@@ -18,24 +19,21 @@ function TekZone() {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-    // const [subCategory, setSubCategory] = useState();
+    const { state } = useLocation();
+    const data = state.data;
+    console.log('data', data);
     const [dataCategory, setDataCategory] = useState();
     const [loading, setLoading] = useState(false);
-    const { state } = useLocation();
-    const slugCate = state.data.slug;
-    const CateID = state.data.id;
+    const [allSpost, setAllpost] = useState('');
+
     useEffect(() => {
-        const fetchAllCategory = async () => {
-            try {
-                const Category = await catePostApi.getAll();
-                const ListCategoryData = Category?.data?.filter((item) => item?.id === CateID);
-                if (ListCategoryData.length > 0) {
-                    setDataCategory(ListCategoryData[0].subs);
-                }
-            } catch (error) {}
+        const getAllSpost = async () => {
+            const allSposts = await postsApi.getAll();
+            setAllpost(allSposts.data);
+            console.log('tin tức', allSposts.data);
         };
-        fetchAllCategory();
-    }, [CateID]);
+        getAllSpost();
+    }, []);
 
     const handleCateId = (id) => {
         console.log('danh mục', id);
@@ -125,29 +123,31 @@ function TekZone() {
                 </div>
 
                 <ul className={cx('list__cate')}>
-                    {Array.isArray(dataCategory)
-                        ? dataCategory?.map((list) => (
-                              <li key={list?.id}>
-                                  <div onClick={() => handleCateId(list.id)}>
-                                      <img src={images.cate_iphone} alt={list?.name} />
-                                      <h3>{list?.name}</h3>
-                                  </div>
-                              </li>
-                          ))
-                        : false}
+                    {data.subs.map((list, index) => (
+                        <li key={index}>
+                            <div onClick={() => handleCateId(list.id)}>
+                                <img src={images.cate_iphone} alt={list?.name} />
+                                <h3>{list?.name}</h3>
+                            </div>
+                        </li>
+                    ))}
                 </ul>
 
                 <div className={cx('newsest__list')}>
                     <div className={cx('title-new')}>
-                        <h1>Mới nhất</h1>
+                        <h2>Mới nhất</h2>
                     </div>
                     <div className={cx('newsest')}>
-                        {/* {Array.isArray(posts)
-                            ? posts.map((listPost) => (
+                        {Array.isArray(allSpost)
+                            ? allSpost.map((listPost) => (
                                   <div className={cx('news-item')} key={listPost.id}>
-                                      <Link to={'tekzonedetail'}>
+                                      <Link to={`/tekzonedetail/${listPost.id}`}>
                                           <div className={cx('img-item')}>
-                                              <img src={images.tekitem} alt={listPost.title} />
+                                              <img
+                                                  style={{ width: 350 }}
+                                                  src="https://cdn.tgdd.vn/Files/2022/12/04/1492928/man-hinh-macbook-bi-soc-phai-lam-sao-h2.jpg"
+                                                  alt={listPost.title}
+                                              />
                                           </div>
                                           <div className={cx('title-item')}>
                                               <h3>{listPost.title}</h3>
@@ -158,7 +158,7 @@ function TekZone() {
                                       </Link>
                                   </div>
                               ))
-                            : false} */}
+                            : false}
 
                         {/* <div className={cx('news-item')}>
                             <a href="#">
