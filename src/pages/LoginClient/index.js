@@ -1,10 +1,11 @@
 import classNames from 'classnames/bind';
-import styles from '../../assets/scss/LoginClient.module.scss';
+import { useEffect, useState } from 'react';
 import { BiUserPin } from 'react-icons/bi';
-import { useState } from 'react';
 import loginApi from '~/api/loginApi';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
+import styles from '../../assets/scss/LoginClient.module.scss';
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function LoginClient() {
@@ -15,6 +16,16 @@ function LoginClient() {
     const [modal, setModal] = useState(false);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
+    const [loginStatus, setLoginStatus] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const objDataAd = localStorage.getItem('token');
+        if (objDataAd != null) {
+            navigate('/uplogin');
+        }
+    }, [loginStatus]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,12 +52,21 @@ function LoginClient() {
         getSMS();
     };
 
+    console.log('loginStatus', loginStatus);
+
     const handleLogin = (e) => {
         e.preventDefault();
         const data = { phone, password: otp };
         const login = async () => {
             try {
                 const result = await loginApi.login(data);
+                const dataUser = result.data;
+                const token = result.token.Bearer;
+                localStorage.setItem('dataAd', JSON.stringify(dataUser));
+                localStorage.setItem('token', token);
+                setLoginStatus(true);
+
+                console.log(result);
                 setShowForm(false);
                 setMessStatus(result.message);
                 setLoading(false);
@@ -59,12 +79,12 @@ function LoginClient() {
                 setLoading(false);
                 setModal(true);
                 setStatusHandle(false);
+                setLoginStatus(false);
             }
         };
         login();
     };
 
-    console.log('show form', showForm);
     const changePhone = (e) => {
         setPhone(e.target.value);
     };
@@ -108,7 +128,7 @@ function LoginClient() {
                                             <BiUserPin className={cx('icons')} />
                                         </label>
                                         <input
-                                            autocomplete="username"
+                                            autoComplete="username"
                                             id="login__username"
                                             type="number"
                                             name="username"
