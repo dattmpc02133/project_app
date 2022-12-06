@@ -57,6 +57,49 @@ const footerApi = {
         return axiosClient.get(url);
     },
 
+    // getByIdContent: (id) => {
+    //     const url = `/footer-category/${id}`;
+    //     return axiosClient.get(url);
+    // },
+    // getAllContact: (params) => {
+    //     const url = '/client/footer-category/categories_contact';
+    //     return axiosClient.get(url, params);
+    // },
+    // getAllContents: (param) => {
+    //     const url = '/footer-content';
+    //     return axiosClient.get(url, param);
+    // },
+
+    getIdContent: (id) => {
+        const url = `/footer-content/${id}`;
+        return axiosClient.get(url);
+    },
+
+    // contact
+    createContact: (data) => {
+        const url = '/contact';
+        return axiosClient.post(url, data);
+    },
+
+    updateContact: (data, id) => {
+        const url = `/contact/${id}`;
+        return axiosClient.put(url, data);
+    },
+
+    deleteContact: (id) => {
+        const url = `/contact/${id}`;
+        return axiosClient.delete(url);
+    },
+
+    getAllContact: (params) => {
+        const url = '/contact';
+        return axiosClient.get(url, { params });
+    },
+    getIdContact: (id) => {
+        const url = `/contact/${id}`;
+        return axiosClient.get(url);
+    },
+
     getIdContent: (id) => {
         const url = `/footer-content/${id}`;
         return axiosClient.get(url);

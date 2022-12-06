@@ -43,6 +43,11 @@ import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
 import CreateSubs from './pages/Admin/CreateSubs';
+
+import CreateContact from './pages/Admin/CreateContact';
+import ListContact from './pages/Admin/ListContact';
+import EditContact from './pages/Admin/EditContact';
+
 import EditCategories from './pages/Admin/EditCategories';
 import ListSubs from './pages/Admin/ListSubs';
 import EditSubs from './pages/Admin/EditSubs';
@@ -50,6 +55,7 @@ import ListBrand from './pages/Admin/ListBrand';
 import EditBrand from './pages/Admin/EditBrand';
 import ListPost from './pages/Admin/ListPost';
 import EditPost from './pages/Admin/EditPost';
+
 import ListComment from './pages/Admin/ListComment';
 
 function App() {
@@ -119,8 +125,13 @@ function App() {
                     <Route path="store/list" element={<ListStore />} />
                     <Route path="store/edit/:id" element={<EditStore />} />
                     <Route path="importslip/add" element={<ProImportSlip />} />
+
                     {/* comment */}
                     <Route path="comment/list" element={<ListComment />} />
+
+                    <Route path="contact/add" element={<CreateContact />} />
+                    <Route path="contact/list" element={<ListContact />} />
+                    <Route path="contact/edit/:id" element={<EditContact />} />
                 </Route>
             </Routes>
         </Router>
