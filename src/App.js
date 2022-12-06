@@ -50,6 +50,7 @@ import ListBrand from './pages/Admin/ListBrand';
 import EditBrand from './pages/Admin/EditBrand';
 import ListPost from './pages/Admin/ListPost';
 import EditPost from './pages/Admin/EditPost';
+import ListComment from './pages/Admin/ListComment';
 
 function App() {
     return (
@@ -118,6 +119,8 @@ function App() {
                     <Route path="store/list" element={<ListStore />} />
                     <Route path="store/edit/:id" element={<EditStore />} />
                     <Route path="importslip/add" element={<ProImportSlip />} />
+                    {/* comment */}
+                    <Route path="comment/list" element={<ListComment />} />
                 </Route>
             </Routes>
         </Router>
