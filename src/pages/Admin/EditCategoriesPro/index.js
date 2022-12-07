@@ -6,7 +6,7 @@ import Modal from '~/components/Modal';
 import { useParams } from 'react-router-dom';
 import catePostApi from '../../../api/catePostApi';
 
-const EditCategories = () => {
+const EditCategoriesPro = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [nameCatePost, setNameCatePost] = useState('');
@@ -51,10 +51,10 @@ const EditCategories = () => {
     useEffect(() => {
         const getByIdCate = async () => {
             try {
-                const result = await catePostApi.getByIdCate(params.id);
-                setResultKq(result.data.is_post);
+                const result = await categoriesApi.getByIdCategories(params.id);
+                setResultKq(result.data.id_post);
                 setNameCatePost(result.data.name);
-                console.log('lỗi ', result.data);
+                console.log('lỗi ', result.data.id);
             } catch (error) {
                 console.log('không lấy được đi danh mục', error);
             }
@@ -86,8 +86,8 @@ const EditCategories = () => {
                                     onChange={(e) => setResultKq(e.target.value)}
                                 >
                                     <option selected>Chọn</option>
-                                    <option value={resultKq}>Cập nhật danh mục sản phẩm</option>
-                                    <option value={resultKq}>Cập nhật danh mục tin tức</option>
+                                    <option value="0">Cập nhật danh mục sản phẩm</option>
+                                    <option value="1">Cập nhật danh mục tin tức</option>
                                 </select>
                             </div>
                         </div>
@@ -120,4 +120,4 @@ const EditCategories = () => {
     );
 };
 
-export default EditCategories;
+export default EditCategoriesPro;

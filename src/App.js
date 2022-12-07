@@ -55,6 +55,13 @@ import ListBrand from './pages/Admin/ListBrand';
 import EditBrand from './pages/Admin/EditBrand';
 import ListPost from './pages/Admin/ListPost';
 import EditPost from './pages/Admin/EditPost';
+import CreateCategoriesPro from './pages/Admin/CreateCategoriesPro';
+import ListCategoriesProduct from './pages/Admin/ListCategoriesProduct';
+import EditCategoriesPro from './pages/Admin/EditCategoriesPro';
+import CreateProductSubs from './pages/Admin/CreateProductSubs';
+import EditProductSubs from './pages/Admin/EditProductSubs';
+import ListProductSubs from './pages/Admin/ListProductSubs';
+import TekZoneCate from './pages/TekZoneCate';
 
 import ListComment from './pages/Admin/ListComment';
 
@@ -66,7 +73,8 @@ function App() {
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
-                    <Route path="/Daimond" element={<TekZone />} />
+                    <Route path="/tekzonecate/:id/:slug" element={<TekZoneCate />} />
+                    <Route path="/daimond" element={<TekZone />} />
                     <Route path="/tekzonedetail/:id" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
@@ -106,9 +114,9 @@ function App() {
                     <Route path="footer/content/list" element={<ListFooRules />} />
                     <Route path="footer/content/edit/:id" element={<EditFooRules />} />
                     {/* categories admin*/}
-                    <Route path="categories/add" element={<CreateCategories />} />
-                    <Route path="categories/list" element={<ListCatePost />} />
-                    <Route path="categories/edit/:id" element={<EditCategories />} />
+                    <Route path="categoriespost/add" element={<CreateCategories />} />
+                    <Route path="categoriespost/list" element={<ListCatePost />} />
+                    <Route path="categoriespost/edit/:id" element={<EditCategories />} />
                     {/* Brand */}
                     <Route path="brand/add" element={<CreateBrand />} />
                     <Route path="brand/list" element={<ListBrand />} />
@@ -120,6 +128,14 @@ function App() {
                     <Route path="subs/add" element={<CreateSubs />} />
                     <Route path="subs/list" element={<ListSubs />} />
                     <Route path="subs/edit/:id" element={<EditSubs />} />
+                    {/* categories product */}
+                    <Route path="categoriesproduct/add" element={<CreateCategoriesPro />} />
+                    <Route path="categoriesproduct/list" element={<ListCategoriesProduct />} />
+                    <Route path="categoriesproduct/edit/:id" element={<EditCategoriesPro />} />
+                    {/* subscateproduct */}
+                    <Route path="productsub/add" element={<CreateProductSubs />} />
+                    <Route path="productsub/list" element={<ListProductSubs />} />
+                    <Route path="productsub/edit/:id" element={<EditProductSubs />} />
 
                     <Route path="store/add" element={<CreateStore />} />
                     <Route path="store/list" element={<ListStore />} />

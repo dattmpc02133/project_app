@@ -15,6 +15,16 @@ const postsApi = {
         const url = '/posts';
         return axiosClient.post(url, data);
     },
+
+    editPost: (data, id) => {
+        const url = `/posts/${id}`;
+        return axiosClient.put(url, data);
+    },
+
+    deletePost: (id) => {
+        const url = `/posts/${id}`;
+        return axiosClient.delete(url);
+    },
 };
 
 export default postsApi;
