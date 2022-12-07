@@ -11,7 +11,7 @@ import postsApi from '../../api/postApi';
 
 const cx = classNames.bind(styles);
 
-function TekZone() {
+function TekZoneCate() {
     const settings = {
         dots: true,
         infinite: true,
@@ -22,6 +22,8 @@ function TekZone() {
     const { state } = useLocation();
     const data = state.data;
     console.log('data', data);
+    const params = useParams();
+
     const [dataCategory, setDataCategory] = useState();
     const [loading, setLoading] = useState(false);
     const [allSpost, setAllpost] = useState('');
@@ -35,10 +37,6 @@ function TekZone() {
 
         getAllSpost();
     }, []);
-
-    const handleCateId = (list) => {
-        console.log('danh mục', list);
-    };
 
     return (
         <div className={cx('wrapper')}>
@@ -124,13 +122,13 @@ function TekZone() {
                 </div>
 
                 <ul className={cx('list__cate')}>
-                    {data.subs.map((list, index) => (
+                    {/* {data.subs.map((list, index) => (
                         <li key={index}>
-                            <Link to={`/tekzonecate/${list.id}/${list.slug}`}>
+                            <Link to={`/tekzonecate/${list.id}`}>
                                 <h3>{list?.name}</h3>
                             </Link>
                         </li>
-                    ))}
+                    ))} */}
                 </ul>
 
                 <div className={cx('newsest__list')}>
@@ -138,27 +136,21 @@ function TekZone() {
                         <h2>Mới nhất</h2>
                     </div>
                     <div className={cx('newsest')}>
-                        {Array.isArray(allSpost)
-                            ? allSpost.map((listPost) => (
-                                  <div className={cx('news-item')} key={listPost.id}>
-                                      <Link to={`/tekzonedetail/${listPost.id}`}>
-                                          <div className={cx('img-item', 'c-4')}>
-                                              <img
-                                                  className={cx('img-post')}
-                                                  src={listPost.image}
-                                                  alt={listPost.title}
-                                              />
-                                          </div>
-                                          <div className={cx('title-item')}>
-                                              <h3>{listPost.title}</h3>
-                                              <div className={cx('time-post')}>
-                                                  <p>1 giờ trước</p>
-                                              </div>
-                                          </div>
-                                      </Link>
-                                  </div>
-                              ))
-                            : false}
+                        {/* {allSpost?.map((listPost) => (
+                            <div className={cx('news-item')} key={listPost.id}>
+                                <Link to={`/tekzonedetail/${listPost.id}`}>
+                                    <div className={cx('img-item', 'c-4')}>
+                                        <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
+                                    </div>
+                                    <div className={cx('title-item')}>
+                                        <h3>{listPost.title}</h3>
+                                        <div className={cx('time-post')}>
+                                            <p>1 giờ trước</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))} */}
 
                         {/* <div className={cx('news-item')}>
                             <a href="#">
@@ -223,4 +215,4 @@ function TekZone() {
     );
 }
 
-export default TekZone;
+export default TekZoneCate;

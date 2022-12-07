@@ -25,16 +25,7 @@ function Footer() {
             }
         };
 
-        const allContact = async () => {
-            try {
-                const contact = await footerApi.getAllContact();
-                setContactAll(contact.data);
-            } catch (error) {
-                console.log('lỗi lấy liên hệ', error);
-            }
-        };
         allFooter();
-        allContact();
     }, []);
 
     return (
@@ -60,10 +51,10 @@ function Footer() {
                                         );
                                     })}
                                     {item.contact.map((items, index) => (
-                                        <a href="tel:0905015900" key={index}>
+                                        <Link to="tel:0905015900" key={index}>
                                             <span>{items.name}:</span>
                                             <b>{items.phone}</b>({items.time})
-                                        </a>
+                                        </Link>
                                     ))}
                                 </li>
                             );

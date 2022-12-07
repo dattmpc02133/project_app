@@ -15,6 +15,7 @@ const CreateCatePost = () => {
     const [describe, setDescribe] = useState('');
     const [titleMeta, setTitleMeta] = useState();
     const [metaKeyWord, setMetaKeyWord] = useState('');
+    const [imgPost, setImgPost] = useState('');
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(false);
     const [messStatus, setMessStatus] = useState();
@@ -37,6 +38,7 @@ const CreateCatePost = () => {
     console.log('subs', subsCategoiries);
     console.log('title', titlePost);
     console.log('describe', describe);
+    console.log('imgpost', imgPost);
     console.log('titlemeta', titleMeta);
     console.log('content', content);
 
@@ -47,6 +49,7 @@ const CreateCatePost = () => {
             subcategory_id: subsCategoiries,
             title: titlePost,
             short_des: describe,
+            image: imgPost,
             meta_title: titleMeta,
             meta_keywords: metaKeyWord,
             content_post: content,
@@ -135,6 +138,23 @@ const CreateCatePost = () => {
                                 />
                             </div>
                         </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Ảnh</label>
+                            </div>
+                            <div className="input__text">
+                                <input
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tóm tắt"
+                                    value={imgPost}
+                                    onChange={(e) => setImgPost(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
                         <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tiêu đề meta</label>

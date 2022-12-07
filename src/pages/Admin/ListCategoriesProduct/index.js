@@ -2,10 +2,11 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
 import catePostApi from '~/api/catePostApi';
+import categoriesApi from '../../../api/categoriesApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 
-const ListCatePost = () => {
+const ListCategoriesProduct = () => {
     const [loading, setLoading] = useState(false);
     const [listCate, setListCate] = useState([]);
     const [messStatus, setMessStatus] = useState();
@@ -18,9 +19,10 @@ const ListCatePost = () => {
         const fetchCatePost = async () => {
             setLoading(true);
             try {
-                const result = await catePostApi.getAll();
+                const result = await categoriesApi.getAll();
                 setListCate(result.data);
                 setLoading(false);
+                console.log('tất', result.data);
             } catch (error) {
                 console.log('Failed to fetch Categories: ', error);
                 setLoading(false);
@@ -34,13 +36,13 @@ const ListCatePost = () => {
         deleteCatePosts.current = id;
         const deleteFooter = async () => {
             try {
-                const dltFooter = await catePostApi.deleteCatePost(deleteCatePosts.current);
+                const dltFooter = await categoriesApi.deleteCateProduct(deleteCatePosts.current);
                 setMessage(dltFooter.message);
                 console.log(dltFooter.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                const result = await catePostApi.getAll();
+                const result = await categoriesApi.getAll();
                 setListCate(result.data);
             } catch (error) {
                 console.log('Failed to delete: ', error);
@@ -81,29 +83,31 @@ const ListCatePost = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {listCate?.map((item, index) => (
-                                    <tr key={item.id}>
-                                        <td>{index + 1}</td>
-                                        <td>{item.name}</td>
-                                        <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                            {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
-                                        </td>
-                                        <td>{item.created_by == null ? 'Null' : item.created_by}</td>
-                                        <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                        <td className="text-center">
-                                            <Link to={`/admin/categoriespost/edit/${item.id}`}>Sửa</Link>
-                                        </td>
-                                        <td className="text-center">
-                                            <Link
-                                                onClick={() => {
-                                                    handleDelete(item.id);
-                                                }}
-                                            >
-                                                Xóa
-                                            </Link>
-                                        </td>
-                                    </tr>
-                                ))}
+                                {Array.isArray(listCate)
+                                    ? listCate.map((item, index) => (
+                                          <tr key={item.id}>
+                                              <td>{index + 1}</td>
+                                              <td>{item.name}</td>
+                                              <td className={item.is_active == 1 ? 'active' : 'an__active'}>
+                                                  {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
+                                              </td>
+                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
+                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
+                                              <td className="text-center">
+                                                  <Link to={`/admin/categoriesproduct/edit/${item.id}`}>Sửa</Link>
+                                              </td>
+                                              <td className="text-center">
+                                                  <Link
+                                                      onClick={() => {
+                                                          handleDelete(item.id);
+                                                      }}
+                                                  >
+                                                      Xóa
+                                                  </Link>
+                                              </td>
+                                          </tr>
+                                      ))
+                                    : false}
                             </tbody>
                         </table>
                     </div>
@@ -113,4 +117,4 @@ const ListCatePost = () => {
     );
 };
 
-export default ListCatePost;
+export default ListCategoriesProduct;
