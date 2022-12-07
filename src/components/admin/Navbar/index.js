@@ -22,8 +22,14 @@ const Navbar = () => {
     const [openBrand, setOpenBrand] = useState(false);
     const [openStore, setOpenStore] = useState(false);
     const [openImportSlip, setOpenImportSlip] = useState(false);
+
+    const [openContact, setOpenContact] = useState(false);
+
     const [openSubsPost, setOpenSubsPost] = useState(false);
     const [openCateSubsProduct, setCateSubsProduct] = useState(false);
+
+    // comment
+    const [openComment, setOpenComment] = useState(false);
 
     return (
         <div className={cx('wrapper')}>
@@ -551,6 +557,51 @@ const Navbar = () => {
                         </ul>
                     </div>
 
+                    {/* comment */}
+                    {/* brand */}
+                    <div className={cx('navbar__content--block')}>
+                        <div className={cx('navbar__content--heading')}>
+                            <span className={cx('navbar__content--heading-title')}>Bình luận</span>
+                            <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa bình luận</p>
+                        </div>
+                        <ul className={cx('navbar__content--list')}>
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenComment(!openComment);
+                                    }}
+                                >
+                                    <BiCast className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Bình luận </span>
+                                    <BiChevronDown
+                                        className={
+                                            openComment
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openComment
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="comment/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    {/* end */}
+                    {/* end */}
+
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
                             <span className={cx('navbar__content--heading-title')}>Footer</span>
@@ -627,6 +678,46 @@ const Navbar = () => {
                                     </NavLink>
                                     <NavLink
                                         to="footer/content/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+
+                            {/* contact */}
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenContact(!openContact);
+                                    }}
+                                >
+                                    <TiPhoneOutline className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Liên hệ</span>
+                                    <BiChevronDown
+                                        className={
+                                            openContact
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openContact
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="contact/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="contact/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách

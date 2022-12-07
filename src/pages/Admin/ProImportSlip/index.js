@@ -24,17 +24,21 @@ const ProImportSlip = () => {
     const [variantId, setVariantId] = useState();
     const [quantity, setQuantity] = useState();
     const [priceImport, setPriceImport] = useState();
+    const [colorId, setColorId] = useState();
+    const [listColor, setListColor] = useState();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
             name: [titleSlip],
             warehouse_id: [wareHouseId],
+
             note: [noteSlip],
             details: [
                 {
                     product_id: productId,
                     variant_id: variantId,
+                    color_id: colorId,
                     pro_variant_id: variantId,
                     quantity_import: quantity,
                     price_import: priceImport,
@@ -46,7 +50,7 @@ const ProImportSlip = () => {
             setLoading(true);
             try {
                 const result = await proImportSlip.create(data);
-                // console.log(result);
+                console.log(result);
                 setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
@@ -62,6 +66,7 @@ const ProImportSlip = () => {
             }
         };
         postImportProduct();
+        console.log(data);
     };
 
     useEffect(() => {
@@ -81,6 +86,8 @@ const ProImportSlip = () => {
         fetchWP();
     }, []);
 
+    // console.log(listPro);
+
     const changeProductId = (e) => {
         const idProduct = e.target.value;
         setProductId(idProduct);
@@ -88,9 +95,19 @@ const ProImportSlip = () => {
         setListVariant(listVariant[0]?.proVariant);
     };
 
-    const changeVariantId = (e) => {
+    const changeVariantId = (e, idProduct) => {
         const idVariant = e.target.value;
         setVariantId(idVariant);
+        const listVariant = listProduct?.filter((item) => item.id == idProduct);
+        const listColor = listVariant[0]?.proVariant.filter((item) => item.id == idVariant);
+        // console.log(listColor[0]?.productVariantDetails);
+        setListColor(listColor[0]?.productVariantDetails);
+        // setListVariant(listVariant[0]?.proVariant);
+    };
+
+    const changeColorId = (e) => {
+        const idColor = e.target.value;
+        setColorId(idColor);
     };
 
     return (
@@ -194,7 +211,7 @@ const ProImportSlip = () => {
                             <div className="input__text">
                                 <select
                                     id="CateProduct"
-                                    onChange={(e) => changeVariantId(e)}
+                                    onChange={(e) => changeVariantId(e, productId)}
                                     className="input__text--ctrl"
                                 >
                                     <option>--Chọn biến thể sản phẩm--</option>
@@ -202,6 +219,27 @@ const ProImportSlip = () => {
                                         listVariant.map((data, index) => (
                                             <option key={index} value={data.id}>
                                                 {data.variant_name}
+                                            </option>
+                                        ))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="CateProduct">Màu sắc</label>
+                            </div>
+                            <div className="input__text">
+                                <select
+                                    id="CateProduct"
+                                    onChange={(e) => changeColorId(e)}
+                                    className="input__text--ctrl"
+                                >
+                                    <option>--Chọn màu sắc--</option>
+                                    {Array.isArray(listColor) &&
+                                        listColor.map((data, index) => (
+                                            <option key={index} value={data.color.id}>
+                                                {data.color.name}
                                             </option>
                                         ))}
                                 </select>

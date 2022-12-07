@@ -3,12 +3,15 @@ import images from '../../assets/images';
 import styles from '~/assets/scss/header.module.scss';
 import { CiSearch } from 'react-icons/ci';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { BiUserCircle } from 'react-icons/bi';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import cateProductApi from '~/api/cateProductApi';
 
 import cartApi from '~/api/cartApi';
+import searchApi from '../../api/searchApi';
+import { useMemo } from 'react';
 
 const cx = classNames.bind(styles);
 function Header() {
@@ -16,7 +19,8 @@ function Header() {
     const [categories, setCategories] = useState();
     const [open, setOpen] = useState();
     const [cartNum, setCartNum] = useState();
-    const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [findProduct, setFindProduct] = useState();
     const handleSearch = () => {
         setSearch(!search);
     };
@@ -28,7 +32,7 @@ function Header() {
             try {
                 const headerCategory = await cateProductApi.getAll();
                 const ListCategoryData = headerCategory?.data;
-                console.log('cateOnle', headerCategory.data);
+                // console.log('cateOnle', headerCategory.data);
                 setCategories(ListCategoryData);
 
                 const resultListCart = await cartApi.getAll();
@@ -37,9 +41,17 @@ function Header() {
                 console.log('Failed to fetch Categories: ', error);
             }
         };
+        const fetchSearchResults = async () => {
+            const ResultListSearch = await searchApi.searchItem(searchTerm);
+            if (searchTerm.length > 3) {
+                setFindProduct(ResultListSearch.data);
+            } else if (searchTerm.length === 0) {
+                setFindProduct([]);
+            }
+        };
         fetchHeaderCategory();
-    }, []);
-
+        fetchSearchResults();
+    }, [searchTerm]);
     return (
         <div className={cx('header')}>
             <div className={!search ? cx('head') : cx('head', 'active-search')}>
@@ -57,22 +69,49 @@ function Header() {
                     </a>
                 </div>
 
-                <div className={cx('search-header')}>
+                <form className={cx('search-header')}>
                     <div className={cx('search-input')}>
-                        <input type="text" placeholder="Nhập Tên sản phẩm muốn tìm kiếm ..." spellCheck="false" />
-                        <div>&times;</div>
+                        <input
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            value={searchTerm}
+                            type="text"
+                            placeholder="Nhập Tên sản phẩm muốn tìm kiếm ..."
+                            spellCheck="false"
+                        />
+                        <div onClick={(e) => setSearchTerm('')}>&times;</div>
                     </div>
                     <div className={cx('search-btn')}>
                         <button type="submit">
                             <CiSearch className={cx('search-icon')} />
                         </button>
                     </div>
-                </div>
-
+                    {/* {Array.isArray(findProduct != null ? findProduct )} */}
+                    <div className={searchTerm.length ? cx('filter_product-list') : cx('filter_product-list-search')}>
+                        {findProduct?.map((findPrd, index) => (
+                            <div className={cx('product_suggest')} index={index}>
+                                <Link
+                                    onClick={(e) => setSearchTerm('')}
+                                    to={`/productdetail?id=${findPrd.id}&slug=${findPrd.slug}`}
+                                >
+                                    <img src={findPrd.url_image} className={cx('product_item-img')} />
+                                    <div className={cx('product_item-info')}>
+                                        <h3>
+                                            {findPrd.product_name} {findPrd.variant_name}GB
+                                        </h3>
+                                        <p>Màu: {findPrd.color_name}</p>
+                                        <strong>{findPrd.price}₫</strong>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </form>
                 {/* search + cart */}
                 <div className={cx('search-cart')}>
-                    <div className={cx('search-product')} onClick={handleSearch}>
-                        <CiSearch className={cx('icon-search')} />
+                    <div className={cx('search-product')}>
+                        <Link to="login">
+                            <BiUserCircle className={cx('icon-search')} />
+                        </Link>
                     </div>
                     <div className={cx('cart-product')}>
                         {cartNum > 0 && cartNum != undefined && <span className={cx('num-cart')}>{cartNum}</span>}

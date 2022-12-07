@@ -43,6 +43,11 @@ import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
 import CreateSubs from './pages/Admin/CreateSubs';
+
+import CreateContact from './pages/Admin/CreateContact';
+import ListContact from './pages/Admin/ListContact';
+import EditContact from './pages/Admin/EditContact';
+
 import EditCategories from './pages/Admin/EditCategories';
 import ListSubs from './pages/Admin/ListSubs';
 import EditSubs from './pages/Admin/EditSubs';
@@ -57,6 +62,8 @@ import CreateProductSubs from './pages/Admin/CreateProductSubs';
 import EditProductSubs from './pages/Admin/EditProductSubs';
 import ListProductSubs from './pages/Admin/ListProductSubs';
 import TekZoneCate from './pages/TekZoneCate';
+
+import ListComment from './pages/Admin/ListComment';
 
 function App() {
     return (
@@ -76,7 +83,7 @@ function App() {
                         <Route path="insurance/:id" element={<Insurance />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
-                    <Route path="/logins" element={<LoginClient />} />
+                    <Route path="/login" element={<LoginClient />} />
                     <Route path="/uplogin" element={<LoginUpdate />} />
                     <Route path="/hislogin" element={<LoginHistoryCart />} />
                 </Route>
@@ -134,6 +141,13 @@ function App() {
                     <Route path="store/list" element={<ListStore />} />
                     <Route path="store/edit/:id" element={<EditStore />} />
                     <Route path="importslip/add" element={<ProImportSlip />} />
+
+                    {/* comment */}
+                    <Route path="comment/list" element={<ListComment />} />
+
+                    <Route path="contact/add" element={<CreateContact />} />
+                    <Route path="contact/list" element={<ListContact />} />
+                    <Route path="contact/edit/:id" element={<EditContact />} />
                 </Route>
             </Routes>
         </Router>

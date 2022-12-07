@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FcApproval } from 'react-icons/fc';
 import { GoChevronUp, GoPackage } from 'react-icons/go';
 import 'react-image-gallery/styles/css/image-gallery.css';
@@ -23,6 +23,7 @@ import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Modal from '~/components/Modal';
 import Loading from '~/components/Loading';
+import commentsApi from '../../api/commentsAPi.js';
 
 const cx = classNames.bind(style);
 const settings = {
@@ -60,6 +61,7 @@ const settings = {
 };
 
 const DetailProduct = () => {
+    const token = localStorage.getItem('token');
     const { state, search } = useLocation();
     const Search = useMemo(() => {
         return new URLSearchParams(search);
@@ -87,6 +89,13 @@ const DetailProduct = () => {
     const [provinceDistrictWardActive, setProvinceDistrictWardActive] = useState();
 
     const [listProductsBySubCate, setListProductsBySubCate] = useState();
+
+    //comments
+    const [comments, setComments] = useState();
+    const [listComments, setListComments] = useState();
+    const [repPlayComent, setRepPlayComent] = useState();
+    const [idRep, setIdRep] = useState();
+    const [render, setRender] = useState(false);
 
     //
     const [loading, setLoading] = useState(false);
@@ -222,6 +231,73 @@ const DetailProduct = () => {
         };
         addToCart();
     };
+    // comments
+    const handleSubmitComments = (e) => {
+        e.preventDefault();
+        const dataComment = {
+            product_id: itemColorActive.product_id,
+            content: comments,
+        };
+        setComments('');
+        const createComment = async () => {
+            setLoading(true);
+            try {
+                const result = await commentsApi.create(dataComment);
+                console.log(result);
+                setLoading(false);
+            } catch (error) {
+                console.log('Fail to create product', error);
+                setLoading(false);
+            }
+        };
+
+        createComment();
+    };
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            setLoading(true);
+            try {
+                const responseListComment = await commentsApi.getAllComments();
+                const dataNewListComment = responseListComment.data
+                    .filter((itemComment) => itemComment?.product_id == itemColorActive?.product_id)
+                    .map((comment) => {
+                        comment.showReply = false;
+                        return comment;
+                    });
+                setListComments(dataNewListComment);
+                setLoading(false);
+            } catch (error) {
+                console.log('Fail to create product', error);
+                setLoading(false);
+            }
+        };
+        fetchComments();
+    }, [itemColorActive]);
+    const itemreplay = ({ id }) => {
+        setIdRep(id);
+    };
+    const handleSubmitReplay = (e) => {
+        e.preventDefault();
+
+        const dataRepComment = {
+            id_comment: idRep,
+            rep_comment: repPlayComent,
+        };
+        const createRepComment = async () => {
+            setLoading(true);
+            try {
+                const result = await commentsApi.create(dataRepComment);
+                console.log('result', result);
+                setLoading(false);
+            } catch (error) {
+                console.log('Fail to create product', error);
+                setLoading(false);
+            }
+        };
+        createRepComment();
+    };
+
     return (
         <>
             <div className={cx('detail-box')}>
@@ -489,53 +565,76 @@ const DetailProduct = () => {
                         </TabList>
 
                         <TabPanel>
-                            <div className={cx('specifications-text-detail')}>
-                                <p>
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-1.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-2.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-3.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-4.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-5.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-6.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-7.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-1.jpg" />
-                                    <img src="https://cdn.tgdd.vn/Products/Images/42/240259/s16/iphone-14-l-1.jpg" />
-                                </p>
-                                <h3>Nội dung tính năng</h3>
-                                <div className={cx('text-desrepcription')}>
-                                    <a href="#">iPhone 14</a>. Với hệ thống camera kép tiên tiến nhất từng có trên
-                                    <a href="#">iPhone </a>. Chụp những bức ảnh tuyệt đẹp trong điều kiện từ thiếu sáng
-                                    đến dư sáng. Phát hiện Va Chạm, một tính năng an toàn mới, thay bạn gọi trợ giúp khi
-                                    cần kíp.
-                                </div>
-                                <h3 style={{ textAlign: 'justify' }}>Pháp lý</h3>
-                                <p>SOS Khẩn Cấp sử dụng kết nối mạng di động hoặc Cuộc Gọi Wi-Fi.</p>
-                            </div>
+                            <div className={cx('specifications-text-detail')}>{productDetail?.description}</div>
                             <div className={cx('specifications-comment')}>
                                 <h3>Hỏi đáp về iPhone 14</h3>
-                                <form>
-                                    <textarea
-                                        name="txtContent"
-                                        placeholder="Mời bạn thảo luận, vui lòng nhập tiếng Việt có dấu"
-                                        rows="1"
-                                        required="required"
-                                        width="100%"
-                                    ></textarea>
-                                </form>
+                                {token ? (
+                                    <form onSubmit={(e) => handleSubmitComments(e)}>
+                                        <input
+                                            value={comments}
+                                            name="txtContent"
+                                            placeholder="Mời bạn thảo luận, vui lòng nhập tiếng Việt có dấu"
+                                            width="100%"
+                                            onChange={(e) => setComments(e.target.value)}
+                                            className={cx('form-addComment')}
+                                        />
+                                    </form>
+                                ) : (
+                                    'Đăng nhâp để bình luận sản phẩm.....!!!'
+                                )}
+                                <div className={cx('comment-list')}>
+                                    {listComments?.map((cnnd, index) => (
+                                        <div className={cx('cmnd-name')} key={index}>
+                                            <p className={cx('cmt-top-name')}>
+                                                <strong>{cnnd.user_name}</strong>
+                                            </p>
+                                            <div className={cx('cmt-content')}>{cnnd.content}</div>
+                                            <div
+                                                className={cx('cmt-command')}
+                                                onClick={(e) => {
+                                                    listComments[index].showReply = true;
+                                                    setRender(!render);
+                                                    itemreplay({ id: cnnd.id });
+                                                }}
+                                            >
+                                                Trả lời
+                                            </div>
+                                            {cnnd?.showReply && (
+                                                <form className={cx('cmt-')} onSubmit={(e) => handleSubmitReplay(e)}>
+                                                    <input
+                                                        value={repPlayComent}
+                                                        name="txtContent"
+                                                        placeholder="Viết Câu Trả Lời"
+                                                        width="100%"
+                                                        onChange={(e) => setRepPlayComent(e.target.value)}
+                                                    />
+                                                </form>
+                                            )}
+                                            {cnnd?.rep_coment?.map((item, index) => {
+                                                return (
+                                                    <div className={cx('view-content_answer')}>
+                                                        <strong>@{item.rep_user_name}</strong>
+                                                        <div>{item.rep_comment}</div>
+                                                        <div
+                                                            className={cx('cmt-command')}
+                                                            onClick={(e) => {
+                                                                listComments[index].showReply = true;
+                                                                setRender(!render);
+                                                                itemreplay({ id: cnnd.id });
+                                                            }}
+                                                        >
+                                                            Trả lời
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            <div className={cx('specifiti')}>
-                                <div className={cx('grouplist')}>Màn hình</div>
-                                <ul className={cx('text-specifi')}>
-                                    <li>
-                                        <span className={cx('text-specifi-head')}>Công nghệ màn hình:</span>
-                                        <div>
-                                            <span>OLED</span>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
+                            <div className={cx('specifiti')}>{productDetail?.specification_infomation}</div>
                         </TabPanel>
                     </Tabs>
                 </div>
