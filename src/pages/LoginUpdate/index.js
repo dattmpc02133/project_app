@@ -129,6 +129,10 @@ function LoginUpdate() {
                 console.log(result);
                 localStorage.removeItem('token');
                 localStorage.removeItem('dataAd');
+                const objDataAd = localStorage.getItem('token');
+                if (objDataAd == null) {
+                    navigate('/login');
+                }
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to log out', error);
