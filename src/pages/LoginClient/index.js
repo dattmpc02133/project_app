@@ -29,6 +29,7 @@ function LoginClient() {
     const [wardId, setWardId] = useState();
     const [address, setAddress] = useState();
     const [name, setName] = useState();
+    const [title, setTiltle] = useState('Đăng nhập');
 
     const navigate = useNavigate();
 
@@ -77,6 +78,7 @@ function LoginClient() {
                     // setMessStatus(res.message);
                     setShowFormRT(true);
                     setLoading(false);
+                    setTiltle('Đăng ký');
                     // setModal(true);
                     // setStatusHandle(false);
                 }
@@ -118,6 +120,8 @@ function LoginClient() {
         };
         login();
     };
+
+    const showFormLogin = () => {};
 
     const changePhone = (e) => {
         setPhone(e.target.value);
@@ -166,7 +170,7 @@ function LoginClient() {
                         <div className={cx(' header col l-12 m-12 c-12')}>
                             <div className={cx('from')}>
                                 <div className={cx('from__title')}>
-                                    <h2>ĐĂNG NHẬP</h2>
+                                    <h2>{title}</h2>
                                 </div>
 
                                 <form onSubmit={(e) => handleSubmit(e)} className={cx('form__block')}>
@@ -251,6 +255,9 @@ function LoginClient() {
                                             </div>
                                         )}
                                         <div className={cx('form__btn')}>
+                                            <div className={cx('btn__item--toggle')} onClick={() => handleChangeForm()}>
+                                                Đã có tài khoản
+                                            </div>
                                             <button className={cx('btn__item')}>Tiếp tục</button>
                                         </div>
                                     </div>

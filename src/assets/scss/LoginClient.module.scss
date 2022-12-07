@@ -96,6 +96,7 @@
         h2 {
             line-height: 4rem;
             color: #fff;
+            text-transform: uppercase;
         }
     }
 
@@ -173,6 +174,7 @@
                 margin-bottom: 10px;
                 width: 100%;
                 text-align: center;
+                justify-content: space-between;
                 .btn__item {
                     min-width: 200px;
                     height: 40px;
@@ -185,6 +187,20 @@
                     &:hover {
                         background-color: #fff;
                         color: #3e3e3f;
+                    }
+                }
+                .btn__item--toggle {
+                    min-width: 200px;
+                    height: 40px;
+                    border-radius: 4px;
+                    background-color: #eee;
+                    color: #3e3e3f;
+                    border: 1px solid #fff;
+                    cursor: pointer;
+                    transition: all 0.2s linear;
+                    &:hover {
+                        background-color: transparent;
+                        color: #fff;
                     }
                 }
             }

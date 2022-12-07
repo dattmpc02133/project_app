@@ -127,6 +127,8 @@ function LoginUpdate() {
             try {
                 const result = await loginApi.logout();
                 console.log(result);
+                localStorage.removeItem('token');
+                localStorage.removeItem('dataAd');
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to log out', error);
