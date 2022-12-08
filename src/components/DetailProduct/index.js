@@ -157,6 +157,8 @@ const DetailProduct = () => {
     }, [productID]);
     const handleChangeTypeGB = ({ itemTypeGB }) => {
         setVariantID(itemTypeGB?.id);
+        console.log(itemTypeGB?.id);
+        // Id
     };
     let PriceDisCount = itemColorActive?.price * ((100 - itemColorActive?.discount) / 100);
 

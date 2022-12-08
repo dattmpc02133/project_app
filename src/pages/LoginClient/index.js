@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import { BiUserPin } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
+import locationApi from '~/api/locationApi';
 import loginApi from '~/api/loginApi';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
 import styles from '../../assets/scss/LoginClient.module.scss';
-import { useNavigate } from 'react-router-dom';
-import locationApi from '~/api/locationApi';
 const cx = classNames.bind(styles);
 
 function LoginClient() {
@@ -29,7 +29,10 @@ function LoginClient() {
     const [wardId, setWardId] = useState();
     const [address, setAddress] = useState();
     const [name, setName] = useState();
-    const [title, setTiltle] = useState('Đăng nhập');
+    const [title, setTiltle] = useState({
+        titleForm: 'Đăng nhập',
+        titleBtn: 'Chưa có tài khoản',
+    });
 
     const navigate = useNavigate();
 
@@ -59,69 +62,146 @@ function LoginClient() {
         listLocation();
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleLogin = (e) => {
         e.preventDefault();
-        if (phone.length == 10) {
-            const getSMS = async () => {
-                setLoading(true);
+        if (showFormRT) {
+            const data = {
+                name,
+                address,
+                ward_id: wardId,
+                district_id: districtId,
+                province_id: provinceId,
+                phone,
+                password: otp,
+            };
+
+            const register = async () => {
                 try {
-                    const result = await loginApi.callsms(phone);
+                    const result = await loginApi.register(data);
                     console.log(result);
-                    setShowForm(true);
-                    setMessStatus(result.status);
-                    setStatusHandle(true);
-                    // setModal(true);
                     setLoading(false);
+                    setShowForm(false);
+                    login(data);
                 } catch (error) {
                     console.log('Login failed: ', error);
                     const res = error.response.data;
-                    // setMessStatus(res.message);
-                    setShowFormRT(true);
+                    setMessStatus(res.message);
                     setLoading(false);
-                    setTiltle('Đăng ký');
-                    // setModal(true);
-                    // setStatusHandle(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                    setLoginStatus(false);
                 }
             };
-            getSMS();
+            register();
+        } else {
+            const data = { phone, password: otp };
+
+            login(data);
+        }
+    };
+
+    const login = async (data) => {
+        try {
+            const result = await loginApi.login(data);
+            const dataUser = result.data;
+            const token = result.token.Bearer;
+            localStorage.setItem('dataAd', JSON.stringify(dataUser));
+            localStorage.setItem('token', token);
+            setLoginStatus(true);
+
+            console.log(result);
+            setShowForm(false);
+            setMessStatus(result.message);
+            setLoading(false);
+            setModal(true);
+            setStatusHandle(true);
+        } catch (error) {
+            console.log('Login failed: ', error);
+            const res = error.response.data;
+            setMessStatus(res.message.password);
+            setLoading(false);
+            setModal(true);
+            setStatusHandle(false);
+            setLoginStatus(false);
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!showFormRT) {
+            if (phone.length == 10) {
+                const getSMS = async () => {
+                    setLoading(true);
+                    try {
+                        const result = await loginApi.callsms(phone);
+                        console.log(result);
+                        setShowForm(true);
+                        setMessStatus(result.status);
+                        setStatusHandle(true);
+                        // setModal(true);
+                        setLoading(false);
+                    } catch (error) {
+                        console.log('Login failed: ', error);
+                        if (error.response.status == 400) {
+                            const res = error.response.data;
+                            setMessStatus(res.message);
+                            setModal(true);
+                            setStatusHandle(false);
+                        } else {
+                            setShowFormRT(true);
+                            // setTiltle({ ...title, titleForm: 'Đăng nhập' });
+                            setTiltle({ titleForm: 'Đăng ký', titleBtn: 'Đã có tài khoản' });
+                        }
+                        setLoading(false);
+                    }
+                };
+                getSMS();
+            }
+        } else {
+            if (phone.length == 10) {
+                const getSMS = async () => {
+                    setLoading(true);
+                    try {
+                        const result = await loginApi.callsmsRT(phone);
+                        console.log(result);
+                        setShowForm(true);
+                        // setMessStatus(result.status);
+                        // setStatusHandle(true);
+                        // setModal(true);
+                        setLoading(false);
+                    } catch (error) {
+                        console.log('Login failed: ', error);
+                        const res = error.response.data;
+                        if (error.response.status == 400) {
+                            setMessStatus(res.message);
+                            setModal(true);
+                            setStatusHandle(false);
+                        } else {
+                            setMessStatus(res.message);
+                            setModal(true);
+                            setStatusHandle(false);
+                        }
+                        setLoading(false);
+                    }
+                };
+                getSMS();
+            }
         }
         //   const data = { phone };
     };
 
     console.log('loginStatus', loginStatus);
 
-    const handleLogin = (e) => {
-        e.preventDefault();
-        const data = { phone, password: otp };
-        const login = async () => {
-            try {
-                const result = await loginApi.login(data);
-                const dataUser = result.data;
-                const token = result.token.Bearer;
-                localStorage.setItem('dataAd', JSON.stringify(dataUser));
-                localStorage.setItem('token', token);
-                setLoginStatus(true);
-
-                console.log(result);
-                setShowForm(false);
-                setMessStatus(result.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(true);
-            } catch (error) {
-                console.log('Login failed: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message.password);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-                setLoginStatus(false);
-            }
-        };
-        login();
+    const handleChangeForm = () => {
+        if (showFormRT) {
+            setTiltle({ titleForm: 'Đăng nhập', titleBtn: 'Chưa có tài khoản' });
+            setPhone('');
+            setShowFormRT(false);
+        } else {
+            setTiltle({ titleForm: 'Đăng ký', titleBtn: 'Đã có tài khoản' });
+            setShowFormRT(true);
+        }
     };
-
-    const handleChangeForm = () => {};
 
     const changePhone = (e) => {
         setPhone(e.target.value);
@@ -170,7 +250,7 @@ function LoginClient() {
                         <div className={cx(' header col l-12 m-12 c-12')}>
                             <div className={cx('from')}>
                                 <div className={cx('from__title')}>
-                                    <h2>{title}</h2>
+                                    <h2>{title.titleForm}</h2>
                                 </div>
 
                                 <form onSubmit={(e) => handleSubmit(e)} className={cx('form__block')}>
@@ -184,6 +264,7 @@ function LoginClient() {
                                                 id="login__username"
                                                 type="number"
                                                 name="username"
+                                                value={phone}
                                                 onChange={(e) => changePhone(e)}
                                                 className={cx('form__login--input')}
                                                 placeholder="Vui lòng nhập số điện thoại"
@@ -211,7 +292,9 @@ function LoginClient() {
                                                         <option value="">--Chọn tỉnh thành phố--</option>
                                                         {Array.isArray(listProvince) &&
                                                             listProvince.map((item, index) => (
-                                                                <option value={item.id}>{item.name}</option>
+                                                                <option key={index} value={item.id}>
+                                                                    {item.name}
+                                                                </option>
                                                             ))}
                                                     </select>
                                                 </div>
@@ -225,7 +308,9 @@ function LoginClient() {
                                                         <option value="">--Chọn quận huyện--</option>
                                                         {Array.isArray(newListDistrict) &&
                                                             newListDistrict.map((item, index) => (
-                                                                <option value={item.id}>{item.name}</option>
+                                                                <option key={index} value={item.id}>
+                                                                    {item.name}
+                                                                </option>
                                                             ))}
                                                     </select>
                                                 </div>
@@ -239,7 +324,9 @@ function LoginClient() {
                                                         <option value="">--Chọn phường xã--</option>
                                                         {Array.isArray(newListWard) &&
                                                             newListWard.map((item, index) => (
-                                                                <option value={item.id}>{item.name}</option>
+                                                                <option key={index} value={item.id}>
+                                                                    {item.name}
+                                                                </option>
                                                             ))}
                                                     </select>
                                                 </div>
@@ -256,7 +343,7 @@ function LoginClient() {
                                         )}
                                         <div className={cx('form__btn')}>
                                             <div className={cx('btn__item--toggle')} onClick={() => handleChangeForm()}>
-                                                Đã có tài khoản
+                                                {title.titleBtn}
                                             </div>
                                             <button className={cx('btn__item')}>Tiếp tục</button>
                                         </div>

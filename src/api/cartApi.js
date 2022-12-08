@@ -35,6 +35,19 @@ const cartApi = {
             return axiosClient.get(url);
         }
     },
+    getAllOrders: (params) => {
+        if (params) {
+            const url = `/orders${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = `/orders`;
+            return axiosClient.get(url);
+        }
+    },
+    getOrdersId(id) {
+        const url = `/orders/${id}`;
+        return axiosClient.get(url);
+    },
     // login: (data) => {
     //     const url = '/posts';
     //     return axiosClient.post(url, data);

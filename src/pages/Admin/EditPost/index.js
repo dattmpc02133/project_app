@@ -29,7 +29,6 @@ const EditPost = () => {
             try {
                 const allSubs = await catePostApi.getAll();
                 setAllSubs(allSubs.data);
-                console.log(allSubs.data);
             } catch (error) {
                 console.log('Lỗi lấy subs', error);
             }
@@ -56,7 +55,6 @@ const EditPost = () => {
     }, []);
 
     const handleSummit = (e) => {
-        setLoading(true);
         e.preventDefault();
         const data = {
             subcategory_id: subsCategoiries,
@@ -70,6 +68,7 @@ const EditPost = () => {
 
         console.log('data', data);
         const EditPost = async () => {
+            setLoading(true);
             try {
                 const post = await postApi.editPost(data, params.id);
                 setMessage(post.message);

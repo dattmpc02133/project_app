@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { BiCast, BiChevronDown, BiCollection, BiCreditCardFront, BiIntersect } from 'react-icons/bi';
 import { TiSocialInstagram, TiHomeOutline, TiLocationArrowOutline, TiPhoneOutline } from 'react-icons/ti';
-import { RiAncientGateLine, RiBankLine, RiCalendarEventLine } from 'react-icons/ri';
+import { RiAncientGateLine, RiBankLine, RiCalendarEventLine, RiListUnordered } from 'react-icons/ri';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import images from '~/assets/images';
@@ -552,6 +552,21 @@ const Navbar = () => {
                                 <NavLink to="importslip/add" className={cx('navbar__content--link')}>
                                     <RiCalendarEventLine className={cx('navbar__content--icon')} />
                                     <span className={cx('navbar__content--text')}>Phiếu nhập hàng</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div className={cx('navbar__content--block')}>
+                        <div className={cx('navbar__content--heading')}>
+                            <span className={cx('navbar__content--heading-title')}>Đơn hàng</span>
+                            <p className={cx('navbar__content--heading-subtitle')}>Danh sách đơn hàng</p>
+                        </div>
+                        <ul className={cx('navbar__content--list')}>
+                            <li className={cx('navbar__content--item')}>
+                                <NavLink to="orders/list" className={cx('navbar__content--link')}>
+                                    <RiListUnordered className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Danh sách đơn hàng</span>
                                 </NavLink>
                             </li>
                         </ul>
