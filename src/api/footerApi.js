@@ -75,6 +75,11 @@ const footerApi = {
         return axiosClient.get(url);
     },
 
+    getIdContentClient: (id) => {
+        const url = `client/load-footer-content/${id}`;
+        return axiosClient.get(url);
+    },
+
     // contact
     createContact: (data) => {
         const url = '/contact';

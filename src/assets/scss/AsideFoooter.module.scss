@@ -32,3 +32,45 @@
         }
     }
 }
+
+.list-tabs-mobile {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .wrapper {
+        max-width: 1023px;
+        min-width: 200px;
+        display: block;
+
+        .list-tabs {
+            display: none;
+        }
+
+        .list-tabs-mobile {
+            display: block;
+            margin-right: 0;
+            font-size: 1.7rem;
+            font-weight: 500;
+            margin: 10px;
+            li {
+                background-color: #323232;
+                width: 100%;
+                height: 40px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                padding: 0 10px;
+                display: none;
+            }
+
+            .active-mobi {
+                display: block;
+            }
+
+            .none-mobi {
+                display: none;
+            }
+        }
+    }
+}

@@ -28,7 +28,7 @@ function TekZoneDetail() {
     useEffect(() => {
         const getById = async () => {
             try {
-                const byId = await postsApi.get(params.id);
+                const byId = await postsApi.getByClient(params.id);
                 setTitle(byId.data.title);
                 setcontent(byId.data.content_post);
                 setUser(byId.data.author);

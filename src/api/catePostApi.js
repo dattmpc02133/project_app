@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const catePostApi = {
     create: (data) => {
-        const url = '/admin/categories_post';
+        const url = '/admin/categories';
         return axiosClient.post(url, data);
     },
     getAll: (params) => {
@@ -48,6 +48,12 @@ const catePostApi = {
     deleteCatePost: (id) => {
         const url = `/admin/categories/${id}`;
         return axiosClient.delete(url);
+    },
+
+    // lấy tin tức theo danh mục
+    getByIdCatePost: (id) => {
+        const url = `client/subcategories/loadPostByCate/${id}`;
+        return axiosClient.get(url);
     },
 };
 

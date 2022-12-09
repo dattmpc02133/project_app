@@ -15,7 +15,7 @@ function Insurance() {
     useEffect(() => {
         const getIdContents = async () => {
             try {
-                const idContent = await footerApi.getIdContent(params.id);
+                const idContent = await footerApi.getIdContentClient(params.id);
                 // console.log('content', idContent.data);
                 setContent(idContent.data.content);
                 setTitle(idContent.data.title);
