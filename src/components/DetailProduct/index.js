@@ -157,6 +157,8 @@ const DetailProduct = () => {
     }, [productID]);
     const handleChangeTypeGB = ({ itemTypeGB }) => {
         setVariantID(itemTypeGB?.id);
+        console.log(itemTypeGB?.id);
+        // Id
     };
     let PriceDisCount = itemColorActive?.price * ((100 - itemColorActive?.discount) / 100);
 
@@ -232,28 +234,6 @@ const DetailProduct = () => {
         addToCart();
     };
     // comments
-    const handleSubmitComments = (e) => {
-        e.preventDefault();
-        const dataComment = {
-            product_id: itemColorActive.product_id,
-            content: comments,
-        };
-        setComments('');
-        const createComment = async () => {
-            setLoading(true);
-            try {
-                const result = await commentsApi.create(dataComment);
-                console.log(result);
-                setLoading(false);
-            } catch (error) {
-                console.log('Fail to create product', error);
-                setLoading(false);
-            }
-        };
-
-        createComment();
-    };
-
     useEffect(() => {
         const fetchComments = async () => {
             setLoading(true);
@@ -274,6 +254,43 @@ const DetailProduct = () => {
         };
         fetchComments();
     }, [itemColorActive]);
+
+    const handleSubmitComments = (e) => {
+        e.preventDefault();
+        const data = {
+            product_id: itemColorActive.product_id,
+            content: comments,
+        };
+        setComments('');
+        const createComment = async () => {
+            setLoading(true);
+            try {
+                const result = await commentsApi.create(data);
+                console.log(result);
+                setLoading(false);
+                setMessStatus(result.message);
+                setStatusHandle(true);
+                setModal(true);
+                const responseListComment = await commentsApi.getAllComments();
+                const dataNewListComment = responseListComment.data
+                    .filter((itemComment) => itemComment?.product_id == itemColorActive?.product_id)
+                    .map((comment) => {
+                        comment.showReply = false;
+                        return comment;
+                    });
+                setListComments(dataNewListComment);
+            } catch (error) {
+                console.log('Failed to add to cart: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
+                setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
+            }
+        };
+        createComment();
+    };
+
     const itemreplay = ({ id }) => {
         setIdRep(id);
     };
@@ -567,17 +584,20 @@ const DetailProduct = () => {
                         <TabPanel>
                             <div className={cx('specifications-text-detail')}>{productDetail?.description}</div>
                             <div className={cx('specifications-comment')}>
-                                <h3>Hỏi đáp về iPhone 14</h3>
+                                {/* <h3>Hỏi đáp về {productDetail.name}</h3> */}
+
+                                {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
                                 {token ? (
                                     <form onSubmit={(e) => handleSubmitComments(e)}>
-                                        <input
+                                        <textarea
                                             value={comments}
                                             name="txtContent"
                                             placeholder="Mời bạn thảo luận, vui lòng nhập tiếng Việt có dấu"
                                             width="100%"
                                             onChange={(e) => setComments(e.target.value)}
                                             className={cx('form-addComment')}
-                                        />
+                                        ></textarea>
+                                        <button type="submit">Gửi</button>
                                     </form>
                                 ) : (
                                     'Đăng nhâp để bình luận sản phẩm.....!!!'

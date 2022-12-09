@@ -15,17 +15,18 @@ const LoginAdmin = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    console.log(error);
     const [messErr, setMessErr] = useState();
     const [loginStatus, setLoginStatus] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const objDataAd = JSON.parse(localStorage.getItem('dataAd'));
-        if (objDataAd != null && (objDataAd.role_id == 1 || objDataAd.role_id == 4)) {
+        if (objDataAd != null && objDataAd.role_id != 2) {
             navigate('/admin');
         }
     }, [loginStatus]);
+
+    console.log(loginStatus);
 
     const submitLogin = (e) => {
         e.preventDefault();

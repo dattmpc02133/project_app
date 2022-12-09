@@ -63,7 +63,11 @@ import EditProductSubs from './pages/Admin/EditProductSubs';
 import ListProductSubs from './pages/Admin/ListProductSubs';
 import TekZoneCate from './pages/TekZoneCate';
 
+import ListProductComment from './pages/Admin/ListProductComment';
 import ListComment from './pages/Admin/ListComment';
+import ListCommentReply from './pages/Admin/ListCommentReply';
+import ListOrders from './pages/Admin/ListOrders';
+import OrderDetais from './pages/Admin/OrderDetais';
 
 function App() {
     return (
@@ -143,11 +147,15 @@ function App() {
                     <Route path="importslip/add" element={<ProImportSlip />} />
 
                     {/* comment */}
-                    <Route path="comment/list" element={<ListComment />} />
+                    <Route path="comment/listproductcomment" element={<ListProductComment />} />
+                    <Route path="comment/listcomment" element={<ListComment />} />
+                    <Route path="comment/listcommentreply/:id" element={<ListCommentReply />} />
 
                     <Route path="contact/add" element={<CreateContact />} />
                     <Route path="contact/list" element={<ListContact />} />
                     <Route path="contact/edit/:id" element={<EditContact />} />
+                    <Route path="orders/list" element={<ListOrders />} />
+                    <Route path="orders/details/:id/:code" element={<OrderDetais />} />
                 </Route>
             </Routes>
         </Router>
