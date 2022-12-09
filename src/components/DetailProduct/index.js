@@ -94,8 +94,10 @@ const DetailProduct = () => {
     const [comments, setComments] = useState();
     const [listComments, setListComments] = useState();
     const [repPlayComent, setRepPlayComent] = useState();
+    const [repPlayCommentNews, setRepPlayCommentNews] = useState();
     const [idRep, setIdRep] = useState();
-    const [render, setRender] = useState(false);
+    const [render, setRender] = useState();
+    const [renderReply, setRenderReply] = useState();
 
     //
     const [loading, setLoading] = useState(false);
@@ -296,7 +298,6 @@ const DetailProduct = () => {
     };
     const handleSubmitReplay = (e) => {
         e.preventDefault();
-
         const dataRepComment = {
             id_comment: idRep,
             rep_comment: repPlayComent,
@@ -314,7 +315,42 @@ const DetailProduct = () => {
         };
         createRepComment();
     };
+    // const handleSubmitReplayNews = (e) => {
+    //     e.preventDefault();
 
+    //     const dataRepComment = {
+    //         id_comment: idRep,
+    //         rep_comment: repPlayComent,
+    //     };
+    //     const createRepCommentNews = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const result = await commentsApi.create(dataRepComment);
+    //             console.log('result', result);
+    //             setLoading(false);
+    //         } catch (error) {
+    //             console.log('Fail to create product', error);
+    //             setLoading(false);
+    //         }
+    //     };
+    //     // createRepCommentNews();
+    // };
+    const handleActive = (index) => {
+        if (render === index) {
+            setRender('');
+        } else {
+            setRender(index);
+        }
+    };
+    const handleReplyActive = (indexReply) => {
+        console.log('repPlayCommentNews', repPlayCommentNews);
+        console.log('indexReply', indexReply);
+        if (renderReply === indexReply) {
+            setRenderReply('');
+        } else {
+            setRenderReply(indexReply);
+        }
+    };
     return (
         <>
             <div className={cx('detail-box')}>
@@ -612,41 +648,61 @@ const DetailProduct = () => {
                                             <div
                                                 className={cx('cmt-command')}
                                                 onClick={(e) => {
-                                                    listComments[index].showReply = true;
-                                                    setRender(!render);
+                                                    // listComments[index].showReply = true;
+                                                    // setRender(!render);
                                                     itemreplay({ id: cnnd.id });
+                                                    handleActive(index);
                                                 }}
                                             >
                                                 Trả lời
                                             </div>
-                                            {cnnd?.showReply && (
-                                                <form className={cx('cmt-')} onSubmit={(e) => handleSubmitReplay(e)}>
-                                                    <input
-                                                        value={repPlayComent}
-                                                        name="txtContent"
-                                                        placeholder="Viết Câu Trả Lời"
-                                                        width="100%"
-                                                        onChange={(e) => setRepPlayComent(e.target.value)}
-                                                    />
-                                                </form>
-                                            )}
-                                            {cnnd?.rep_coment?.map((item, index) => {
-                                                return (
-                                                    <div className={cx('view-content_answer')}>
-                                                        <strong>@{item.rep_user_name}</strong>
-                                                        <div>{item.rep_comment}</div>
-                                                        <div
-                                                            className={cx('cmt-command')}
-                                                            onClick={(e) => {
-                                                                listComments[index].showReply = true;
-                                                                setRender(!render);
-                                                                itemreplay({ id: cnnd.id });
-                                                            }}
-                                                        >
-                                                            Trả lời
+
+                                            <form
+                                                className={render === index ? cx('cmt-', 'active') : cx('cmt-')}
+                                                onSubmit={(e) => handleSubmitReplay(e)}
+                                            >
+                                                <input
+                                                    value={repPlayComent}
+                                                    name="txtContent"
+                                                    placeholder="Viết Câu Trả Lời"
+                                                    width="100%"
+                                                    onChange={(e) => setRepPlayComent(e.target.value)}
+                                                />
+                                            </form>
+                                            {cnnd?.rep_coment?.map((item, indexReply) => {
+                                                if (item.is_active == 1) {
+                                                    return (
+                                                        <div className={cx('view-content_answer')}>
+                                                            <>
+                                                                <strong>@{item.rep_user_name}</strong>
+                                                                <div>{item.rep_comment}</div>
+                                                                <div
+                                                                    className={cx('cmt-command')}
+                                                                    onClick={(e) => {
+                                                                        handleReplyActive(indexReply);
+                                                                    }}
+                                                                >
+                                                                    Trả lời
+                                                                </div>
+                                                                {/* <form
+                                                                    className={cx('cmt-')}
+                                                                    onSubmit={(e) => handleSubmitReplayNews(e)}
+                                                                >
+                                                                    <input
+                                                                        value={repPlayCommentNews}
+                                                                        placeholder="Viết Câu Trả Lời"
+                                                                        width="100%"
+                                                                        onChange={(e) =>
+                                                                            setRepPlayCommentNews(e.target.value)
+                                                                        }
+                                                                    />
+                                                                </form> */}
+                                                            </>
                                                         </div>
-                                                    </div>
-                                                );
+                                                    );
+                                                } else {
+                                                    return false;
+                                                }
                                             })}
                                         </div>
                                     ))}

@@ -16,7 +16,6 @@ const ListComment = () => {
     const params = useParams();
     const idCommentReply = params?.id;
     const [selection, setSelection] = useState();
-    const [selectActive, setSelectActive] = useState();
 
     const [loading, setLoading] = useState(false);
     const [listComments, setListComments] = useState();
@@ -31,7 +30,30 @@ const ListComment = () => {
         setComfirm(true);
         idStore.current = id;
     };
-
+    const handleSelectActive = (e, id, content) => {
+        e.preventDefault();
+        const data = { content: content, is_active: e.target.value };
+        console.log('data', data);
+        const EditStatusComment = async () => {
+            setLoading(true);
+            try {
+                const result = await commentsApi.update(data, id);
+                console.log('result', result);
+                // setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to Edit: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
+                setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
+            }
+        };
+        EditStatusComment();
+    };
     const handleAction = (type) => {
         if (type) {
             setComfirm(false);
@@ -56,30 +78,7 @@ const ListComment = () => {
             deleteStore();
         }
     };
-    const handleSubmit = (e) => {
-        setLoading(true);
-        e.preventDefault();
-        const data = { product_id: idProduct, content: '', is_active: selectActive };
-        // console.log('data', data);
-        const EditStatusComment = async () => {
-            try {
-                const result = await commentsApi.update(data, idProduct);
-                console.log('result', result);
-                // setMessStatus(result.status);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to Edit: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
-        EditStatusComment();
-    };
+
     const ProductCommentById = useMemo(() => {
         const responComment = comment?.comments?.map((comment) => {
             comment.active = false;
@@ -87,7 +86,7 @@ const ListComment = () => {
         });
         return responComment;
     }, [idProduct, comment]);
-    console.log('selectActive', selectActive);
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -122,14 +121,15 @@ const ListComment = () => {
                                                   <td>{item.user_id}</td>
                                                   <td>{item.content}</td>
                                                   <td>
-                                                      <form onSubmit={(e) => handleSubmit(e)}>
+                                                      <form>
                                                           <select
-                                                              value={selectActive}
-                                                              onChange={(e) => setSelectActive(e.target.value)}
+                                                              onChange={(e) =>
+                                                                  handleSelectActive(e, item.id, item.content)
+                                                              }
                                                               className="input__text--ctrl"
                                                           >
-                                                              <option value="0">Chưa kích hoạt</option>
-                                                              <option value="1">Đang kích hoạt</option>
+                                                              <option value="0">Chờ duyệt</option>
+                                                              <option value="1">Đã duyệt</option>
                                                           </select>
                                                       </form>
                                                   </td>
