@@ -10,6 +10,10 @@ const loginApi = {
         const url = `auth/sms?phone=${phone}&action=login`;
         return axiosClient.get(url);
     },
+    callsmsRT: (phone) => {
+        const url = `auth/sms?phone=${phone}&action=register`;
+        return axiosClient.get(url);
+    },
     getUser: () => {
         const url = '/client/userData';
         return axiosClient.get(url);
@@ -21,6 +25,10 @@ const loginApi = {
     updateUser: (data) => {
         const url = '/client/updateUserData';
         return axiosClient.put(url, data);
+    },
+    register: (data) => {
+        const url = '/auth/register';
+        return axiosClient.post(url, data);
     },
     // login: (data) => {
     //     const url = '/posts';

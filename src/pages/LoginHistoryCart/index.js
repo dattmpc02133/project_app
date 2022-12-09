@@ -1,14 +1,16 @@
 import classNames from 'classnames/bind';
 // import styles from '../../assets/scss/LoginHistoryCart.module.scss';
-import { AiOutlineShoppingCart, AiTwotoneTool } from 'react-icons/ai';
-import { Link, useNavigate } from 'react-router-dom';
-import styles from '../../assets/scss/LoginUpdate.module.scss';
 import { useEffect, useState } from 'react';
+import { AiOutlineShoppingCart, AiTwotoneTool } from 'react-icons/ai';
+import { RiAddLine, RiLogoutBoxLine } from 'react-icons/ri';
+import { Link, useNavigate } from 'react-router-dom';
 import Loading from '~/components/Loading';
-import { RiAddLine, RiArrowLeftSLine, RiArrowRightSLine, RiLogoutBoxLine } from 'react-icons/ri';
+import styles from '../../assets/scss/LoginUpdate.module.scss';
 
 import cartApi from '~/api/cartApi';
 import loginApi from '~/api/loginApi';
+
+import Pagination from '~/components/Pagination';
 
 const cx = classNames.bind(styles);
 function LoginHistoryCart() {
@@ -17,7 +19,6 @@ function LoginHistoryCart() {
     const [openTap, setOpenTap] = useState();
     const [pagination, setPagination] = useState();
     const [page, setPage] = useState(1);
-    const [arrPagination, setArrPagination] = useState([]);
 
     const navigate = useNavigate();
 
@@ -30,17 +31,11 @@ function LoginHistoryCart() {
         }
     }, []);
     const getOrders = async (param) => {
+        setLoading(true);
         try {
             const result = await cartApi.getOrders(param);
             console.log(result);
             setPagination(result.paginator);
-            if (arrPagination.length == 0) {
-                for (let i = 0; i < result?.paginator?.totalPages; i++) {
-                    const item = i + 1;
-                    arrPagination.push(item);
-                    setArrPagination(arrPagination);
-                }
-            }
             setListOrder(result.data);
             setLoading(false);
         } catch (error) {
@@ -257,7 +252,7 @@ function LoginHistoryCart() {
                                             ))}
                                     </div>
 
-                                    <div className={cx('order__pagination')}>
+                                    {/* <div className={cx('order__pagination')}>
                                         <div className={cx('pagination__list')}>
                                             <div className={cx('pagination__prev', 'pagination__ctrl')}>
                                                 {page > 1 && (
@@ -294,7 +289,14 @@ function LoginHistoryCart() {
                                                 )}
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> */}
+                                    <Pagination
+                                        curentPage={page}
+                                        totalPages={pagination?.totalPages}
+                                        handlePrevPage={handlePrevPage}
+                                        handleChangePage={handleChangePage}
+                                        handleNextPage={handleNextPage}
+                                    />
                                 </div>
                             </div>
                         </div>

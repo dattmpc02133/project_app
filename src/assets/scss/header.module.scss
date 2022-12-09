@@ -47,8 +47,9 @@
     }
     .personal-logo {
         background-position: 0 0;
-        width: 100px;
+        width: 130px;
         height: var(--width-height-logo);
+        object-fit: cover;
         .personal-logo,
         .personal_auth-logo {
             display: inline-block;

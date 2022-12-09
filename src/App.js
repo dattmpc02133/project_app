@@ -66,6 +66,8 @@ import TekZoneCate from './pages/TekZoneCate';
 import ListProductComment from './pages/Admin/ListProductComment';
 import ListComment from './pages/Admin/ListComment';
 import ListCommentReply from './pages/Admin/ListCommentReply';
+import ListOrders from './pages/Admin/ListOrders';
+import OrderDetais from './pages/Admin/OrderDetais';
 
 function App() {
     return (
@@ -152,6 +154,8 @@ function App() {
                     <Route path="contact/add" element={<CreateContact />} />
                     <Route path="contact/list" element={<ListContact />} />
                     <Route path="contact/edit/:id" element={<EditContact />} />
+                    <Route path="orders/list" element={<ListOrders />} />
+                    <Route path="orders/details/:id/:code" element={<OrderDetais />} />
                 </Route>
             </Routes>
         </Router>
