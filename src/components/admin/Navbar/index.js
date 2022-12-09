@@ -590,7 +590,7 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="comment/list"
+                                        to="comment/listproductcomment"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
