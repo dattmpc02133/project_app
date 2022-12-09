@@ -59,7 +59,7 @@ const CreateCatePost = () => {
         const createPost = async () => {
             try {
                 const post = await postsApi.createPost(data);
-                setMessage(post.message);
+                // setMessage(post.message);
                 setMessStatus(post.status);
                 setStatusHandle(true);
                 setModal(true);
@@ -98,7 +98,7 @@ const CreateCatePost = () => {
                                 >
                                     <option value="">Chọn danh mục chi tiết</option>
 
-                                    {allSubs?.map((item, index) =>
+                                    {allSubs?.map((item) =>
                                         item?.subs?.map((items, i) => (
                                             <option key={i} value={items.id}>
                                                 {items.name}

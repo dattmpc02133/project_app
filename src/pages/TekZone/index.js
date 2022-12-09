@@ -28,11 +28,10 @@ function TekZone() {
 
     useEffect(() => {
         const getAllSpost = async () => {
-            const allSposts = await postsApi.getAll();
+            const allSposts = await postsApi.getAllClient();
             setAllpost(allSposts.data);
             console.log('tin tức', allSposts.data.title);
         };
-
         getAllSpost();
     }, []);
 
@@ -141,7 +140,7 @@ function TekZone() {
                         {Array.isArray(allSpost)
                             ? allSpost.map((listPost) => (
                                   <div className={cx('news-item')} key={listPost.id}>
-                                      <Link to={`/tekzonedetail/${listPost.id}`}>
+                                      <Link to={`/tekzonedetail/${listPost?.id}`}>
                                           <div className={cx('img-item', 'c-4')}>
                                               <img
                                                   className={cx('img-post')}

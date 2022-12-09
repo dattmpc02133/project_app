@@ -19,24 +19,51 @@ function TekZoneCate() {
         slidesToShow: 1,
         slidesToScroll: 1,
     };
-    const { state } = useLocation();
-    const data = state.data;
-    console.log('data', data);
+    // const { state } = useLocation();
+    // const data = state.data;
+    // console.log('data', data);
     const params = useParams();
 
-    const [dataCategory, setDataCategory] = useState();
     const [loading, setLoading] = useState(false);
-    const [allSpost, setAllpost] = useState('');
+    const [allSpost, setAllpost] = useState([]);
+    const [allCatePost, setAllCatePost] = useState([]);
+    const [catePostId, setCatePostId] = useState('');
+
+    console.log('Danh mục', catePostId);
 
     useEffect(() => {
         const getAllSpost = async () => {
             const allSposts = await postsApi.getAll();
             setAllpost(allSposts.data);
-            console.log('tin tức', allSposts.data.title);
         };
 
         getAllSpost();
     }, []);
+
+    useEffect(() => {
+        const getAllCatePost = async () => {
+            try {
+                const allCatePost = await catePostApi.getAll();
+                setAllCatePost(allCatePost.data);
+            } catch (error) {
+                console.log('lỗi lây danh mục', error);
+            }
+        };
+        getAllCatePost();
+    }, []);
+
+    useEffect(() => {
+        const getByIdPost = async () => {
+            try {
+                const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
+                setCatePostId(byIdCatePost.data);
+                console.log(byIdCatePost.data.id);
+            } catch (error) {
+                console.log('Lỗi lấy ib cate post', error);
+            }
+        };
+        getByIdPost();
+    }, [params.id]);
 
     return (
         <div className={cx('wrapper')}>
@@ -122,13 +149,15 @@ function TekZoneCate() {
                 </div>
 
                 <ul className={cx('list__cate')}>
-                    {/* {data.subs.map((list, index) => (
-                        <li key={index}>
-                            <Link to={`/tekzonecate/${list.id}`}>
-                                <h3>{list?.name}</h3>
-                            </Link>
-                        </li>
-                    ))} */}
+                    {allCatePost?.map((item) =>
+                        item?.subs.map((items, index) => (
+                            <li key={index}>
+                                <Link to={`/tekzonecate/${items.id}/${items.slug}`}>
+                                    <h3>{items?.name}</h3>
+                                </Link>
+                            </li>
+                        )),
+                    )}
                 </ul>
 
                 <div className={cx('newsest__list')}>
@@ -136,6 +165,22 @@ function TekZoneCate() {
                         <h2>Mới nhất</h2>
                     </div>
                     <div className={cx('newsest')}>
+                        {catePostId?.post?.map((listPost, index) => (
+                            <div className={cx('news-item')} key={index}>
+                                <Link to={`/tekzonedetail/${listPost.id}`}>
+                                    <div className={cx('img-item', 'c-4')}>
+                                        <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
+                                    </div>
+                                    <div className={cx('title-item')}>
+                                        <h3>{listPost.title}</h3>
+                                        <div className={cx('time-post')}>
+                                            <p>1 giờ trước</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+
                         {/* {allSpost?.map((listPost) => (
                             <div className={cx('news-item')} key={listPost.id}>
                                 <Link to={`/tekzonedetail/${listPost.id}`}>

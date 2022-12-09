@@ -10,3 +10,16 @@
     min-width: 1024px;
     margin: 0 auto;
 }
+
+@media (max-width: 1023px) {
+    .mobile {
+        max-width: 100%;
+    }
+
+    .wrapper-content {
+        max-width: 1023px;
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+    }
+}

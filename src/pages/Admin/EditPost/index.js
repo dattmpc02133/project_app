@@ -24,12 +24,12 @@ const EditPost = () => {
     const [modal, setModal] = useState(false);
     const [message, setMessage] = useState('');
     const params = useParams();
+    console.log('id', subsCategoiries);
     useEffect(() => {
         const getAllSubs = async () => {
             try {
                 const allSubs = await catePostApi.getAll();
                 setAllSubs(allSubs.data);
-                console.log(allSubs.data);
             } catch (error) {
                 console.log('Lỗi lấy subs', error);
             }
@@ -46,9 +46,8 @@ const EditPost = () => {
                 setTitleMeta(byId.data.meta_title);
                 setMetaKeyWord(byId.data.meta_keywords);
                 setContent(byId.data.content_post);
-                console.log('i', byId.data.content_post);
             } catch (error) {
-                console.log('lỗi lấy danh id');
+                console.log('lỗi lấy danh id', error);
             }
         };
         getByIdPost();
@@ -67,7 +66,6 @@ const EditPost = () => {
             meta_keywords: metaKeyWord,
             content_post: content,
         };
-
         console.log('data', data);
         const EditPost = async () => {
             try {
@@ -77,6 +75,7 @@ const EditPost = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                console.log(post);
             } catch (error) {
                 console.log('lỗi khi thêm', error);
                 const res = error.response.data;

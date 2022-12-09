@@ -7,10 +7,10 @@ function LayoutDetailFooter() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-content', 'row')}>
-                <div className={cx('wrapper-tabs', 'c-3')}>
+                <div className={cx('wrapper-tabs', 'c-3', 'mobile')}>
                     <Aside />
                 </div>
-                <main className={cx('c-9')}>
+                <main className={cx('c-9', 'mobile')}>
                     <Outlet />
                 </main>
             </div>
