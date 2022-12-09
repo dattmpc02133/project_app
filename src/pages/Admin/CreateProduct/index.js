@@ -40,6 +40,9 @@ const CreateProduct = () => {
     const [modal, setModal] = useState(false);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
+    const [messErr, setMessErr] = useState();
+    //
+    const [showImgTbl, setShowImgTbl] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -95,16 +98,18 @@ const CreateProduct = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setMessErr();
             } catch (error) {
                 console.log('Fail to create product', error);
                 const res = error.response.data;
-                setMessStatus(res.message);
+                setMessStatus(res.status);
                 setLoading(false);
                 setModal(true);
                 setStatusHandle(false);
+                setMessErr(res.message);
             }
         };
-        createProduct();
+        // createProduct();
         console.log('data', data);
     };
 
@@ -228,11 +233,16 @@ const CreateProduct = () => {
         setNewSubListCategory(newListSubCate);
     };
 
+    const handleGetImg = (img) => {
+        setImage(img);
+        setShowImgTbl(false);
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
-            {<TableImage />}
+            {showImgTbl && <TableImage closeForm={setShowImgTbl} action={handleGetImg} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
@@ -249,6 +259,7 @@ const CreateProduct = () => {
                                 <input
                                     value={nameProduct}
                                     id="nameProduct"
+                                    required
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tên sản phẩm..."
@@ -266,6 +277,7 @@ const CreateProduct = () => {
                                     value={metaTitle}
                                     id="metaTitle"
                                     type="text"
+                                    required
                                     className="input__text--ctrl"
                                     placeholder="Tiêu đề sales..."
                                     onChange={(e) => setMetaTitle(e.target.value)}
@@ -282,6 +294,7 @@ const CreateProduct = () => {
                                     value={metaKeywords}
                                     id="metaTitle"
                                     type="text"
+                                    required
                                     className="input__text--ctrl"
                                     placeholder="Từ khóa tìm kiếm..."
                                     onChange={(e) => setMetaKeywords(e.target.value)}
@@ -298,6 +311,7 @@ const CreateProduct = () => {
                                     value={metaDescription}
                                     id="metaTitle"
                                     type="text"
+                                    required
                                     className="input__text--ctrl"
                                     placeholder="Từ khóa tìm kiếm..."
                                     onChange={(e) => setMetaDescription(e.target.value)}
@@ -310,16 +324,25 @@ const CreateProduct = () => {
                                 <label htmlFor="imgProduct">Hình ảnh</label>
                             </div>
                             <div className="input__text">
-                                <input
-                                    value={name}
-                                    id="imgProduct"
-                                    type="text"
-                                    className="input__text--ctrl"
-                                    placeholder="Tên sản phẩm..."
-                                    onChange={(e) => setImage(e.target.value)}
-                                />
+                                {image ? (
+                                    <div className="img__box" onClick={() => setShowImgTbl(true)}>
+                                        <img className="img__box--item" src={image} />
+                                    </div>
+                                ) : (
+                                    <div className="img__choose" onClick={() => setShowImgTbl(true)}>
+                                        Chọn ảnh...
+                                    </div>
+                                )}
                             </div>
                         </div>
+
+                        {statusHandle == false && messErr.url_image ? (
+                            <div className="mess__block">
+                                <span className="messErrr">{messErr.url_image}</span>
+                            </div>
+                        ) : (
+                            false
+                        )}
 
                         <div className="input__group">
                             <div className="input__label">
@@ -330,6 +353,7 @@ const CreateProduct = () => {
                                     id="brandProduct"
                                     onChange={(e) => changeBrandId(e)}
                                     className="input__text--ctrl"
+                                    required
                                 >
                                     <option>--Chọn danh thương hiệu--</option>
                                     {Array.isArray(listBrand)
@@ -352,6 +376,7 @@ const CreateProduct = () => {
                                     id="CateProduct"
                                     onChange={(e) => changeCategoryId(e)}
                                     className="input__text--ctrl"
+                                    required
                                 >
                                     <option>--Chọn danh mục sản phẩm--</option>
                                     {Array.isArray(listCategory)
@@ -372,6 +397,7 @@ const CreateProduct = () => {
                             <div className="input__text">
                                 <select
                                     id="CateProduct"
+                                    required
                                     onChange={(e) => setSubCategoryId(e.target.value)}
                                     className="input__text--ctrl"
                                 >
@@ -398,6 +424,7 @@ const CreateProduct = () => {
                                     const data = editor.getData();
                                     setDescription(data);
                                 }}
+                                required
                             />
                         </div>
 
@@ -427,6 +454,7 @@ const CreateProduct = () => {
                                                 onChange={(e) => handleChangeinputGB(e, index)}
                                                 className="input__text--ctrl"
                                                 value={item.GB}
+                                                required
                                             >
                                                 <option>--Chọn bộ nhớ sản phẩm--</option>
                                                 {Array.isArray(listVariant)

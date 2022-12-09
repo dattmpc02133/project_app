@@ -1,31 +1,71 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import productApi from '~/api/productApi';
-
+import Dialog from '~/components/Dialog';
+import Modal from '~/components/Modal';
 import { Link } from 'react-router-dom';
 
 const ListCatePost = () => {
     const [loading, setLoading] = useState(false);
     const [listProduct, setListProduct] = useState([]);
+    const [comfirm, setComfirm] = useState(false);
+    const [messStatus, setMessStatus] = useState(false);
+    const [statusHandle, setStatusHandle] = useState(false);
+    const [modal, setModal] = useState(false);
     useEffect(() => {
-        const fetchProduct = async () => {
-            setLoading(true);
-            try {
-                const result = await productApi.getAll();
-                setListProduct(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
-            }
-        };
         fetchProduct();
     }, []);
+
+    const fetchProduct = async () => {
+        setLoading(true);
+        try {
+            const result = await productApi.getAll();
+            setListProduct(result.data);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch Categories: ', error);
+            setLoading(false);
+        }
+    };
+
+    const idProduct = useRef();
+
+    const handleDelete = (id) => {
+        setComfirm(true);
+        idProduct.current = id;
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteColor = async () => {
+                setLoading(true);
+                try {
+                    const result = await productApi.delete(idProduct.current);
+                    setMessStatus(result.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    fetchProduct();
+                    setLoading(false);
+                } catch (error) {
+                    console.log('Failed to delete product ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteColor();
+        }
+    };
     console.log(listProduct);
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
@@ -71,10 +111,15 @@ const ListCatePost = () => {
                                               </td>
                                               <td>{item.created_by == null ? 'Null' : item.created_by}</td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                              <td className="text-center">
+                                              <td className="text-center btn__tbl">
                                                   <Link to={`/admin/product/edit/${item.id}/${item.slug}`}>Sửa</Link>
                                               </td>
-                                              <td className="text-center">Xóa</td>
+                                              <td
+                                                  className="text-center btn__tbl"
+                                                  onClick={() => handleDelete(item.id)}
+                                              >
+                                                  Xóa
+                                              </td>
                                           </tr>
                                       ))
                                     : false}

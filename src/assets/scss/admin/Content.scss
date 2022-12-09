@@ -40,6 +40,24 @@
 
                     .input__select {
                     }
+
+                    .img__choose {
+                        border: 1px solid var(--primary-color-ad);
+                        width: 200px;
+                        padding: 10px;
+                        border-radius: 4px;
+                        font-size: 1.4rem;
+                        cursor: pointer;
+                    }
+
+                    .img__box {
+                        width: 200px;
+                        cursor: pointer;
+                        img {
+                            width: 100%;
+                            object-fit: cover;
+                        }
+                    }
                 }
 
                 .input__block {
