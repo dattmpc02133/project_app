@@ -12,6 +12,7 @@ import variantApi from '~/api/variantApi';
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
+import TableImage from '~/components/TableImage';
 
 const CreateProduct = () => {
     const [name, setName] = useState();
@@ -231,6 +232,7 @@ const CreateProduct = () => {
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
+            {<TableImage />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>

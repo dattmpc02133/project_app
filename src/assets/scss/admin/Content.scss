@@ -214,6 +214,47 @@
                 color: #cd201f;
             }
         }
+
+        .oreder__block {
+            .oreder__heading {
+                h2 {
+                    font-size: 2rem;
+                    line-height: 4rem;
+                    color: var(--primary-color-ad);
+                }
+                margin-bottom: 10px;
+            }
+
+            .oreder__content {
+                padding: 10px 40px;
+                margin-bottom: 60px;
+                .oreder__item {
+                    display: flex;
+                    align-items: center;
+                    line-height: 2rem;
+                    .oreder__item--title {
+                        min-width: 200px;
+                        margin-right: 20px;
+                    }
+                    .oreder__item--content {
+                        font-weight: bold;
+                        flex: 1;
+                    }
+                    .oreder__item--ctrl {
+                        min-width: 200px;
+                        outline: none;
+                        border: 1px solid #ccc;
+                        padding: 8px;
+                        border-radius: 4px;
+                        font-weight: 600;
+                    }
+                }
+
+                .oreder__item + .oreder__item {
+                    margin-top: 10px;
+                }
+            }
+        }
     }
 }
 

@@ -60,6 +60,7 @@ const ListColor = () => {
         };
         fetchListColor();
     }, []);
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
