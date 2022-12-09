@@ -67,35 +67,35 @@ const ListCommentReply = () => {
             deleteStore();
         }
     };
-    const handleSubmit = (e) => {
-        setLoading(true);
+    const handleSelectActive = (e, id, content) => {
         e.preventDefault();
-        // const data = { product_id: idProduct, content: '', is_active: selectActive };
-        // // console.log('data', data);
-        // const EditStatusComment = async () => {
-        //     try {
-        //         const result = await commentsApi.update(data, idProduct);
-        //         console.log('result', result);
-        //         // setMessStatus(result.status);
-        //         setStatusHandle(true);
-        //         setModal(true);
-        //         setLoading(false);
-        //     } catch (error) {
-        //         console.log('Failed to Edit: ', error);
-        //         const res = error.response.data;
-        //         setMessStatus(res.message);
-        //         setLoading(false);
-        //         setModal(true);
-        //         setStatusHandle(false);
-        //     }
-        // };
-        // EditStatusComment();
+        const data = { id_comment: id, rep_coment: content, is_active: e.target.value };
+        console.log('data', data);
+        const EditStatusCommentReply = async () => {
+            setLoading(true);
+            try {
+                const result = await commentsApi.update(data, id);
+                console.log('result', result);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to Edit: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
+                setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
+            }
+        };
+        EditStatusCommentReply();
     };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
-            {/* {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />} */}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách bình luận</h2>
                 <p className="content__heading--subtitle">Bình luận, sản phẩm</p>
@@ -118,39 +118,48 @@ const ListCommentReply = () => {
                             </thead>
                             <tbody>
                                 {Array.isArray(listReply)
-                                    ? listReply?.map((item, index) => (
-                                          <>
-                                              <tr key={item.id}>
-                                                  <td>{index + 1}</td>
-                                                  <td>{item.user_reply}</td>
-                                                  <td>{item.rep_comment}</td>
-                                                  <td>
-                                                      <form onSubmit={(e) => handleSubmit(e)}>
-                                                          <select
-                                                              value={selectActive}
-                                                              onChange={(e) => setSelectActive(e.target.value)}
-                                                              className="input__text--ctrl"
-                                                          >
-                                                              <option value="0">Chờ duyệt</option>
-                                                              <option value="1">Đã duyệt</option>
-                                                          </select>
-                                                      </form>
-                                                  </td>
+                                    ? listReply?.map(
+                                          (item, index) => (
+                                              console.log('item', item),
+                                              (
+                                                  <>
+                                                      <tr key={index}>
+                                                          <td>{index + 1}</td>
+                                                          <td>{item.user_reply}</td>
+                                                          <td>{item.rep_comment}</td>
+                                                          <td>
+                                                              <form key={index}>
+                                                                  <select
+                                                                      onChange={(e) =>
+                                                                          handleSelectActive(
+                                                                              e,
+                                                                              item.id_comment,
+                                                                              item.rep_comment,
+                                                                          )
+                                                                      }
+                                                                      className="input__text--ctrl"
+                                                                  >
+                                                                      <option value="0">Chờ duyệt</option>
+                                                                      <option value="1">Đã duyệt</option>
+                                                                  </select>
+                                                              </form>
+                                                          </td>
 
-                                                  <td
-                                                      className="text-center btn__tbl"
-                                                      onClick={(e) => {
-                                                          handleDelete(item.id_comment);
-                                                      }}
-                                                  >
-                                                      Xóa
-                                                  </td>
-                                              </tr>
-                                          </>
-                                      ))
+                                                          <td
+                                                              className="text-center btn__tbl"
+                                                              onClick={(e) => {
+                                                                  handleDelete(item.id_comment);
+                                                              }}
+                                                          >
+                                                              Xóa
+                                                          </td>
+                                                      </tr>
+                                                  </>
+                                              )
+                                          ),
+                                      )
                                     : false}
                             </tbody>
-                            {/* <ImageUpload /> */}
                         </table>
                     </div>
                 </div>
