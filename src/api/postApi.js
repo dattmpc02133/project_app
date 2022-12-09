@@ -6,8 +6,19 @@ const postsApi = {
         const url = '/posts';
         return axiosClient.get(url, { params });
     },
+
+    getAllClient: (params) => {
+        const url = 'client/load-post/';
+        return axiosClient.get(url, { params });
+    },
+
     get: (id) => {
         const url = `/posts/${id}`;
+        return axiosClient.get(url);
+    },
+
+    getByClient: (id) => {
+        const url = `client/load-post/${id}`;
         return axiosClient.get(url);
     },
 

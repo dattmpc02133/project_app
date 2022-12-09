@@ -17,8 +17,8 @@ const ListCategoriesProduct = () => {
     const deleteCatePosts = useRef();
     useEffect(() => {
         const fetchCatePost = async () => {
-            setLoading(true);
             try {
+                setLoading(true);
                 const result = await categoriesApi.getAll();
                 setListCate(result.data);
                 setLoading(false);
@@ -62,8 +62,8 @@ const ListCategoriesProduct = () => {
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
 
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục tin tức</h2>
-                <p className="content__heading--subtitle">Danh mục tin tức</p>
+                <h2 className="content__heading--title">Danh sách danh mục sản phẩm</h2>
+                <p className="content__heading--subtitle">Danh mục sản phẩm</p>
             </div>
 
             <div className="content__wrapper">

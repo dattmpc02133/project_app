@@ -9,6 +9,7 @@ const cx = classNames.bind(styles);
 function AsideFooter() {
     const [footer, setFooter] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [active, setActive] = useState();
 
     useEffect(() => {
         const FooterContentAll = async () => {
@@ -40,6 +41,21 @@ function AsideFooter() {
                       ))
                     : false}
             </ul>
+
+            <div className={cx('list-tabs-mobile')} onClick={() => setActive(!active)}>
+                <ul className={!active ? cx('active-mobi') : cx('active-none')}>
+                    <span>xin chaof</span>
+                    {Array.isArray(footer)
+                        ? footer.map((items, index) => (
+                              <li key={index} className={cx('list-item')}>
+                                  <Link to={`insurance/${items.id}`} state={{ items }}>
+                                      {items.title}
+                                  </Link>
+                              </li>
+                          ))
+                        : false}
+                </ul>
+            </div>
         </div>
     );
 }
