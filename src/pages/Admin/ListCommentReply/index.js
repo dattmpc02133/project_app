@@ -69,7 +69,7 @@ const ListCommentReply = () => {
     };
     const handleSelectActive = (e, id, content) => {
         e.preventDefault();
-        const data = { id_comment: id, rep_coment: content, is_active: e.target.value };
+        const data = { rep_id_comment: id, rep_comment: content, is_active: e.target.value };
         console.log('data', data);
         const EditStatusCommentReply = async () => {
             setLoading(true);
@@ -133,7 +133,7 @@ const ListCommentReply = () => {
                                                                       onChange={(e) =>
                                                                           handleSelectActive(
                                                                               e,
-                                                                              item.id_comment,
+                                                                              item.id,
                                                                               item.rep_comment,
                                                                           )
                                                                       }
