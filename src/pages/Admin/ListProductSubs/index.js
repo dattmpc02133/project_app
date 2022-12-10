@@ -95,7 +95,7 @@ function ListProductSubs() {
                                             <td>{i + 1}</td>
                                             <td>{items.name}</td>
 
-                                            <td className={items.is_active == 1 ? 'active' : 'an__active'}>
+                                            <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                 {items.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                             </td>
                                             <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
