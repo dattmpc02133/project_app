@@ -22,11 +22,8 @@ const Navbar = () => {
     const [openBrand, setOpenBrand] = useState(false);
     const [openStore, setOpenStore] = useState(false);
     const [openImportSlip, setOpenImportSlip] = useState(false);
-<<<<<<< HEAD
     const [openContact, setOpenContact] = useState(false)
-=======
     const [openSubsPost, setOpenSubsPost] = useState(false);
->>>>>>> 58fe33f07539eb7064c9b1cc8c067cfed211f6ea
 
     return (
         <div className={cx('wrapper')}>

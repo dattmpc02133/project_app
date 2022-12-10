@@ -17,8 +17,8 @@ function EditFooRules() {
     const [modal, setModal] = useState(false);
     const [nameInput, setNameInput] = useState('');
     const [idSelect, setIdSelect] = useState();
-    const [cateFooter, setCateFooter] = useState();
     const [contents, setContent] = useState('');
+    // const [cateFooter, setCateFooter] = useState();
     const params = useParams();
 
     useEffect(() => {

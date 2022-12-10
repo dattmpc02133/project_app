@@ -72,7 +72,7 @@ function ListContact() {
                                     <th>Tên danh mục</th>
                                     <th>Dịch vụ</th>
                                     <th>Số diện thoại</th>
-                                    <th>Số diện thoại</th>
+                                    <th>Thời gian liên hệ</th>
                                   
                            
                                     

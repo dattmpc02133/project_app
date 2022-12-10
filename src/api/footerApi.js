@@ -57,7 +57,6 @@ const footerApi = {
         return axiosClient.get(url);
     },
 
-<<<<<<< HEAD
     // getByIdContent: (id) => {
     //     const url = `/footer-category/${id}`;
     //     return axiosClient.get(url);
@@ -82,10 +81,11 @@ const footerApi = {
             return axiosClient.post(url, data);
         },
 
-                    updateContact: (data, id) => {
+                    updateContacts: (data, id) => {
                         const url = `/contact/${id}`;
                         return axiosClient.put(url, data);
                     },
+                    
 
                     deleteContact: (id) => {
                         const url = `/contact/${id}`;
@@ -102,12 +102,6 @@ const footerApi = {
                     },
                    
 
-=======
-    getIdContent: (id) => {
-        const url = `/footer-content/${id}`;
-        return axiosClient.get(url);
-    },
->>>>>>> 58fe33f07539eb7064c9b1cc8c067cfed211f6ea
 };
 
 

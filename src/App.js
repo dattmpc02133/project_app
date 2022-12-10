@@ -43,11 +43,9 @@ import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
 import CreateSubs from './pages/Admin/CreateSubs';
-<<<<<<< HEAD
 import CreateContact from './pages/Admin/CreateContact';
 import ListContact from './pages/Admin/ListContact';
 import EditContact from './pages/Admin/EditContact';
-=======
 import EditCategories from './pages/Admin/EditCategories';
 import ListSubs from './pages/Admin/ListSubs';
 import EditSubs from './pages/Admin/EditSubs';
@@ -55,7 +53,6 @@ import ListBrand from './pages/Admin/ListBrand';
 import EditBrand from './pages/Admin/EditBrand';
 import ListPost from './pages/Admin/ListPost';
 import EditPost from './pages/Admin/EditPost';
->>>>>>> 58fe33f07539eb7064c9b1cc8c067cfed211f6ea
 
 function App() {
     return (
