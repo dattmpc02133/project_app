@@ -12,8 +12,6 @@ const ListOrders = () => {
     const [listOrder, setListOrder] = useState();
     const [pagination, setPagination] = useState();
     const [page, setPage] = useState(1);
-    const [countItem, setCountItem] = useState();
-    const [indexItem, setIndexItem] = useState();
 
     useEffect(() => {
         getOrders();
@@ -26,7 +24,6 @@ const ListOrders = () => {
             // setAllPost(allOrders.data);
             console.log('data', result.data.length);
             setListOrder(result.data);
-            setCountItem(result.data.length);
             setPagination(result.paginator);
             setLoading(false);
         } catch (error) {
@@ -54,8 +51,6 @@ const ListOrders = () => {
         setPage(page);
         getOrders(`?page=${page}`);
     };
-
-    console.log(listOrder);
 
     return (
         <div className="wrapper">

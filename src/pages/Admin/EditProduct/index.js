@@ -12,7 +12,8 @@ import variantApi from '~/api/variantApi';
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import TableImage from '~/components/TableImage';
+import Modal from '~/components/Modal';
 const EditProduct = () => {
     const [name, setName] = useState();
     const [loading, setLoading] = useState(false);
@@ -37,6 +38,17 @@ const EditProduct = () => {
     const [product, setProduct] = useState([]);
     const params = useParams();
     const navigate = useNavigate();
+
+    //
+    const [newSubListCategory, setNewSubListCategory] = useState([]);
+    const [subCategoryId, setSubCategoryId] = useState([]);
+
+    //
+    const [modal, setModal] = useState(false);
+    const [messStatus, setMessStatus] = useState();
+    const [statusHandle, setStatusHandle] = useState();
+    const [messErr, setMessErr] = useState();
+    const [showImgTbl, setShowImgTbl] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -69,6 +81,7 @@ const EditProduct = () => {
             try {
                 const result = await productApi.getById(params.id);
                 setProduct(result.data);
+                setCategory(result.data.category);
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to get product: ', error);
@@ -107,16 +120,23 @@ const EditProduct = () => {
             try {
                 const result = await productApi.update(data, params.id);
                 console.log(result);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
                 setLoading(false);
+                setMessErr();
             } catch (error) {
                 console.log('Fail to create product', error);
+                const res = error.response.data;
+                setMessStatus(res.status);
                 setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
+                setMessErr(res.message);
             }
         };
         updateProduct();
         console.log('data', data);
-
-        // setColorByVariant([]);
     };
 
     useEffect(() => {
@@ -236,8 +256,7 @@ const EditProduct = () => {
         product.meta_keywords ? setMetaKeywords(product.meta_keywords) : console.log('Not Found');
         product.meta_description ? setMetaDescription(product.meta_description) : console.log('Not Found');
         product.url_image ? setImage(product.url_image) : console.log('Not Found');
-        product.subcategory_id ? setCategory(product.subcategory_id) : console.log('Not Found');
-        product.brand_id ? setBrand(product.brand_id) : console.log('Not Found');
+
         product.description ? setDescription(product.description) : console.log('Not Found');
         if (Array.isArray(product.variants) && product.variants.length > 0 && newFormVR.length == 0) {
             product.variants.map((item, index) => {
@@ -312,23 +331,35 @@ const EditProduct = () => {
                     item.data[i].discount = data.discount;
                 });
             });
-
-            // inputData.map((item, index) => {
-            //     const listVByID = product.dataVariants.filter((variant) => {
-            //         return item.GB == variant.variant_id;
-            //     });
-            //     listVByID.map((data, i) => {
-            //         item.data[i].price = data.price;
-            //         item.data[i].color = data.color_id;
-            //         item.data[i].discount = data.discount;
-            //     });
-            // });
         }
     }, [arrVariantProduct]);
+
+    const changeCategoryId = (e) => {
+        const idCate = e.target.value;
+        setCategory(idCate);
+        const newListSubCate = listSubCategory.filter((item) => item.category_id == idCate && item.brand_id == brand);
+        setNewSubListCategory(newListSubCate);
+    };
+
+    const changeBrandId = (e) => {
+        const idBrand = e.target.value;
+        setBrand(idBrand);
+        const newListSubCate = listSubCategory.filter(
+            (item) => item.category_id == category && item.brand_id == idBrand,
+        );
+        setNewSubListCategory(newListSubCate);
+    };
+
+    const handleGetImg = (img) => {
+        setImage(img);
+        setShowImgTbl(false);
+    };
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {showImgTbl && <TableImage closeForm={setShowImgTbl} action={handleGetImg} />}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Cập nhật sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
@@ -406,14 +437,38 @@ const EditProduct = () => {
                                 <label htmlFor="imgProduct">Hình ảnh</label>
                             </div>
                             <div className="input__text">
-                                <input
-                                    value={image}
-                                    id="imgProduct"
-                                    type="text"
+                                {image ? (
+                                    <div className="img__box" onClick={() => setShowImgTbl(true)}>
+                                        <img className="img__box--item" src={image} />
+                                    </div>
+                                ) : (
+                                    <div className="img__choose" onClick={() => setShowImgTbl(true)}>
+                                        Chọn ảnh...
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="brandProduct">Thương hiệu</label>
+                            </div>
+                            <div className="input__text">
+                                <select
+                                    id="brandProduct"
+                                    onChange={(e) => changeBrandId(e)}
                                     className="input__text--ctrl"
-                                    placeholder="Tên sản phẩm..."
-                                    onChange={(e) => setImage(e.target.value)}
-                                />
+                                    required
+                                >
+                                    <option>--Chọn danh thương hiệu--</option>
+                                    {Array.isArray(listBrand)
+                                        ? listBrand.map((item, index) => (
+                                              <option key={index} value={item.id}>
+                                                  {item.brand_name}
+                                              </option>
+                                          ))
+                                        : console.log('Ko phải Arr')}
+                                </select>
                             </div>
                         </div>
 
@@ -424,9 +479,10 @@ const EditProduct = () => {
                             <div className="input__text">
                                 <select
                                     id="CateProduct"
-                                    onChange={(e) => setCategory(e.target.value)}
+                                    onChange={(e) => changeCategoryId(e)}
                                     className="input__text--ctrl"
                                     value={category}
+                                    required
                                 >
                                     <option>--Chọn danh mục sản phẩm--</option>
                                     {Array.isArray(listCategory)
@@ -442,20 +498,20 @@ const EditProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="brandProduct">Thương hiệu</label>
+                                <label htmlFor="CateProduct">Danh mục chi tiết sản phẩm</label>
                             </div>
                             <div className="input__text">
                                 <select
-                                    id="brandProduct"
-                                    onChange={(e) => setBrand(e.target.value)}
+                                    id="CateProduct"
+                                    required
+                                    onChange={(e) => setSubCategoryId(e.target.value)}
                                     className="input__text--ctrl"
-                                    value={brand}
                                 >
-                                    <option>--Chọn danh mục sản phẩm--</option>
-                                    {Array.isArray(listBrand)
-                                        ? listBrand.map((item, index) => (
+                                    <option>--Chọn danh mục chi tiết sản phẩm--</option>
+                                    {Array.isArray(newSubListCategory)
+                                        ? newSubListCategory.map((item, index) => (
                                               <option key={index} value={item.id}>
-                                                  {item.brand_name}
+                                                  {item.name}
                                               </option>
                                           ))
                                         : false}

@@ -1,0 +1,86 @@
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .content {
+        width: 1200px;
+        height: 90vh;
+        background-color: #fff;
+        border-radius: 4px;
+        overflow-y: auto;
+        .table__wrapper {
+            position: relative;
+            .table__heading {
+                height: 50px;
+                background-color: var(--primary-color-ad);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: sticky;
+                left: 0;
+                right: 0;
+                top: 0;
+                .table__heading--item {
+                    margin-right: 20px;
+                    p {
+                        line-height: 40px;
+                        padding: 0 16px;
+                        cursor: pointer;
+                    }
+                }
+                .table__heading--close {
+                    height: 50px;
+                    /* justify-content: center; */
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 0 15px;
+                    cursor: pointer;
+                    .close__icon {
+                        font-size: 2.4rem;
+                        position: relative;
+                        top: -1px;
+                    }
+                }
+            }
+
+            .table__content {
+                // padding-top: 50px;
+                margin-bottom: 20px;
+                overflow-x: hidden;
+                .table__content--img {
+                    display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    .image__item {
+                        // width: 16.666%;
+                        margin: 10px 0;
+                        cursor: pointer;
+                        .image__item--img {
+                            border: 1px solid #eee;
+                            border-radius: 4px;
+                            width: 100%;
+                            height: 100px;
+                            object-fit: contain;
+                        }
+                    }
+                }
+            }
+
+            .form__upload {
+                padding: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}
