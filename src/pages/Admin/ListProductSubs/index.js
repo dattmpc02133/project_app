@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import catePostApi from '~/api/catePostApi';
 import categoriesApi from '../../../api/categoriesApi';
-
+import Dialog from '~/components/Dialog';
 function ListProductSubs() {
+    const [comfirm, setComfirm] = useState(false);
     const [subsAll, setSubsAll] = useState([]);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
@@ -20,8 +21,8 @@ function ListProductSubs() {
     useEffect(() => {
         const getAllSubs = async () => {
             try {
-                const allSubs = await categoriesApi.getAll();
-                setSubsAll(allSubs.data);
+                const allSubs = await catePostApi.getAllSubs();
+                setSubsAll(allSubs.data.data);
                 console.log('sub', allSubs.data);
             } catch (error) {
                 console.log('lỗi lấy danh sách', error);
@@ -32,33 +33,40 @@ function ListProductSubs() {
 
     const handleDelete = (id) => {
         console.log('id', id);
-        SetDeleteSubs(true);
+        setComfirm(true);
         deletcSubs.current = id;
-        const getDeletSubs = async () => {
-            try {
-                const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
-                setMessage(deletesSubs.status);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                const allSubs = await categoriesApi.getAll();
-                setSubsAll(allSubs.data);
-            } catch (error) {
-                console.log('lỗi khi xóa', error);
-                const res = error.response.data;
-                console.log(res);
-                setMessStatus(res.message);
-                setStatusHandle(false);
-                setModal(true);
-                setLoading(false);
-            }
-        };
-        getDeletSubs();
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const getDeletSubs = async () => {
+                try {
+                    const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
+                    setMessage(deletesSubs.status);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                    // const allSubs = await categoriesApi.getAll();
+                    // setSubsAll(allSubs.data);
+                } catch (error) {
+                    console.log('lỗi khi xóa', error);
+                    const res = error.response.data;
+                    console.log(res);
+                    setMessStatus(res.message);
+                    setStatusHandle(false);
+                    setModal(true);
+                    setLoading(false);
+                }
+            };
+            getDeletSubs();
+        }
     };
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách danh mục Subs</h2>
@@ -81,34 +89,32 @@ function ListProductSubs() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {subsAll?.map((item, index) =>
-                                    item.subs.map((items, i) => (
-                                        <tr key={items.id}>
-                                            <td>{i + 1}</td>
-                                            <td>{items.name}</td>
+                                {subsAll?.map((items, index) => (
+                                    <tr key={items.id}>
+                                        <td>{1 + index}</td>
+                                        <td>{items.name}</td>
 
-                                            <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                                {items.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
-                                            </td>
-                                            <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
-                                            <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
-                                            <td className="text-center">
-                                                <Link to={`/admin/productsub/edit/${items.id}`} state={{ items }}>
-                                                    Sửa
-                                                </Link>
-                                            </td>
-                                            <td className="text-center">
-                                                <Link
-                                                    onClick={() => {
-                                                        handleDelete(items.id);
-                                                    }}
-                                                >
-                                                    Xóa
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    )),
-                                )}
+                                        <td className={items.is_active == 1 ? 'active' : 'an__active'}>
+                                            {items.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
+                                        </td>
+                                        <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
+                                        <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
+                                        <td className="text-center">
+                                            <Link to={`/admin/productsub/edit/${items.id}`} state={{ items }}>
+                                                Sửa
+                                            </Link>
+                                        </td>
+                                        <td className="text-center">
+                                            <Link
+                                                onClick={() => {
+                                                    handleDelete(items.id);
+                                                }}
+                                            >
+                                                Xóa
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

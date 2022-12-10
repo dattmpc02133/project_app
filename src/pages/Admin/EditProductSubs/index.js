@@ -53,7 +53,7 @@ function EditProductSubs() {
         const EditSubs = async () => {
             try {
                 const result = await categoriesApi.editCateProduct(data, params.id);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
