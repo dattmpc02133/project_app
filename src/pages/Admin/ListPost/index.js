@@ -4,8 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import postApi from '../../../api/postApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
-
+import Dialog from '~/components/Dialog';
 const ListPost = () => {
+    const [comfirm, setComfirm] = useState(false);
     const [loading, setLoading] = useState(false);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
@@ -15,27 +16,33 @@ const ListPost = () => {
     const [postDelete, setPostDelete] = useState(false);
 
     const handleDelete = (id) => {
-        setPostDelete(true);
+        setComfirm(true);
         deletePost.current = id;
-        const deleteFooter = async () => {
-            try {
-                const dltFooter = await postApi.deletePost(deletePost.current);
-                setMessage(dltFooter.message);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                const allPosts = await postApi.getAll();
-                setAllPost(allPosts.data);
-            } catch (error) {
-                console.log('Failed to delete: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
-        deleteFooter();
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteFooter = async () => {
+                try {
+                    const dltFooter = await postApi.deletePost(deletePost.current);
+                    setMessage(dltFooter.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                    const allPosts = await postApi.getAll();
+                    setAllPost(allPosts.data);
+                } catch (error) {
+                    console.log('Failed to delete: ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteFooter();
+        }
     };
 
     const [allPost, setAllPost] = useState([]);
@@ -56,6 +63,7 @@ const ListPost = () => {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách bài viết</h2>

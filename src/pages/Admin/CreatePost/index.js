@@ -59,8 +59,8 @@ const CreateCatePost = () => {
         const createPost = async () => {
             try {
                 const post = await postsApi.createPost(data);
-                // setMessage(post.message);
                 setMessStatus(post.status);
+                setMessage(post.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);

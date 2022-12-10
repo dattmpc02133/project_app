@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
-
+import Dialog from '~/components/Dialog';
 const ListCatePost = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
@@ -13,7 +13,9 @@ const ListCatePost = () => {
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
+    const [comfirm, setComfirm] = useState(false);
     const deleteCateFoo = useRef();
+
     useEffect(() => {
         const fetchCatePost = async () => {
             setLoading(true);
@@ -26,37 +28,43 @@ const ListCatePost = () => {
                 setLoading(false);
             }
         };
-
         fetchCatePost();
     }, []);
 
     const handleDelete = (id) => {
-        setDelectCateFooter(true);
+        setComfirm(true);
         deleteCateFoo.current = id;
-        const deleteFooter = async () => {
-            try {
-                const dltFooter = await footerApi.delete(deleteCateFoo.current);
-                setMessage(dltFooter.message);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                const result = await footerApi.getAllFooter();
-                setListCate(result.data);
-            } catch (error) {
-                console.log('Failed to delete: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
-        deleteFooter();
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteFooter = async () => {
+                try {
+                    const dltFooter = await footerApi.delete(deleteCateFoo.current);
+                    setMessage(dltFooter.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                    const result = await footerApi.getAllFooter();
+                    setListCate(result.data);
+                } catch (error) {
+                    console.log('Failed to delete: ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteFooter();
+        }
     };
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách danh mục Footer</h2>

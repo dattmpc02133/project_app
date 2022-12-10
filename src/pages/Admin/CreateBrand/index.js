@@ -2,13 +2,16 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState } from 'react';
 import brandApi from '~/api/brandApi';
-
+import Modal from '~/components/Modal';
 const CreateBrand = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [nameBrand, setNameBrand] = useState('');
     const [selection, setSelection] = useState();
     const [selectActive, setSelectActive] = useState();
+    const [modal, setModal] = useState(false);
+    const [messStatus, setMessStatus] = useState(false);
+    const [statusHandle, setStatusHandle] = useState(false);
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
@@ -21,8 +24,17 @@ const CreateBrand = () => {
                 const result = await brandApi.create(data);
                 console.log(result);
                 setLoading(false);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
             } catch (error) {
                 console.log('Fail to create product', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
+                setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
                 setLoading(false);
             }
         };
@@ -34,6 +46,7 @@ const CreateBrand = () => {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới thương hiệu</h2>
                 <p className="content__heading--subtitle">Thương hiệu</p>

@@ -57,7 +57,7 @@ function CreateProductSubs() {
         const createSubs = async () => {
             try {
                 const result = await catePostApi.createdSubs(data);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);

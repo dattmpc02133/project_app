@@ -48,6 +48,14 @@ const cartApi = {
         const url = `/orders/${id}`;
         return axiosClient.get(url);
     },
+    getStatusOrder() {
+        const url = `/order-status`;
+        return axiosClient.get(url);
+    },
+    updateStatus(id, data) {
+        const url = `/orders/${id}`;
+        return axiosClient.put(url, data);
+    },
     // login: (data) => {
     //     const url = '/posts';
     //     return axiosClient.post(url, data);

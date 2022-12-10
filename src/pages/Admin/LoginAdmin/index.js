@@ -31,10 +31,10 @@ const LoginAdmin = () => {
     const submitLogin = (e) => {
         e.preventDefault();
         const data = { phone, password };
-        const ob = { data1: 1, data2: 2, data3: 3 };
         // setLoading(true);
         // const dataAdmin = JSON.parse(localStorage.getItem('token'));
         const login = async () => {
+            setLoading(true);
             try {
                 const response = await loginApi.login(data);
                 const dataAdmin = response.data;
