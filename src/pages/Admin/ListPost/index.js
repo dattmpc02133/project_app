@@ -1,62 +1,69 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
-import footerApi from '../../../api/footerApi';
+import postApi from '../../../api/postApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
-
+import Dialog from '~/components/Dialog';
 const ListPost = () => {
+    const [comfirm, setComfirm] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState();
-    const [listCate, setListCate] = useState([]);
-    const [electCateFooter, setDelectCateFooter] = useState(false);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
-    const deleteCateFoo = useRef();
-    useEffect(() => {
-        const fetchCatePost = async () => {
-            setLoading(true);
-            try {
-                const result = await footerApi.getAllFooter();
-                setListCate(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
-            }
-        };
-
-        fetchCatePost();
-    }, []);
+    const [message, setMessage] = useState('');
+    const deletePost = useRef();
+    const [postDelete, setPostDelete] = useState(false);
 
     const handleDelete = (id) => {
-        setDelectCateFooter(true);
-        deleteCateFoo.current = id;
-        const deleteFooter = async () => {
+        setComfirm(true);
+        deletePost.current = id;
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteFooter = async () => {
+                try {
+                    const dltFooter = await postApi.deletePost(deletePost.current);
+                    setMessage(dltFooter.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                    const allPosts = await postApi.getAll();
+                    setAllPost(allPosts.data);
+                } catch (error) {
+                    console.log('Failed to delete: ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteFooter();
+        }
+    };
+
+    const [allPost, setAllPost] = useState([]);
+
+    useEffect(() => {
+        const getAllPost = async () => {
             try {
-                const dltFooter = await footerApi.delete(deleteCateFoo.current);
-                setMessage(dltFooter.message);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                const result = await footerApi.getAllFooter();
-                setListCate(result.data);
+                const allPosts = await postApi.getAll();
+                setAllPost(allPosts.data);
+                console.log('data', allPosts.data);
             } catch (error) {
-                console.log('Failed to delete: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
+                console.log('Lỗi lất tin tức', error);
             }
         };
-        deleteFooter();
-    };
+        getAllPost();
+    }, []);
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách bài viết</h2>
@@ -81,34 +88,32 @@ const ListPost = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {Array.isArray(listCate)
-                                    ? listCate.map((item, index) => (
-                                          <tr key={item.id}>
-                                              <td>{index + 1}</td>
-                                              <td>{item.name}</td>
-
-                                              <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                                  {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
-                                              </td>
-                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
-                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                              <td className="text-center">
-                                                  <Link to={`/admin/footer/edit/${item.id}`} state={{ item }}>
-                                                      Sửa
-                                                  </Link>
-                                              </td>
-                                              <td className="text-center">
-                                                  <Link
-                                                      onClick={() => {
-                                                          handleDelete(item.id);
-                                                      }}
-                                                  >
-                                                      Xóa
-                                                  </Link>
-                                              </td>
-                                          </tr>
-                                      ))
-                                    : false} */}
+                                {allPost?.map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{index + 1}</td>
+                                        <td>{item.title}</td>
+                                        {/* <td>{item.}</td> */}
+                                        <td className={item.is_active == 1 ? 'active' : 'an__active'}>
+                                            {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
+                                        </td>
+                                        <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
+                                        <td>{item.created_by == null ? '' : item.created_by}</td>
+                                        <td className="text-center">
+                                            <Link to={`/admin/post/edit/${item.id}`} state={{ item }}>
+                                                Sửa
+                                            </Link>
+                                        </td>
+                                        <td className="text-center">
+                                            <Link
+                                                onClick={() => {
+                                                    handleDelete(item.id);
+                                                }}
+                                            >
+                                                Xóa
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

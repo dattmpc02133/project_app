@@ -30,6 +30,10 @@ const productApi = {
         const url = `/products/update/${id}`;
         return axiosClient.put(url, data);
     },
+    delete: (id) => {
+        const url = `/products/${id}`;
+        return axiosClient.delete(url);
+    },
 };
 
 export default productApi;

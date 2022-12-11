@@ -24,12 +24,14 @@ function TekZoneDetail() {
     const params = useParams();
     const [title, setTitle] = useState([]);
     const [content, setcontent] = useState([]);
+    const [user, setUser] = useState([]);
     useEffect(() => {
         const getById = async () => {
             try {
-                const byId = await postsApi.get(params.id);
+                const byId = await postsApi.getByClient(params.id);
                 setTitle(byId.data.title);
                 setcontent(byId.data.content_post);
+                setUser(byId.data.author);
             } catch (error) {
                 console.log('lỗi lấy id bài viết', error);
             }
@@ -58,17 +60,16 @@ function TekZoneDetail() {
                             <h1>{title}</h1>
                         </div>
 
-                        {/* <div className={cx('detail-user')}>
-                            <span>Dương Thành Đạt</span>
+                        <div className={cx('detail-user')}>
+                            <span>{user}</span>
                             <span className={cx('time')}>9 giờ trước</span>
-                        </div> */}
+                        </div>
                     </div>
 
                     <div className={cx('detail-content')}>
                         <p dangerouslySetInnerHTML={{ __html: content }}></p>
-                    </div>
-                    {/* <div className={cx('detail-info')}>
-                            <span className={cx('info-editor')}>Xét duyệt bởi: Dương Thành Đạt</span>
+                        <div className={cx('detail-info')}>
+                            <span className={cx('info-editor')}>Xét duyệt bởi: {user}</span>
                             <div className={cx('share-viewtek')}>
                                 <span className={cx('info-share')}>
                                     Chia sẻ:
@@ -83,7 +84,8 @@ function TekZoneDetail() {
                                     <BsEye className={cx('icon-info')} />4 Lượt xem
                                 </span>
                             </div>
-                        </div> */}
+                        </div>
+                    </div>
                 </div>
 
                 {/* <div className={cx('related-posts')}>

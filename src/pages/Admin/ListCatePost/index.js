@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import catePostApi from '~/api/catePostApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
-
+import Dialog from '~/components/Dialog';
 const ListCatePost = () => {
     const [loading, setLoading] = useState(false);
     const [listCate, setListCate] = useState([]);
@@ -14,6 +14,7 @@ const ListCatePost = () => {
     const [modal, setModal] = useState(false);
     const [electCateFooter, setDeleteCatePost] = useState(false);
     const deleteCatePosts = useRef();
+    const [comfirm, setComfirm] = useState(false);
     useEffect(() => {
         const fetchCatePost = async () => {
             setLoading(true);
@@ -30,33 +31,40 @@ const ListCatePost = () => {
     }, []);
 
     const handleDelete = (id) => {
-        setDeleteCatePost(true);
+        setComfirm(true);
         deleteCatePosts.current = id;
-        const deleteFooter = async () => {
-            try {
-                const dltFooter = await catePostApi.deleteCatePost(deleteCatePosts.current);
-                setMessage(dltFooter.message);
-                console.log(dltFooter.message);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                const result = await catePostApi.getAll();
-                setListCate(result.data);
-            } catch (error) {
-                console.log('Failed to delete: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
-        deleteFooter();
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteFooter = async () => {
+                try {
+                    const dltFooter = await catePostApi.deleteCatePost(deleteCatePosts.current);
+                    setMessage(dltFooter.message);
+                    console.log(dltFooter.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                    const result = await catePostApi.getAll();
+                    setListCate(result.data);
+                } catch (error) {
+                    console.log('Failed to delete: ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteFooter();
+        }
     };
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
 
             <div className="content__heading">
@@ -81,31 +89,29 @@ const ListCatePost = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(listCate)
-                                    ? listCate.map((item, index) => (
-                                          <tr key={item.id}>
-                                              <td>{index + 1}</td>
-                                              <td>{item.name}</td>
-                                              <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                                  {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
-                                              </td>
-                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
-                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                              <td className="text-center">
-                                                  <Link to={`/admin/categories/edit/${item.id}`}>Sửa</Link>
-                                              </td>
-                                              <td className="text-center">
-                                                  <Link
-                                                      onClick={() => {
-                                                          handleDelete(item.id);
-                                                      }}
-                                                  >
-                                                      Xóa
-                                                  </Link>
-                                              </td>
-                                          </tr>
-                                      ))
-                                    : false}
+                                {listCate?.map((item, index) => (
+                                    <tr key={item.id}>
+                                        <td>{index + 1}</td>
+                                        <td>{item.name}</td>
+                                        <td className={item.is_active == 1 ? 'active' : 'an__active'}>
+                                            {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
+                                        </td>
+                                        <td>{item.created_by == null ? 'Null' : item.created_by}</td>
+                                        <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
+                                        <td className="text-center">
+                                            <Link to={`/admin/categoriespost/edit/${item.id}`}>Sửa</Link>
+                                        </td>
+                                        <td className="text-center">
+                                            <Link
+                                                onClick={() => {
+                                                    handleDelete(item.id);
+                                                }}
+                                            >
+                                                Xóa
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

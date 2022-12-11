@@ -43,9 +43,17 @@ import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
 import CreateSubs from './pages/Admin/CreateSubs';
+<<<<<<< HEAD
 import CreateContact from './pages/Admin/CreateContact';
 import ListContact from './pages/Admin/ListContact';
 import EditContact from './pages/Admin/EditContact';
+=======
+
+import CreateContact from './pages/Admin/CreateContact';
+import ListContact from './pages/Admin/ListContact';
+import EditContact from './pages/Admin/EditContact';
+
+>>>>>>> 74791a306770ce4bf48bc404a63f065b80a0d219
 import EditCategories from './pages/Admin/EditCategories';
 import ListSubs from './pages/Admin/ListSubs';
 import EditSubs from './pages/Admin/EditSubs';
@@ -53,6 +61,22 @@ import ListBrand from './pages/Admin/ListBrand';
 import EditBrand from './pages/Admin/EditBrand';
 import ListPost from './pages/Admin/ListPost';
 import EditPost from './pages/Admin/EditPost';
+<<<<<<< HEAD
+=======
+import CreateCategoriesPro from './pages/Admin/CreateCategoriesPro';
+import ListCategoriesProduct from './pages/Admin/ListCategoriesProduct';
+import EditCategoriesPro from './pages/Admin/EditCategoriesPro';
+import CreateProductSubs from './pages/Admin/CreateProductSubs';
+import EditProductSubs from './pages/Admin/EditProductSubs';
+import ListProductSubs from './pages/Admin/ListProductSubs';
+import TekZoneCate from './pages/TekZoneCate';
+
+import ListProductComment from './pages/Admin/ListProductComment';
+import ListComment from './pages/Admin/ListComment';
+import ListCommentReply from './pages/Admin/ListCommentReply';
+import ListOrders from './pages/Admin/ListOrders';
+import OrderDetais from './pages/Admin/OrderDetais';
+>>>>>>> 74791a306770ce4bf48bc404a63f065b80a0d219
 
 function App() {
     return (
@@ -62,7 +86,8 @@ function App() {
                     <Route path="" element={<Home />} />
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
-                    <Route path="/Daimond" element={<TekZone />} />
+                    <Route path="/tekzonecate/:id/:slug" element={<TekZoneCate />} />
+                    <Route path="/daimond" element={<TekZone />} />
                     <Route path="/tekzonedetail/:id" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
@@ -102,9 +127,9 @@ function App() {
                     <Route path="footer/content/list" element={<ListFooRules />} />
                     <Route path="footer/content/edit/:id" element={<EditFooRules />} />
                     {/* categories admin*/}
-                    <Route path="categories/add" element={<CreateCategories />} />
-                    <Route path="categories/list" element={<ListCatePost />} />
-                    <Route path="categories/edit/:id" element={<EditCategories />} />
+                    <Route path="categoriespost/add" element={<CreateCategories />} />
+                    <Route path="categoriespost/list" element={<ListCatePost />} />
+                    <Route path="categoriespost/edit/:id" element={<EditCategories />} />
                     {/* Brand */}
                     <Route path="brand/add" element={<CreateBrand />} />
                     <Route path="brand/list" element={<ListBrand />} />
@@ -116,14 +141,30 @@ function App() {
                     <Route path="subs/add" element={<CreateSubs />} />
                     <Route path="subs/list" element={<ListSubs />} />
                     <Route path="subs/edit/:id" element={<EditSubs />} />
+                    {/* categories product */}
+                    <Route path="categoriesproduct/add" element={<CreateCategoriesPro />} />
+                    <Route path="categoriesproduct/list" element={<ListCategoriesProduct />} />
+                    <Route path="categoriesproduct/edit/:id" element={<EditCategoriesPro />} />
+                    {/* subscateproduct */}
+                    <Route path="productsub/add" element={<CreateProductSubs />} />
+                    <Route path="productsub/list" element={<ListProductSubs />} />
+                    <Route path="productsub/edit/:id" element={<EditProductSubs />} />
 
                     <Route path="store/add" element={<CreateStore />} />
                     <Route path="store/list" element={<ListStore />} />
                     <Route path="store/edit/:id" element={<EditStore />} />
                     <Route path="importslip/add" element={<ProImportSlip />} />
+
+                    {/* comment */}
+                    <Route path="comment/listproductcomment" element={<ListProductComment />} />
+                    <Route path="comment/listcomment" element={<ListComment />} />
+                    <Route path="comment/listcommentreply/:id" element={<ListCommentReply />} />
+
                     <Route path="contact/add" element={<CreateContact />} />
                     <Route path="contact/list" element={<ListContact />} />
                     <Route path="contact/edit/:id" element={<EditContact />} />
+                    <Route path="orders/list" element={<ListOrders />} />
+                    <Route path="orders/details/:id/:code" element={<OrderDetais />} />
                 </Route>
             </Routes>
         </Router>

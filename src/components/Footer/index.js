@@ -25,16 +25,7 @@ function Footer() {
             }
         };
 
-        const allContact = async () => {
-            try {
-                const contact = await footerApi.getAllContact();
-                setContactAll(contact.data);
-            } catch (error) {
-                console.log('lỗi lấy liên hệ', error);
-            }
-        };
         allFooter();
-        allContact();
     }, []);
 
     return (
@@ -60,10 +51,10 @@ function Footer() {
                                         );
                                     })}
                                     {item.contact.map((items, index) => (
-                                        <a href="tel:0905015900" key={index}>
+                                        <Link to="tel:0905015900" key={index}>
                                             <span>{items.name}:</span>
                                             <b>{items.phone}</b>({items.time})
-                                        </a>
+                                        </Link>
                                     ))}
                                 </li>
                             );
@@ -93,59 +84,25 @@ function Footer() {
 
                     {/* mobi */}
                     <ul className={cx('list-info__mobile')}>
-                        <li>
-                            <span>Tổng đài</span>
-                            <a href="tel:0905015900">
-                                <span>Mua hàng:</span>
-                                <b>0905.0159.00</b>
-                                (7:30 - 22:30)
-                            </a>
-                            <a href="tel:0905015900">
-                                <span>CSKH:</span>
-                                <b>0905.0159.00 </b>
-                                (7:30 - 22:30)
-                            </a>
-                            <a href="tel:0905015900">
-                                <span>Kỹ thuật:</span>
-                                <b>0905.0159.00 </b>
-                                (7:30 - 22:30)
-                            </a>
-                        </li>
-
                         {footerAll.map((mobi, index) => (
                             <li key={index}>
-                                <label htmlFor="contentid">
-                                    <span onClick={() => setActive(!active)}> {mobi.name}</span>
-                                    <input type="checkbox" id="contentid" hidden />
-                                    <div className={!active ? cx('show-active') : cx('show-none')}>
-                                        {mobi.footerContent.map((items, index) => (
-                                            <Link to={`footer/insurance?=${items.slug}`} state={{ items }} key={index}>
-                                                {items.title}
-                                            </Link>
-                                        ))}
-                                    </div>
-                                </label>
+                                <span onClick={() => setActive(!active)}> {mobi.name}</span>
+
+                                <div className={!active ? cx('show-active') : cx('show-none')}>
+                                    {mobi.footerContent.map((items, index) => (
+                                        <Link to={`footer/insurance/${items.id}`} state={{ items }} key={index}>
+                                            {items.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                                {mobi.contact.map((items, index) => (
+                                    <Link to="tel:0905015900" key={index}>
+                                        <span>{items.name}:</span>
+                                        <b>{items.phone}</b>({items.time})
+                                    </Link>
+                                ))}
                             </li>
                         ))}
-
-                        <div className={cx('footer__social')}>
-                            <p className={cx('text')}>Kết nối với chúng tôi</p>
-                            <a href="#" className={cx('icon-item')}>
-                                <i>
-                                    <FaFacebookF />
-                                </i>
-                            </a>
-                            <a href="#" className={cx('icon-item')}>
-                                <i>
-                                    <FaYoutube />
-                                </i>
-                            </a>
-                            <a href="#" className={cx('icon-item')}>
-                                <i>
-                                    <SiZalo />
-                                </i>
-                            </a>
-                        </div>
                     </ul>
 
                     <div className={cx('footer-certify__mobile', 'mobile')}>

@@ -70,6 +70,7 @@ const footerApi = {
     //     return axiosClient.get(url, param);
     // },
 
+<<<<<<< HEAD
         getIdContent: (id) => {
             const url = `/footer-content/${id}`;
             return axiosClient.get(url);
@@ -102,7 +103,47 @@ const footerApi = {
                     },
                    
 
-};
+=======
+    getIdContent: (id) => {
+        const url = `/footer-content/${id}`;
+        return axiosClient.get(url);
+    },
 
+    getIdContentClient: (id) => {
+        const url = `client/load-footer-content/${id}`;
+        return axiosClient.get(url);
+    },
+
+    // contact
+    createContact: (data) => {
+        const url = '/contact';
+        return axiosClient.post(url, data);
+    },
+
+    updateContact: (data, id) => {
+        const url = `/contact/${id}`;
+        return axiosClient.put(url, data);
+    },
+
+    deleteContact: (id) => {
+        const url = `/contact/${id}`;
+        return axiosClient.delete(url);
+    },
+
+    getAllContact: (params) => {
+        const url = '/contact';
+        return axiosClient.get(url, { params });
+    },
+    getIdContact: (id) => {
+        const url = `/contact/${id}`;
+        return axiosClient.get(url);
+    },
+
+    getIdContent: (id) => {
+        const url = `/footer-content/${id}`;
+        return axiosClient.get(url);
+    },
+>>>>>>> 74791a306770ce4bf48bc404a63f065b80a0d219
+};
 
 export default footerApi;

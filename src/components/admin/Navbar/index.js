@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import { BiCast, BiChevronDown, BiCollection, BiCreditCardFront, BiIntersect } from 'react-icons/bi';
 import { TiSocialInstagram, TiHomeOutline, TiLocationArrowOutline, TiPhoneOutline } from 'react-icons/ti';
-import { RiAncientGateLine, RiBankLine, RiCalendarEventLine } from 'react-icons/ri';
+import { RiAncientGateLine, RiBankLine, RiCalendarEventLine, RiListUnordered } from 'react-icons/ri';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import images from '~/assets/images';
@@ -22,8 +22,19 @@ const Navbar = () => {
     const [openBrand, setOpenBrand] = useState(false);
     const [openStore, setOpenStore] = useState(false);
     const [openImportSlip, setOpenImportSlip] = useState(false);
+<<<<<<< HEAD
     const [openContact, setOpenContact] = useState(false)
     const [openSubsPost, setOpenSubsPost] = useState(false);
+=======
+
+    const [openContact, setOpenContact] = useState(false);
+
+    const [openSubsPost, setOpenSubsPost] = useState(false);
+    const [openCateSubsProduct, setCateSubsProduct] = useState(false);
+
+    // comment
+    const [openComment, setOpenComment] = useState(false);
+>>>>>>> 74791a306770ce4bf48bc404a63f065b80a0d219
 
     return (
         <div className={cx('wrapper')}>
@@ -122,7 +133,7 @@ const Navbar = () => {
                     </div>
                     {/* end */}
                     {/* Category */}
-                    <div className={cx('navbar__content--block')}>
+                    {/* <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
                             <span className={cx('navbar__content--heading-title')}>DANH MỤC</span>
                             <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa danh mục</p>
@@ -153,13 +164,53 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="categories/add"
+                                        to="categoriesproduct/add"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="catepost/list"
+                                        to="categoriesproduct/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setCateSubsProduct(!openCateSubsProduct);
+                                    }}
+                                >
+                                    <BiCreditCardFront className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Danh mục Subs sản phẩm</span>
+                                    <BiChevronDown
+                                        className={
+                                            openCateSubsProduct
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openCateSubsProduct
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="productsub/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+
+                                    <NavLink
+                                        to="productsub/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
@@ -167,7 +218,7 @@ const Navbar = () => {
                                 </div>
                             </li>
                         </ul>
-                    </div>
+                    </div> */}
                     {/* end */}
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
@@ -200,13 +251,13 @@ const Navbar = () => {
                                     }
                                 >
                                     <NavLink
-                                        to="categories/add"
+                                        to="categoriespost/add"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Thêm mới
                                     </NavLink>
                                     <NavLink
-                                        to="categories/list"
+                                        to="categoriespost/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
@@ -300,7 +351,7 @@ const Navbar = () => {
                             <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa thông tin sản phẩm</p>
                         </div>
                         <ul className={cx('navbar__content--list')}>
-                            <li className={cx('navbar__content--item')}>
+                            {/* <li className={cx('navbar__content--item')}>
                                 <p
                                     className={cx('navbar__content--link')}
                                     onClick={() => {
@@ -332,6 +383,85 @@ const Navbar = () => {
                                     </NavLink>
                                     <NavLink
                                         to="catepost/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li> */}
+
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenCategories(!openCategories);
+                                    }}
+                                >
+                                    <BiCast className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Danh mục </span>
+                                    <BiChevronDown
+                                        className={
+                                            openCategories
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openCategories
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="categoriesproduct/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="categoriesproduct/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setCateSubsProduct(!openCateSubsProduct);
+                                    }}
+                                >
+                                    <BiCreditCardFront className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Danh mục Subs sản phẩm</span>
+                                    <BiChevronDown
+                                        className={
+                                            openCateSubsProduct
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openCateSubsProduct
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="productsub/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+
+                                    <NavLink
+                                        to="productsub/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
@@ -513,6 +643,66 @@ const Navbar = () => {
 
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
+                            <span className={cx('navbar__content--heading-title')}>Đơn hàng</span>
+                            <p className={cx('navbar__content--heading-subtitle')}>Danh sách đơn hàng</p>
+                        </div>
+                        <ul className={cx('navbar__content--list')}>
+                            <li className={cx('navbar__content--item')}>
+                                <NavLink to="orders/list" className={cx('navbar__content--link')}>
+                                    <RiListUnordered className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Danh sách đơn hàng</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* comment */}
+                    {/* brand */}
+                    <div className={cx('navbar__content--block')}>
+                        <div className={cx('navbar__content--heading')}>
+                            <span className={cx('navbar__content--heading-title')}>Bình luận</span>
+                            <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa bình luận</p>
+                        </div>
+                        <ul className={cx('navbar__content--list')}>
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenComment(!openComment);
+                                    }}
+                                >
+                                    <BiCast className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Bình luận </span>
+                                    <BiChevronDown
+                                        className={
+                                            openComment
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openComment
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="comment/listproductcomment"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    {/* end */}
+                    {/* end */}
+
+                    <div className={cx('navbar__content--block')}>
+                        <div className={cx('navbar__content--heading')}>
                             <span className={cx('navbar__content--heading-title')}>Footer</span>
                             <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa footer</p>
                         </div>
@@ -594,7 +784,7 @@ const Navbar = () => {
                                 </div>
                             </li>
 
-{/* contact */}
+                            {/* contact */}
                             <li className={cx('navbar__content--item')}>
                                 <p
                                     className={cx('navbar__content--link')}

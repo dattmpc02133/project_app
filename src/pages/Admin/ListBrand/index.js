@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import brandApi from '~/api/brandApi';
-
+import Dialog from '~/components/Dialog';
 function ListBrand() {
     const [brandAll, setBrandAll] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -13,6 +13,7 @@ function ListBrand() {
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
     const [deleteBrand, SetDeleteBrand] = useState();
+    const [comfirm, setComfirm] = useState(false);
 
     const deleteBrands = useRef();
 
@@ -30,32 +31,39 @@ function ListBrand() {
     }, []);
 
     const handleDelete = (id) => {
-        SetDeleteBrand(true);
+        setComfirm(true);
         deleteBrands.current = id;
-        const getDeletBrand = async () => {
-            try {
-                const deleteBrand = await brandApi.delete(deleteBrands.current);
-                setMessage(deleteBrand.message);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                const getAllBrand = await brandApi.getAll();
-                setBrandAll(getAllBrand.data.data);
-            } catch (error) {
-                console.log('lỗi khi xóa', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setStatusHandle(false);
-                setModal(true);
-                setLoading(false);
-            }
-        };
-        getDeletBrand();
     };
 
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+
+            const getDeletBrand = async () => {
+                try {
+                    const deleteBrand = await brandApi.delete(deleteBrands.current);
+                    setMessage(deleteBrand.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                    const getAllBrand = await brandApi.getAll();
+                    setBrandAll(getAllBrand.data.data);
+                } catch (error) {
+                    console.log('lỗi khi xóa', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setStatusHandle(false);
+                    setModal(true);
+                    setLoading(false);
+                }
+            };
+            getDeletBrand();
+        }
+    };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách danh mục thương hiệu</h2>

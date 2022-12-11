@@ -2,6 +2,7 @@
     background-color: #323232;
     padding: 30px 30px 20px;
     border-radius: 12px;
+    max-width: 100%;
 }
 
 .wrapper-container {
@@ -16,7 +17,27 @@
     .wrapper-content {
         p {
             text-align: justify;
+            line-height: 20px;
+            letter-spacing: 0.05rem;
+        }
+    }
+}
+
+@media (max-width: 1023px) {
+    .wrapper {
+        max-width: 1023px;
+        min-width: 200px;
+        margin: 0 10px;
+    }
+
+    .wrapper-container {
+        .wrapper-titles {
             line-height: 18px;
+            h1 {
+                margin: 0;
+                line-height: 20px;
+                padding: 12px 0;
+            }
         }
     }
 }

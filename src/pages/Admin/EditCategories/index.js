@@ -86,8 +86,8 @@ const EditCategories = () => {
                                     onChange={(e) => setResultKq(e.target.value)}
                                 >
                                     <option selected>Chọn</option>
-                                    <option value="0">Cập nhật danh mục sản phẩm</option>
-                                    <option value="1">Cập nhật danh mục tin tức</option>
+                                    <option value={resultKq}>Cập nhật danh mục sản phẩm</option>
+                                    <option value={resultKq}>Cập nhật danh mục tin tức</option>
                                 </select>
                             </div>
                         </div>

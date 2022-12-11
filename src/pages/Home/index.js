@@ -28,6 +28,8 @@ function Home() {
     // console.log('ListProductsData', ListProductsData);
     const ChangeVariant = ({ itemVariant, listVariants, itemProduct }) => {
         const result = listVariants?.filter((element) => {
+            // Id
+            console.log('itemVariant', itemVariant?.id);
             if (element?.variant_id == itemVariant?.id) {
                 return element;
             }

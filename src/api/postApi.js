@@ -6,14 +6,35 @@ const postsApi = {
         const url = '/posts';
         return axiosClient.get(url, { params });
     },
+
+    getAllClient: (params) => {
+        const url = 'client/load-post/';
+        return axiosClient.get(url, { params });
+    },
+
     get: (id) => {
         const url = `/posts/${id}`;
+        return axiosClient.get(url);
+    },
+
+    getByClient: (id) => {
+        const url = `client/load-post/${id}`;
         return axiosClient.get(url);
     },
 
     createPost: (data) => {
         const url = '/posts';
         return axiosClient.post(url, data);
+    },
+
+    editPost: (data, id) => {
+        const url = `/posts/${id}`;
+        return axiosClient.put(url, data);
+    },
+
+    deletePost: (id) => {
+        const url = `/posts/${id}`;
+        return axiosClient.delete(url);
     },
 };
 

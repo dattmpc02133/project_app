@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 99;
     .modal__form {
         background-color: #fff;
         min-width: 500px;
@@ -89,93 +90,124 @@
     margin-right: 15px;
     margin-bottom: 20px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0px 5px 5px 0 rgba(0, 0, 0, 0.24);
-
-    .big-title {
-        font-size: 3.5rem;
-        align-items: center;
+    padding: 40px;
+    transition: all 0.3s linear;
+    .from__title {
         text-align: center;
-        justify-content: center;
-        color: var(--sub-white-color);
-        padding: 100px 0 40px 0;
-        display: block;
-        overflow: hidden;
-        color: var(--color-while);
-        line-height: 20px;
-        font-weight: 500;
-        cursor: pointer;
+        margin-bottom: 20px;
+        h2 {
+            line-height: 4rem;
+            color: #fff;
+            text-transform: uppercase;
+        }
     }
 
-    .form_login {
-        text-align: center;
-        padding-bottom: 35px;
-        margin-bottom: 15px;
-
-        // .form__field{
-        //     text-align: center;
-        //     justify-content: center;
-        //     font-size: 3rem;
-
-        input {
-            width: 320px;
-            height: 66.5px;
-            margin-top: 10px;
-            border-radius: 0 5px 5px 0;
-            padding: 16px;
-            background-color: #3b4148;
-            color: #eee;
-            font-weight: 600;
-            font-size: 1.5rem;
-            margin-bottom: -25px;
-            text-align: left;
-        }
-        input:hover {
-            background-color: #434a52;
-        }
-
-        .form__input {
-        }
-        .icon {
-            border: 1px solid #363b41;
+    .form__block {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 20px;
+        .form__wrapper {
+            display: flex;
+            align-items: center;
             justify-content: center;
-            padding: 8px;
-            padding-top: 25px;
-            padding-bottom: 22.5px;
-            padding-right: 20px;
-            padding-left: 20px;
-            background-color: #363b41;
-            color: #606468;
-
-            .item {
-                display: contents;
-                text-align: center;
-                justify-content: center;
-            }
-            .icons {
-                text-align: center;
-                justify-content: center;
+            flex-direction: column;
+            width: 500px;
+            padding: 0 20px;
+            .form__login {
+                display: flex;
                 align-items: center;
-                min-width: 2rem;
-                font-size: 2.5rem;
-                margin-bottom: -8.5px;
+                border: 1px solid #fff;
+                width: 100%;
+                padding: 6px 20px;
+                margin-bottom: 10px;
+                .form__login--icon {
+                    background-color: transparent;
+                    color: #fff;
+                    margin-right: 14px;
+                    .icons {
+                        width: 30px;
+                        height: 30px;
+                        position: relative;
+                        top: 2px;
+                    }
+                }
+
+                .form__login--input {
+                    height: 30px;
+                    background-color: transparent;
+                    padding: 10px;
+                    width: 100%;
+                    color: #fff;
+                    font-size: 1.5rem;
+                }
             }
-        }
-        .submit {
-            text-align: center;
-            font-size: 2rem;
-            justify-content: center;
-            background-color: #ea4c88;
-            color: #eee;
-            font-weight: 700;
-            text-transform: uppercase;
-            width: 386px;
-            height: 60px;
-            border-radius: 5px;
-            text-transform: uppercase;
-            margin-bottom: 100px;
-        }
-        .submit:hover {
-            background-color: #d44179;
-            cursor: pointer;
+            .form__group--wrapper {
+                margin-top: 10px;
+                width: 100%;
+                .form__group {
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                    width: 100%;
+                    text-align: center;
+                    .btn__item {
+                        min-width: 200px;
+                        height: 40px;
+                        border-radius: 4px;
+                    }
+                    .form__login--label {
+                        text-align: left;
+                        width: 100%;
+                        display: block;
+                        color: #fff;
+                        margin-bottom: 10px;
+                    }
+                    .form__login--ctrl {
+                        height: 40px;
+                        width: 100%;
+                        outline: none;
+                        padding: 10px;
+                        border-radius: 4px;
+                    }
+                }
+            }
+            .form__btn {
+                margin-top: 20px;
+                margin-bottom: 10px;
+                width: 100%;
+                display: flex;
+                text-align: center;
+                justify-content: space-between;
+                .btn__item {
+                    min-width: 200px;
+                    height: 40px;
+                    border-radius: 4px;
+                    background-color: transparent;
+                    color: #fff;
+                    border: 1px solid #fff;
+                    cursor: pointer;
+                    transition: all 0.2s linear;
+                    &:hover {
+                        background-color: #fff;
+                        color: #3e3e3f;
+                    }
+                }
+                .btn__item--toggle {
+                    min-width: 200px;
+                    height: 40px;
+                    line-height: 40px;
+                    border-radius: 4px;
+                    background-color: #eee;
+                    color: #3e3e3f;
+                    border: 1px solid #fff;
+                    cursor: pointer;
+                    transition: all 0.2s linear;
+                    &:hover {
+                        background-color: transparent;
+                        color: #fff;
+                    }
+                }
+            }
         }
     }
 }

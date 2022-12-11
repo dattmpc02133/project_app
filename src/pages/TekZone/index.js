@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import classNames from 'classnames/bind';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import styles from '~/assets/scss/TekZone.module.scss';
 import '~/assets/scss/Grid.scss';
 import images from '~/assets/images';
@@ -28,15 +28,15 @@ function TekZone() {
 
     useEffect(() => {
         const getAllSpost = async () => {
-            const allSposts = await postsApi.getAll();
+            const allSposts = await postsApi.getAllClient();
             setAllpost(allSposts.data);
-            console.log('tin tức', allSposts.data);
+            console.log('tin tức', allSposts.data.title);
         };
         getAllSpost();
     }, []);
 
-    const handleCateId = (id) => {
-        console.log('danh mục', id);
+    const handleCateId = (list) => {
+        console.log('danh mục', list);
     };
 
     return (
@@ -125,10 +125,9 @@ function TekZone() {
                 <ul className={cx('list__cate')}>
                     {data.subs.map((list, index) => (
                         <li key={index}>
-                            <div onClick={() => handleCateId(list.id)}>
-                                <img src={images.cate_iphone} alt={list?.name} />
+                            <Link to={`/tekzonecate/${list.id}/${list.slug}`}>
                                 <h3>{list?.name}</h3>
-                            </div>
+                            </Link>
                         </li>
                     ))}
                 </ul>
@@ -141,11 +140,11 @@ function TekZone() {
                         {Array.isArray(allSpost)
                             ? allSpost.map((listPost) => (
                                   <div className={cx('news-item')} key={listPost.id}>
-                                      <Link to={`/tekzonedetail/${listPost.id}`}>
-                                          <div className={cx('img-item')}>
+                                      <Link to={`/tekzonedetail/${listPost?.id}`}>
+                                          <div className={cx('img-item', 'c-4')}>
                                               <img
-                                                  style={{ width: 350 }}
-                                                  src="https://cdn.tgdd.vn/Files/2022/12/04/1492928/man-hinh-macbook-bi-soc-phai-lam-sao-h2.jpg"
+                                                  className={cx('img-post')}
+                                                  src={listPost.image}
                                                   alt={listPost.title}
                                               />
                                           </div>

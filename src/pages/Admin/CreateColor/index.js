@@ -37,7 +37,6 @@ const CreateCatePost = () => {
         };
         createColor();
     };
-
     const changeName = (e) => {
         setName(e.target.value);
         messStatus.name = '';
@@ -46,7 +45,6 @@ const CreateCatePost = () => {
         setColorCode(e.target.value);
         messStatus.color_code = '';
     };
-
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}

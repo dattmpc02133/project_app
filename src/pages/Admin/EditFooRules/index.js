@@ -40,7 +40,6 @@ function EditFooRules() {
                 // const filterFooter = allCate.data.filter((item) => item.id == idSelect);
                 // setIdSelect(filterFooter.data);
                 setAllCateFooter(allCate.data);
-                console.log(allCate.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -82,8 +81,8 @@ function EditFooRules() {
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Thêm nội duy và chính sách</h2>
-                <p className="content__heading--subtitle">Thêm nội duy và chính sách</p>
+                <h2 className="content__heading--title">Cập nhật nội duy và chính sách</h2>
+                <p className="content__heading--subtitle">Cập nhật nội duy và chính sách</p>
             </div>
 
             <div className="content__wrapper">
@@ -153,7 +152,7 @@ function EditFooRules() {
                         </div>
 
                         <div className="btn__form">
-                            <button className="btn__form--ctrl">Thêm danh mục</button>
+                            <button className="btn__form--ctrl">Cập nhật danh mục</button>
                         </div>
                     </form>
                 </div>

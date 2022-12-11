@@ -4,7 +4,9 @@ import { useState, useEffect, useRef } from 'react';
 import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
+import Dialog from '~/components/Dialog';
 function ListFooRules() {
+    const [comfirm, setComfirm] = useState(false);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [listCate, setListCate] = useState([]);
@@ -31,32 +33,40 @@ function ListFooRules() {
     }, []);
 
     const handleDelete = (id) => {
-        setDelectCateFooter(true);
+        setComfirm(true);
         deleteContent.current = id;
-        const deleteFooter = async () => {
-            try {
-                const dltFooter = await footerApi.deleteContent(deleteContent.current);
-                setMessage(dltFooter.message);
-                const result = await footerApi.getAllContent();
-                setListCate(result.data);
-                setMessStatus(result.status);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-            } catch (error) {
-                console.log('Lỗi xóa', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
-        deleteFooter();
     };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteFooter = async () => {
+                try {
+                    const dltFooter = await footerApi.deleteContent(deleteContent.current);
+                    setMessage(dltFooter.message);
+                    const result = await footerApi.getAllContent();
+                    setListCate(result.data);
+                    setMessStatus(result.status);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                } catch (error) {
+                    console.log('Lỗi xóa', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteFooter();
+        }
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách danh mục Footer</h2>
