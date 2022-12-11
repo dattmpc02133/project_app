@@ -70,7 +70,6 @@ const footerApi = {
     //     return axiosClient.get(url, param);
     // },
 
-<<<<<<< HEAD
         getIdContent: (id) => {
             const url = `/footer-content/${id}`;
             return axiosClient.get(url);
@@ -103,7 +102,6 @@ const footerApi = {
                     },
                    
 
-=======
     getIdContent: (id) => {
         const url = `/footer-content/${id}`;
         return axiosClient.get(url);
@@ -143,7 +141,6 @@ const footerApi = {
         const url = `/footer-content/${id}`;
         return axiosClient.get(url);
     },
->>>>>>> 74791a306770ce4bf48bc404a63f065b80a0d219
 };
 
 export default footerApi;

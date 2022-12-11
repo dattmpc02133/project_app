@@ -43,17 +43,12 @@ import CreateFooRules from './pages/Admin/CreateFooRules';
 import ListFooRules from './pages/Admin/ListFooRules';
 import EditFooRules from './pages/Admin/EditFooRules';
 import CreateSubs from './pages/Admin/CreateSubs';
-<<<<<<< HEAD
-import CreateContact from './pages/Admin/CreateContact';
-import ListContact from './pages/Admin/ListContact';
-import EditContact from './pages/Admin/EditContact';
-=======
-
 import CreateContact from './pages/Admin/CreateContact';
 import ListContact from './pages/Admin/ListContact';
 import EditContact from './pages/Admin/EditContact';
 
->>>>>>> 74791a306770ce4bf48bc404a63f065b80a0d219
+
+
 import EditCategories from './pages/Admin/EditCategories';
 import ListSubs from './pages/Admin/ListSubs';
 import EditSubs from './pages/Admin/EditSubs';
@@ -61,8 +56,6 @@ import ListBrand from './pages/Admin/ListBrand';
 import EditBrand from './pages/Admin/EditBrand';
 import ListPost from './pages/Admin/ListPost';
 import EditPost from './pages/Admin/EditPost';
-<<<<<<< HEAD
-=======
 import CreateCategoriesPro from './pages/Admin/CreateCategoriesPro';
 import ListCategoriesProduct from './pages/Admin/ListCategoriesProduct';
 import EditCategoriesPro from './pages/Admin/EditCategoriesPro';
@@ -76,7 +69,6 @@ import ListComment from './pages/Admin/ListComment';
 import ListCommentReply from './pages/Admin/ListCommentReply';
 import ListOrders from './pages/Admin/ListOrders';
 import OrderDetais from './pages/Admin/OrderDetais';
->>>>>>> 74791a306770ce4bf48bc404a63f065b80a0d219
 
 function App() {
     return (
