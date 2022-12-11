@@ -94,13 +94,13 @@ function Footer() {
                                             {items.title}
                                         </Link>
                                     ))}
-                                    {mobi.contact.map((items, index) => (
-                                        <Link to="tel:0905015900" key={index}>
-                                            <span>{items.name}:</span>
-                                            <b>{items.phone}</b>({items.time})
-                                        </Link>
-                                    ))}
                                 </div>
+                                {mobi.contact.map((items, index) => (
+                                    <Link to="tel:0905015900" key={index}>
+                                        <span>{items.name}:</span>
+                                        <b>{items.phone}</b>({items.time})
+                                    </Link>
+                                ))}
                             </li>
                         ))}
                     </ul>

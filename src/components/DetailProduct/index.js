@@ -1,3 +1,6 @@
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
+// import {Editor as ClassicEditor} from 'ckeditor5-custom-build/build/ckeditor';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
@@ -626,7 +629,10 @@ const DetailProduct = () => {
                         </TabList>
 
                         <TabPanel>
-                            <div className={cx('specifications-text-detail')}>{productDetail?.description}</div>
+                            <div
+                                className={cx('specifications-text-detail')}
+                                dangerouslySetInnerHTML={{ __html: productDetail?.description }}
+                            ></div>
                             <div className={cx('specifications-comment')}>
                                 {/* <h3>Hỏi đáp về {productDetail.name}</h3> */}
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from '~/assets/scss/AsideFoooter.module.scss';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import footerApi from '~/api/footerApi';
 import Loading from '~/components/Loading';
 const cx = classNames.bind(styles);
@@ -9,8 +9,9 @@ const cx = classNames.bind(styles);
 function AsideFooter() {
     const [footer, setFooter] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [active, setActive] = useState();
-
+    const [active, setActive] = useState('');
+    const [nameContent, setNameContent] = useState('');
+    const params = useParams();
     useEffect(() => {
         const FooterContentAll = async () => {
             setLoading(true);
@@ -24,8 +25,25 @@ function AsideFooter() {
                 setLoading(false);
             }
         };
+
         FooterContentAll();
     }, []);
+
+    useEffect(() => {
+        const getByIdContent = async () => {
+            setLoading(true);
+            try {
+                const getByIdContents = await footerApi.getIdContentClient(params.id);
+                setNameContent(getByIdContents.data.title);
+                setLoading(false);
+                console.log('getAllContents', getByIdContents);
+            } catch (error) {
+                console.log('lỗi lấy id content', error);
+                setLoading(false);
+            }
+        };
+        getByIdContent();
+    }, [nameContent]);
 
     return (
         <div className={cx('wrapper')}>
@@ -42,12 +60,16 @@ function AsideFooter() {
                     : false}
             </ul>
 
-            <div className={cx('list-tabs-mobile')} onClick={() => setActive(!active)}>
-                <ul className={!active ? cx('active-mobi') : cx('active-none')}>
-                    <span>xin chaof</span>
+            <div className={cx('list-tabs-mobile')}>
+                <div className="list-fixed">
+                    <span onClick={() => setActive(!active)} className={cx('list-span')}>
+                        {nameContent}
+                    </span>
+                </div>
+                <ul className={!active ? cx('list-item', 'active-mobi') : cx('none-mobi')}>
                     {Array.isArray(footer)
                         ? footer.map((items, index) => (
-                              <li key={index} className={cx('list-item')}>
+                              <li key={index} className={cx('list-item-li')} onClick={() => setActive(!active)}>
                                   <Link to={`insurance/${items.id}`} state={{ items }}>
                                       {items.title}
                                   </Link>

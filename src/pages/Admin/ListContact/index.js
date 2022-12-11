@@ -4,17 +4,19 @@ import { useState, useEffect, useRef } from 'react';
 import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
+import Dialog from '~/components/Dialog';
 function ListContact() {
+    const [comfirm, setComfirm] = useState(false);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
-    const [dl , setDeleteContactFooter] = useState(false);
+    const [dl, setDeleteContactFooter] = useState(false);
     const [modal, setModal] = useState(false);
-    const [ListContact ,setListContact] = useState([]);
+    const [ListContact, setListContact] = useState([]);
     const deleteContact = useRef();
     useEffect(() => {
-        const fetchContact =  async () => {
+        const fetchContact = async () => {
             setLoading(true);
             try {
                 const result = await footerApi.getAllContact();
@@ -31,36 +33,44 @@ function ListContact() {
     }, []);
 
     const handleDelete = (id) => {
-        setDeleteContactFooter(true);
+        setComfirm(true);
         deleteContact.current = id;
-        const delContact = async () => {
-            try {
-                const dltFooter = await footerApi.deleteContact(deleteContact.current);
-                setMessage(dltFooter.message);
-                const result = await footerApi.getAllContact();
-                setListContact(result.data);
-                setMessStatus(result.status);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-            } catch (error) {
-                console.log('Lỗi xóa', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
-        delContact();
     };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const delContact = async () => {
+                try {
+                    const dltFooter = await footerApi.deleteContact(deleteContact.current);
+                    setMessage(dltFooter.message);
+                    const result = await footerApi.getAllContact();
+                    setListContact(result.data);
+                    setMessStatus(result.status);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                } catch (error) {
+                    console.log('Lỗi xóa', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            delContact();
+        }
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục Contact</h2>
-                <p className="content__heading--subtitle">Danh mục Footer</p>
+                <h2 className="content__heading--title">Danh sách danh mục liên hệ</h2>
+                <p className="content__heading--subtitle">Danh mục liên hệ</p>
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
@@ -72,22 +82,24 @@ function ListContact() {
                                     <th>Tên danh mục</th>
                                     <th>Dịch vụ</th>
                                     <th>Số diện thoại</th>
-                                    <th>Số diện thoại</th>
+                                    <th>Thời gian liên hệ</th>
                                   
                            
                                     
+                                    <th>Số diện thoại</th>
+
                                     <th colSpan="2" className="text-right">
                                         Thao tác
-                                    </th>   
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {Array.isArray(ListContact)
-                                    ?ListContact.map((item, index) => (
+                                    ? ListContact.map((item, index) => (
                                           <tr key={index}>
-                                            <td>{index + 1}</td>
+                                              <td>{index + 1}</td>
                                               <td>{item.name_category}</td>
-                                            
+
                                               <td>{item.name}</td>
                                               <td>{item.phone}</td>
                                               <td>{item.time}</td>
