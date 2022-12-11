@@ -1,0 +1,38 @@
+.layout {
+    .caterogy-name__item {
+        // display: flex;
+    }
+
+    .caterogy-name {
+        font-size: 1.2rem;
+        font-weight: 300;
+        color: #fff;
+        width: auto;
+        height: auto;
+        padding: 4px 10px;
+        line-height: 50px;
+        text-align: left;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        margin: 0 12px 32px 12px;
+        display: flex;
+        align-items: center;
+        .icon_setting {
+        }
+        .icon_shopping {
+        }
+
+        .icon__cate {
+            padding-top: 5px;
+            font-size: 2.2rem;
+            position: relative;
+            top: -3px;
+            margin-right: 10px;
+        }
+    }
+    .caterogy-name:hover {
+        background-color: #fff;
+        color: #3e3e3f;
+        cursor: pointer;
+    }
+}

@@ -175,6 +175,10 @@
                         margin-bottom: 8px;
                         flex: none;
                     }
+
+                    li.active {
+                        border: 1px solid #ccc;
+                    }
                 }
             }
         }

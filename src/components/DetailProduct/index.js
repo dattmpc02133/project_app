@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
 import classNames from 'classnames/bind';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import { FcApproval } from 'react-icons/fc';
 import { GoChevronUp, GoPackage } from 'react-icons/go';
 import 'react-image-gallery/styles/css/image-gallery.css';
@@ -17,6 +17,9 @@ import location from '../../api/locationApi.js';
 import productApi from '../../api/productApi';
 import productsBySubCateApi from '../../api/ProductsBySubCateApi';
 import cartApi from '~/api/cartApi';
+
+// GLobal State
+import { CartContext } from '~/Context/CartContext';
 
 // tab descriptions
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -100,11 +103,25 @@ const DetailProduct = () => {
     const [renderReply, setRenderReply] = useState();
 
     //
-    const [loading, setLoading] = useState(false);
-    const [modal, setModal] = useState(false);
-    const [messStatus, setMessStatus] = useState();
-    const [statusHandle, setStatusHandle] = useState();
+    // const [loading, setLoading] = useState(false);
+    // const [modal, setModal] = useState(false);
+    // const [messStatus, setMessStatus] = useState();
+    // const [statusHandle, setStatusHandle] = useState();
 
+    //Import GobalState
+    const {
+        addToCart,
+        loading,
+        modal,
+        messStatus,
+        statusHandle,
+        setLoading,
+        setMessStatus,
+        setStatusHandle,
+        setModal,
+    } = useContext(CartContext);
+
+    //
     const listColors = useMemo(() => {
         if (dataVariants) {
             const results = dataVariants?.filter((variant) => variant?.variant_id == variantID);
@@ -215,25 +232,7 @@ const DetailProduct = () => {
             color_id: itemColorActive.color_id,
             quantity: 1,
         };
-        const addToCart = async () => {
-            setLoading(true);
-            try {
-                const result = await cartApi.addCart(data);
-                console.log(result);
-                setLoading(false);
-                setMessStatus(result.message);
-                setStatusHandle(true);
-                setModal(true);
-            } catch (error) {
-                console.log('Failed to add to cart: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
-        addToCart();
+        addToCart(data);
     };
     // comments
     useEffect(() => {
@@ -378,10 +377,15 @@ const DetailProduct = () => {
                                     <div className={cx('capacity-gb')}>
                                         {listTypeGB?.map((itemTypeGB, index) => (
                                             <div
-                                                className={cx('capacity-gb_link')}
+                                                className={
+                                                    itemColorActive?.variant_id == itemTypeGB.id
+                                                        ? cx('capacity-gb_link', 'active')
+                                                        : cx('capacity-gb_link')
+                                                }
                                                 key={index}
                                                 onClick={() => handleChangeTypeGB({ itemTypeGB })}
                                             >
+                                                {console.log('itemColorActive', itemColorActive)}
                                                 {itemTypeGB?.variant_name}GB
                                             </div>
                                         ))}
@@ -395,7 +399,11 @@ const DetailProduct = () => {
                                                 return (
                                                     <div
                                                         key={index}
-                                                        className={cx('item-color-link')}
+                                                        className={
+                                                            itemColorActive?.color_id == itemColor?.color_id
+                                                                ? cx('item-color-link', 'active')
+                                                                : cx('item-color-link')
+                                                        }
                                                         style={{ backgroundColor: itemColor?.color_code }}
                                                         onClick={() => {
                                                             setItemColorActive(itemColor);

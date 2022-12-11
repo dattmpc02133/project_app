@@ -276,6 +276,22 @@ h1 {
         .order__list + .order__list {
             margin-top: 20px;
         }
+
+        .emty__cart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 160px;
+            .emty__cart--icon {
+                font-size: 4rem;
+                position: relative;
+                top: -2px;
+                margin-right: 8px;
+            }
+            .emty__cart--text {
+                font-size: 1.6rem;
+            }
+        }
     }
 
     .order__pagination {

@@ -1,22 +1,17 @@
 import classNames from 'classnames/bind';
-import { useEffect, useState } from 'react';
-import { AiOutlineShoppingCart, AiTwotoneTool } from 'react-icons/ai';
-import { RiLogoutBoxLine } from 'react-icons/ri';
+import { useContext, useEffect, useState } from 'react';
 
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
 import styles from '../../assets/scss/LoginUpdate.module.scss';
 
+import { useNavigate } from 'react-router-dom';
 import locationApi from '~/api/locationApi';
-import loginApi from '~/api/loginApi';
-import { Link, useNavigate } from 'react-router-dom';
+import AsideAccount from '~/components/AsideAccount';
+import { UserContext } from '~/Context/UserContext';
 const cx = classNames.bind(styles);
 
 function LoginUpdate() {
-    const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState();
-    const [name, setName] = useState();
-    const [phone, setPhone] = useState();
     const [provinceList, setProvinceList] = useState();
     const [provinceId, setProvinceId] = useState();
     const [districtList, setDistrictList] = useState();
@@ -26,56 +21,69 @@ function LoginUpdate() {
     const [newListWarn, setNewListWarn] = useState();
     const [wardId, setWardId] = useState();
     const [address, setAddress] = useState();
-    const [email, setEmail] = useState();
-    // const [user, setUser] = useState();
-    const [modal, setModal] = useState(false);
-    const [messStatus, setMessStatus] = useState();
-    const [statusHandle, setStatusHandle] = useState();
 
     const navigate = useNavigate();
 
+    const {
+        email,
+        phone,
+        user,
+        name,
+        updateDataUser,
+        logout,
+        modal,
+        messStatus,
+        statusHandle,
+        statusLogin,
+        setModal,
+        setMessStatus,
+        setStatusHandle,
+        setStatusLogin,
+        setUser,
+        setName,
+        setPhone,
+        setEmail,
+        loading,
+        setLoading,
+    } = useContext(UserContext);
+
+    const objDataAd = localStorage.getItem('token');
+    if (objDataAd == null) {
+        navigate('/login');
+    }
+
     useEffect(() => {
-        const objDataAd = localStorage.getItem('token');
-        if (objDataAd == null) {
-            navigate('/login');
-        } else {
-            const getUser = async () => {
-                setLoading(true);
-                try {
-                    const resultUser = await loginApi.getUser();
-                    setUser(resultUser.data);
-                    setName(resultUser.data.name);
-                    setPhone(resultUser.data.phone);
-                    const resultProvince = await locationApi.getAllProvince();
-                    setProvinceList(resultProvince.data);
-                    //
-                    const resultDistricts = await locationApi.getAllDistricts();
-                    setDistrictList(resultDistricts.data);
+        const getUser = async () => {
+            setLoading(true);
+            try {
+                const resultProvince = await locationApi.getAllProvince();
+                setProvinceList(resultProvince.data);
+                //
+                const resultDistricts = await locationApi.getAllDistricts();
+                setDistrictList(resultDistricts.data);
 
-                    setProvinceId(resultUser.data.province_id);
-                    const fillerDis = resultDistricts.data?.filter((item) => item.province_id == provinceId);
-                    setNewListDistrict(fillerDis);
+                setProvinceId(user.province_id);
+                const fillerDis = resultDistricts.data?.filter((item) => item.province_id == provinceId);
+                setNewListDistrict(fillerDis);
 
-                    //
-                    const resultWard = await locationApi.getAllWard();
-                    setWardList(resultWard.data);
+                //
+                const resultWard = await locationApi.getAllWard();
+                setWardList(resultWard.data);
 
-                    setDistrictId(resultUser.data.district_id);
-                    const fillerWard = wardList?.filter((item) => item.district_id == resultUser.data.district_id);
-                    setNewListWarn(fillerWard);
-                    setWardId(resultUser.data.ward_id);
-                    setAddress(resultUser.data.address);
-                    setEmail(resultUser.data.email);
-                    setLoading(false);
-                } catch (error) {
-                    console.log('Failed to get user: ', error);
-                    setLoading(false);
-                }
-            };
-
-            getUser();
-        }
-    }, []);
+                setDistrictId(user.district_id);
+                const fillerWard = wardList?.filter((item) => item.district_id == user.district_id);
+                setNewListWarn(fillerWard);
+                setWardId(user.ward_id);
+                setAddress(user.address);
+                setEmail(user.email);
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to get user: ', error);
+                setLoading(false);
+            }
+        };
+        getUser();
+    }, [user, statusLogin]);
 
     useEffect(() => {
         provinceId != user?.province_id && setDistrictId('');
@@ -98,48 +106,8 @@ function LoginUpdate() {
             ward_id: wardId,
             district_id: districtId,
         };
-        const updateData = async () => {
-            setLoading(true);
-            try {
-                const result = await loginApi.updateUser(data);
-                console.log(result);
-                setMessStatus(result.message);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to update user: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
-        };
 
-        updateData();
-        console.log(data);
-    };
-
-    const logout = () => {
-        const logout = async () => {
-            setLoading(true);
-            try {
-                const result = await loginApi.logout();
-                console.log(result);
-                localStorage.removeItem('token');
-                localStorage.removeItem('dataAd');
-                const objDataAd = localStorage.getItem('token');
-                if (objDataAd == null) {
-                    navigate('/login');
-                }
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to log out', error);
-                setLoading(false);
-            }
-        };
-        logout();
+        updateDataUser(data);
     };
 
     return (
@@ -151,7 +119,7 @@ function LoginUpdate() {
                     <h1 className="title-big">Tài khoản khách hàng</h1>
                     <div className={cx('grid wide')}>
                         <div className={cx('row')}>
-                            <div className={cx('l-3 m-6 c-12')}>
+                            {/* <div className={cx('l-3 m-6 c-12')}>
                                 <div className={cx('layout')}>
                                     <div className={cx('caterogy')}>
                                         <div className={cx('caterogy-name__item')}>
@@ -167,14 +135,15 @@ function LoginUpdate() {
                                             </Link>
                                         </div>
                                         <div className={cx('caterogy-name__item')}>
-                                            <div onClick={() => logout()} className={cx('caterogy-name')}>
+                                            <div onClick={() => handleLogout()} className={cx('caterogy-name')}>
                                                 <RiLogoutBoxLine className={cx('icon_shopping', 'icon__cate')} />
                                                 <h3>Đăng xuất</h3>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
+                            <AsideAccount />
 
                             <div className={cx('l-9 m-6  c-12')}>
                                 <div className={cx('info')}>
