@@ -59,8 +59,8 @@ function ListContact() {
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục Contact</h2>
-                <p className="content__heading--subtitle">Danh mục Footer</p>
+                <h2 className="content__heading--title">Danh sách danh mục liên hệ</h2>
+                <p className="content__heading--subtitle">Danh mục liên hệ</p>
             </div>
             <div className="content__wrapper">
                 <div className="content__main">

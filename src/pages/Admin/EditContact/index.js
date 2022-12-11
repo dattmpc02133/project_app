@@ -23,12 +23,12 @@ function EditContact() {
                     try {
                         const byIdFooter = await footerApi.getIdContact(params.id);
                       
-                        setSelected(byIdFooter.data.category_id);
+                        setSelected(byIdFooter.data.id=1);
                         setInputService(byIdFooter.data.name);
                         setInputPhone(byIdFooter.data.phone);
                         setInputTime(byIdFooter.data.time);
                         console.log('lay cac dichh vu',byIdFooter.data);
-                        console.log('lay id' ,byIdFooter.data.category_id);
+                        console.log('lay id' ,byIdFooter.data.id=1);
                     } catch (error) {
                         console.log('lỗi lấy danh mục không thành công', error);
                     }
@@ -109,9 +109,9 @@ function EditContact() {
                                         Chọn danh mục
                                     </option>
 
-                                    {cateContact.map((item, index) => (
-                                        <option key={index} value={item.id} selected>
-                                            {item.name}
+                                    {cateContact.map((data, index) => (
+                                        <option key={index} value={data.id} selected>
+                                            {data.name}
                                         </option>
                                     ))}
                                 </select>
