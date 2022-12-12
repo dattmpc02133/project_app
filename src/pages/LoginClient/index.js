@@ -190,8 +190,6 @@ function LoginClient() {
         //   const data = { phone };
     };
 
-    console.log('loginStatus', loginStatus);
-
     const handleChangeForm = () => {
         if (showFormRT) {
             setTiltle({ titleForm: 'Đăng nhập', titleBtn: 'Chưa có tài khoản' });

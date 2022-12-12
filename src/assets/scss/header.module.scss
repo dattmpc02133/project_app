@@ -204,6 +204,34 @@
     }
 }
 
+.search-product.name-user {
+    width: unset;
+    border-radius: 20px;
+    .name-block {
+        color: #fff;
+        display: flex;
+        align-items: center;
+        padding: 0 4px;
+        p {
+            font-size: 1.4rem;
+            margin-right: 10px;
+            max-width: 120px;
+            overflow: hidden;
+            max-height: 20px;
+            line-height: 20px;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            --webkit-user-select: none;
+        }
+
+        .icon-search {
+            position: relative;
+            top: -2px;
+        }
+    }
+}
+
 .search-product,
 .cart-product {
     display: inline-block;

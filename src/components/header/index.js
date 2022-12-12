@@ -1,17 +1,17 @@
 import classNames from 'classnames/bind';
-import images from '../../assets/images';
-import styles from '~/assets/scss/header.module.scss';
-import { CiSearch } from 'react-icons/ci';
+import { useContext, useEffect, useState } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
+import { CiSearch } from 'react-icons/ci';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
-import { useEffect, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import cateProductApi from '~/api/cateProductApi';
+import styles from '~/assets/scss/header.module.scss';
+import images from '../../assets/images';
 
-import cartApi from '~/api/cartApi';
+import { CartContext } from '~/Context/CartContext';
+import { UserContext } from '~/Context/UserContext';
 import searchApi from '../../api/searchApi';
-import { useMemo } from 'react';
 
 const cx = classNames.bind(styles);
 function Header() {
@@ -21,12 +21,25 @@ function Header() {
     const [cartNum, setCartNum] = useState();
     const [searchTerm, setSearchTerm] = useState('');
     const [findProduct, setFindProduct] = useState();
+
+    //
     const handleSearch = () => {
         setSearch(!search);
     };
     const handleNavBarClick = () => {
         setOpen(!open);
     };
+
+    // Global State
+    const { listCart } = useContext(CartContext);
+    const { user, name } = useContext(UserContext);
+
+    useEffect(() => {
+        if (listCart != undefined) {
+            setCartNum(listCart?.details?.length);
+        }
+    }, [listCart]);
+
     useEffect(() => {
         const fetchHeaderCategory = async (id) => {
             try {
@@ -34,9 +47,6 @@ function Header() {
                 const ListCategoryData = headerCategory?.data;
                 // console.log('cateOnle', headerCategory.data);
                 setCategories(ListCategoryData);
-
-                const resultListCart = await cartApi.getAll();
-                setCartNum(resultListCart?.data?.details?.length);
             } catch (error) {
                 console.log('Failed to fetch Categories: ', error);
             }
@@ -108,8 +118,9 @@ function Header() {
                 </form>
                 {/* search + cart */}
                 <div className={cx('search-cart')}>
-                    <div className={cx('search-product')}>
-                        <Link to="login">
+                    <div className={name != undefined ? cx('search-product', 'name-user') : cx('search-product')}>
+                        <Link to="login" className={name != undefined ? cx('name-block') : ''}>
+                            {name != undefined && <p>{name}</p>}
                             <BiUserCircle className={cx('icon-search')} />
                         </Link>
                     </div>

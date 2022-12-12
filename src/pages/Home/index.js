@@ -28,7 +28,6 @@ function Home() {
     // console.log('ListProductsData', ListProductsData);
     const ChangeVariant = ({ itemVariant, listVariants, itemProduct }) => {
         const result = listVariants?.filter((element) => {
-            // Id
             console.log('itemVariant', itemVariant?.id);
             if (element?.variant_id == itemVariant?.id) {
                 return element;
@@ -39,7 +38,7 @@ function Home() {
             setRender(!render);
         }
     };
-
+    console.log(listProducts);
     return (
         <>
             <Slideshow />
@@ -86,6 +85,8 @@ function Home() {
                                                                             }),
                                                                         )
                                                                     }
+                                                                    className={variant.id == 1 ? cx('active') : ''}
+                                                                    // style={{ border: '1px solid #ccc' }}
                                                                 >
                                                                     {variant.variant_name}GB
                                                                 </li>

@@ -1,14 +1,15 @@
 import classNames from 'classnames/bind';
 // import styles from '../../assets/scss/LoginHistoryCart.module.scss';
 import { useEffect, useState } from 'react';
-import { AiOutlineShoppingCart, AiTwotoneTool } from 'react-icons/ai';
-import { RiAddLine, RiLogoutBoxLine } from 'react-icons/ri';
-import { Link, useNavigate } from 'react-router-dom';
+import { RiAddLine } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
 import Loading from '~/components/Loading';
 import styles from '../../assets/scss/LoginUpdate.module.scss';
 
 import cartApi from '~/api/cartApi';
-import loginApi from '~/api/loginApi';
+import AsideAccount from '~/components/AsideAccount';
+
+import { TbShoppingCartOff } from 'react-icons/tb';
 
 import Pagination from '~/components/Pagination';
 
@@ -22,6 +23,11 @@ function LoginHistoryCart() {
 
     const navigate = useNavigate();
 
+    const objDataAd = localStorage.getItem('token');
+    if (objDataAd == null) {
+        navigate('/login');
+    }
+
     useEffect(() => {
         const objDataAd = localStorage.getItem('token');
         if (objDataAd == null) {
@@ -34,7 +40,7 @@ function LoginHistoryCart() {
         setLoading(true);
         try {
             const result = await cartApi.getOrders(param);
-            console.log(result);
+            // console.log(result);
             setPagination(result.paginator);
             setListOrder(result.data);
             setLoading(false);
@@ -72,27 +78,6 @@ function LoginHistoryCart() {
         getOrders(`?page=${page}`);
     };
 
-    const logout = () => {
-        const logout = async () => {
-            setLoading(true);
-            try {
-                const result = await loginApi.logout();
-                console.log(result);
-                localStorage.removeItem('token');
-                localStorage.removeItem('dataAd');
-                const objDataAd = localStorage.getItem('token');
-                if (objDataAd == null) {
-                    navigate('/login');
-                }
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to log out', error);
-                setLoading(false);
-            }
-        };
-        logout();
-    };
-
     return (
         <div className={cx('wapper')}>
             {loading && <Loading />}
@@ -101,7 +86,7 @@ function LoginHistoryCart() {
                     <h1 className="title-big"> Tài khoản khách hàng </h1>
                     <div className={cx('grid wide')}>
                         <div className={cx('row')}>
-                            <div className={cx('l-3 m-6 c-12')}>
+                            {/* <div className={cx('l-3 m-6 c-12')}>
                                 <div className={cx('layout')}>
                                     <div className={cx('caterogy')}>
                                         <div className={cx('caterogy-name__item')}>
@@ -124,12 +109,13 @@ function LoginHistoryCart() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
+                            <AsideAccount />
 
                             <div className={cx('l-9 m-6 c-12')}>
                                 <div className={cx('order__wrapper')}>
                                     <div className={cx('order__block')}>
-                                        {Array.isArray(listOrder) &&
+                                        {Array.isArray(listOrder) && listOrder?.length != 0 ? (
                                             listOrder?.map((item, index) => (
                                                 <div key={index} className={cx('order__list')}>
                                                     <div className={cx('order__list--heading')}>
@@ -249,7 +235,13 @@ function LoginHistoryCart() {
                                                         </div>
                                                     )}
                                                 </div>
-                                            ))}
+                                            ))
+                                        ) : (
+                                            <div className={cx('emty__cart')}>
+                                                <TbShoppingCartOff className={cx('emty__cart--icon')} />
+                                                <p className={cx('emty__cart--text')}>Bạn chưa có đơn hàng nào !</p>
+                                            </div>
+                                        )}
                                     </div>
 
                                     {/* <div className={cx('order__pagination')}>
@@ -290,13 +282,15 @@ function LoginHistoryCart() {
                                             </div>
                                         </div>
                                     </div> */}
-                                    <Pagination
-                                        curentPage={page}
-                                        totalPages={pagination?.totalPages}
-                                        handlePrevPage={handlePrevPage}
-                                        handleChangePage={handleChangePage}
-                                        handleNextPage={handleNextPage}
-                                    />
+                                    {listOrder?.length != 0 && (
+                                        <Pagination
+                                            curentPage={page}
+                                            totalPages={pagination?.totalPages}
+                                            handlePrevPage={handlePrevPage}
+                                            handleChangePage={handleChangePage}
+                                            handleNextPage={handleNextPage}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>

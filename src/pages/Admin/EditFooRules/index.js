@@ -17,8 +17,8 @@ function EditFooRules() {
     const [modal, setModal] = useState(false);
     const [nameInput, setNameInput] = useState('');
     const [idSelect, setIdSelect] = useState();
-    const [cateFooter, setCateFooter] = useState();
     const [contents, setContent] = useState('');
+    // const [cateFooter, setCateFooter] = useState();
     const params = useParams();
 
     useEffect(() => {
@@ -90,7 +90,7 @@ function EditFooRules() {
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Danh mục Footer content</label>
+                                <label htmlFor="ip-name">Danh mục  liên hệ</label>
                             </div>
                             <div className="input__text">
                                 <select

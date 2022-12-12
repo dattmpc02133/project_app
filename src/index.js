@@ -4,13 +4,19 @@ import App from './App';
 import './assets/scss/Grid.scss';
 import GlobalStyles from '~/components/GlobalStyles';
 import reportWebVitals from './reportWebVitals';
+import { CartContextProvider } from '~/Context/CartContext';
+import { UserContextProvider } from '~/Context/UserContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <React.StrictMode>
-    <GlobalStyles>
-        <App />
-    </GlobalStyles>,
+    <UserContextProvider>
+        <CartContextProvider>
+            <GlobalStyles>
+                <App />
+            </GlobalStyles>
+        </CartContextProvider>
+    </UserContextProvider>,
     // </React.StrictMode>,
 );
 

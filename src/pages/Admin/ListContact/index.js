@@ -69,8 +69,8 @@ function ListContact() {
             {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục Contact</h2>
-                <p className="content__heading--subtitle">Danh mục Footer</p>
+                <h2 className="content__heading--title">Danh sách danh mục liên hệ</h2>
+                <p className="content__heading--subtitle">Danh mục liên hệ</p>
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
@@ -82,6 +82,10 @@ function ListContact() {
                                     <th>Tên danh mục</th>
                                     <th>Dịch vụ</th>
                                     <th>Số diện thoại</th>
+                                    <th>Thời gian liên hệ</th>
+                                  
+                           
+                                    
                                     <th>Số diện thoại</th>
 
                                     <th colSpan="2" className="text-right">

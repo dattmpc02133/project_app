@@ -76,6 +76,11 @@
             font-size: var(--sub-size);
             line-height: 21px;
             border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .capacity-gb_link.active {
+            border: 1px solid #ccc;
         }
     }
     .item-color-li {
@@ -94,6 +99,11 @@
         background-color: #a0b4c7;
         position: relative;
         margin-right: 15px;
+        cursor: pointer;
+    }
+
+    .item-color-link.active {
+        border: 4px solid #999;
     }
     .promotion-local,
     .price-product-detail,
