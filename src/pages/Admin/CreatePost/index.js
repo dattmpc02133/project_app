@@ -64,6 +64,7 @@ const CreateCatePost = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                console.log(post);
             } catch (error) {
                 console.log('lỗi khi thêm', error);
                 const res = error.response.data;
