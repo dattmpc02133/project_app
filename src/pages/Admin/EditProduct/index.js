@@ -61,12 +61,25 @@ const EditProduct = () => {
                 setListBrand(resultBrand.data.data);
                 const resultColor = await colorApi.getAll();
                 setListColor(resultColor.data);
-                const resultSubCate = await subCateProductApi.getAll();
-                setListSubCategory(resultSubCate.data);
+                const resultListSubCate = await subCateProductApi.getAll();
+                setListSubCategory(resultListSubCate.data);
                 const resultCate = await cateProductApi.getAll();
                 setListCategory(resultCate.data);
                 const resultVariant = await variantApi.getAll();
                 setListVariant(resultVariant.data);
+
+                const resultProduct = await productApi.getById(params.id);
+                setProduct(resultProduct.data);
+                const resultSubCateById = await subCateProductApi.getById(resultProduct.data.subcategory_id);
+                // setOldSubCate(resultSubCate.data);
+                setBrand(resultSubCateById.data.brand_id);
+                console.log('resultSubCate', resultSubCateById.data);
+                setCategory(resultProduct.data.category);
+
+                // const newListSubCate = listSubCategory.filter(
+                //     (item) => item.category_id == category && item.brand_id == idBrand,
+                // );
+                // setNewSubListCategory(newListSubCate);
 
                 setLoading(false);
             } catch (error) {
@@ -78,25 +91,26 @@ const EditProduct = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        const getProduct = async () => {
-            setLoading(true);
-            try {
-                const resultProduct = await productApi.getById(params.id);
-                setProduct(resultProduct.data);
-                const resultSubCate = await subCateProductApi.getById(resultProduct.data.subcategory_id);
-                // setOldSubCate(resultSubCate.data);
-                console.log('resultSubCate', resultSubCate.data);
-                setCategory(resultProduct.data.category);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get product: ', error);
-                setLoading(false);
-                // navigate('/admin/pagenotfound');
-            }
-        };
-        getProduct();
-    }, []);
+    // useEffect(() => {
+    //     const getProduct = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const resultProduct = await productApi.getById(params.id);
+    //             setProduct(resultProduct.data);
+    //             const resultSubCate = await subCateProductApi.getById(resultProduct.data.subcategory_id);
+    //             // setOldSubCate(resultSubCate.data);
+    //             setBrand(resultSubCate.data.brand_id);
+    //             console.log('resultSubCate', resultSubCate.data);
+    //             setCategory(resultProduct.data.category);
+    //             setLoading(false);
+    //         } catch (error) {
+    //             console.log('Failed to get product: ', error);
+    //             setLoading(false);
+    //             // navigate('/admin/pagenotfound');
+    //         }
+    //     };
+    //     getProduct();
+    // }, []);
 
     // Logic Form Variant
     // const [formSubVariant, setFormSubVariant] = useState([[{ color: '', price: '', discount: '' }]]);
@@ -507,6 +521,7 @@ const EditProduct = () => {
                                     id="brandProduct"
                                     onChange={(e) => changeBrandId(e)}
                                     className="input__text--ctrl"
+                                    value={brand}
                                     required
                                 >
                                     <option>--Chọn danh thương hiệu--</option>
