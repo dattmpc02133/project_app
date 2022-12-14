@@ -43,6 +43,8 @@ const CreateProduct = () => {
     const [messErr, setMessErr] = useState();
     //
     const [showImgTbl, setShowImgTbl] = useState(false);
+    const [urlImage, setUrlImage] = useState();
+    const [statusImg, setStatusImg] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -80,7 +82,8 @@ const CreateProduct = () => {
             meta_description: metaDescription,
             name: nameProduct,
             description: description,
-            url_image: image,
+            url_image: urlImage,
+            collection_images: image,
             specification_infomation: null,
             subcategory_id: subCategoryId,
 
@@ -109,7 +112,7 @@ const CreateProduct = () => {
                 setMessErr(res.message);
             }
         };
-        // createProduct();
+        createProduct();
         console.log('data', data);
     };
 
@@ -233,8 +236,23 @@ const CreateProduct = () => {
         setNewSubListCategory(newListSubCate);
     };
 
-    const handleGetImg = (img) => {
+    const handleShowFormListImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(false);
+    };
+
+    const handleShowFormImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(true);
+    };
+
+    const handleGetListImg = (img) => {
         setImage(img);
+        setShowImgTbl(false);
+    };
+
+    const handleGetImg = (img) => {
+        setUrlImage(...img);
         setShowImgTbl(false);
     };
 
@@ -242,7 +260,14 @@ const CreateProduct = () => {
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
-            {showImgTbl && <TableImage closeForm={setShowImgTbl} action={handleGetImg} />}
+            {showImgTbl && (
+                <TableImage
+                    closeForm={setShowImgTbl}
+                    action={handleGetListImg}
+                    actionOne={handleGetImg}
+                    status={statusImg}
+                />
+            )}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
@@ -321,15 +346,34 @@ const CreateProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="imgProduct">Hình ảnh</label>
+                                <label htmlFor="imgProduct">Hình ảnh chính</label>
                             </div>
-                            <div className="input__text">
-                                {image ? (
-                                    <div className="img__box" onClick={() => setShowImgTbl(true)}>
-                                        <img className="img__box--item" src={image} />
+                            <div className="input__text list__img">
+                                {urlImage ? (
+                                    <div className="img__box" onClick={() => handleShowFormImg()}>
+                                        <img className="img__box--item" src={urlImage} />
                                     </div>
                                 ) : (
-                                    <div className="img__choose" onClick={() => setShowImgTbl(true)}>
+                                    <div className="img__choose" onClick={() => handleShowFormImg()}>
+                                        Chọn ảnh...
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="imgProduct">Hình ảnh phụ (danh sách)</label>
+                            </div>
+                            <div className="input__text list__img">
+                                {image ? (
+                                    image.map((data, index) => (
+                                        <div className="img__box" onClick={() => handleShowFormListImg()}>
+                                            <img className="img__box--item" src={data} />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="img__choose" onClick={() => handleShowFormListImg()}>
                                         Chọn ảnh...
                                     </div>
                                 )}
