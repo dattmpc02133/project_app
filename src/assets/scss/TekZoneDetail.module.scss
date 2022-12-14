@@ -201,31 +201,29 @@
         }
         .slider {
             margin: 0 10px;
-            .posts-row {
+            .item-posts {
+                margin-left: 10px;
+                width: 96% !important;
+                display: inline-block;
+                background: #323232;
                 display: flex;
                 padding: 12px 8px;
-                .item-posts {
-                    width: 31.333%;
-                    display: inline-block;
-                    background: #323232;
-                    overflow: hidden;
-                    border-radius: 12px;
-                    margin-left: 10px;
-                    .img-slider {
+                overflow: hidden;
+                border-radius: 12px;
+                .img-slider {
+                    width: 100%;
+                    img {
+                        border-radius: 12px 12px 0 0;
                         width: 100%;
-                        img {
-                            border-radius: 12px 12px 0 0;
-                            width: 100%;
-                        }
                     }
+                }
 
-                    .title-posts {
-                        padding: 8px;
-                    }
+                .title-posts {
+                    padding: 8px;
+                }
 
-                    span {
-                        padding: 8px;
-                    }
+                span {
+                    padding: 8px;
                 }
             }
         }

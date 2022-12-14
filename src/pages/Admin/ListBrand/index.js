@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import brandApi from '~/api/brandApi';
 import Dialog from '~/components/Dialog';
+import Pagination from '~/components/Pagination';
 function ListBrand() {
     const [brandAll, setBrandAll] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -14,21 +15,44 @@ function ListBrand() {
     const [modal, setModal] = useState(false);
     const [deleteBrand, SetDeleteBrand] = useState();
     const [comfirm, setComfirm] = useState(false);
-
+    const [page, setPage] = useState(1);
+    const [pageBrand, setPageBrand] = useState([]);
     const deleteBrands = useRef();
 
     useEffect(() => {
-        const getAllBrand = async () => {
-            try {
-                const allBrands = await brandApi.getAll();
-                setBrandAll(allBrands.data.data);
-                console.log('data', allBrands.data.data);
-            } catch (error) {
-                console.log('lỗi lấy danh sách', error);
-            }
-        };
         getAllBrand();
     }, []);
+
+    const getAllBrand = async (params) => {
+        try {
+            const allBrands = await brandApi.getAll(params);
+            setBrandAll(allBrands.data.data);
+            setPageBrand(allBrands.data);
+            console.log('phân trang', allBrands.data.last_page);
+        } catch (error) {
+            console.log('lỗi lấy danh sách', error);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            getAllBrand(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pageBrand?.last_page) {
+            const pageId = page + 1;
+            setPage(pageId);
+            getAllBrand(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        getAllBrand(`?page=${page}`);
+    };
 
     const handleDelete = (id) => {
         setComfirm(true);
@@ -38,8 +62,8 @@ function ListBrand() {
     const handleAction = (type) => {
         if (type) {
             setComfirm(false);
-
             const getDeletBrand = async () => {
+                setLoading(true);
                 try {
                     const deleteBrand = await brandApi.delete(deleteBrands.current);
                     setMessage(deleteBrand.message);
@@ -89,7 +113,7 @@ function ListBrand() {
                                 {Array.isArray(brandAll)
                                     ? brandAll.map((item, index) => (
                                           <tr key={item.id}>
-                                              <td>{index + 1}</td>
+                                              <td>{9 * (page - 1) + index + 1}</td>
                                               <td>{item.brand_name}</td>
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
@@ -116,6 +140,13 @@ function ListBrand() {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pageBrand?.last_page}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

@@ -5,30 +5,56 @@ import catePostApi from '~/api/catePostApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import Dialog from '~/components/Dialog';
-const ListCatePost = () => {
+import Pagination from '~/components/Pagination';
+function ListCatePost() {
     const [loading, setLoading] = useState(false);
     const [listCate, setListCate] = useState([]);
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [message, setMessage] = useState();
     const [modal, setModal] = useState(false);
-    const [electCateFooter, setDeleteCatePost] = useState(false);
+    const [pageCatePost, setPageCatePost] = useState([]);
     const deleteCatePosts = useRef();
     const [comfirm, setComfirm] = useState(false);
+
+    const [page, setPage] = useState(1);
+
     useEffect(() => {
-        const fetchCatePost = async () => {
-            setLoading(true);
-            try {
-                const result = await catePostApi.getAll();
-                setListCate(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
-            }
-        };
         fetchCatePost();
     }, []);
+    const fetchCatePost = async (params) => {
+        setLoading(true);
+        try {
+            const result = await catePostApi.getAll(params);
+            setListCate(result.data.data);
+            setPageCatePost(result.data);
+            console.log(result.data);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch Categories: ', error);
+            setLoading(false);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pageCatePost?.last_page) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchCatePost(`?page=${page}`);
+    };
 
     const handleDelete = (id) => {
         setComfirm(true);
@@ -47,7 +73,7 @@ const ListCatePost = () => {
                     setModal(true);
                     setLoading(false);
                     const result = await catePostApi.getAll();
-                    setListCate(result.data);
+                    setListCate(result.data.data);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;
@@ -91,7 +117,7 @@ const ListCatePost = () => {
                             <tbody>
                                 {listCate?.map((item, index) => (
                                     <tr key={item.id}>
-                                        <td>{index + 1}</td>
+                                        <td>{9 * (page - 1) + index + 1}</td>
                                         <td>{item.name}</td>
                                         <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                             {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
@@ -115,10 +141,17 @@ const ListCatePost = () => {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pageCatePost?.last_page}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default ListCatePost;

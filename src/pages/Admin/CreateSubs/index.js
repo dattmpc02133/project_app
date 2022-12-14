@@ -25,7 +25,7 @@ function CreateSubs() {
         const getAllCate = async () => {
             try {
                 const cate = await catePostApi.getAll();
-                setCategories(cate.data);
+                setCategories(cate.data.data);
                 console.log(cate.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
@@ -56,8 +56,8 @@ function CreateSubs() {
         const createSubs = async () => {
             try {
                 const result = await catePostApi.createdSubs(data);
-                // setMessStatus(result.status);
-
+                setMessStatus(result.message);
+                console.log(result);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
@@ -118,9 +118,7 @@ function CreateSubs() {
                                     value={dataselect}
                                     onChange={(e) => setDateSelect(e.target.value)}
                                 >
-                                    <option value="0" selected>
-                                        Chọn danh mục
-                                    </option>
+                                    <option selected>Chọn danh mục</option>
 
                                     {categories.map((item, index) => (
                                         <option key={index} value={item.id} selected>
@@ -130,13 +128,7 @@ function CreateSubs() {
                                 </select>
                             </div>
                         </div>
-                        {/* {message && typeof message == 'string' ? (
-                            <div className="input__group">
-                                <span className={('input__group--mess', 'suscess')}>{message}</span>
-                            </div>
-                        ) : (
-                            false
-                        )} */}
+
                         <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tên danh mục chi tiết</label>
@@ -145,19 +137,11 @@ function CreateSubs() {
                                 <input
                                     value={dataInput}
                                     className="input__text--ctrl"
-                                    placeholder="Nội quy của hàng"
+                                    placeholder="Tên danh mục chi tiết"
                                     onChange={(e) => setDataInput(e.target.value)}
                                 />
                             </div>
                         </div>
-
-                        {/* {message && typeof message == 'string' ? (
-                            <div className="input__group">
-                                <span className={('input__group--mess', 'suscess')}>{message}</span>
-                            </div>
-                        ) : (
-                            false
-                        )} */}
 
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Thêm danh mục</button>
