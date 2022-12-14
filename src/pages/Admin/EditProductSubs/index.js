@@ -17,14 +17,14 @@ function EditProductSubs() {
     const [dataBrand, setDataBrand] = useState('');
     const [dataName, setDataName] = useState('');
     const [allBrand, setAllBrand] = useState([]);
-    const [subsId, setSubsId] = useState([]);
+
     const params = useParams();
 
     useEffect(() => {
         const getAllCate = async () => {
             try {
                 const cate = await categoriesApi.getAll();
-                setCategories(cate.data);
+                setCategories(cate.data.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -49,7 +49,7 @@ function EditProductSubs() {
         setLoading(true);
         e.preventDefault();
         const data = { category_id: dataCate, name: dataName, brand_id: dataBrand };
-        console.log(data);
+        // console.log(data);
         const EditSubs = async () => {
             try {
                 const result = await categoriesApi.editCateProduct(data, params.id);
@@ -105,9 +105,7 @@ function EditProductSubs() {
                                     value={dataBrand}
                                     onChange={(e) => setDataBrand(e.target.value)}
                                 >
-                                    <option value="0" selected>
-                                        Chọn Thương Hiệu
-                                    </option>
+                                    <option selected>Chọn Thương Hiệu</option>
 
                                     {allBrand.map((item, index) => (
                                         <option key={index} value={item.id} selected>

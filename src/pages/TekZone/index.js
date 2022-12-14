@@ -159,59 +159,6 @@ function TekZone() {
                               ))
                             : false}
 
-                        {/* <div className={cx('news-item')}>
-                            <a href="#">
-                                <div className={cx('img-item')}>
-                                    <img src={images.tekitem} alt="Anh post" />
-                                </div>
-                                <div className={cx('title-item')}>
-                                    <h3>
-                                        Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn giá
-                                        hời, rinh ngay về nhà thôi kẻo lỡ
-                                    </h3>
-                                </div>
-                                <div className={cx('time-post')}>
-                                    <p>1 giờ trước</p>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div className={cx('news-item')}>
-                            <a href="#">
-                                <div className={cx('img-item')}>
-                                    <img src={images.tekitem} alt="Anh post" />
-                                </div>
-                                <div className={cx('title-item')}>
-                                    <h3>
-                                        Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn giá
-                                        hời, rinh ngay về nhà thôi kẻo lỡ
-                                    </h3>
-
-                                    <div className={cx('time-post')}>
-                                        <p>1 giờ trước</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div className={cx('news-item')}>
-                            <a href="#">
-                                <div className={cx('img-item')}>
-                                    <img src={images.tekitem} alt="Anh post" />
-                                </div>
-                                <div className={cx('title-item')}>
-                                    <h3>
-                                        Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn giá
-                                        hời, rinh ngay về nhà thôi kẻo lỡ
-                                    </h3>
-
-                                    <div className={cx('time-post')}>
-                                        <p>1 giờ trước</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div> */}
-
                         <div className={cx('viewmore-news')}>
                             <a href="#">Xem thêm</a>
                         </div>

@@ -20,10 +20,9 @@ function EditBrand() {
         const getById = async () => {
             try {
                 const byIdBrand = await brandApi.getById(params.id);
-                setBrandsId(byIdBrand.data.is_post);
+                // setBrandsId(byIdBrand.data.is_post);
                 setNameBrand(byIdBrand.data.brand_name);
                 setSelectActive(byIdBrand.data.is_active);
-                console.log('id danh muc', byIdBrand.data);
             } catch (error) {
                 console.log('Lỗi thương hiệu theo id', error);
             }
@@ -34,8 +33,8 @@ function EditBrand() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const data = { brand_name: nameBrand, is_post: brandsId, is_active: selectActive };
-        console.log('data', data);
+        const data = { brand_name: nameBrand, is_active: selectActive }; // , is_post: brandsId
+        // console.log('data', data);
         const EditBrand = async () => {
             try {
                 const result = await brandApi.update(data, params.id);
@@ -54,9 +53,9 @@ function EditBrand() {
         };
         EditBrand();
     };
-    const handleChangeSelections = (id) => {
-        setBrandsId(id);
-    };
+    // const handleChangeSelections = (id) => {
+    //     setBrandsId(id);
+    // };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -69,7 +68,7 @@ function EditBrand() {
             <div className="content__wrapper">
                 <div className="content__main">
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
-                        <div className="input__group">
+                        {/* <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tên danh mục sản phẩm</label>
                             </div>
@@ -84,25 +83,25 @@ function EditBrand() {
                                     <option value="1">Cập nhật danh mục tin tức</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
 
-                        {brandsId != null && (
-                            <div className="input__group">
-                                <div className="input__label">
-                                    <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
-                                </div>
-                                <div className="input__text">
-                                    <input
-                                        value={nameBrand}
-                                        id="ip-name"
-                                        type="text"
-                                        className="input__text--ctrl"
-                                        placeholder="Tên danh muc"
-                                        onChange={(e) => setNameBrand(e.target.value)}
-                                    />
-                                </div>
+                        {/* {brandsId != null && ( */}
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Tên danh mục thương hiệu </label>
                             </div>
-                        )}
+                            <div className="input__text">
+                                <input
+                                    value={nameBrand}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tên danh muc"
+                                    onChange={(e) => setNameBrand(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        {/* )} */}
 
                         <div className="input__group">
                             <div className="input__label">

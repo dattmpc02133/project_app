@@ -32,7 +32,7 @@ import CreateFooter from './pages/Admin/CreateFooter';
 import ListCateFooter from './pages/Admin/ListCateFooter';
 import EditFooter from './pages/Admin/EditFooter';
 import Product from './pages/Product';
-import CreateCategories from './pages/Admin/CreateCategories';
+import CreateCategories from './pages/Admin/CreateCatePost';
 import CreateBrand from './pages/Admin/CreateBrand';
 import LoginClient from './pages/LoginClient';
 
@@ -97,8 +97,8 @@ function App() {
                     <Route path="layout" element={<NotFound />} />
                     <Route path="phone" element={<NotFound />} />
                     <Route path="location" element={<NotFound />} />
-                    <Route path="catepost/add" element={<CreateCatePost />} />
-                    <Route path="catepost/list" element={<ListCatePost />} />
+                    {/* 
+                    <Route path="catepost/list" element={<ListCatePost />} /> */}
                     <Route path="post/add" element={<CreatePost />} />
                     <Route path="post/list" element={<ListPost />} />
                     <Route path="post/edit/:id" element={<EditPost />} />

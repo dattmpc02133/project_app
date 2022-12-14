@@ -5,7 +5,8 @@ import postApi from '../../../api/postApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import Dialog from '~/components/Dialog';
-const ListPost = () => {
+import Pagination from '~/components/Pagination';
+function ListPost() {
     const [comfirm, setComfirm] = useState(false);
     const [loading, setLoading] = useState(false);
     const [messStatus, setMessStatus] = useState();
@@ -14,7 +15,9 @@ const ListPost = () => {
     const [message, setMessage] = useState('');
     const deletePost = useRef();
     const [postDelete, setPostDelete] = useState(false);
-
+    const [pagePost, setPagePost] = useState([]);
+    const [page, setPage] = useState(1);
+    const [allPost, setAllPost] = useState([]);
     const handleDelete = (id) => {
         setComfirm(true);
         deletePost.current = id;
@@ -45,20 +48,39 @@ const ListPost = () => {
         }
     };
 
-    const [allPost, setAllPost] = useState([]);
-
     useEffect(() => {
-        const getAllPost = async () => {
-            try {
-                const allPosts = await postApi.getAll();
-                setAllPost(allPosts.data);
-                console.log('data', allPosts.data);
-            } catch (error) {
-                console.log('Lỗi lất tin tức', error);
-            }
-        };
         getAllPost();
     }, []);
+
+    const getAllPost = async (params) => {
+        try {
+            const allPosts = await postApi.getAll(params);
+            setAllPost(allPosts.data);
+            setPagePost(allPosts.paginator);
+        } catch (error) {
+            console.log('Lỗi lất tin tức', error);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            getAllPost(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pagePost?.totalPages) {
+            const pageId = page + 1;
+            setPage(pageId);
+            getAllPost(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        getAllPost(`?page=${page}`);
+    };
 
     return (
         <div className="wrapper">
@@ -90,9 +112,9 @@ const ListPost = () => {
                             <tbody>
                                 {allPost?.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{index + 1}</td>
+                                        <td>{10 * (page - 1) + index + 1}</td>
                                         <td>{item.title}</td>
-                                        {/* <td>{item.}</td> */}
+                                        <td>{item.category_name}</td>
                                         <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                             {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                         </td>
@@ -117,10 +139,19 @@ const ListPost = () => {
                             </tbody>
                         </table>
                     </div>
+                    {allPost?.length != 0 && (
+                        <Pagination
+                            curentPage={page}
+                            totalPages={pagePost?.totalPages}
+                            handlePrevPage={handlePrevPage}
+                            handleChangePage={handleChangePage}
+                            handleNextPage={handleNextPage}
+                        />
+                    )}
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default ListPost;

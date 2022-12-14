@@ -5,6 +5,7 @@ import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import Dialog from '~/components/Dialog';
+import Pagination from '~/components/Pagination';
 function ListFooRules() {
     const [comfirm, setComfirm] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -14,23 +15,46 @@ function ListFooRules() {
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
+    const [page, setPage] = useState(1);
+    const [cateFooter, setCateFooter] = useState([]);
     const deleteContent = useRef();
     useEffect(() => {
-        const fetchCatePost = async () => {
-            setLoading(true);
-            try {
-                const result = await footerApi.getAllContent();
-                setListCate(result.data);
-                setLoading(false);
-                console.log('data', result.data);
-            } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
-            }
-        };
-
         fetchCatePost();
     }, []);
+
+    const fetchCatePost = async (params) => {
+        setLoading(true);
+        try {
+            const result = await footerApi.getAllContentFoo(params);
+            setListCate(result.data);
+            setCateFooter(result.paginator);
+            setLoading(false);
+            // console.log('data', result.data);
+        } catch (error) {
+            console.log('Failed to fetch Categories: ', error);
+            setLoading(false);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < cateFooter?.totalPages) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchCatePost(`?page=${page}`);
+    };
 
     const handleDelete = (id) => {
         setComfirm(true);
@@ -69,8 +93,8 @@ function ListFooRules() {
             {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục Footer</h2>
-                <p className="content__heading--subtitle">Danh mục Footer</p>
+                <h2 className="content__heading--title">Danh sách nội dung và chính sách</h2>
+                <p className="content__heading--subtitle">Nội dung và chính sách</p>
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
@@ -80,7 +104,7 @@ function ListFooRules() {
                                 <tr>
                                     <th>#</th>
                                     <th>Tên danh mục</th>
-                                    <th>Tên danh mục</th>
+                                    <th>Tiêu đề nội dung</th>
                                     <th>Trạng thái</th>
                                     <th>Người tạo</th>
                                     <th>Người cập nhật</th>
@@ -93,7 +117,7 @@ function ListFooRules() {
                                 {Array.isArray(listCate)
                                     ? listCate.map((item, index) => (
                                           <tr key={item.id}>
-                                              <td>{index + 1}</td>
+                                              <td>{10 * (page - 1) + index + 1}</td>
                                               <td>{item.category_name}</td>
                                               <td>{item.title}</td>
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
@@ -121,6 +145,16 @@ function ListFooRules() {
                             </tbody>
                         </table>
                     </div>
+
+                    {listCate?.length != 0 && (
+                        <Pagination
+                            curentPage={page}
+                            totalPages={cateFooter?.totalPages}
+                            handlePrevPage={handlePrevPage}
+                            handleChangePage={handleChangePage}
+                            handleNextPage={handleNextPage}
+                        />
+                    )}
                 </div>
             </div>
         </div>

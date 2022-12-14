@@ -77,39 +77,19 @@ const EditCategoriesPro = () => {
                     <form onSubmit={(e) => handleSubmit(e)} className="form__content">
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Tên danh mục sản phẩm</label>
+                                <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
                             </div>
                             <div className="input__text">
-                                <select
+                                <input
+                                    value={nameCatePost}
+                                    id="ip-name"
+                                    type="text"
                                     className="input__text--ctrl"
-                                    value={resultKq}
-                                    onChange={(e) => setResultKq(e.target.value)}
-                                >
-                                    <option selected>Chọn</option>
-                                    <option value="0">Cập nhật danh mục sản phẩm</option>
-                                    <option value="1">Cập nhật danh mục tin tức</option>
-                                </select>
+                                    placeholder="Tên danh mục"
+                                    onChange={(e) => setNameCatePost(e.target.value)}
+                                />
                             </div>
                         </div>
-
-                        {resultKq != null && (
-                            <div className="input__group">
-                                <div className="input__label">
-                                    <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
-                                </div>
-                                <div className="input__text">
-                                    <input
-                                        value={nameCatePost}
-                                        id="ip-name"
-                                        type="text"
-                                        className="input__text--ctrl"
-                                        placeholder="Tên danh muc"
-                                        onChange={(e) => setNameCatePost(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                        )}
-
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Cập nhật danh mục</button>
                         </div>

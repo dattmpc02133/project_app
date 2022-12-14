@@ -16,7 +16,7 @@ const CreateBrand = () => {
         e.preventDefault();
         const data = {
             brand_name: nameBrand,
-            is_post: selection,
+            // is_post: selection,
         };
         const createBrand = async () => {
             setLoading(true);
@@ -40,9 +40,9 @@ const CreateBrand = () => {
         };
         createBrand();
     };
-    const handleChangeSelections = (id) => {
-        setSelection(id);
-    };
+    // const handleChangeSelections = (id) => {
+    //     setSelection(id);
+    // };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -55,7 +55,7 @@ const CreateBrand = () => {
             <div className="content__wrapper">
                 <div className="content__main">
                     <form onSubmit={(e) => handleSubmit(e)} className="form__content">
-                        <div className="input__group">
+                        {/* <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tên thương hiệu</label>
                             </div>
@@ -69,25 +69,25 @@ const CreateBrand = () => {
                                     <option value="1">Thêm thương hiệu tin tức</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
 
-                        {selection != null && (
-                            <div className="input__group">
-                                <div className="input__label">
-                                    <label htmlFor="ip-name">Tên thương hiệu</label>
-                                </div>
-                                <div className="input__text">
-                                    <input
-                                        value={nameBrand}
-                                        id="ip-name"
-                                        type="text"
-                                        className="input__text--ctrl"
-                                        placeholder="Tên thương hiệu..."
-                                        onChange={(e) => setNameBrand(e.target.value)}
-                                    />
-                                </div>
+                        {/* {selection != null && ( */}
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Tên thương hiệu</label>
                             </div>
-                        )}
+                            <div className="input__text">
+                                <input
+                                    value={nameBrand}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tên thương hiệu..."
+                                    onChange={(e) => setNameBrand(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        {/* )} */}
 
                         {/* <div className="input__group">
                             <div className="input__label">

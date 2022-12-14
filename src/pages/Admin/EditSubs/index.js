@@ -23,7 +23,7 @@ function EditSubs() {
         const getAllCate = async () => {
             try {
                 const cate = await catePostApi.getAll();
-                setCategories(cate.data);
+                setCategories(cate.data.data);
 
                 const brand = await brandApi.getAll();
                 setAllBrand(brand.data.data);

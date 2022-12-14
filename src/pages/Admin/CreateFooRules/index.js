@@ -17,16 +17,11 @@ function CreateFooRules() {
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
 
-    console.log('select', dataselect);
-    console.log('Input', dataInput);
-    console.log('Editor', editContent);
-
     useEffect(() => {
         const getAllCate = async () => {
             try {
                 const allCate = await footerApi.getAll();
                 setAllCateFooter(allCate.data);
-                console.log(allCate.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -42,7 +37,7 @@ function CreateFooRules() {
             title: dataInput,
             content: editContent,
         };
-        console.log('data', data);
+        // console.log('data', data);
         const createFooter = async () => {
             try {
                 const result = await footerApi.createContent(data);
@@ -77,7 +72,7 @@ function CreateFooRules() {
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Danh mục Footer content</label>
+                                <label htmlFor="ip-name">Danh mục nội quy chính sách</label>
                             </div>
                             <div className="input__text">
                                 <select
@@ -128,11 +123,11 @@ function CreateFooRules() {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Nội dung Contents</label>
+                                <label htmlFor="ip-name">Nội dung danh mục chính sách</label>
                             </div>
                             <CKEditor
                                 editor={Editor}
-                                data="Nội dung bài viết tại đây..."
+                                data="Nội dung chính sách"
                                 onChange={(event, editor) => {
                                     const data = editor.getData();
                                     console.log({ event, editor, data });

@@ -11,15 +11,13 @@ import { Link } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function Footer() {
-    const [active, setActive] = useState('');
+    const [active, setActive] = useState();
     const [footerAll, setFooterAll] = useState([]);
-    const [contactAll, setContactAll] = useState([]);
     useEffect(() => {
         const allFooter = async () => {
             try {
                 const footer = await footerApi.getAll();
                 setFooterAll(footer.data);
-                // console.log('danh muc', footer.data);
             } catch (error) {
                 console.log('lỗi footer', error);
             }
@@ -27,6 +25,14 @@ function Footer() {
 
         allFooter();
     }, []);
+
+    const handleOpenActive = (index) => {
+        if (index == active) {
+            setActive();
+        } else {
+            setActive(index);
+        }
+    };
 
     return (
         <div className={cx('wrapper')}>
@@ -86,9 +92,9 @@ function Footer() {
                     <ul className={cx('list-info__mobile')}>
                         {footerAll.map((mobi, index) => (
                             <li key={index}>
-                                <span onClick={() => setActive(!active)}> {mobi.name}</span>
+                                <span onClick={() => handleOpenActive(index)}> {mobi.name}</span>
 
-                                <div className={!active ? cx('show-active') : cx('show-none')}>
+                                <div className={active == index ? cx('show-active') : cx('show-none')}>
                                     {mobi.footerContent.map((items, index) => (
                                         <Link to={`footer/insurance/${items.id}`} state={{ items }} key={index}>
                                             {items.title}

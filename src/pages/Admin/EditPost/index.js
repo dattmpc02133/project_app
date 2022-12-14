@@ -23,13 +23,14 @@ const EditPost = () => {
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
     const [message, setMessage] = useState('');
+    // const [idSubCate, SetIdSubCate] = useState('');
     const params = useParams();
-    console.log('id', subsCategoiries);
+
     useEffect(() => {
         const getAllSubs = async () => {
             try {
                 const allSubs = await catePostApi.getAll();
-                setAllSubs(allSubs.data);
+                setAllSubs(allSubs.data.data);
             } catch (error) {
                 console.log('Lỗi lấy subs', error);
             }
@@ -38,7 +39,7 @@ const EditPost = () => {
         const getByIdPost = async () => {
             try {
                 const byId = await postApi.get(params.id);
-                console.log(byId);
+
                 setSubCategories(byId.data.subcategory_id);
                 setTitlePost(byId.data.title);
                 setDescribe(byId.data.short_des);
@@ -66,7 +67,7 @@ const EditPost = () => {
             content_post: content,
         };
         console.log('data', data);
-        const EditPost = async () => {
+        const editPost = async () => {
             setLoading(true);
             try {
                 const post = await postApi.editPost(data, params.id);
@@ -85,7 +86,7 @@ const EditPost = () => {
                 setStatusHandle(false);
             }
         };
-        EditPost();
+        editPost();
     };
 
     return (
@@ -110,11 +111,10 @@ const EditPost = () => {
                                     value={subsCategoiries}
                                     onChange={(e) => setSubCategories(e.target.value)}
                                 >
-                                    <option value="">Chọn danh mục chi tiết</option>
-
-                                    {allSubs?.map((item, index) =>
-                                        item?.subs?.map((items, i) => (
-                                            <option key={i} value={items.id}>
+                                    <option>Chọn danh mục chi tiết</option>s
+                                    {allSubs?.map((item) =>
+                                        item?.subs?.map((items, index) => (
+                                            <option key={index} value={items.id}>
                                                 {items.name}
                                             </option>
                                         )),
@@ -211,7 +211,7 @@ const EditPost = () => {
                                 data={content}
                                 onChange={(event, editor) => {
                                     const data = editor.getData();
-                                    console.log({ event, editor, data });
+                                    // console.log({ event, editor, data });
                                     setContent(data);
                                 }}
                             />
