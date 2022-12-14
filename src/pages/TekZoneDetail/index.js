@@ -25,6 +25,7 @@ function TekZoneDetail() {
     const [title, setTitle] = useState([]);
     const [content, setcontent] = useState([]);
     const [user, setUser] = useState([]);
+    const [views, setViews] = useState([]);
     useEffect(() => {
         const getById = async () => {
             try {
@@ -32,6 +33,7 @@ function TekZoneDetail() {
                 setTitle(byId.data.title);
                 setcontent(byId.data.content_post);
                 setUser(byId.data.author);
+                setViews(byId.data.views);
             } catch (error) {
                 console.log('lỗi lấy id bài viết', error);
             }
@@ -43,7 +45,7 @@ function TekZoneDetail() {
         <div className={cx('wrapper')}>
             <div className={cx('tekZoneDetail')}>
                 <div className={cx('tekzone-link')}>
-                    <span className={cx('link')}>
+                    {/* <span className={cx('link')}>
                         <a href="#">TekZone</a>
                     </span>
                     <span className={cx('link')}>
@@ -51,7 +53,7 @@ function TekZoneDetail() {
                     </span>
                     <span>
                         <a href="#">Guides</a>
-                    </span>
+                    </span> */}
                 </div>
 
                 <div className={cx('detail-contents')}>
@@ -81,7 +83,8 @@ function TekZoneDetail() {
                                     </Link>
                                 </span>
                                 <span className={cx('info-view')}>
-                                    <BsEye className={cx('icon-info')} />4 Lượt xem
+                                    <BsEye className={cx('icon-info')} />
+                                    {views} Lượt xem
                                 </span>
                             </div>
                         </div>
