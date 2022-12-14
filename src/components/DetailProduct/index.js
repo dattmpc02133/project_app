@@ -1,3 +1,4 @@
+import { Carousel } from 'react-carousel-minimal';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
@@ -99,7 +100,8 @@ const DetailProduct = () => {
     const [idRep, setIdRep] = useState();
     const [render, setRender] = useState();
 
-    //
+    //images slide detail
+    const [imageSliderThumb, setImageSliderThumb] = useState();
 
     //Import GobalState
     const {
@@ -158,6 +160,7 @@ const DetailProduct = () => {
             try {
                 const resData = await productApi.get(productID);
                 const ProductDetailItem = resData?.data;
+                setImageSliderThumb(ProductDetailItem);
                 setProductDetail(ProductDetailItem);
                 setListTypeGB(ProductDetailItem?.variants);
                 setDataVariants(ProductDetailItem?.dataVariants);
@@ -324,17 +327,36 @@ const DetailProduct = () => {
             setRender(index);
         }
     };
+
+    const imgUrl = imageSliderThumb?.url_image;
+    const urlhinh = imageSliderThumb?.collection_images.concat(imgUrl).map((img) => {
+        return { image: img };
+    });
+
+    console.log('urlhinh', urlhinh);
+    useEffect(() => {}, [imgUrl]);
+
     return (
         <>
             <div className={cx('detail-box')}>
                 {loading ? <Loading /> : ''}
                 {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
-                {productDetail
-                    ? (console.log('productDetail', productDetail),
-                      (
-                          <div className={cx('content')}>
-                              <div className={cx('article', 'c-6')}>
-                                  <div className={cx('thumbnail-image')}>
+                {productDetail ? (
+                    <div className={cx('content')}>
+                        <div className={cx('article', 'c-6')}>
+                            <Carousel
+                                data={urlhinh.reverse()}
+                                time={2000}
+                                width="850px"
+                                height="500px"
+                                radius="10px"
+                                captionPosition="bottom"
+                                pauseIconSize="40px"
+                                slideImageFit="cover"
+                                thumbnails={true}
+                                thumbnailWidth="100px"
+                            />
+                            {/* <div className={cx('thumbnail-image')}>
                                       <img src={productDetail.url_image} />
                                       <div className={cx('tiny_picture')}>
                                           <img src={productDetail.url_image} />
@@ -342,69 +364,69 @@ const DetailProduct = () => {
                                           <img src={productDetail.url_image} />
                                           <img src={productDetail.url_image} />
                                       </div>
-                                  </div>
-                              </div>
-                              <div className={cx('aside', 'c-6')}>
-                                  <div style={{ width: '100%' }}>
-                                      <h1>
-                                          {productDetail.name} <div className={cx('aside-new')}>Mới</div>
-                                      </h1>
-                                      <div className={cx('price-product-detail')}>
-                                          {Number(PriceDisCount).toLocaleString()}đ &nbsp;
-                                          <del>{Number(itemColorActive?.price).toLocaleString()}đ</del>&nbsp;
-                                          <small>-{itemColorActive?.discount}</small>%
-                                      </div>
-                                      <div className={cx('capacity')}>
-                                          <span>Dung lượng</span>
-                                          <div className={cx('capacity-gb')}>
-                                              {listTypeGB?.map((itemTypeGB, index) => (
-                                                  <div
-                                                      className={
-                                                          itemColorActive?.variant_id == itemTypeGB.id
-                                                              ? cx('capacity-gb_link', 'active')
-                                                              : cx('capacity-gb_link')
-                                                      }
-                                                      key={index}
-                                                      onClick={() => handleChangeTypeGB({ itemTypeGB })}
-                                                  >
-                                                      {itemTypeGB?.variant_name}GB
-                                                  </div>
-                                              ))}
-                                          </div>
-                                      </div>
-                                      <div className={cx('detail-color')}>
-                                          <span>Màu: {itemColorActive?.color_name}</span>
-                                          <div className={cx('item-color')}>
-                                              <div className={cx('item-color-li')}>
-                                                  {listColors?.map((itemColor, index) => {
-                                                      return (
-                                                          <div
-                                                              key={index}
-                                                              className={
-                                                                  itemColorActive?.color_id == itemColor?.color_id
-                                                                      ? cx('item-color-link', 'active')
-                                                                      : cx('item-color-link')
-                                                              }
-                                                              style={{ backgroundColor: itemColor?.color_code }}
-                                                              onClick={() => {
-                                                                  setItemColorActive(itemColor);
-                                                              }}
-                                                          ></div>
-                                                      );
-                                                  })}
-                                              </div>
-                                          </div>
-                                      </div>
-                                      <div className={cx('btn-pays')}>
-                                          <div className={cx('cart-pays')} onClick={(e) => handleAddToCart(e)}>
-                                              Mua ngay
-                                          </div>
-                                      </div>
-                                      <div className={cx('box-promotion')}>
-                                          <span>Khuyến mãi</span>
-                                          <small>Giá và khuyến mãi dự kiến áp dụng đến 23:00 | 31/10</small>
-                                          <div className={cx('content-promotion')}>
-                                              {/* <p>
+                                  </div> */}
+                        </div>
+                        <div className={cx('aside', 'c-6')}>
+                            <div style={{ width: '100%' }}>
+                                <h1>
+                                    {productDetail.name} <div className={cx('aside-new')}>Mới</div>
+                                </h1>
+                                <div className={cx('price-product-detail')}>
+                                    {Number(PriceDisCount).toLocaleString()}đ &nbsp;
+                                    <del>{Number(itemColorActive?.price).toLocaleString()}đ</del>&nbsp;
+                                    <small>-{itemColorActive?.discount}</small>%
+                                </div>
+                                <div className={cx('capacity')}>
+                                    <span>Dung lượng</span>
+                                    <div className={cx('capacity-gb')}>
+                                        {listTypeGB?.map((itemTypeGB, index) => (
+                                            <div
+                                                className={
+                                                    itemColorActive?.variant_id == itemTypeGB.id
+                                                        ? cx('capacity-gb_link', 'active')
+                                                        : cx('capacity-gb_link')
+                                                }
+                                                key={index}
+                                                onClick={() => handleChangeTypeGB({ itemTypeGB })}
+                                            >
+                                                {itemTypeGB?.variant_name}GB
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className={cx('detail-color')}>
+                                    <span>Màu: {itemColorActive?.color_name}</span>
+                                    <div className={cx('item-color')}>
+                                        <div className={cx('item-color-li')}>
+                                            {listColors?.map((itemColor, index) => {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className={
+                                                            itemColorActive?.color_id == itemColor?.color_id
+                                                                ? cx('item-color-link', 'active')
+                                                                : cx('item-color-link')
+                                                        }
+                                                        style={{ backgroundColor: itemColor?.color_code }}
+                                                        onClick={() => {
+                                                            setItemColorActive(itemColor);
+                                                        }}
+                                                    ></div>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={cx('btn-pays')}>
+                                    <div className={cx('cart-pays')} onClick={(e) => handleAddToCart(e)}>
+                                        Mua ngay
+                                    </div>
+                                </div>
+                                <div className={cx('box-promotion')}>
+                                    <span>Khuyến mãi</span>
+                                    <small>Giá và khuyến mãi dự kiến áp dụng đến 23:00 | 31/10</small>
+                                    <div className={cx('content-promotion')}>
+                                        {/* <p>
                                             <i></i>
                                             <b>Tặng Gói bảo hiểm rơi vỡ 12 tháng</b>
                                         </p>
@@ -449,123 +471,121 @@ const DetailProduct = () => {
                                                 thanh toán qua Ví Moca trên ứng dụng Grab <div>Xem chi tiết</div>
                                             </b>
                                         </p> */}
-                                          </div>
-                                          <p className={cx('text')}>
-                                              <em>(*)</em> Giá hoặc khuyến mãi không áp dụng trả góp lãi suất đặc biệt
-                                              (0%, 0.5%, 1%)
-                                          </p>
-                                      </div>
-                                      <div className={cx('check-goods')} onClick={handleSeenList}>
-                                          <GoPackage />
-                                          Xem TopZone có hàng
-                                      </div>
-                                      <div
-                                          className={cx('popup-list-store')}
-                                          style={{ display: seeliststore ? 'block' : 'none' }}
-                                      >
-                                          <div className={cx('bg-popup')} onClick={handleSeenList}></div>
-                                          <div className={cx('list-store')}>
-                                              <b>Danh sách cửa hàng TopZone</b>
-                                              <div className={cx('close-list-store')} onClick={handleSeenList}>
-                                                  &times;
-                                              </div>
-                                              <div className={cx('tab-store')}>
-                                                  <div className={cx('ts-province')}>
-                                                      <span onClick={HandleCityProvince}>
-                                                          {provinceNameActive ? provinceNameActive : ' Chọn Tỉnh thành'}
-                                                          <GoChevronUp className={cityprovince ? cx('icon') : ''} />
-                                                      </span>
-                                                      <ul style={{ display: cityprovince ? 'block' : 'none' }}>
-                                                          {dataAllProVince?.map((dataProVince, index) => {
-                                                              return (
-                                                                  <li
-                                                                      key={index}
-                                                                      onClick={() =>
-                                                                          handleChangeByIdProvinces({ dataProVince })
-                                                                      }
-                                                                  >
-                                                                      {dataProVince.name}
-                                                                  </li>
-                                                              );
-                                                          })}
-                                                      </ul>
-                                                  </div>
-                                                  <div className={cx('ts-district')}>
-                                                      <span onClick={HandleCityDist}>
-                                                          {districtNameActive ? districtNameActive : 'Chọn quận huyện'}
-                                                          <GoChevronUp className={city ? cx('icon') : ''} />
-                                                      </span>
-                                                      <ul style={{ display: city ? 'block' : 'none' }}>
-                                                          {findDataIdDistrict?.map((dataDistrictItem, index) => {
-                                                              return (
-                                                                  <li
-                                                                      key={index}
-                                                                      onClick={() =>
-                                                                          ChangeDistrictPostById({ dataDistrictItem })
-                                                                      }
-                                                                  >
-                                                                      {dataDistrictItem?.name}
-                                                                  </li>
-                                                              );
-                                                          })}
-                                                      </ul>
-                                                  </div>
-                                              </div>
-                                              <ul className={cx('tab-list-store', 'tab-box')}>
-                                                  {ProvinceDistrictWard?.map((addRessShop, index) => {
-                                                      return (
-                                                          <li key={index} className={cx('tab-item-wrap')}>
-                                                              <div className={cx('info-store')}>
-                                                                  <strong>{addRessShop?.store_name}</strong>
-                                                                  <span>
-                                                                      {addRessShop?.store_name},{addRessShop?.ward_name}
-                                                                      {addRessShop?.district_name}, TP.
-                                                                      {addRessShop?.province_name}
-                                                                  </span>
-                                                                  <small>
-                                                                      <FcApproval /> Có hàng
-                                                                  </small>
-                                                              </div>
-                                                              <a className={cx('oder-store')}>Đặt giữ hàng</a>
-                                                          </li>
-                                                      );
-                                                  })}
-                                              </ul>
-                                          </div>
-                                      </div>
-                                      <div className={cx('policy')}>
-                                          <span>
-                                              <i></i>
-                                              Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning - Type C
-                                          </span>
-                                          <span>
-                                              Hư gì đổi nấy 12 tháng tại 3452 siêu thị trên toàn quốc
-                                              <a style={{ color: '#0071e3' }}>
-                                                  {' '}
-                                                  Xem chi tiết chính sách bảo hành, đổi trả{' '}
-                                              </a>
-                                          </span>
-                                          <span>
-                                              <i></i>
-                                              Bảo hành chính hãng 1 năm{' '}
-                                          </span>
-                                          <span>
-                                              Giao hàng nhanh toàn quốc
-                                              <a style={{ color: '#0071e3' }}> Xem chi tiết </a>
-                                          </span>
-                                          <span>
-                                              Tổng đài:&nbsp;
-                                              <a href="tel:1900.9696.42" style={{ color: '#0071e3' }}>
-                                                  1900.9696.42
-                                              </a>
-                                              &nbsp;(9h00 - 21h00 mỗi ngày)
-                                          </span>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      ))
-                    : false}
+                                    </div>
+                                    <p className={cx('text')}>
+                                        <em>(*)</em> Giá hoặc khuyến mãi không áp dụng trả góp lãi suất đặc biệt (0%,
+                                        0.5%, 1%)
+                                    </p>
+                                </div>
+                                <div className={cx('check-goods')} onClick={handleSeenList}>
+                                    <GoPackage />
+                                    Xem TopZone có hàng
+                                </div>
+                                <div
+                                    className={cx('popup-list-store')}
+                                    style={{ display: seeliststore ? 'block' : 'none' }}
+                                >
+                                    <div className={cx('bg-popup')} onClick={handleSeenList}></div>
+                                    <div className={cx('list-store')}>
+                                        <b>Danh sách cửa hàng TopZone</b>
+                                        <div className={cx('close-list-store')} onClick={handleSeenList}>
+                                            &times;
+                                        </div>
+                                        <div className={cx('tab-store')}>
+                                            <div className={cx('ts-province')}>
+                                                <span onClick={HandleCityProvince}>
+                                                    {provinceNameActive ? provinceNameActive : ' Chọn Tỉnh thành'}
+                                                    <GoChevronUp className={cityprovince ? cx('icon') : ''} />
+                                                </span>
+                                                <ul style={{ display: cityprovince ? 'block' : 'none' }}>
+                                                    {dataAllProVince?.map((dataProVince, index) => {
+                                                        return (
+                                                            <li
+                                                                key={index}
+                                                                onClick={() =>
+                                                                    handleChangeByIdProvinces({ dataProVince })
+                                                                }
+                                                            >
+                                                                {dataProVince.name}
+                                                            </li>
+                                                        );
+                                                    })}
+                                                </ul>
+                                            </div>
+                                            <div className={cx('ts-district')}>
+                                                <span onClick={HandleCityDist}>
+                                                    {districtNameActive ? districtNameActive : 'Chọn quận huyện'}
+                                                    <GoChevronUp className={city ? cx('icon') : ''} />
+                                                </span>
+                                                <ul style={{ display: city ? 'block' : 'none' }}>
+                                                    {findDataIdDistrict?.map((dataDistrictItem, index) => {
+                                                        return (
+                                                            <li
+                                                                key={index}
+                                                                onClick={() =>
+                                                                    ChangeDistrictPostById({ dataDistrictItem })
+                                                                }
+                                                            >
+                                                                {dataDistrictItem?.name}
+                                                            </li>
+                                                        );
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <ul className={cx('tab-list-store', 'tab-box')}>
+                                            {ProvinceDistrictWard?.map((addRessShop, index) => {
+                                                return (
+                                                    <li key={index} className={cx('tab-item-wrap')}>
+                                                        <div className={cx('info-store')}>
+                                                            <strong>{addRessShop?.store_name}</strong>
+                                                            <span>
+                                                                {addRessShop?.store_name},{addRessShop?.ward_name}
+                                                                {addRessShop?.district_name}, TP.
+                                                                {addRessShop?.province_name}
+                                                            </span>
+                                                            <small>
+                                                                <FcApproval /> Có hàng
+                                                            </small>
+                                                        </div>
+                                                        <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className={cx('policy')}>
+                                    <span>
+                                        <i></i>
+                                        Bộ sản phẩm gồm: Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Lightning - Type C
+                                    </span>
+                                    <span>
+                                        Hư gì đổi nấy 12 tháng tại 3452 siêu thị trên toàn quốc
+                                        <a style={{ color: '#0071e3' }}> Xem chi tiết chính sách bảo hành, đổi trả </a>
+                                    </span>
+                                    <span>
+                                        <i></i>
+                                        Bảo hành chính hãng 1 năm{' '}
+                                    </span>
+                                    <span>
+                                        Giao hàng nhanh toàn quốc
+                                        <a style={{ color: '#0071e3' }}> Xem chi tiết </a>
+                                    </span>
+                                    <span>
+                                        Tổng đài:&nbsp;
+                                        <a href="tel:1900.9696.42" style={{ color: '#0071e3' }}>
+                                            1900.9696.42
+                                        </a>
+                                        &nbsp;(9h00 - 21h00 mỗi ngày)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    false
+                )}
             </div>
             <div className={cx('description-box')}>
                 <div className={cx('description-product')}>
