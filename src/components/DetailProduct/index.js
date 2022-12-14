@@ -1,6 +1,3 @@
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
-// import {Editor as ClassicEditor} from 'ckeditor5-custom-build/build/ckeditor';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';

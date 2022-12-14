@@ -3,7 +3,7 @@ import Loading from '~/components/Loading';
 import { useState } from 'react';
 import categoriesApi from '../../../api/categoriesApi';
 import Modal from '~/components/Modal';
-const CreateCategoriesPro = () => {
+function CreateCategoriesPro() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [nameCateProduct, setnameCateProduct] = useState('');
@@ -17,9 +17,8 @@ const CreateCategoriesPro = () => {
         e.preventDefault();
         const data = {
             name: nameCateProduct,
-            is_post: selection,
         };
-        console.log('data', data);
+        // console.log('data', data);
         const createCategories = async () => {
             setLoading(true);
             try {
@@ -43,7 +42,7 @@ const CreateCategoriesPro = () => {
     const handleChangeSelections = (id) => {
         setSelection(id);
     };
-    console.log('id là', selection);
+    // console.log('id là', selection);
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -58,37 +57,19 @@ const CreateCategoriesPro = () => {
                     <form onSubmit={(e) => handleSubmit(e)} className="form__content">
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Tên danh mục sản phẩm</label>
+                                <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
                             </div>
                             <div className="input__text">
-                                <select
+                                <input
+                                    value={nameCateProduct}
+                                    id="ip-name"
+                                    type="text"
                                     className="input__text--ctrl"
-                                    onChange={(e) => handleChangeSelections(e.target.value)}
-                                >
-                                    <option selected>Chọn</option>
-                                    <option value="0">Thêm danh mục sản phẩm</option>
-                                    <option value="1">Thêm danh mục tin tức</option>
-                                </select>
+                                    placeholder="Tên danh mục"
+                                    onChange={(e) => setnameCateProduct(e.target.value)}
+                                />
                             </div>
                         </div>
-
-                        {selection != null && (
-                            <div className="input__group">
-                                <div className="input__label">
-                                    <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
-                                </div>
-                                <div className="input__text">
-                                    <input
-                                        value={nameCateProduct}
-                                        id="ip-name"
-                                        type="text"
-                                        className="input__text--ctrl"
-                                        placeholder="Tên danh muc"
-                                        onChange={(e) => setnameCateProduct(e.target.value)}
-                                    />
-                                </div>
-                            </div>
-                        )}
 
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Thêm danh mục</button>
@@ -98,6 +79,6 @@ const CreateCategoriesPro = () => {
             </div>
         </div>
     );
-};
+}
 
 export default CreateCategoriesPro;

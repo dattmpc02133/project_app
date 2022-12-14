@@ -29,14 +29,13 @@ function TekZoneCate() {
     const [allCatePost, setAllCatePost] = useState([]);
     const [catePostId, setCatePostId] = useState('');
 
-    console.log('Danh mục', catePostId);
-
     useEffect(() => {
         const getAllSpost = async () => {
-            const allSposts = await postsApi.getAll();
-            setAllpost(allSposts.data);
+            try {
+                const allSposts = await postsApi.getAll();
+                setAllpost(allSposts.data);
+            } catch (error) {}
         };
-
         getAllSpost();
     }, []);
 
@@ -44,7 +43,7 @@ function TekZoneCate() {
         const getAllCatePost = async () => {
             try {
                 const allCatePost = await catePostApi.getAll();
-                setAllCatePost(allCatePost.data);
+                setAllCatePost(allCatePost.data.data);
             } catch (error) {
                 console.log('lỗi lây danh mục', error);
             }
@@ -57,7 +56,7 @@ function TekZoneCate() {
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
                 setCatePostId(byIdCatePost.data);
-                console.log(byIdCatePost.data.id);
+                console.log(byIdCatePost.data, 'xin');
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);
             }
@@ -196,59 +195,6 @@ function TekZoneCate() {
                                 </Link>
                             </div>
                         ))} */}
-
-                        {/* <div className={cx('news-item')}>
-                            <a href="#">
-                                <div className={cx('img-item')}>
-                                    <img src={images.tekitem} alt="Anh post" />
-                                </div>
-                                <div className={cx('title-item')}>
-                                    <h3>
-                                        Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn giá
-                                        hời, rinh ngay về nhà thôi kẻo lỡ
-                                    </h3>
-                                </div>
-                                <div className={cx('time-post')}>
-                                    <p>1 giờ trước</p>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div className={cx('news-item')}>
-                            <a href="#">
-                                <div className={cx('img-item')}>
-                                    <img src={images.tekitem} alt="Anh post" />
-                                </div>
-                                <div className={cx('title-item')}>
-                                    <h3>
-                                        Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn giá
-                                        hời, rinh ngay về nhà thôi kẻo lỡ
-                                    </h3>
-
-                                    <div className={cx('time-post')}>
-                                        <p>1 giờ trước</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div className={cx('news-item')}>
-                            <a href="#">
-                                <div className={cx('img-item')}>
-                                    <img src={images.tekitem} alt="Anh post" />
-                                </div>
-                                <div className={cx('title-item')}>
-                                    <h3>
-                                        Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn giá
-                                        hời, rinh ngay về nhà thôi kẻo lỡ
-                                    </h3>
-
-                                    <div className={cx('time-post')}>
-                                        <p>1 giờ trước</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div> */}
 
                         <div className={cx('viewmore-news')}>
                             <a href="#">Xem thêm</a>

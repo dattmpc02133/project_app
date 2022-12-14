@@ -5,7 +5,8 @@ import footerApi from '../../../api/footerApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import Dialog from '~/components/Dialog';
-const ListCatePost = () => {
+import Pagination from '~/components/Pagination';
+function ListCatePost() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [listCate, setListCate] = useState([]);
@@ -14,22 +15,26 @@ const ListCatePost = () => {
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
     const [comfirm, setComfirm] = useState(false);
+    const [pageFooter, setPageFooter] = useState([]);
+    const [page, setPage] = useState(1);
     const deleteCateFoo = useRef();
 
     useEffect(() => {
-        const fetchCatePost = async () => {
-            setLoading(true);
-            try {
-                const result = await footerApi.getAllFooter();
-                setListCate(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
-            }
-        };
         fetchCatePost();
     }, []);
+
+    const fetchCatePost = async (params) => {
+        setLoading(true);
+        try {
+            const result = await footerApi.getAllFooter(params);
+            setListCate(result.data);
+            setPageFooter(result.paginator);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch Categories: ', error);
+            setLoading(false);
+        }
+    };
 
     const handleDelete = (id) => {
         setComfirm(true);
@@ -59,6 +64,26 @@ const ListCatePost = () => {
             };
             deleteFooter();
         }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pageFooter?.totalPages) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchCatePost(`?page=${page}`);
     };
 
     return (
@@ -91,7 +116,7 @@ const ListCatePost = () => {
                                 {Array.isArray(listCate)
                                     ? listCate.map((item, index) => (
                                           <tr key={item.id}>
-                                              <td>{index + 1}</td>
+                                              <td>{10 * (page - 1) + index + 1}</td>
                                               <td>{item.name}</td>
 
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
@@ -119,10 +144,19 @@ const ListCatePost = () => {
                             </tbody>
                         </table>
                     </div>
+                    {listCate?.length != 0 && (
+                        <Pagination
+                            curentPage={page}
+                            totalPages={pageFooter?.totalPages}
+                            handlePrevPage={handlePrevPage}
+                            handleChangePage={handleChangePage}
+                            handleNextPage={handleNextPage}
+                        />
+                    )}
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default ListCatePost;

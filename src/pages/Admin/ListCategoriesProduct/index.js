@@ -6,6 +6,7 @@ import categoriesApi from '../../../api/categoriesApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import Dialog from '~/components/Dialog';
+import Pagination from '~/components/Pagination';
 const ListCategoriesProduct = () => {
     const [loading, setLoading] = useState(false);
     const [listCate, setListCate] = useState([]);
@@ -16,21 +17,45 @@ const ListCategoriesProduct = () => {
     const [electCateFooter, setDeleteCatePost] = useState(false);
     const deleteCatePosts = useRef();
     const [comfirm, setComfirm] = useState(false);
+    const [page, setPage] = useState(1);
+    const [pageCateProudct, setPageCateProduct] = useState([]);
+
     useEffect(() => {
-        const fetchCatePost = async () => {
-            try {
-                setLoading(true);
-                const result = await categoriesApi.getAll();
-                setListCate(result.data);
-                setLoading(false);
-                console.log('tất', result.data);
-            } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
-            }
-        };
         fetchCatePost();
     }, []);
+
+    const fetchCatePost = async (params) => {
+        try {
+            setLoading(true);
+            const result = await categoriesApi.getAll(params);
+            setListCate(result.data.data);
+            setPageCateProduct(result.data);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch Categories: ', error);
+            setLoading(false);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pageCateProudct?.last_page) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchCatePost(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchCatePost(`?page=${page}`);
+    };
 
     const handleDelete = (id) => {
         setComfirm(true);
@@ -49,7 +74,7 @@ const ListCategoriesProduct = () => {
                     setModal(true);
                     setLoading(false);
                     const result = await categoriesApi.getAll();
-                    setListCate(result.data);
+                    setListCate(result.data.data);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;
@@ -93,7 +118,7 @@ const ListCategoriesProduct = () => {
                                 {Array.isArray(listCate)
                                     ? listCate.map((item, index) => (
                                           <tr key={item.id}>
-                                              <td>{index + 1}</td>
+                                              <td>{9 * (page - 1) + index + 1}</td>
                                               <td>{item.name}</td>
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
@@ -118,6 +143,13 @@ const ListCategoriesProduct = () => {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pageCateProudct?.last_page}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

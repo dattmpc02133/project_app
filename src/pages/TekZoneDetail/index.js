@@ -17,8 +17,8 @@ function TekZoneDetail() {
         dots: false,
         infinite: false,
         speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
+        slidesToShow: 3,
+        slidesToScroll: 3,
     };
 
     const params = useParams();
@@ -88,100 +88,72 @@ function TekZoneDetail() {
                     </div>
                 </div>
 
-                {/* <div className={cx('related-posts')}>
+                <div className={cx('related-posts')}>
                     <div className={cx('posts-title')}>
                         <h3>bài viết liên quan</h3>
                     </div>
                     <div className={cx('slider')}>
                         <Slider {...settings}>
-                            <div className={cx('posts-row')}>
-                                <div className={cx('item-posts')}>
-                                    <div className={cx('img-slider')}>
-                                        <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                    </div>
-                                    <div className={cx('title-posts')}>
-                                        <h3>
-                                            Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo
-                                            hành chính xác nhất cho iPhone của mình
-                                        </h3>
-                                    </div>
-
-                                    <span>10/11</span>
+                            {/* <div className={cx('posts-row')}> */}
+                            <div className={cx('item-posts')}>
+                                <div className={cx('img-slider')}>
+                                    <img src={images.tekzone__1} alt="Ảnh lổi slider" />
+                                </div>
+                                <div className={cx('title-posts')}>
+                                    <h3>
+                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
+                                        chính xác nhất cho iPhone của mình
+                                    </h3>
                                 </div>
 
-                                <div className={cx('item-posts')}>
-                                    <div className={cx('img-slider')}>
-                                        <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                    </div>
-                                    <div className={cx('title-posts')}>
-                                        <h3>
-                                            Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo
-                                            hành chính xác nhất cho iPhone của mình
-                                        </h3>
-                                    </div>
-
-                                    <span>10/11</span>
-                                </div>
-
-                                <div className={cx('item-posts')}>
-                                    <div className={cx('img-slider')}>
-                                        <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                    </div>
-                                    <div className={cx('title-posts')}>
-                                        <h3>
-                                            Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo
-                                            hành chính xác nhất cho iPhone của mình
-                                        </h3>
-                                    </div>
-
-                                    <span>10/11</span>
-                                </div>
-
-                                <div className={cx('item-posts')}>
-                                    <div className={cx('img-slider')}>
-                                        <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                    </div>
-                                    <div className={cx('title-posts')}>
-                                        <h3>
-                                            Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo
-                                            hành chính xác nhất cho iPhone của mình
-                                        </h3>
-                                    </div>
-
-                                    <span>10/11</span>
-                                </div>
-
-                                <div className={cx('item-posts')}>
-                                    <div className={cx('img-slider')}>
-                                        <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                    </div>
-                                    <div className={cx('title-posts')}>
-                                        <h3>
-                                            Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo
-                                            hành chính xác nhất cho iPhone của mình
-                                        </h3>
-                                    </div>
-
-                                    <span>10/11</span>
-                                </div>
-
-                                <div className={cx('item-posts')}>
-                                    <div className={cx('img-slider')}>
-                                        <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                    </div>
-                                    <div className={cx('title-posts')}>
-                                        <h3>
-                                            Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo
-                                            hành chính xác nhất cho iPhone của mình
-                                        </h3>
-                                    </div>
-
-                                    <span>10/11</span>
-                                </div>
+                                <span>10/11</span>
                             </div>
+
+                            <div className={cx('item-posts')}>
+                                <div className={cx('img-slider')}>
+                                    <img src="" alt="Ảnh lổi slider" />
+                                </div>
+                                <div className={cx('title-posts')}>
+                                    <h3>
+                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
+                                        chính xác nhất cho iPhone của mình
+                                    </h3>
+                                </div>
+
+                                <span>10/11</span>
+                            </div>
+
+                            <div className={cx('item-posts')}>
+                                <div className={cx('img-slider')}>
+                                    <img src={images.tekzone__1} alt="Ảnh lổi slider" />
+                                </div>
+                                <div className={cx('title-posts')}>
+                                    <h3>
+                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
+                                        chính xác nhất cho iPhone của mình
+                                    </h3>
+                                </div>
+
+                                <span>10/11</span>
+                            </div>
+
+                            <div className={cx('item-posts')}>
+                                <div className={cx('img-slider')}>
+                                    <img src={images.tekzone__1} alt="Ảnh lổi slider" />
+                                </div>
+                                <div className={cx('title-posts')}>
+                                    <h3>
+                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
+                                        chính xác nhất cho iPhone của mình
+                                    </h3>
+                                </div>
+
+                                <span>10/11</span>
+                            </div>
+                            {/* </div> */}
                         </Slider>
                     </div>
-                </div> */}
+                </div>
 
                 <div className={cx('posts-mobile')}>
                     <div className={cx('newsest__list')}>

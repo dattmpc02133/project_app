@@ -6,8 +6,23 @@ const catePostApi = {
         return axiosClient.post(url, data);
     },
     getAll: (params) => {
-        const url = `/admin/categories_post`;
-        return axiosClient.get(url, { params });
+        if (params) {
+            const url = `/admin/categories_post/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/admin/categories_post';
+            return axiosClient.get(url);
+        }
+    },
+
+    getCatePost: (params) => {
+        if (params) {
+            const url = `/admin/categories_post/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/admin/categories_post';
+            return axiosClient.get(url);
+        }
     },
     // subs
     createdSubs: (data) => {
@@ -16,8 +31,13 @@ const catePostApi = {
     },
 
     getAllSubs: (params) => {
-        const url = '/admin/subcategories';
-        return axiosClient.get(url, params);
+        if (params) {
+            const url = `/admin/subcategories/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/admin/subcategories';
+            return axiosClient.get(url);
+        }
     },
 
     deleteSubs: (id) => {

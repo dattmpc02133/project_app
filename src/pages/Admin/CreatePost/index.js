@@ -8,7 +8,7 @@ import postsApi from '~/api/postApi';
 import catePostApi from '~/api/catePostApi';
 import Loading from '~/components/Loading';
 
-const CreateCatePost = () => {
+const CreatePost = () => {
     const [subsCategoiries, setSubCategories] = useState('');
     const [allSubs, setAllSubs] = useState([]);
     const [titlePost, setTitlePost] = useState('');
@@ -27,20 +27,20 @@ const CreateCatePost = () => {
         const getAllSubs = async () => {
             try {
                 const allSubs = await catePostApi.getAll();
-                setAllSubs(allSubs.data);
-                console.log(allSubs.data);
+                setAllSubs(allSubs.data.data);
+                console.log(allSubs.data.data);
             } catch (error) {
                 console.log('Lỗi lấy subs', error);
             }
         };
         getAllSubs();
     }, []);
-    console.log('subs', subsCategoiries);
-    console.log('title', titlePost);
-    console.log('describe', describe);
-    console.log('imgpost', imgPost);
-    console.log('titlemeta', titleMeta);
-    console.log('content', content);
+    // console.log('subs', subsCategoiries);
+    // console.log('title', titlePost);
+    // console.log('describe', describe);
+    // console.log('imgpost', imgPost);
+    // console.log('titlemeta', titleMeta);
+    // console.log('content', content);
 
     const handleSummit = (e) => {
         setLoading(true);
@@ -64,6 +64,7 @@ const CreateCatePost = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                console.log(post);
             } catch (error) {
                 console.log('lỗi khi thêm', error);
                 const res = error.response.data;
@@ -78,6 +79,8 @@ const CreateCatePost = () => {
 
     return (
         <div className="wrapper">
+            {loading ? <Loading /> : ''}
+            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm bài viết mới</h2>
                 <p className="content__heading--subtitle">Bài viết</p>
@@ -182,7 +185,7 @@ const CreateCatePost = () => {
                                     value={metaKeyWord}
                                     onChange={(e) => setMetaKeyWord(e.target.value)}
                                     className="input__text--ctrl"
-                                    placeholder=""
+                                    placeholder="Từ khóa tìm kiếm"
                                 />
                             </div>
                         </div>
@@ -211,4 +214,4 @@ const CreateCatePost = () => {
     );
 };
 
-export default CreateCatePost;
+export default CreatePost;

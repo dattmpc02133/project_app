@@ -11,8 +11,8 @@ function CreateFooter() {
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
-    console.log('cateFooter', cateFooter);
-    console.log('catePath', catePath);
+    // console.log('cateFooter', cateFooter);
+    // console.log('catePath', catePath);
 
     const handleSubmit = (e) => {
         setLoading(true);

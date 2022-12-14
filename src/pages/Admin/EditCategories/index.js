@@ -17,7 +17,6 @@ const EditCategories = () => {
     const [resultKq, setResultKq] = useState([]);
 
     const params = useParams();
-    console.log('input', nameCatePost);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +24,7 @@ const EditCategories = () => {
             name: nameCatePost,
             is_post: resultKq,
         };
-        console.log('data', data);
+        // console.log('data', data);
         const EditCategories = async () => {
             setLoading(true);
             try {
@@ -47,14 +46,12 @@ const EditCategories = () => {
         };
         EditCategories();
     };
-
     useEffect(() => {
         const getByIdCate = async () => {
             try {
                 const result = await catePostApi.getByIdCate(params.id);
                 setResultKq(result.data.is_post);
                 setNameCatePost(result.data.name);
-                console.log('lỗi ', result.data);
             } catch (error) {
                 console.log('không lấy được đi danh mục', error);
             }
@@ -62,7 +59,6 @@ const EditCategories = () => {
         getByIdCate();
     }, []);
 
-    console.log('id là', selection);
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -86,29 +82,25 @@ const EditCategories = () => {
                                     onChange={(e) => setResultKq(e.target.value)}
                                 >
                                     <option selected>Chọn</option>
-                                    <option value={resultKq}>Cập nhật danh mục sản phẩm</option>
                                     <option value={resultKq}>Cập nhật danh mục tin tức</option>
                                 </select>
                             </div>
                         </div>
-
-                        {resultKq != null && (
-                            <div className="input__group">
-                                <div className="input__label">
-                                    <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
-                                </div>
-                                <div className="input__text">
-                                    <input
-                                        value={nameCatePost}
-                                        id="ip-name"
-                                        type="text"
-                                        className="input__text--ctrl"
-                                        placeholder="Tên danh muc"
-                                        onChange={(e) => setNameCatePost(e.target.value)}
-                                    />
-                                </div>
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
                             </div>
-                        )}
+                            <div className="input__text">
+                                <input
+                                    value={nameCatePost}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tên danh muc"
+                                    onChange={(e) => setNameCatePost(e.target.value)}
+                                />
+                            </div>
+                        </div>
 
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Cập nhật danh mục</button>

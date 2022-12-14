@@ -6,6 +6,8 @@ import Modal from '~/components/Modal';
 import catePostApi from '~/api/catePostApi';
 import categoriesApi from '../../../api/categoriesApi';
 import Dialog from '~/components/Dialog';
+import Pagination from '~/components/Pagination';
+
 function ListProductSubs() {
     const [comfirm, setComfirm] = useState(false);
     const [subsAll, setSubsAll] = useState([]);
@@ -14,16 +16,17 @@ function ListProductSubs() {
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
-    const [deleteSubs, SetDeleteSubs] = useState();
-
+    const [pageSubsProduct, setPageSubsProduct] = useState([]);
+    const [page, setPage] = useState(1);
     const deletcSubs = useRef();
 
     useEffect(() => {
         const getAllSubs = async () => {
             try {
                 const allSubs = await categoriesApi.getAll();
-                setSubsAll(allSubs.data);
-                console.log('sub', allSubs.data);
+                setSubsAll(allSubs.data.data);
+                setPageSubsProduct(allSubs.data);
+                console.log('allSubs.first_page_ur', allSubs.first_page_ur);
             } catch (error) {
                 console.log('lỗi lấy danh sách', error);
             }
@@ -32,7 +35,6 @@ function ListProductSubs() {
     }, []);
 
     const handleDelete = (id) => {
-        console.log('id', id);
         setComfirm(true);
         deletcSubs.current = id;
     };
@@ -48,7 +50,7 @@ function ListProductSubs() {
                     setModal(true);
                     setLoading(false);
                     const allSubs = await categoriesApi.getAll();
-                    setSubsAll(allSubs.data);
+                    setSubsAll(allSubs.data.data);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;
@@ -61,6 +63,28 @@ function ListProductSubs() {
             };
             getDeletSubs();
         }
+    };
+
+    const getOrders = () => {};
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            getOrders(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pageSubsProduct?.last_page) {
+            const pageId = page + 1;
+            setPage(pageId);
+            getOrders(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        getOrders(`?page=${page}`);
     };
 
     return (
@@ -89,10 +113,10 @@ function ListProductSubs() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {subsAll?.map((item, index) =>
-                                    item.subs.map((items, i) => (
-                                        <tr key={items.id}>
-                                            <td>{i + 1}</td>
+                                {subsAll?.map((item) =>
+                                    item.subs.map((items, index) => (
+                                        <tr key={index}>
+                                            <td>{10 * (page - 1) + index + 1}</td>
                                             <td>{items.name}</td>
 
                                             <td className={item.is_active == 1 ? 'active' : 'an__active'}>
@@ -120,6 +144,13 @@ function ListProductSubs() {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pageSubsProduct?.last_page}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

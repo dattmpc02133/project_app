@@ -26,8 +26,8 @@ function CreateProductSubs() {
         const getAllCate = async () => {
             try {
                 const cate = await categoriesApi.getAll();
-                setCategories(cate.data);
-                console.log(cate.data);
+                setCategories(cate.data.data);
+                // console.log(cate.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -95,9 +95,7 @@ function CreateProductSubs() {
                                     value={dataBrand}
                                     onChange={(e) => setDataBrand(e.target.value)}
                                 >
-                                    <option value="0" selected>
-                                        Chọn Thương Hiệu
-                                    </option>
+                                    <option selected>Chọn Thương Hiệu</option>
 
                                     {allBrand.map((item, index) => (
                                         <option key={index} value={item.id} selected>
@@ -118,9 +116,7 @@ function CreateProductSubs() {
                                     value={dataselect}
                                     onChange={(e) => setDateSelect(e.target.value)}
                                 >
-                                    <option value="0" selected>
-                                        Chọn danh mục
-                                    </option>
+                                    <option selected>Chọn danh mục</option>
 
                                     {categories.map((item, index) => (
                                         <option key={index} value={item.id} selected>

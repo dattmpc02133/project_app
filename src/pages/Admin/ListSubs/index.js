@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import catePostApi from '~/api/catePostApi';
+import Pagination from '~/components/Pagination';
+import Dialog from '~/components/Dialog';
 
 function ListSubs() {
     const [subsAll, setSubsAll] = useState([]);
@@ -13,50 +15,85 @@ function ListSubs() {
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
     const [deleteSubs, SetDeleteSubs] = useState();
-
+    const [page, setPage] = useState(1);
+    const [pageSubsPost, setPageSubsPost] = useState([]);
     const deletcSubs = useRef();
+    const [comfirm, setComfirm] = useState(false);
 
     useEffect(() => {
-        const getAllSubs = async () => {
-            try {
-                const allSubs = await catePostApi.getAll();
-                setSubsAll(allSubs.data);
-            } catch (error) {
-                console.log('lỗi lấy danh sách', error);
-            }
-        };
         getAllSubs();
     }, []);
 
+    const getAllSubs = async (params) => {
+        try {
+            // const allSubs = await catePostApi.getAll(params);
+            // setSubsAll(allSubs.data.data);
+            // setPageSubsPost(allSubs.data);
+            // console.log(allSubs.data.last_page);
+            // console.log(allSubs.data.total);
+
+            const allSubs = await catePostApi.getAllSubs(params);
+            setSubsAll(allSubs.data.data);
+            setPageSubsPost(allSubs.data);
+        } catch (error) {
+            console.log('lỗi lấy danh sách', error);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            getAllSubs(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pageSubsPost?.last_page) {
+            const pageId = page + 1;
+            setPage(pageId);
+            getAllSubs(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        getAllSubs(`?page=${page}`);
+    };
+
     const handleDelete = (id) => {
-        console.log('id', id);
-        SetDeleteSubs(true);
+        setComfirm(true);
         deletcSubs.current = id;
-        const getDeletSubs = async () => {
-            try {
-                const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
-                setMessage(deletesSubs.status);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                const allSubs = await catePostApi.getAll();
-                setSubsAll(allSubs.data);
-            } catch (error) {
-                console.log('lỗi khi xóa', error);
-                const res = error.response.data;
-                console.log(res);
-                setMessStatus(res.message);
-                setStatusHandle(false);
-                setModal(true);
-                setLoading(false);
-            }
-        };
-        getDeletSubs();
+    };
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const getDeletSubs = async () => {
+                try {
+                    const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
+                    setMessage(deletesSubs.status);
+                    setStatusHandle(true);
+                    setModal(true);
+                    setLoading(false);
+                    const allSubs = await catePostApi.getAll();
+                    setSubsAll(allSubs.data.data);
+                } catch (error) {
+                    console.log('lỗi khi xóa', error);
+                    const res = error.response.data;
+                    console.log(res);
+                    setMessStatus(res.message);
+                    setStatusHandle(false);
+                    setModal(true);
+                    setLoading(false);
+                }
+            };
+            getDeletSubs();
+        }
     };
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách danh mục Subs</h2>
@@ -79,34 +116,33 @@ function ListSubs() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {subsAll?.map((item, index) =>
-                                    item.subs.map((items, i) => (
-                                        <tr key={items.id}>
-                                            <td>{i + 1}</td>
-                                            <td>{items.name}</td>
+                                {/* {subsAll?.map((item) => */}
+                                {subsAll.map((items, index) => (
+                                    <tr key={index}>
+                                        <td>{10 * (page - 1) + index + 1}</td>
+                                        <td>{items.name}</td>
 
-                                            <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                                {items.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
-                                            </td>
-                                            <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
-                                            <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
-                                            <td className="text-center">
-                                                <Link to={`/admin/Subs/edit/${items.id}`} state={{ items }}>
-                                                    Sửa
-                                                </Link>
-                                            </td>
-                                            <td className="text-center">
-                                                <Link
-                                                    onClick={() => {
-                                                        handleDelete(items.id);
-                                                    }}
-                                                >
-                                                    Xóa
-                                                </Link>
-                                            </td>
-                                        </tr>
-                                    )),
-                                )}
+                                        <td className={items.is_active == 1 ? 'active' : 'an__active'}>
+                                            {items.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
+                                        </td>
+                                        <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
+                                        <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
+                                        <td className="text-center">
+                                            <Link to={`/admin/Subs/edit/${items.id}`} state={{ items }}>
+                                                Sửa
+                                            </Link>
+                                        </td>
+                                        <td className="text-center">
+                                            <Link
+                                                onClick={() => {
+                                                    handleDelete(items.id);
+                                                }}
+                                            >
+                                                Xóa
+                                            </Link>
+                                        </td>
+                                    </tr>
+                                ))}
                                 {/* {subsAll?.subs?.map((item, index) => (
                                     <tr key={item.id}>
                                         <td>{index + 1}</td>
@@ -137,6 +173,13 @@ function ListSubs() {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pageSubsPost?.last_page}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

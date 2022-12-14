@@ -7,8 +7,13 @@ const categoriesApi = {
     },
 
     getAll: (params) => {
-        const url = '/admin/categories_products';
-        return axiosClient.get(url, params);
+        if (params) {
+            const url = `/admin/categories_products/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/admin/categories_products';
+            return axiosClient.get(url);
+        }
     },
 
     getByIdCate: (id) => {
