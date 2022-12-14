@@ -49,6 +49,9 @@ const EditProduct = () => {
     const [statusHandle, setStatusHandle] = useState();
     const [messErr, setMessErr] = useState();
     const [showImgTbl, setShowImgTbl] = useState(false);
+    const [urlImage, setUrlImage] = useState();
+    const [statusImg, setStatusImg] = useState();
+    const [oldSubCate, setOldSubCate] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -79,9 +82,12 @@ const EditProduct = () => {
         const getProduct = async () => {
             setLoading(true);
             try {
-                const result = await productApi.getById(params.id);
-                setProduct(result.data);
-                setCategory(result.data.category);
+                const resultProduct = await productApi.getById(params.id);
+                setProduct(resultProduct.data);
+                const resultSubCate = await subCateProductApi.getById(resultProduct.data.subcategory_id);
+                // setOldSubCate(resultSubCate.data);
+                console.log('resultSubCate', resultSubCate.data);
+                setCategory(resultProduct.data.category);
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to get product: ', error);
@@ -105,9 +111,10 @@ const EditProduct = () => {
             meta_description: metaDescription,
             name: nameProduct,
             description: description,
-            url_image: image,
+            url_image: urlImage,
+            collection_images: image,
+
             specification_infomation: null,
-            // brand_id: brand,
             subcategory_id: category,
             variant_ids: variant,
             colors_by_variant_id: colorByVariant,
@@ -135,7 +142,7 @@ const EditProduct = () => {
                 setMessErr(res.message);
             }
         };
-        updateProduct();
+        // updateProduct();
         console.log('data', data);
     };
 
@@ -251,11 +258,12 @@ const EditProduct = () => {
         const newFormVR = [...formVariant];
         const newFormSubVR = [...formSubVariant];
         // setNameProduct
-        product.name ? setNameProduct(product.name) : console.log('Not Found');
-        product.meta_title ? setMetaTitle(product.meta_title) : console.log('Not Found');
-        product.meta_keywords ? setMetaKeywords(product.meta_keywords) : console.log('Not Found');
-        product.meta_description ? setMetaDescription(product.meta_description) : console.log('Not Found');
-        product.url_image ? setImage(product.url_image) : console.log('Not Found');
+        product.name && setNameProduct(product.name);
+        product.meta_title && setMetaTitle(product.meta_title);
+        product.meta_keywords && setMetaKeywords(product.meta_keywords);
+        product.meta_description && setMetaDescription(product.meta_description);
+        product.url_image && setUrlImage(product.url_image);
+        product.collection_images && setImage(product.collection_images);
 
         product.description ? setDescription(product.description) : console.log('Not Found');
         if (Array.isArray(product.variants) && product.variants.length > 0 && newFormVR.length == 0) {
@@ -350,16 +358,38 @@ const EditProduct = () => {
         setNewSubListCategory(newListSubCate);
     };
 
-    const handleGetImg = (img) => {
+    const handleShowFormListImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(false);
+    };
+
+    const handleShowFormImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(true);
+    };
+
+    const handleGetListImg = (img) => {
         setImage(img);
+        setShowImgTbl(false);
+    };
+
+    const handleGetImg = (img) => {
+        setUrlImage(...img);
         setShowImgTbl(false);
     };
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
-            {showImgTbl && <TableImage closeForm={setShowImgTbl} action={handleGetImg} />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
+            {showImgTbl && (
+                <TableImage
+                    closeForm={setShowImgTbl}
+                    action={handleGetListImg}
+                    actionOne={handleGetImg}
+                    status={statusImg}
+                />
+            )}
             <div className="content__heading">
                 <h2 className="content__heading--title">Cập nhật sản phẩm</h2>
                 <p className="content__heading--subtitle">Sản phẩm</p>
@@ -434,15 +464,34 @@ const EditProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="imgProduct">Hình ảnh</label>
+                                <label htmlFor="imgProduct">Hình ảnh chính</label>
                             </div>
-                            <div className="input__text">
-                                {image ? (
-                                    <div className="img__box" onClick={() => setShowImgTbl(true)}>
-                                        <img className="img__box--item" src={image} />
+                            <div className="input__text list__img">
+                                {urlImage ? (
+                                    <div className="img__box" onClick={() => handleShowFormImg()}>
+                                        <img className="img__box--item" src={urlImage} />
                                     </div>
                                 ) : (
-                                    <div className="img__choose" onClick={() => setShowImgTbl(true)}>
+                                    <div className="img__choose" onClick={() => handleShowFormImg()}>
+                                        Chọn ảnh...
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="imgProduct">Hình ảnh phụ (danh sách)</label>
+                            </div>
+                            <div className="input__text list__img">
+                                {image ? (
+                                    image?.map((data, index) => (
+                                        <div className="img__box" onClick={() => handleShowFormListImg()}>
+                                            <img className="img__box--item" src={data} />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className="img__choose" onClick={() => handleShowFormListImg()}>
                                         Chọn ảnh...
                                     </div>
                                 )}

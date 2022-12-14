@@ -6,10 +6,10 @@ const subCateProductApi = {
         const url = '/client/subcategories';
         return axiosClient.get(url, { params });
     },
-    // get: (id) => {
-    //     const url = `/products/${id}`;
-    //     return axiosClient.get(url);
-    // },
+    getById: (id) => {
+        const url = `/admin/subcategories/${id}`;
+        return axiosClient.get(url);
+    },
 };
 
 export default subCateProductApi;

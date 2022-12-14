@@ -8,13 +8,13 @@ import ImageUpload from '~/components/ImageUpload';
 import { RiCloseFill } from 'react-icons/ri';
 const cx = classNames.bind(style);
 
-const TableImage = ({ closeForm, action }) => {
+const TableImage = ({ closeForm, action, actionOne, status }) => {
     const [listImage, setListImage] = useState();
     const [loading, setLoading] = useState(false);
     const [pagination, setPagination] = useState();
     const [page, setPage] = useState(1);
     const [upload, setUpload] = useState(false);
-    const [img, setImg] = useState();
+    const [listImg, setListImg] = useState([]);
 
     useEffect(() => {
         getImg();
@@ -58,6 +58,70 @@ const TableImage = ({ closeForm, action }) => {
         getImg();
     };
 
+    const addImgToArrr = (path) => {
+        console.log('status', status);
+        if (status) {
+            const newArr = [];
+            newArr.push(path);
+            setListImg([...newArr]);
+        } else {
+            if (Array.isArray(listImg) && listImg.length > 0) {
+                const result = listImg.filter((item) => item === path);
+                if (result.length > 0) {
+                    const newArr = listImg.filter((item) => item != path);
+                    setListImg([...newArr]);
+                } else {
+                    listImg.push(path);
+                    setListImg([...listImg]);
+                }
+
+                // listImg.map((item, index) => {
+                //     const tempArr = [...listImg];
+                //     console.log('Số', item === path, index);
+                //     if (item === path) {
+                //         tempArr.splice(index, 1);
+                //         console.log('Ảnh trùng', tempArr, index);
+                //         setListImg(tempArr);
+                //         return false;
+                //     } else {
+                //         tempArr.push(path);
+                //         setListImg(tempArr);
+                //         console.log('Ảnh mới', tempArr, index);
+                //         return false;
+                //     }
+                // });
+            } else {
+                listImg.push(path);
+                setListImg([...listImg]);
+            }
+        }
+    };
+
+    const handleSubmit = () => {
+        // action(listImg);
+        // state(listImg);
+        if (status) {
+            actionOne(listImg);
+        } else {
+            action(listImg);
+        }
+        console.log(status);
+    };
+
+    const getPathActive = (path) => {
+        if (Array.isArray(listImg) && listImg.length > 0) {
+            const result = listImg.filter((item, index) => item == path);
+            if (result.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            console.log('Không Phải mãng');
+            return false;
+        }
+    };
+
     return (
         <div className={cx('wrapper')}>
             {loading && <Loading />}
@@ -74,8 +138,13 @@ const TableImage = ({ closeForm, action }) => {
                             </div>
                         </div>
 
-                        <div className={cx('table__heading--close')} onClick={() => closeForm(false)}>
-                            <RiCloseFill className={cx('close__icon')} />
+                        <div className={cx('table__heading--right')}>
+                            <div className={cx('table__heading--btn')} onClick={() => handleSubmit()}>
+                                <p>Chọn</p>
+                            </div>
+                            <div className={cx('table__heading--close')} onClick={() => closeForm(false)}>
+                                <RiCloseFill className={cx('close__icon')} />
+                            </div>
                         </div>
                     </div>
 
@@ -87,9 +156,16 @@ const TableImage = ({ closeForm, action }) => {
                                         <div
                                             key={index}
                                             className={cx('image__item', 'col l-2')}
-                                            onClick={() => action(item.path)}
+                                            onClick={() => addImgToArrr(item.path)}
                                         >
-                                            <img src={item.path} className={cx('image__item--img')} />
+                                            <img
+                                                src={item.path}
+                                                className={
+                                                    getPathActive(item.path) == true
+                                                        ? cx('image__item--img', 'active')
+                                                        : cx('image__item--img')
+                                                }
+                                            />
                                         </div>
                                     ))}
                             </div>
