@@ -24,5 +24,9 @@ const commentsApi = {
         const url = `/comments/${id}`;
         return axiosClient.delete(url);
     },
+    deleteRepcomment: (id) => {
+        const url = `/deleteRepcomment/${id}`;
+        return axiosClient.delete(url);
+    },
 };
 export default commentsApi;
