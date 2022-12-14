@@ -21,7 +21,7 @@ const ListCatePost = () => {
         setLoading(true);
         try {
             const result = await productApi.getAll();
-            setListProduct(result.data.data);
+            setListProduct(result.data);
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
