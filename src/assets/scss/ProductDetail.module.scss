@@ -20,6 +20,21 @@
 .article {
     padding: 0 var(--p-m-primary);
     position: sticky;
+    .thumbnail-image {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        overflow-x: hidden;
+        flex-direction: column;
+    }
+    .tiny_picture {
+        width: 100%;
+        display: flex;
+        gap: 10px;
+        img {
+            width: 30%;
+        }
+    }
 }
 .aside {
     h1 {
@@ -471,18 +486,20 @@
     }
     .comment-list {
         margin-top: var(--p-m-primary);
+        .cmnd_box {
+            display: block;
+            overflow: visible;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 5px;
+            line-height: 2rem;
+        }
         .cmnd-name {
             line-height: var(--p-m-primary);
             border-top: 1px solid #ebf0f9;
             padding: 20px 0;
         }
         .cmt- {
-            border-radius: 8px;
-            border: 1px solid #8f9bb3;
-            height: 80px;
-            padding: 6px 10px 6px;
-            transition: all 0.5s ease;
-            width: 100%;
             display: none;
         }
         .cmt-.active {
@@ -490,11 +507,10 @@
         }
         .view-content_answer {
             background-color: #f7f7f7;
-            border-radius: 8px;
             border: none;
-            margin-bottom: 15px;
             position: relative;
             padding: 10px;
+            border-top: 1px solid #3333;
             margin-left: 10px;
         }
     }
@@ -503,10 +519,21 @@
         .form-addComment {
             border-radius: 8px;
             border: 1px solid #8f9bb3;
-            height: 80px;
+            height: 100px;
             padding: 6px 10px 6px;
             transition: all 0.5s ease;
             width: 100%;
+        }
+        .btn-seend_comment {
+            padding: 5px 25px;
+            height: 30px;
+            font-size: 14px;
+            color: #fff;
+            text-transform: uppercase;
+            border: 1px solid #288ad6;
+            border-radius: 4px;
+            background: #288ad6;
+            margin: 0;
         }
     }
 }
