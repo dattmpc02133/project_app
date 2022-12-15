@@ -70,7 +70,7 @@ function TekZoneCate() {
                 <div className={cx('tekzone__list')}>
                     <ul className={cx('list__slider')}>
                         <li className={cx('list-slider-one', 'c-8')}>
-                            <a href="#">
+                            <a href="">
                                 <div className={cx('size-img-title')}>
                                     <img src={images.tekzone__1} alt="Slider1" />
                                     <h3>
@@ -109,40 +109,16 @@ function TekZoneCate() {
 
                 <div className={cx('list__slider-mb')}>
                     <Slider {...settings}>
-                        <li>
-                            <a href="">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__1} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Cách tải Zing Play trên iOS đơn giản nhất, cho bạn thỏa sức giải trí với cổng
-                                        game hàng đầu Việt Nam
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__2} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Cách cài nhạc chuông iPhone remix hay nhất, giúp người dùng cảm thấy thú vị hơn
-                                        khi có cuộc gọi đến
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__3} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Tháng 11 deal ngon hết ý cùng MacBook Air, giá cực tốt chỉ từ 22.69 triệu đồng
-                                        tại TopZone, nhanh tay tậu ngay
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
+                        {catePostId?.post?.map((item, index) => (
+                            <li key={index}>
+                                <Link to={`/tekzonedetail/${item.id}`}>
+                                    <div className={cx('size-img-title')}>
+                                        <img src={item.image} alt={item.title} />
+                                        <h3 className={cx('title')}>{item.title}</h3>
+                                    </div>
+                                </Link>
+                            </li>
+                        ))}
                     </Slider>
                 </div>
 
@@ -160,7 +136,7 @@ function TekZoneCate() {
 
                 <div className={cx('newsest__list')}>
                     <div className={cx('title-new')}>
-                        <h2>Mới nhất</h2>
+                        <h2>{catePostId.name}</h2>
                     </div>
                     <div className={cx('newsest')}>
                         {catePostId?.post?.map((listPost, index) => (

@@ -111,7 +111,7 @@ function TekZoneDetail() {
 
                 <div className={cx('related-posts')}>
                     <div className={cx('posts-title')}>
-                        <h3> </h3>
+                        <h3> {relateTo.name}</h3>
                     </div>
                     <div className={cx('slider')}>
                         <Slider {...settings}>
@@ -134,17 +134,17 @@ function TekZoneDetail() {
                 <div className={cx('posts-mobile')}>
                     <div className={cx('newsest__list')}>
                         <div className={cx('title-new')}>
-                            <h1>Bài viết liên quan</h1>
+                            <h2>{relateTo.name}</h2>
                         </div>
                         <div className={cx('newsest')}>
-                            {relateTo?.post.map((item, index) => (
+                            {relateTo?.post?.map((items, index) => (
                                 <div className={cx('news-item')} key={index}>
-                                    <Link to={'tekzonedetail'}>
+                                    <Link to={`/tekzonedetail/${items.id}`}>
                                         <div className={cx('img-item')}>
-                                            <img src={item.image} alt={item.title} />
+                                            <img src={items.image} alt={items.title} />
                                         </div>
                                         <div className={cx('title-item')}>
-                                            <h3>{item.title}</h3>
+                                            <h3>{items.title}</h3>
 
                                             <div className={cx('time-post')}>
                                                 <p>11/11</p>

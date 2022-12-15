@@ -12,21 +12,20 @@ import Pagination from '~/components/Pagination';
 const cx = classNames.bind(styles);
 
 function TekZone() {
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-    };
     const { state } = useLocation();
     const data = state.data;
-
     const [dataCategory, setDataCategory] = useState();
     const [loading, setLoading] = useState(false);
     const [allSpost, setAllpost] = useState([]);
     const [pageSpost, setPageSpost] = useState([]);
     const [page, setPage] = useState(1);
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
 
     useEffect(() => {
         getAllSpost();
@@ -108,18 +107,17 @@ function TekZone() {
 
                 <div className={cx('list__slider-mb')}>
                     <Slider {...settings}>
-                        <li>
-                            <a href="">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__1} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Cách tải Zing Play trên iOS đơn giản nhất, cho bạn thỏa sức giải trí với cổng
-                                        game hàng đầu Việt Nam
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
-
+                        {allSpost.map((post, index) => (
+                            <li key={index}>
+                                <Link to={`/tekzonedetail/${post?.id}`}>
+                                    <div className={cx('size-img-title')}>
+                                        <img src={post.image} alt={post.title} />
+                                        <h3 className={cx('title')}>{post.title}</h3>
+                                    </div>
+                                </Link>
+                            </li>
+                        ))}
+                        {/* 
                         <li>
                             <a href="#">
                                 <div className={cx('size-img-title')}>
@@ -141,7 +139,7 @@ function TekZone() {
                                     </h3>
                                 </div>
                             </a>
-                        </li>
+                        </li> */}
                     </Slider>
                 </div>
 
