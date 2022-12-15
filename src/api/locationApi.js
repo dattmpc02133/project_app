@@ -18,6 +18,10 @@ const location = {
         const url = `/client/productsfindbylocation?product_id=${product_id}&variant_id=${variant_id}`;
         return axiosClient.get(url);
     },
+    getProvinceStore: (params) => {
+        const url = 'allStoreID';
+        return axiosClient.get(url, { params });
+    },
 };
 
 export default location;

@@ -109,8 +109,6 @@ export const CartContextProvider = ({ children }) => {
         }
     };
 
-    console.log('listProDettails', listProDettails);
-
     const deleteCartItem = async (listIdDelete) => {
         setLoading(true);
         try {

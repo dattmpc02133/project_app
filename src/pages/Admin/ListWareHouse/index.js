@@ -97,7 +97,9 @@ const ListWareHouse = () => {
                                     listWareHouse.map((item, index) => (
                                         <tr key={item.id}>
                                             <td>{index + 1}</td>
-                                            <td>{item.name}</td>
+                                            <td>
+                                                <Link to={`/admin/warehouse/store/${item.id}`}>{item.name}</Link>
+                                            </td>
                                             <td>{item.province}</td>
                                             <td>{item.district}</td>
                                             <td>{item.ward_id}</td>

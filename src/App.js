@@ -67,6 +67,7 @@ import ListComment from './pages/Admin/ListComment';
 import ListCommentReply from './pages/Admin/ListCommentReply';
 import ListOrders from './pages/Admin/ListOrders';
 import OrderDetais from './pages/Admin/OrderDetais';
+import WarehouseStore from './pages/Admin/WarehouseStore';
 
 function App() {
     return (
@@ -126,6 +127,7 @@ function App() {
                     <Route path="brand/edit/:id" element={<EditBrand />} />
 
                     <Route path="warehouse/list" element={<ListWareHouse />} />
+                    <Route path="warehouse/store/:id" element={<WarehouseStore />} />
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                     {/* subs */}
                     <Route path="subs/add" element={<CreateSubs />} />
