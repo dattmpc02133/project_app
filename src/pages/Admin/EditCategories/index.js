@@ -22,7 +22,7 @@ const EditCategories = () => {
         e.preventDefault();
         const data = {
             name: nameCatePost,
-            is_post: resultKq,
+            is_post: 1,
         };
         // console.log('data', data);
         const EditCategories = async () => {
@@ -35,6 +35,8 @@ const EditCategories = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setResultKq('');
+                setNameCatePost('');
             } catch (error) {
                 console.log('Failed to update: ', error);
                 const res = error.response.data;
@@ -71,7 +73,7 @@ const EditCategories = () => {
             <div className="content__wrapper">
                 <div className="content__main">
                     <form onSubmit={(e) => handleSubmit(e)} className="form__content">
-                        <div className="input__group">
+                        {/* <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tên danh mục sản phẩm</label>
                             </div>
@@ -85,10 +87,10 @@ const EditCategories = () => {
                                     <option value={resultKq}>Cập nhật danh mục tin tức</option>
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Tên danh mục sẩn phẩm</label>
+                                <label htmlFor="ip-name">Tên danh mục tin tức</label>
                             </div>
                             <div className="input__text">
                                 <input
@@ -97,6 +99,7 @@ const EditCategories = () => {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tên danh muc"
+                                    required
                                     onChange={(e) => setNameCatePost(e.target.value)}
                                 />
                             </div>

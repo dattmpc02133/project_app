@@ -64,7 +64,14 @@ const CreatePost = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                console.log(post);
+
+                setSubCategories('');
+                setTitlePost('');
+                setDescribe('');
+                setImgPost('');
+                setTitleMeta('');
+                setMetaKeyWord('');
+                setContent('');
             } catch (error) {
                 console.log('lỗi khi thêm', error);
                 const res = error.response.data;
@@ -122,6 +129,7 @@ const CreatePost = () => {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tiêu đề bài viết..."
+                                    required
                                     onChange={(e) => setTitlePost(e.target.value)}
                                 />
                             </div>
@@ -136,6 +144,7 @@ const CreatePost = () => {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tóm tắt"
+                                    required
                                     value={describe}
                                     onChange={(e) => setDescribe(e.target.value)}
                                 />
@@ -152,6 +161,7 @@ const CreatePost = () => {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tóm tắt"
+                                    required
                                     value={imgPost}
                                     onChange={(e) => setImgPost(e.target.value)}
                                 />
@@ -186,6 +196,7 @@ const CreatePost = () => {
                                     onChange={(e) => setMetaKeyWord(e.target.value)}
                                     className="input__text--ctrl"
                                     placeholder="Từ khóa tìm kiếm"
+                                    required
                                 />
                             </div>
                         </div>
@@ -197,6 +208,7 @@ const CreatePost = () => {
                             <CKEditor
                                 editor={Editor}
                                 data="Nội dung bài viết tại đây"
+                                required
                                 onChange={(event, editor) => {
                                     const data = editor.getData();
                                     console.log({ event, editor, data });

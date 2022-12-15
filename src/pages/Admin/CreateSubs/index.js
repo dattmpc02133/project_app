@@ -4,6 +4,7 @@ import Loading from '~/components/Loading';
 import catePostApi from '~/api/catePostApi';
 import brandApi from '~/api/brandApi';
 import Modal from '~/components/Modal';
+import { useNavigate } from 'react-router-dom';
 
 function CreateSubs() {
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,8 @@ function CreateSubs() {
     console.log('select', dataselect);
     console.log('Input', dataInput);
     console.log('brand', dataBrand);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getAllCate = async () => {
@@ -40,7 +43,6 @@ function CreateSubs() {
             try {
                 const brand = await brandApi.getAll();
                 setAllBrands(brand.data.data);
-                console.log('dat', brand.data);
             } catch (error) {
                 console.log('thương hiệu', error);
             }
@@ -51,7 +53,7 @@ function CreateSubs() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const data = { category_id: dataselect, name: dataInput, brand_id: dataBrand };
+        const data = { category_id: dataselect, name: dataInput, brand_id: dataBrand, is_post: 1 };
         console.log('data', data);
         const createSubs = async () => {
             try {
@@ -61,6 +63,10 @@ function CreateSubs() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setDataBrand('');
+                setDataInput('');
+                setDateSelect('');
+                // navigate('/admin/subs/list');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;
@@ -70,6 +76,7 @@ function CreateSubs() {
                 setStatusHandle(false);
             }
         };
+
         createSubs();
     };
 
@@ -138,6 +145,7 @@ function CreateSubs() {
                                     value={dataInput}
                                     className="input__text--ctrl"
                                     placeholder="Tên danh mục chi tiết"
+                                    required
                                     onChange={(e) => setDataInput(e.target.value)}
                                 />
                             </div>

@@ -36,6 +36,7 @@ const CreateCatePost = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setnameCateProduct('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;
@@ -97,6 +98,7 @@ const CreateCatePost = () => {
                                     value={nameCateProduct}
                                     id="ip-name"
                                     type="text"
+                                    required
                                     className="input__text--ctrl"
                                     placeholder="Tên danh mục"
                                     onChange={(e) => setnameCateProduct(e.target.value)}

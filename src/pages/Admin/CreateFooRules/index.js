@@ -46,6 +46,9 @@ function CreateFooRules() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setDateSelect('');
+                setDataInput('');
+                setEditContent('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;
@@ -108,6 +111,7 @@ function CreateFooRules() {
                                     value={dataInput}
                                     className="input__text--ctrl"
                                     placeholder="Nội quy của hàng"
+                                    required
                                     onChange={(e) => setDataInput(e.target.value)}
                                 />
                             </div>

@@ -62,7 +62,7 @@ const ListCategoriesProduct = () => {
         deleteCatePosts.current = id;
     };
 
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const deleteFooter = async () => {
@@ -73,7 +73,7 @@ const ListCategoriesProduct = () => {
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const result = await categoriesApi.getAll();
+                    const result = await categoriesApi.getAll(params);
                     setListCate(result.data.data);
                 } catch (error) {
                     console.log('Failed to delete: ', error);

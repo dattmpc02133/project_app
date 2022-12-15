@@ -28,6 +28,7 @@ const CreateBrand = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setNameBrand('');
             } catch (error) {
                 console.log('Fail to create product', error);
                 const res = error.response.data;
@@ -40,9 +41,7 @@ const CreateBrand = () => {
         };
         createBrand();
     };
-    // const handleChangeSelections = (id) => {
-    //     setSelection(id);
-    // };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -83,6 +82,7 @@ const CreateBrand = () => {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tên thương hiệu..."
+                                    required
                                     onChange={(e) => setNameBrand(e.target.value)}
                                 />
                             </div>
