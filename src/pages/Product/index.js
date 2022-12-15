@@ -11,10 +11,10 @@ function Product() {
         <div className={cx('wrapper')}>
             <div className={cx('content-slide-box')}>
                 <a href="#" className={cx('content-slide-label')}>
-                    <span>
+                    {/* <span>
                         <img src={images.logo2} className={cx('personal_auth-logo')} />
                         iPhone
-                    </span>
+                    </span> */}
                 </a>
                 {/* <Slideshow style={{ borderRadius: '20px' }} /> */}
                 <>
