@@ -10,40 +10,37 @@ function EditContact() {
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
-    const [inputtime , setInputTime] = useState('');
-    const [dataselect , setSelected] = useState('');
-    const [inputservice , setInputService] = useState('');
-    const [inputphone , setInputPhone] = useState('');
+    const [inputtime, setInputTime] = useState('');
+    const [dataselect, setSelected] = useState('');
+    const [inputservice, setInputService] = useState('');
+    const [inputphone, setInputPhone] = useState('');
     const [cateContact, setContact] = useState([]);
     const params = useParams();
-    
 
     useEffect(() => {
-        const getIDContact = async ()=> {
-                    try {
-                        const byIdFooter = await footerApi.getIdContact(params.id);
-                      
-                        setSelected(byIdFooter.data.id=1);
-                        setInputService(byIdFooter.data.name);
-                        setInputPhone(byIdFooter.data.phone);
-                        setInputTime(byIdFooter.data.time);
-                        console.log('lay cac dichh vu',byIdFooter.data);
-                        console.log('lay id' ,byIdFooter.data.id=1);
-                    } catch (error) {
-                        console.log('lỗi lấy danh mục không thành công', error);
-                    }
+        const getIDContact = async () => {
+            try {
+                const byIdFooter = await footerApi.getIdContact(params.id);
 
-                };
-                const getAllContact = async ()=> {
-                    try {
-                        const Contact = await footerApi.getAll();
-                        setContact(Contact.data);
-                        console.log('tat ca danh muc',Contact.data);
-                    } catch (error) {
-                        console.log('lỗi lấy danh mục không thành công', error);
-                    }
-
-                };
+                setSelected((byIdFooter.data.id = 1));
+                setInputService(byIdFooter.data.name);
+                setInputPhone(byIdFooter.data.phone);
+                setInputTime(byIdFooter.data.time);
+                console.log('lay cac dichh vu', byIdFooter.data);
+                console.log('lay id', (byIdFooter.data.id = 1));
+            } catch (error) {
+                console.log('lỗi lấy danh mục không thành công', error);
+            }
+        };
+        const getAllContact = async () => {
+            try {
+                const Contact = await footerApi.getAll();
+                setContact(Contact.data);
+                console.log('tat ca danh muc', Contact.data);
+            } catch (error) {
+                console.log('lỗi lấy danh mục không thành công', error);
+            }
+        };
 
         getAllContact();
         getIDContact();
@@ -56,7 +53,8 @@ function EditContact() {
             category_id: dataselect,
             name: inputservice,
             phone: inputphone,
-            time: inputtime,   };
+            time: inputtime,
+        };
         console.log('data', data);
         const updateContacts = async () => {
             try {
@@ -65,7 +63,10 @@ function EditContact() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                
+                setSelected('');
+                setInputService('');
+                setInputPhone('');
+                setInputTime('');
             } catch (error) {
                 console.log('update không thành công', error);
                 const res = error.response.data;
@@ -77,8 +78,6 @@ function EditContact() {
         };
         updateContacts();
     };
-
-    
 
     return (
         <div className="wrapper">
@@ -96,8 +95,6 @@ function EditContact() {
                             <div className="input__label">
                                 <label htmlFor="ip-name">Danh mục Footer content</label>
                             </div>
-                            
-                               
 
                             <div className="input__text">
                                 <select
@@ -105,9 +102,7 @@ function EditContact() {
                                     value={dataselect}
                                     onChange={(e) => setSelected(e.target.value)}
                                 >
-                                    <option value="0" >
-                                        Chọn danh mục
-                                    </option>
+                                    <option value="0">Chọn danh mục</option>
 
                                     {cateContact.map((data, index) => (
                                         <option key={index} value={data.id} selected>
@@ -116,8 +111,7 @@ function EditContact() {
                                     ))}
                                 </select>
                             </div>
-                            </div>
-                        
+                        </div>
 
                         {message && typeof message == 'string' ? (
                             <div className="input__group">
@@ -131,15 +125,15 @@ function EditContact() {
                                 <label htmlFor="ip-name">Dịch vụ </label>
                             </div>
                             <div className="input__text">
-                               <input 
-                               value={inputservice}
-                               onChange= {(e)=> setInputService(e.target.value)}
-                                type="name"  className="input__text--ctrl" required="Vui lòng nhập số điện thoại hỗ trợ"
-                                 />
+                                <input
+                                    value={inputservice}
+                                    onChange={(e) => setInputService(e.target.value)}
+                                    type="name"
+                                    className="input__text--ctrl"
+                                    required="Vui lòng nhập số điện thoại hỗ trợ"
+                                />
                             </div>
                         </div>
-                        
-
 
                         {message && typeof message == 'string' ? (
                             <div className="input__group">
@@ -153,16 +147,16 @@ function EditContact() {
                                 <label htmlFor="ip-name">Số điện thoại liên hệ</label>
                             </div>
                             <div className="input__text">
-                               <input 
-                               value={inputphone}
-                               onChange = {(e) => setInputPhone(e.target.value)}
-                               type="number"  className="input__text--ctrl" required="Vui lòng nhập số điện thoại hỗ trợ" 
-                               />
+                                <input
+                                    value={inputphone}
+                                    onChange={(e) => setInputPhone(e.target.value)}
+                                    type="number"
+                                    className="input__text--ctrl"
+                                    required="Vui lòng nhập số điện thoại hỗ trợ"
+                                />
                             </div>
                         </div>
-                        
-         
-                   
+
                         {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
@@ -171,25 +165,21 @@ function EditContact() {
                             false
                         )}
 
-
-                           <div className="input__group">
+                        <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Giờ liên hệ</label>
                             </div>
                             <div className="input__text">
-                               <input 
-                                 value={inputtime}
-                                 onChange = {(e) => setInputTime(e.target.value)}
-                                 type="name"  className="input__text--ctrl" required="Vui lòng nhập số điện thoại hỗ trợ" 
-                                  />
+                                <input
+                                    value={inputtime}
+                                    onChange={(e) => setInputTime(e.target.value)}
+                                    type="name"
+                                    className="input__text--ctrl"
+                                    required="Vui lòng nhập số điện thoại hỗ trợ"
+                                />
                             </div>
-                        </div>            
+                        </div>
 
-
-
-
-                        
-                                    
                         {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
@@ -197,7 +187,7 @@ function EditContact() {
                         ) : (
                             false
                         )}
-                     
+
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Thêm danh mục</button>
                         </div>

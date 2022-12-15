@@ -10,7 +10,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import postsApi from '../../api/postApi';
-
+import catePostApi from '../../api/catePostApi';
 const cx = classNames.bind(styles);
 function TekZoneDetail() {
     const settings = {
@@ -26,6 +26,10 @@ function TekZoneDetail() {
     const [content, setcontent] = useState([]);
     const [user, setUser] = useState([]);
     const [views, setViews] = useState([]);
+    const [idCatePost, setIdCatePost] = useState([]);
+    const [allCatePost, setAllCatePost] = useState([]);
+    const [catePostAll, setCatePostAll] = useState([]);
+    const [relateTo, setRelateTo] = useState([]);
     useEffect(() => {
         const getById = async () => {
             try {
@@ -34,12 +38,26 @@ function TekZoneDetail() {
                 setcontent(byId.data.content_post);
                 setUser(byId.data.author);
                 setViews(byId.data.views);
+                setIdCatePost(byId.data.subcategory_id);
             } catch (error) {
                 console.log('lỗi lấy id bài viết', error);
             }
         };
         getById();
-    }, []);
+    }, [params.id]);
+
+    useEffect(() => {
+        const getByIdPost = async () => {
+            try {
+                const byIdCatePost = await catePostApi.getByIdCatePost(idCatePost);
+                setRelateTo(byIdCatePost.data);
+                console.log('danh muc', byIdCatePost.data.post);
+            } catch (error) {
+                console.log('Lỗi lấy ib cate post', error);
+            }
+        };
+        getByIdPost();
+    }, [idCatePost]);
 
     return (
         <div className={cx('wrapper')}>
@@ -75,7 +93,7 @@ function TekZoneDetail() {
                             <div className={cx('share-viewtek')}>
                                 <span className={cx('info-share')}>
                                     Chia sẻ:
-                                    <Link To="">
+                                    <Link to="">
                                         <FiFacebook className={cx('icon-info')} />
                                     </Link>
                                     <Link to="">
@@ -84,7 +102,7 @@ function TekZoneDetail() {
                                 </span>
                                 <span className={cx('info-view')}>
                                     <BsEye className={cx('icon-info')} />
-                                    {views} Lượt xem
+                                    Lượt xem: {views}
                                 </span>
                             </div>
                         </div>
@@ -93,67 +111,22 @@ function TekZoneDetail() {
 
                 <div className={cx('related-posts')}>
                     <div className={cx('posts-title')}>
-                        <h3>bài viết liên quan</h3>
+                        <h3> </h3>
                     </div>
                     <div className={cx('slider')}>
                         <Slider {...settings}>
-                            {/* <div className={cx('posts-row')}> */}
-                            <div className={cx('item-posts')}>
-                                <div className={cx('img-slider')}>
-                                    <img src={images.tekzone__1} alt="Ảnh lổi slider" />
+                            {relateTo?.post?.map((item, index) => (
+                                <div className={cx('item-posts')} key={index}>
+                                    <Link to={`/tekzonedetail/${item.id}`}>
+                                        <div className={cx('img-slider')}>
+                                            <img src={item.image} alt={item.title} />
+                                        </div>
+                                        <div className={cx('title-posts')}>
+                                            <h3>{item.title}</h3>
+                                        </div>
+                                    </Link>
                                 </div>
-                                <div className={cx('title-posts')}>
-                                    <h3>
-                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
-                                        chính xác nhất cho iPhone của mình
-                                    </h3>
-                                </div>
-
-                                <span>10/11</span>
-                            </div>
-
-                            <div className={cx('item-posts')}>
-                                <div className={cx('img-slider')}>
-                                    <img src="" alt="Ảnh lổi slider" />
-                                </div>
-                                <div className={cx('title-posts')}>
-                                    <h3>
-                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
-                                        chính xác nhất cho iPhone của mình
-                                    </h3>
-                                </div>
-
-                                <span>10/11</span>
-                            </div>
-
-                            <div className={cx('item-posts')}>
-                                <div className={cx('img-slider')}>
-                                    <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                </div>
-                                <div className={cx('title-posts')}>
-                                    <h3>
-                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
-                                        chính xác nhất cho iPhone của mình
-                                    </h3>
-                                </div>
-
-                                <span>10/11</span>
-                            </div>
-
-                            <div className={cx('item-posts')}>
-                                <div className={cx('img-slider')}>
-                                    <img src={images.tekzone__1} alt="Ảnh lổi slider" />
-                                </div>
-                                <div className={cx('title-posts')}>
-                                    <h3>
-                                        Chỉ với vài bước cơ bản sau đây bạn đã có thể kiểm tra được thời hạn bảo hành
-                                        chính xác nhất cho iPhone của mình
-                                    </h3>
-                                </div>
-
-                                <span>10/11</span>
-                            </div>
-                            {/* </div> */}
+                            ))}
                         </Slider>
                     </div>
                 </div>
@@ -164,76 +137,22 @@ function TekZoneDetail() {
                             <h1>Bài viết liên quan</h1>
                         </div>
                         <div className={cx('newsest')}>
-                            <div className={cx('news-item')}>
-                                <Link to={'tekzonedetail'}>
-                                    <div className={cx('img-item')}>
-                                        <img src={images.tekitem} alt="Anh post" />
-                                    </div>
-                                    <div className={cx('title-item')}>
-                                        <h3>
-                                            Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn
-                                            giá hời, rinh ngay về nhà thôi kẻo lỡ
-                                        </h3>
-
-                                        <div className={cx('time-post')}>
-                                            <p>11/11</p>
+                            {relateTo?.post.map((item, index) => (
+                                <div className={cx('news-item')} key={index}>
+                                    <Link to={'tekzonedetail'}>
+                                        <div className={cx('img-item')}>
+                                            <img src={item.image} alt={item.title} />
                                         </div>
-                                    </div>
-                                </Link>
-                            </div>
+                                        <div className={cx('title-item')}>
+                                            <h3>{item.title}</h3>
 
-                            <div className={cx('news-item')}>
-                                <a href="#">
-                                    <div className={cx('img-item')}>
-                                        <img src={images.tekitem} alt="Anh post" />
-                                    </div>
-                                    <div className={cx('title-item')}>
-                                        <h3>
-                                            Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn
-                                            giá hời, rinh ngay về nhà thôi kẻo lỡ
-                                        </h3>
-                                    </div>
-                                    <div className={cx('time-post')}>
-                                        <p>11/11</p>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div className={cx('news-item')}>
-                                <a href="#">
-                                    <div className={cx('img-item')}>
-                                        <img src={images.tekitem} alt="Anh post" />
-                                    </div>
-                                    <div className={cx('title-item')}>
-                                        <h3>
-                                            Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn
-                                            giá hời, rinh ngay về nhà thôi kẻo lỡ
-                                        </h3>
-
-                                        <div className={cx('time-post')}>
-                                            <p>11/11</p>
+                                            <div className={cx('time-post')}>
+                                                <p>11/11</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div className={cx('news-item')}>
-                                <a href="#">
-                                    <div className={cx('img-item')}>
-                                        <img src={images.tekitem} alt="Anh post" />
-                                    </div>
-                                    <div className={cx('title-item')}>
-                                        <h3>
-                                            Săn sale cuối tuần: TopZone giảm mạnh tay với AirPods đến tận 30%, hàng xịn
-                                            giá hời, rinh ngay về nhà thôi kẻo lỡ
-                                        </h3>
-
-                                        <div className={cx('time-post')}>
-                                            <p>11/11</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
+                                    </Link>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

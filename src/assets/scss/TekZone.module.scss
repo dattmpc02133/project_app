@@ -232,7 +232,7 @@
         }
 
         .viewmore-news {
-            a {
+            span {
                 display: block;
                 width: 370px;
                 height: 60px;
@@ -424,9 +424,9 @@
             }
 
             .viewmore-news {
-                a {
+                span {
                     display: block;
-                    width: 370px;
+                    max-width: 370px;
                     height: 60px;
                     border-radius: 12px;
                     background-color: #323232;

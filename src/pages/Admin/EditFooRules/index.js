@@ -64,6 +64,9 @@ function EditFooRules() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setIdSelect('');
+                setNameInput('');
+                setContent('');
             } catch (error) {
                 console.log('Failed to update: ', error);
                 const res = error.response.data;
@@ -90,7 +93,7 @@ function EditFooRules() {
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Danh mục  liên hệ</label>
+                                <label htmlFor="ip-name">Danh mục liên hệ</label>
                             </div>
                             <div className="input__text">
                                 <select
@@ -107,13 +110,13 @@ function EditFooRules() {
                                 </select>
                             </div>
                         </div>
-                        {message && typeof message == 'string' ? (
+                        {/* {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
                             </div>
                         ) : (
                             false
-                        )}
+                        )} */}
                         <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tên nội duy và chính sách</label>
@@ -123,18 +126,19 @@ function EditFooRules() {
                                     value={nameInput}
                                     className="input__text--ctrl"
                                     placeholder="Nội quy của hàng"
+                                    required
                                     onChange={(e) => setNameInput(e.target.value)}
                                 />
                             </div>
                         </div>
-
+                        {/* 
                         {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
                             </div>
                         ) : (
                             false
-                        )}
+                        )} */}
 
                         <div className="input__group">
                             <div className="input__label">

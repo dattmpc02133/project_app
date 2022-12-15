@@ -61,6 +61,9 @@ function CreateProductSubs() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setDataBrand('');
+                setDataInput('');
+                setDateSelect('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;
@@ -141,6 +144,7 @@ function CreateProductSubs() {
                                 <input
                                     value={dataInput}
                                     className="input__text--ctrl"
+                                    required
                                     placeholder="Nội quy của hàng"
                                     onChange={(e) => setDataInput(e.target.value)}
                                 />

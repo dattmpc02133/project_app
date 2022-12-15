@@ -75,6 +75,16 @@ const catePostApi = {
         const url = `client/subcategories/loadPostByCate/${id}`;
         return axiosClient.get(url);
     },
+
+    getAllSubsPost: (params) => {
+        if (params) {
+            const url = `/admin/subcategoriesIsPosts/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/admin/subcategoriesIsPosts';
+            return axiosClient.get(url);
+        }
+    },
 };
 
 export default catePostApi;

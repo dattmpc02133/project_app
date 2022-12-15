@@ -36,6 +36,7 @@ const EditCategoriesPro = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setNameCatePost('');
             } catch (error) {
                 console.log('Failed to update: ', error);
                 const res = error.response.data;
@@ -86,6 +87,7 @@ const EditCategoriesPro = () => {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tên danh mục"
+                                    required
                                     onChange={(e) => setNameCatePost(e.target.value)}
                                 />
                             </div>

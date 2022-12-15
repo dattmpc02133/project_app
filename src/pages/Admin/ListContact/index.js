@@ -83,11 +83,6 @@ function ListContact() {
                                     <th>Dịch vụ</th>
                                     <th>Số diện thoại</th>
                                     <th>Thời gian liên hệ</th>
-                                  
-                           
-                                    
-                                    <th>Số diện thoại</th>
-
                                     <th colSpan="2" className="text-right">
                                         Thao tác
                                     </th>
@@ -99,7 +94,6 @@ function ListContact() {
                                           <tr key={index}>
                                               <td>{index + 1}</td>
                                               <td>{item.name_category}</td>
-
                                               <td>{item.name}</td>
                                               <td>{item.phone}</td>
                                               <td>{item.time}</td>

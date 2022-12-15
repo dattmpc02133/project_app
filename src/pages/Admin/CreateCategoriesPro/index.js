@@ -28,6 +28,7 @@ function CreateCategoriesPro() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setnameCateProduct('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;
@@ -66,6 +67,7 @@ function CreateCategoriesPro() {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tên danh mục"
+                                    required
                                     onChange={(e) => setnameCateProduct(e.target.value)}
                                 />
                             </div>

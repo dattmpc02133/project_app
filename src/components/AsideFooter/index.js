@@ -9,7 +9,7 @@ const cx = classNames.bind(styles);
 function AsideFooter() {
     const [footer, setFooter] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [active, setActive] = useState('');
+    const [active, setActive] = useState(true);
     const [nameContent, setNameContent] = useState('');
     const params = useParams();
     useEffect(() => {
@@ -43,7 +43,7 @@ function AsideFooter() {
             }
         };
         getByIdContent();
-    }, [nameContent]);
+    }, [nameContent, params.id]);
 
     return (
         <div className={cx('wrapper')}>

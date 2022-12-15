@@ -26,13 +26,7 @@ function ListSubs() {
 
     const getAllSubs = async (params) => {
         try {
-            // const allSubs = await catePostApi.getAll(params);
-            // setSubsAll(allSubs.data.data);
-            // setPageSubsPost(allSubs.data);
-            // console.log(allSubs.data.last_page);
-            // console.log(allSubs.data.total);
-
-            const allSubs = await catePostApi.getAllSubs(params);
+            const allSubs = await catePostApi.getAllSubsPost(params);
             setSubsAll(allSubs.data.data);
             setPageSubsPost(allSubs.data);
         } catch (error) {
@@ -64,7 +58,7 @@ function ListSubs() {
         setComfirm(true);
         deletcSubs.current = id;
     };
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const getDeletSubs = async () => {
@@ -74,7 +68,7 @@ function ListSubs() {
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const allSubs = await catePostApi.getAll();
+                    const allSubs = await catePostApi.getAllSubsPost(params);
                     setSubsAll(allSubs.data.data);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
@@ -119,7 +113,7 @@ function ListSubs() {
                                 {/* {subsAll?.map((item) => */}
                                 {subsAll.map((items, index) => (
                                     <tr key={index}>
-                                        <td>{10 * (page - 1) + index + 1}</td>
+                                        <td>{9 * (page - 1) + index + 1}</td>
                                         <td>{items.name}</td>
 
                                         <td className={items.is_active == 1 ? 'active' : 'an__active'}>
