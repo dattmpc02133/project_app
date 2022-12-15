@@ -22,6 +22,10 @@ const wareHouseApi = {
         const url = `/warehouses/${id}`;
         return axiosClient.delete(url);
     },
+    getProductStore: (params) => {
+        const url = '/getproductByWarehouse';
+        return axiosClient.get(url, { params });
+    },
 };
 
 export default wareHouseApi;

@@ -139,10 +139,12 @@ const DetailProduct = () => {
     const handleChangeByIdProvinces = ({ dataProVince }) => {
         setProvinceID(dataProVince?.id);
         setProvinceNameActive(dataProVince?.name);
+        setCityProvince(!cityprovince);
     };
     const ChangeDistrictPostById = ({ dataDistrictItem }) => {
         setDistrictID(dataDistrictItem?.id);
         setDistrictNameActive(dataDistrictItem?.name);
+        setCity(!city);
     };
     const handleSeenList = () => {
         setSeeListStore(!seeliststore);
@@ -181,8 +183,16 @@ const DetailProduct = () => {
         const fetchProvince = async () => {
             try {
                 const resProvide = await location.getAllProvince();
+                const resProvideNew = await location.getProvinceStore();
                 const dataProvide = resProvide?.data;
-                setDataAllProVince(dataProvide);
+                const dataProvideNew = resProvideNew.data.map((province) => Number(province));
+
+                const dataPrView = dataProvide?.filter((item) => {
+                    if (dataProvideNew.includes(item.id)) {
+                        return item;
+                    }
+                });
+                setDataAllProVince(dataPrView);
             } catch (error) {
                 console.log(error);
             }
@@ -333,9 +343,6 @@ const DetailProduct = () => {
         return { image: img };
     });
 
-    console.log('urlhinh', urlhinh);
-    useEffect(() => {}, [imgUrl]);
-
     return (
         <>
             <div className={cx('detail-box')}>
@@ -356,15 +363,6 @@ const DetailProduct = () => {
                                 thumbnails={true}
                                 thumbnailWidth="100px"
                             />
-                            {/* <div className={cx('thumbnail-image')}>
-                                      <img src={productDetail.url_image} />
-                                      <div className={cx('tiny_picture')}>
-                                          <img src={productDetail.url_image} />
-                                          <img src={productDetail.url_image} />
-                                          <img src={productDetail.url_image} />
-                                          <img src={productDetail.url_image} />
-                                      </div>
-                                  </div> */}
                         </div>
                         <div className={cx('aside', 'c-6')}>
                             <div style={{ width: '100%' }}>
