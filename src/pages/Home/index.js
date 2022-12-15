@@ -38,7 +38,6 @@ function Home() {
             setRender(!render);
         }
     };
-    console.log(listProducts);
     return (
         <>
             <Slideshow />
