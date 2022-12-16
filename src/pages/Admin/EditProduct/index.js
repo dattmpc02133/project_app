@@ -59,7 +59,7 @@ const EditProduct = () => {
                 const resultBrand = await brandApi.getAll();
                 setListBrand(resultBrand.data.data);
                 const resultColor = await colorApi.getAll();
-                setListColor(resultColor.data);
+                setListColor(resultColor.data.data);
                 const resultListSubCate = await subCateProductApi.getAll();
                 setListSubCategory(resultListSubCate.data);
                 const resultCate = await cateProductApi.getAll();

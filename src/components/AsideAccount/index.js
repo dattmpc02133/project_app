@@ -5,10 +5,12 @@ import styles from '../../assets/scss/LoginUpdate.module.scss';
 import { AiOutlineShoppingCart, AiTwotoneTool } from 'react-icons/ai';
 import { RiLogoutBoxLine } from 'react-icons/ri';
 import { UserContext } from '~/Context/UserContext';
+import { CartContext } from '~/Context/CartContext';
 const cx = classNames.bind(styles);
 
 const AsideAccount = () => {
     const { logout } = useContext(UserContext);
+    const { getCart } = useContext(CartContext);
 
     const navigate = useNavigate();
     const objDataAd = localStorage.getItem('token');
@@ -18,6 +20,7 @@ const AsideAccount = () => {
 
     const handleLogout = () => {
         logout();
+        getCart();
     };
     return (
         <div className={cx('l-3 m-6 c-12')}>
