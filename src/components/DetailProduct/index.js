@@ -244,7 +244,7 @@ const DetailProduct = () => {
 
         if (user != undefined) {
             console.log('user', user);
-            // addToCart(data);
+            addToCart(data);
         } else {
             const data = {
                 coupon_code: null,

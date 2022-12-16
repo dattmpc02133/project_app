@@ -61,6 +61,13 @@ function TekZone() {
         getAllSpost(`?page=${page}`);
     };
 
+    const handleSroll = () =>
+        window.scroll({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+        });
+
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
@@ -109,7 +116,7 @@ function TekZone() {
                     <Slider {...settings}>
                         {allSpost.map((post, index) => (
                             <li key={index}>
-                                <Link to={`/tekzonedetail/${post?.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${post?.id}`}>
                                     <div className={cx('size-img-title')}>
                                         <img src={post.image} alt={post.title} />
                                         <h3 className={cx('title')}>{post.title}</h3>
@@ -146,7 +153,7 @@ function TekZone() {
                 <ul className={cx('list__cate')}>
                     {data.subs.map((list, index) => (
                         <li key={index}>
-                            <Link to={`/tekzonecate/${list.id}/${list.slug}`}>
+                            <Link onClick={handleSroll} to={`/tekzonecate/${list.id}/${list.slug}`}>
                                 <h3>{list?.name}</h3>
                             </Link>
                         </li>
@@ -160,7 +167,7 @@ function TekZone() {
                     <div className={cx('newsest')}>
                         {allSpost.map((listPost, index) => (
                             <div className={cx('news-item')} key={index}>
-                                <Link to={`/tekzonedetail/${listPost?.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${listPost?.id}`}>
                                     <div className={cx('img-item', 'c-4')}>
                                         <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
                                     </div>

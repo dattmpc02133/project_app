@@ -1,10 +1,12 @@
 :root {
     --margin-content: 10px;
 }
+
 .wrapper {
     width: 100%;
     background-color: var(--color--primary);
     color: var(--color-while);
+    // transform: translateY(0px);
 }
 
 .tekZoneDetail {

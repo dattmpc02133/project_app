@@ -135,7 +135,7 @@ const Cart = () => {
 
         console.log(data);
 
-        // payCOD(data);
+        payCOD(data);
     };
 
     useEffect(() => {

@@ -25,27 +25,19 @@ function TekZoneCate() {
     const params = useParams();
 
     const [loading, setLoading] = useState(false);
-    const [allSpost, setAllpost] = useState([]);
     const [allCatePost, setAllCatePost] = useState([]);
     const [catePostId, setCatePostId] = useState('');
 
     useEffect(() => {
-        const getAllSpost = async () => {
-            try {
-                const allSposts = await postsApi.getAll();
-                setAllpost(allSposts.data);
-            } catch (error) {}
-        };
-        getAllSpost();
-    }, []);
-
-    useEffect(() => {
         const getAllCatePost = async () => {
+            setLoading(true);
             try {
                 const allCatePost = await catePostApi.getAll();
                 setAllCatePost(allCatePost.data.data);
+                setLoading(false);
             } catch (error) {
                 console.log('lỗi lây danh mục', error);
+                setLoading(false);
             }
         };
         getAllCatePost();
@@ -53,16 +45,24 @@ function TekZoneCate() {
 
     useEffect(() => {
         const getByIdPost = async () => {
+            setLoading(true);
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
+                setLoading(false);
                 setCatePostId(byIdCatePost.data);
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);
+                setLoading(false);
             }
         };
         getByIdPost();
     }, [params.id]);
-
+    const handleSroll = () =>
+        window.scroll({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+        });
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
@@ -111,7 +111,7 @@ function TekZoneCate() {
                     <Slider {...settings}>
                         {catePostId?.post?.map((item, index) => (
                             <li key={index}>
-                                <Link to={`/tekzonedetail/${item.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${item.id}`}>
                                     <div className={cx('size-img-title')}>
                                         <img src={item.image} alt={item.title} />
                                         <h3 className={cx('title')}>{item.title}</h3>
@@ -126,7 +126,7 @@ function TekZoneCate() {
                     {allCatePost?.map((item) =>
                         item?.subs.map((items, index) => (
                             <li key={index}>
-                                <Link to={`/tekzonecate/${items.id}/${items.slug}`}>
+                                <Link onClick={handleSroll} to={`/tekzonecate/${items.id}/${items.slug}`}>
                                     <h3>{items?.name}</h3>
                                 </Link>
                             </li>
@@ -141,7 +141,7 @@ function TekZoneCate() {
                     <div className={cx('newsest')}>
                         {catePostId?.post?.map((listPost, index) => (
                             <div className={cx('news-item')} key={index}>
-                                <Link to={`/tekzonedetail/${listPost.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${listPost.id}`}>
                                     <div className={cx('img-item', 'c-4')}>
                                         <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
                                     </div>
