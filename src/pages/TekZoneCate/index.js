@@ -25,27 +25,19 @@ function TekZoneCate() {
     const params = useParams();
 
     const [loading, setLoading] = useState(false);
-    const [allSpost, setAllpost] = useState([]);
     const [allCatePost, setAllCatePost] = useState([]);
     const [catePostId, setCatePostId] = useState('');
 
     useEffect(() => {
-        const getAllSpost = async () => {
-            try {
-                const allSposts = await postsApi.getAll();
-                setAllpost(allSposts.data);
-            } catch (error) {}
-        };
-        getAllSpost();
-    }, []);
-
-    useEffect(() => {
         const getAllCatePost = async () => {
+            setLoading(true);
             try {
                 const allCatePost = await catePostApi.getAll();
                 setAllCatePost(allCatePost.data.data);
+                setLoading(false);
             } catch (error) {
                 console.log('lỗi lây danh mục', error);
+                setLoading(false);
             }
         };
         getAllCatePost();
@@ -53,16 +45,24 @@ function TekZoneCate() {
 
     useEffect(() => {
         const getByIdPost = async () => {
+            setLoading(true);
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
+                setLoading(false);
                 setCatePostId(byIdCatePost.data);
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);
+                setLoading(false);
             }
         };
         getByIdPost();
     }, [params.id]);
-
+    const handleSroll = () =>
+        window.scroll({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+        });
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
@@ -70,7 +70,7 @@ function TekZoneCate() {
                 <div className={cx('tekzone__list')}>
                     <ul className={cx('list__slider')}>
                         <li className={cx('list-slider-one', 'c-8')}>
-                            <a href="#">
+                            <a href="">
                                 <div className={cx('size-img-title')}>
                                     <img src={images.tekzone__1} alt="Slider1" />
                                     <h3>
@@ -109,40 +109,16 @@ function TekZoneCate() {
 
                 <div className={cx('list__slider-mb')}>
                     <Slider {...settings}>
-                        <li>
-                            <a href="">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__1} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Cách tải Zing Play trên iOS đơn giản nhất, cho bạn thỏa sức giải trí với cổng
-                                        game hàng đầu Việt Nam
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__2} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Cách cài nhạc chuông iPhone remix hay nhất, giúp người dùng cảm thấy thú vị hơn
-                                        khi có cuộc gọi đến
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__3} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Tháng 11 deal ngon hết ý cùng MacBook Air, giá cực tốt chỉ từ 22.69 triệu đồng
-                                        tại TopZone, nhanh tay tậu ngay
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
+                        {catePostId?.post?.map((item, index) => (
+                            <li key={index}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${item.id}`}>
+                                    <div className={cx('size-img-title')}>
+                                        <img src={item.image} alt={item.title} />
+                                        <h3 className={cx('title')}>{item.title}</h3>
+                                    </div>
+                                </Link>
+                            </li>
+                        ))}
                     </Slider>
                 </div>
 
@@ -150,7 +126,7 @@ function TekZoneCate() {
                     {allCatePost?.map((item) =>
                         item?.subs.map((items, index) => (
                             <li key={index}>
-                                <Link to={`/tekzonecate/${items.id}/${items.slug}`}>
+                                <Link onClick={handleSroll} to={`/tekzonecate/${items.id}/${items.slug}`}>
                                     <h3>{items?.name}</h3>
                                 </Link>
                             </li>
@@ -160,12 +136,12 @@ function TekZoneCate() {
 
                 <div className={cx('newsest__list')}>
                     <div className={cx('title-new')}>
-                        <h2>Mới nhất</h2>
+                        <h2>{catePostId.name}</h2>
                     </div>
                     <div className={cx('newsest')}>
                         {catePostId?.post?.map((listPost, index) => (
                             <div className={cx('news-item')} key={index}>
-                                <Link to={`/tekzonedetail/${listPost.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${listPost.id}`}>
                                     <div className={cx('img-item', 'c-4')}>
                                         <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
                                     </div>

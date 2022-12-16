@@ -11,6 +11,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import postsApi from '../../api/postApi';
 import catePostApi from '../../api/catePostApi';
+import Loading from '~/components/Loading';
+
 const cx = classNames.bind(styles);
 function TekZoneDetail() {
     const settings = {
@@ -20,7 +22,7 @@ function TekZoneDetail() {
         slidesToShow: 3,
         slidesToScroll: 3,
     };
-
+    const [loading, setLoading] = useState(false);
     const params = useParams();
     const [title, setTitle] = useState([]);
     const [content, setcontent] = useState([]);
@@ -32,6 +34,7 @@ function TekZoneDetail() {
     const [relateTo, setRelateTo] = useState([]);
     useEffect(() => {
         const getById = async () => {
+            setLoading(true);
             try {
                 const byId = await postsApi.getByClient(params.id);
                 setTitle(byId.data.title);
@@ -39,8 +42,10 @@ function TekZoneDetail() {
                 setUser(byId.data.author);
                 setViews(byId.data.views);
                 setIdCatePost(byId.data.subcategory_id);
+                setLoading(false);
             } catch (error) {
                 console.log('lỗi lấy id bài viết', error);
+                setLoading(false);
             }
         };
         getById();
@@ -48,19 +53,29 @@ function TekZoneDetail() {
 
     useEffect(() => {
         const getByIdPost = async () => {
+            setLoading(true);
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(idCatePost);
                 setRelateTo(byIdCatePost.data);
-                console.log('danh muc', byIdCatePost.data.post);
+                setLoading(false);
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);
+                setLoading(false);
             }
         };
         getByIdPost();
     }, [idCatePost]);
 
+    const handleSroll = () =>
+        window.scroll({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+        });
+
     return (
         <div className={cx('wrapper')}>
+            {loading ? <Loading /> : ''}
             <div className={cx('tekZoneDetail')}>
                 <div className={cx('tekzone-link')}>
                     {/* <span className={cx('link')}>
@@ -111,13 +126,13 @@ function TekZoneDetail() {
 
                 <div className={cx('related-posts')}>
                     <div className={cx('posts-title')}>
-                        <h3> </h3>
+                        <h3> {relateTo.name}</h3>
                     </div>
                     <div className={cx('slider')}>
                         <Slider {...settings}>
                             {relateTo?.post?.map((item, index) => (
                                 <div className={cx('item-posts')} key={index}>
-                                    <Link to={`/tekzonedetail/${item.id}`}>
+                                    <Link onClick={handleSroll} to={`/tekzonedetail/${item.id}`}>
                                         <div className={cx('img-slider')}>
                                             <img src={item.image} alt={item.title} />
                                         </div>
@@ -134,17 +149,17 @@ function TekZoneDetail() {
                 <div className={cx('posts-mobile')}>
                     <div className={cx('newsest__list')}>
                         <div className={cx('title-new')}>
-                            <h1>Bài viết liên quan</h1>
+                            <h2>{relateTo.name}</h2>
                         </div>
                         <div className={cx('newsest')}>
-                            {relateTo?.post.map((item, index) => (
+                            {relateTo?.post?.map((items, index) => (
                                 <div className={cx('news-item')} key={index}>
-                                    <Link to={'tekzonedetail'}>
+                                    <Link onClick={handleSroll} to={`/tekzonedetail/${items.id}`}>
                                         <div className={cx('img-item')}>
-                                            <img src={item.image} alt={item.title} />
+                                            <img src={items.image} alt={items.title} />
                                         </div>
                                         <div className={cx('title-item')}>
-                                            <h3>{item.title}</h3>
+                                            <h3>{items.title}</h3>
 
                                             <div className={cx('time-post')}>
                                                 <p>11/11</p>

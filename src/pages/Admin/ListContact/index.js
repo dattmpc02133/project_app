@@ -83,7 +83,7 @@ function ListContact() {
                                     <th>Dịch vụ</th>
                                     <th>Số diện thoại</th>
                                     <th>Thời gian liên hệ</th>
-                                    <th colSpan="2" className="text-right">
+                                    <th colSpan="2" className="text-center">
                                         Thao tác
                                     </th>
                                 </tr>

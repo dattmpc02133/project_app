@@ -134,7 +134,7 @@ const Cart = () => {
         data.shipping_method_id = 5;
 
         console.log(data);
-        payCOD(data);
+        // payCOD(data);
     };
 
     useEffect(() => {

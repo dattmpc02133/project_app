@@ -121,6 +121,13 @@ const Category = () => {
                                     subcategory_id: item?.subcategory_id,
                                 }}
                                 className={cx('olw-item-link')}
+                                onClick={() =>
+                                    window.scroll({
+                                        top: 0,
+                                        left: 0,
+                                        behavior: 'smooth',
+                                    })
+                                }
                             >
                                 <div className={cx('olw-newDiscount-head')}>
                                     <label>Moi</label>

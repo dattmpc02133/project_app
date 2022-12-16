@@ -4,6 +4,8 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
 import 'slick-carousel/slick/slick.css';
 
+import '~/assets/scss/admin/style.css';
+
 import classNames from 'classnames/bind';
 import { useEffect, useRef, useState, useContext } from 'react';
 import { FcApproval } from 'react-icons/fc';
@@ -397,7 +399,12 @@ const DetailProduct = () => {
     const urlhinh = imageSliderThumb?.collection_images.concat(imgUrl).map((img) => {
         return { image: img };
     });
-
+    const handleScrollToTop = () =>
+        window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth',
+        });
     return (
         <>
             <div className={cx('detail-box')}>
@@ -410,13 +417,13 @@ const DetailProduct = () => {
                                 data={urlhinh.reverse()}
                                 time={2000}
                                 width="850px"
-                                height="500px"
+                                height="550px"
                                 radius="10px"
                                 captionPosition="bottom"
                                 pauseIconSize="40px"
                                 slideImageFit="cover"
                                 thumbnails={true}
-                                thumbnailWidth="100px"
+                                thumbnailWidth="120px"
                             />
                         </div>
                         <div className={cx('aside', 'c-6')}>
@@ -655,7 +662,7 @@ const DetailProduct = () => {
                                         }}
                                         className={cx('olw-item-link', 'c-3')}
                                         key={index}
-                                        sta
+                                        onClick={handleScrollToTop}
                                     >
                                         <div className={cx('olw-newDiscount-head')}>
                                             {/* <label>{item.news}</label> */}
