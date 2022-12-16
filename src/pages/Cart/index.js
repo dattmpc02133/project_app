@@ -135,7 +135,7 @@ const Cart = () => {
 
         console.log(data);
 
-        payCOD(data);
+        // payCOD(data);
     };
 
     useEffect(() => {
@@ -149,7 +149,7 @@ const Cart = () => {
     };
 
     const changeProvinceId = (id) => {
-        setDistrictId(id);
+        setProvinceId(id);
     };
 
     const changeWardId = (id) => {

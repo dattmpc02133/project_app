@@ -186,11 +186,11 @@
         color: var(--sub-white-color);
         border-radius: 12px;
         text-align: center;
-        padding: 18px 0;
         background: #0071e3;
         font-weight: 700;
         margin-bottom: var(--p-m-primary);
         .cart-pays {
+            padding: 18px 0;
             display: block;
             &:hover {
                 opacity: 0.8;
