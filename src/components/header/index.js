@@ -31,14 +31,21 @@ function Header() {
     };
 
     // Global State
-    const { listCart } = useContext(CartContext);
+    const { listCart, getCart } = useContext(CartContext);
     const { user, name } = useContext(UserContext);
 
     useEffect(() => {
+        // if (user) {
+        //     getCart();
+        // }
         if (listCart != undefined) {
             setCartNum(listCart?.details?.length);
         }
     }, [listCart]);
+
+    useEffect(() => {
+        getCart();
+    }, [user]);
 
     useEffect(() => {
         const fetchHeaderCategory = async (id) => {

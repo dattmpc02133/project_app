@@ -47,6 +47,8 @@ export const CartContextProvider = ({ children }) => {
         if (objDataAd != null) {
             // navigate('/login');
             getCart();
+        } else {
+            getCart();
         }
     }, [objDataAd]);
 
@@ -186,6 +188,7 @@ export const CartContextProvider = ({ children }) => {
     };
 
     const value = {
+        getCart,
         addToCart,
         listCart,
         setListCart,

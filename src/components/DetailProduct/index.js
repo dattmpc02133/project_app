@@ -125,7 +125,6 @@ const DetailProduct = () => {
     const listColors = useMemo(() => {
         if (dataVariants) {
             const results = dataVariants?.filter((variant) => variant?.variant_id == variantID);
-
             if (results.length > 0) {
                 setItemColorActive(results[0]);
             }
@@ -246,29 +245,55 @@ const DetailProduct = () => {
 
         if (user != undefined) {
             console.log('user', user);
-            // addToCart(data);
+            addToCart(data);
         } else {
+            // const data = {
+            //     coupon_code: null,
+            //     coupon_id: null,
+            //     // details: [{…}],
+            //     discount: '',
+            //     discount_formatted: '',
+            //     email: '',
+            //     fee_ship: '18000',
+            //     fee_ship_formatted: '18,000đ',
+            //     payment_method: null,
+            //     payment_method_id: 2,
+            //     phone: '',
+            //     province_id: '',
+            //     district_id: '',
+            //     ward_id: '',
+            //     shipping_method: null,
+            //     shipping_method_id: 5,
+            //     total: '',
+            //     total_formatted: '',
+            // };
+
             const data = {
-                coupon_code: null,
-                coupon_id: null,
-                // details: [{…}],
-                discount: '',
-                discount_formatted: '',
-                email: '',
-                fee_ship: '18000',
-                fee_ship_formatted: '18,000đ',
-                id: 21,
-                payment_method: null,
-                payment_method_id: 2,
-                phone: '0974821032',
-                province: ' Cần Thơ',
-                province_id: '59',
-                shipping_method: null,
-                shipping_method_id: 5,
-                total: '',
-                total_formatted: '',
+                product_id: itemColorActive.product_id,
+                variant_id: itemColorActive.variant_id,
+                color_id: itemColorActive.color_id,
+                price: PriceDisCount,
+                image: imageSliderThumb.url_image,
+                quantity: 1,
             };
-            console.log('Chưa đăng nhập', data);
+            const listProductLocal = localStorage.getItem('listCart');
+            if (listProductLocal != undefined) {
+                const listCartLocal = JSON.parse(listProductLocal);
+                listCartLocal?.map((item, index) => {
+                    if (
+                        item.product_id == data.product_id &&
+                        item.color_id == data.color_id &&
+                        item.variant_id == data.variant_id
+                    ) {
+                        console.log('Cập nhật số lượng', listCartLocal[index]);
+                    } else {
+                        listCartLocal.push(data);
+                        console.log('listCartLocal', listCartLocal);
+                    }
+                });
+            } else {
+                localStorage.setItem('listCart', JSON.stringify([data]));
+            }
         }
     };
     // comments

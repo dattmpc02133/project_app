@@ -134,7 +134,6 @@ const Cart = () => {
         data.shipping_method_id = 5;
 
         console.log(data);
-
         // payCOD(data);
     };
 
@@ -149,7 +148,7 @@ const Cart = () => {
     };
 
     const changeProvinceId = (id) => {
-        setDistrictId(id);
+        setProvinceId(id);
     };
 
     const changeWardId = (id) => {
