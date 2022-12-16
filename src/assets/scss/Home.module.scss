@@ -153,14 +153,14 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                width: 100%;
                 ul {
                     display: flex;
                     overflow: hidden;
                     text-align: center;
                     align-items: center;
-                    justify-content: center;
                     flex-wrap: nowrap;
-                    gap: 12px;
+                    gap: 5px;
                     li {
                         display: inline-block;
                         vertical-align: middle;
