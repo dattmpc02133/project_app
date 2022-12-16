@@ -96,14 +96,14 @@ const Cart = () => {
     }, [listCart]);
 
     const getVariantProduct = (id) => {
-        const variantProduct = allProducts?.data?.filter((item) => item.id == id);
+        const variantProduct = allProducts?.filter((item) => item.id == id);
         if (variantProduct != undefined) {
             return variantProduct[0]?.variants;
         }
     };
 
     const getVariantDetails = (idVariant, idProduct) => {
-        const variantDetails = allProducts?.data?.filter((item) => item.id == idProduct);
+        const variantDetails = allProducts?.filter((item) => item.id == idProduct);
         if (variantDetails != undefined) {
             const listVariants = variantDetails[0]?.variantsDetailsByProduct?.filter(
                 (item) => item.variant_id == idVariant,
@@ -135,7 +135,7 @@ const Cart = () => {
 
         console.log(data);
 
-        payCOD(data);
+        // payCOD(data);
     };
 
     useEffect(() => {
@@ -167,7 +167,7 @@ const Cart = () => {
         setNewListWarn(fillerWard);
     }, [districtId]);
 
-    // console.log('listProDettails: ', listProDettails);
+    console.log('listCart: ', listCart);
 
     return (
         <div className={cx('wrapper')}>
