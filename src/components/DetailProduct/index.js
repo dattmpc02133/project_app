@@ -21,6 +21,7 @@ import cartApi from '~/api/cartApi';
 
 // GLobal State
 import { CartContext } from '~/Context/CartContext';
+import { UserContext } from '~/Context/UserContext';
 
 // tab descriptions
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -115,6 +116,8 @@ const DetailProduct = () => {
         setStatusHandle,
         setModal,
     } = useContext(CartContext);
+
+    const { user } = useContext(UserContext);
 
     //
     const listColors = useMemo(() => {
@@ -238,7 +241,33 @@ const DetailProduct = () => {
             color_id: itemColorActive.color_id,
             quantity: 1,
         };
-        addToCart(data);
+
+        if (user != undefined) {
+            console.log('user', user);
+            // addToCart(data);
+        } else {
+            const data = {
+                coupon_code: null,
+                coupon_id: null,
+                // details: [{…}],
+                discount: '',
+                discount_formatted: '',
+                email: '',
+                fee_ship: '18000',
+                fee_ship_formatted: '18,000đ',
+                id: 21,
+                payment_method: null,
+                payment_method_id: 2,
+                phone: '0974821032',
+                province: ' Cần Thơ',
+                province_id: '59',
+                shipping_method: null,
+                shipping_method_id: 5,
+                total: '',
+                total_formatted: '',
+            };
+            console.log('Chưa đăng nhập', data);
+        }
     };
     // comments
     useEffect(() => {

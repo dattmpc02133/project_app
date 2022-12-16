@@ -51,7 +51,6 @@ const EditProduct = () => {
     const [showImgTbl, setShowImgTbl] = useState(false);
     const [urlImage, setUrlImage] = useState();
     const [statusImg, setStatusImg] = useState();
-    const [oldSubCate, setOldSubCate] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,13 +72,15 @@ const EditProduct = () => {
                 const resultSubCateById = await subCateProductApi.getById(resultProduct.data.subcategory_id);
                 // setOldSubCate(resultSubCate.data);
                 setBrand(resultSubCateById.data.brand_id);
-                console.log('resultSubCate', resultSubCateById.data);
                 setCategory(resultProduct.data.category);
 
-                // const newListSubCate = listSubCategory.filter(
-                //     (item) => item.category_id == category && item.brand_id == idBrand,
-                // );
-                // setNewSubListCategory(newListSubCate);
+                const newListSubCate = resultListSubCate?.data?.filter(
+                    (item) =>
+                        item.category_id == resultProduct.data.category &&
+                        item.brand_id == resultSubCateById.data.brand_id,
+                );
+                setNewSubListCategory(newListSubCate);
+                setSubCategoryId(resultSubCateById.data.id);
 
                 setLoading(false);
             } catch (error) {
@@ -129,7 +130,7 @@ const EditProduct = () => {
             collection_images: image,
 
             specification_infomation: null,
-            subcategory_id: category,
+            subcategory_id: subCategoryId,
             variant_ids: variant,
             colors_by_variant_id: colorByVariant,
             prices_by_variant_id: priceByVariant,
@@ -156,8 +157,8 @@ const EditProduct = () => {
                 setMessErr(res.message);
             }
         };
-        // updateProduct();
-        console.log('data', data);
+        updateProduct();
+        console.log(data);
     };
 
     useEffect(() => {
@@ -262,8 +263,6 @@ const EditProduct = () => {
         }
         return null;
     };
-
-    console.log(product);
 
     // End Logic Form Variant
     // const arrvariantProduct = [];
@@ -569,16 +568,16 @@ const EditProduct = () => {
                                     id="CateProduct"
                                     required
                                     onChange={(e) => setSubCategoryId(e.target.value)}
+                                    value={subCategoryId}
                                     className="input__text--ctrl"
                                 >
                                     <option>--Chọn danh mục chi tiết sản phẩm--</option>
-                                    {Array.isArray(newSubListCategory)
-                                        ? newSubListCategory.map((item, index) => (
-                                              <option key={index} value={item.id}>
-                                                  {item.name}
-                                              </option>
-                                          ))
-                                        : false}
+                                    {Array.isArray(newSubListCategory) &&
+                                        newSubListCategory.map((item, index) => (
+                                            <option key={index} value={item.id}>
+                                                {item.name}
+                                            </option>
+                                        ))}
                                 </select>
                             </div>
                         </div>
