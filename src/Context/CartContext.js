@@ -53,6 +53,7 @@ export const CartContextProvider = ({ children }) => {
     }, [objDataAd]);
 
     const handleChangeVariantId = (idVariant, index) => {
+        console.log(idVariant);
         if (listCart?.details != undefined) {
             const inputData = [...listProDettails];
             inputData[index].variant_id = idVariant;
@@ -65,7 +66,6 @@ export const CartContextProvider = ({ children }) => {
         setLoading(true);
         try {
             const result = await cartApi.update(data);
-            console.log(result);
             await getCart();
             setLoading(false);
         } catch (error) {

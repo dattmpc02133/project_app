@@ -134,7 +134,7 @@ const Cart = () => {
         data.shipping_method_id = 5;
 
         console.log(data);
-        // payCOD(data);
+        payCOD(data);
     };
 
     useEffect(() => {
@@ -166,7 +166,7 @@ const Cart = () => {
         setNewListWarn(fillerWard);
     }, [districtId]);
 
-    console.log('listCart: ', listCart);
+    console.log(listCart?.details);
 
     return (
         <div className={cx('wrapper')}>
@@ -183,11 +183,11 @@ const Cart = () => {
                     <form onSubmit={(e) => handlePay(e)}>
                         <div className={cx('middleCart')}>
                             <ul className={cx('listing-cart')}>
-                                {listCart?.details?.map((item, index) => (
+                                {listProDettails?.map((item, index) => (
                                     <li key={index} className={cx('prd-item')}>
                                         <div className={cx('imgsp')}>
                                             <Link to="/iphone" className={cx('imgsp__link')}>
-                                                <img src={item.product_image} />
+                                                <img src={listCart?.details[index].product_image} />
                                             </Link>
                                             <div
                                                 className={cx('btn__delete--cart')}
@@ -224,7 +224,7 @@ const Cart = () => {
                                                     <select
                                                         className={cx('prd-size-and-color')}
                                                         onChange={(e) => handleChangeVariantId(e.target.value, index)}
-                                                        value={item?.variant_id}
+                                                        value={item.variant_id}
                                                     >
                                                         {getVariantProduct(item.product_id)?.map((variant, index) => (
                                                             <option key={index} value={variant.id}>
