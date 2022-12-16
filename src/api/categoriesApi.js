@@ -35,6 +35,16 @@ const categoriesApi = {
         const url = `/admin/subcategories/${id}`;
         return axiosClient.patch(url, data);
     },
+
+    getAllSubsProduct: (params) => {
+        if (params) {
+            const url = `/admin/subcategoriesProducts/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/admin/subcategoriesProducts';
+            return axiosClient.get(url);
+        }
+    },
 };
 
 export default categoriesApi;

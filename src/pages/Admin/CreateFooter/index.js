@@ -25,6 +25,7 @@ function CreateFooter() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setCateFooter('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;
@@ -59,6 +60,7 @@ function CreateFooter() {
                                     className="input__text--ctrl"
                                     placeholder="Tên danh mục footer..."
                                     onChange={(e) => setCateFooter(e.target.value)}
+                                    required
                                 />
                             </div>
                         </div>

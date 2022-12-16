@@ -42,6 +42,8 @@ function EditBrand() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setNameBrand('');
+                setSelectActive('');
             } catch (error) {
                 console.log('Failed to Edit: ', error);
                 const res = error.response.data;
@@ -97,6 +99,7 @@ function EditBrand() {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tên danh muc"
+                                    required
                                     onChange={(e) => setNameBrand(e.target.value)}
                                 />
                             </div>

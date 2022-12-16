@@ -56,7 +56,6 @@ function TekZoneCate() {
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
                 setCatePostId(byIdCatePost.data);
-                console.log(byIdCatePost.data, 'xin');
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);
             }
@@ -197,7 +196,7 @@ function TekZoneCate() {
                         ))} */}
 
                         <div className={cx('viewmore-news')}>
-                            <a href="#">Xem thêm</a>
+                            <span>Xem thêm</span>
                         </div>
                     </div>
                 </div>

@@ -42,6 +42,7 @@ function EditFooter() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setNameFooter('');
             } catch (error) {
                 console.log('Failed to Edit: ', error);
                 const res = error.response.data;

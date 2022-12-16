@@ -16,22 +16,17 @@ function CreateContact() {
     const [modal, setModal] = useState(false);
     const [contact, setContact] = useState([]);
     const [inputservice, setDataservice] = useState('');
-    const [inputphone , setDataphone] = useState('');
+    const [inputphone, setDataphone] = useState('');
     const [inputtime, setDatatime] = useState('');
-
-
 
     // console.log('Editor', editContent);
     console.log('id', dataselect);
-    console.log('service', inputservice );
-    console.log('phone', inputphone );
-    console.log('time', inputtime );
-   
+    console.log('service', inputservice);
+    console.log('phone', inputphone);
+    console.log('time', inputtime);
 
-
-    
     useEffect(() => {
-        const getAllContact = async ()=> {
+        const getAllContact = async () => {
             try {
                 const allContact = await footerApi.getAll();
                 setContact(allContact.data);
@@ -39,7 +34,6 @@ function CreateContact() {
             } catch (error) {
                 console.log('lỗi lấy danh mục không thành công', error);
             }
-
         };
         getAllContact();
     }, []);
@@ -47,34 +41,32 @@ function CreateContact() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-      const data = {
-        category_id: dataselect,
-        name: inputservice,
-        phone: inputphone,
-        time: inputtime,
-      
+        const data = {
+            category_id: dataselect,
+            name: inputservice,
+            phone: inputphone,
+            time: inputtime,
+        };
+        console.log('datas', data);
+        const addContact = async () => {
+            setLoading(true);
+            try {
+                const result = await footerApi.createContact(data);
+                setMessStatus(result.status);
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
+            } catch (error) {
+                console.log('Thêm không thành công: ', error);
+                // const res = error.response.data;
+                // setMessStatus(res.message);
+                setModal(true);
+                setStatusHandle(false);
+                setLoading(false);
+            }
+        };
+        addContact();
     };
-      console.log('datas', data);
-    const addContact = async () => {
-        setLoading(true);
-        try {
-            const result = await footerApi.createContact(data); 
-            setMessStatus(result.status);
-            setStatusHandle(true);
-            setModal(true);
-            setLoading(false);
-        } catch (error) {
-            console.log('Thêm không thành công: ', error);
-            const res = error.response.data;
-            setMessStatus(res.message);
-            setModal(true);
-            setStatusHandle(false);
-            setLoading(false);
-        }
-    };
-    addContact();
-    };
-    
 
     return (
         <div className="wrapper">
@@ -103,7 +95,7 @@ function CreateContact() {
                                     </option>
 
                                     {contact.map((item, index) => (
-                                        <option key={index} value={item.id=1} >
+                                        <option key={index} value={(item.id = 1)}>
                                             {item.name}
                                         </option>
                                     ))}
@@ -111,60 +103,51 @@ function CreateContact() {
                             </div>
                         </div>
 
-
                         <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Dịch vụ </label>
                             </div>
                             <div className="input__text">
-                               <input 
-                               value={inputservice}
-                               onChange= {(e)=> setDataservice(e.target.value)}
-                                type="name"  className="input__text--ctrl" required="Vui lòng nhập số điện thoại hỗ trợ"
-                                 />
+                                <input
+                                    value={inputservice}
+                                    onChange={(e) => setDataservice(e.target.value)}
+                                    type="name"
+                                    className="input__text--ctrl"
+                                    required="Vui lòng nhập số điện thoại hỗ trợ"
+                                />
                             </div>
                         </div>
-
-
 
                         <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Số điện thoại liên hệ</label>
                             </div>
                             <div className="input__text">
-                               <input 
-                               value={inputphone}
-                               onChange = {(e) => setDataphone(e.target.value)}
-                               type="name"  className="input__text--ctrl" required="Vui lòng nhập số điện thoại hỗ trợ" 
-                               />
+                                <input
+                                    value={inputphone}
+                                    onChange={(e) => setDataphone(e.target.value)}
+                                    type="name"
+                                    className="input__text--ctrl"
+                                    required="Vui lòng nhập số điện thoại hỗ trợ"
+                                />
                             </div>
                         </div>
 
-
-
-                        
-                   
-
-
-
-                           <div className="input__group">
+                        <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Giờ liên hệ</label>
                             </div>
                             <div className="input__text">
-                               <input 
-                                 value={inputtime}
-                                 onChange = {(e) => setDatatime(e.target.value)}
-                                 type="name"  className="input__text--ctrl" required="Vui lòng nhập số điện thoại hỗ trợ" 
-                                  />
+                                <input
+                                    value={inputtime}
+                                    onChange={(e) => setDatatime(e.target.value)}
+                                    type="name"
+                                    className="input__text--ctrl"
+                                    required="Vui lòng nhập số điện thoại hỗ trợ"
+                                />
                             </div>
-                        </div>            
+                        </div>
 
-
-
-
-                        
-                                    
                         {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
@@ -172,7 +155,7 @@ function CreateContact() {
                         ) : (
                             false
                         )}
-                     
+
                         <div className="btn__form">
                             <button className="btn__form--ctrl">Thêm danh mục</button>
                         </div>

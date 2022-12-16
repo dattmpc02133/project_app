@@ -13,8 +13,13 @@ const postsApi = {
     },
 
     getAllClient: (params) => {
-        const url = 'client/load-post/';
-        return axiosClient.get(url, { params });
+        if (params) {
+            const url = `client/load-post/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = 'client/load-post/';
+            return axiosClient.get(url);
+        }
     },
 
     get: (id) => {

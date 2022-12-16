@@ -57,6 +57,9 @@ function EditProductSubs() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                setDataBrand('');
+                setDataCate('');
+                setDataName('');
             } catch (error) {
                 console.log('Failed to Update: ', error);
                 const res = error.response.data;
@@ -147,7 +150,8 @@ function EditProductSubs() {
                                 <input
                                     value={dataName}
                                     className="input__text--ctrl"
-                                    placeholder="Nội quy của hàng"
+                                    placeholder="SamSung"
+                                    required
                                     onChange={(e) => setDataName(e.target.value)}
                                 />
                             </div>

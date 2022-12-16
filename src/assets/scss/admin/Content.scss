@@ -344,10 +344,15 @@
 
         .active {
             color: #00b489;
+            background: none !important;
         }
 
         .an_active {
             color: #999;
+        }
+        // store
+        .amountActive {
+            color: #cd201f;
         }
     }
 }

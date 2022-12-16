@@ -77,6 +77,13 @@ const EditPost = () => {
                 setModal(true);
                 setLoading(false);
                 console.log(post);
+                setSubCategories('');
+                setTitlePost('');
+                setDescribe('');
+                setImgPost('');
+                setContent('');
+                setTitleMeta('');
+                setMetaKeyWord('');
             } catch (error) {
                 console.log('lỗi khi thêm', error);
                 const res = error.response.data;
@@ -131,6 +138,7 @@ const EditPost = () => {
                                     value={titlePost}
                                     id="ip-name"
                                     type="text"
+                                    required
                                     className="input__text--ctrl"
                                     placeholder="Tiêu đề bài viết..."
                                     onChange={(e) => setTitlePost(e.target.value)}
@@ -147,6 +155,7 @@ const EditPost = () => {
                                     type="text"
                                     className="input__text--ctrl"
                                     placeholder="Tóm tắt"
+                                    required
                                     value={describe}
                                     onChange={(e) => setDescribe(e.target.value)}
                                 />
@@ -161,6 +170,7 @@ const EditPost = () => {
                                 <input
                                     id="ip-name"
                                     type="text"
+                                    required
                                     className="input__text--ctrl"
                                     placeholder="Tóm tắt"
                                     value={imgPost}
@@ -177,6 +187,7 @@ const EditPost = () => {
                                 <input
                                     id="ip-name"
                                     type="text"
+                                    required
                                     className="input__text--ctrl"
                                     value={titleMeta}
                                     onChange={(e) => setTitleMeta(e.target.value)}
@@ -193,6 +204,7 @@ const EditPost = () => {
                                 <input
                                     id="ip-name"
                                     type="text"
+                                    required
                                     value={metaKeyWord}
                                     onChange={(e) => setMetaKeyWord(e.target.value)}
                                     className="input__text--ctrl"

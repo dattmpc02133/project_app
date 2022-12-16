@@ -1,3 +1,4 @@
+import { Carousel } from 'react-carousel-minimal';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick-theme.css';
@@ -72,7 +73,6 @@ const DetailProduct = () => {
     }, [search]);
     const productID = Search.get('id');
     const IDSubCategory = state?.subcategory_id;
-    // console.log("IDSubCategory",IDSubCategory);
     const [seeliststore, setSeeListStore] = useState();
     const [cityprovince, setCityProvince] = useState();
     const [city, setCity] = useState();
@@ -98,16 +98,11 @@ const DetailProduct = () => {
     const [comments, setComments] = useState();
     const [listComments, setListComments] = useState();
     const [repPlayComent, setRepPlayComent] = useState();
-    const [repPlayCommentNews, setRepPlayCommentNews] = useState();
     const [idRep, setIdRep] = useState();
     const [render, setRender] = useState();
-    const [renderReply, setRenderReply] = useState();
 
-    //
-    // const [loading, setLoading] = useState(false);
-    // const [modal, setModal] = useState(false);
-    // const [messStatus, setMessStatus] = useState();
-    // const [statusHandle, setStatusHandle] = useState();
+    //images slide detail
+    const [imageSliderThumb, setImageSliderThumb] = useState();
 
     //Import GobalState
     const {
@@ -147,10 +142,12 @@ const DetailProduct = () => {
     const handleChangeByIdProvinces = ({ dataProVince }) => {
         setProvinceID(dataProVince?.id);
         setProvinceNameActive(dataProVince?.name);
+        setCityProvince(!cityprovince);
     };
     const ChangeDistrictPostById = ({ dataDistrictItem }) => {
         setDistrictID(dataDistrictItem?.id);
         setDistrictNameActive(dataDistrictItem?.name);
+        setCity(!city);
     };
     const handleSeenList = () => {
         setSeeListStore(!seeliststore);
@@ -168,6 +165,7 @@ const DetailProduct = () => {
             try {
                 const resData = await productApi.get(productID);
                 const ProductDetailItem = resData?.data;
+                setImageSliderThumb(ProductDetailItem);
                 setProductDetail(ProductDetailItem);
                 setListTypeGB(ProductDetailItem?.variants);
                 setDataVariants(ProductDetailItem?.dataVariants);
@@ -188,8 +186,16 @@ const DetailProduct = () => {
         const fetchProvince = async () => {
             try {
                 const resProvide = await location.getAllProvince();
+                const resProvideNew = await location.getProvinceStore();
                 const dataProvide = resProvide?.data;
-                setDataAllProVince(dataProvide);
+                const dataProvideNew = resProvideNew.data.map((province) => Number(province));
+
+                const dataPrView = dataProvide?.filter((item) => {
+                    if (dataProvideNew.includes(item.id)) {
+                        return item;
+                    }
+                });
+                setDataAllProVince(dataPrView);
             } catch (error) {
                 console.log(error);
             }
@@ -326,43 +332,33 @@ const DetailProduct = () => {
     };
     const handleSubmitReplay = (e) => {
         e.preventDefault();
+
         const dataRepComment = {
             id_comment: idRep,
             rep_comment: repPlayComent,
         };
+        setRepPlayComent('');
         const createRepComment = async () => {
             setLoading(true);
             try {
                 const result = await commentsApi.create(dataRepComment);
                 console.log('result', result);
                 setLoading(false);
+                setMessStatus(result.message);
+                setStatusHandle(true);
+                setModal(true);
             } catch (error) {
-                console.log('Fail to create product', error);
+                console.log('Failed to add to cart: ', error);
+                const res = error.response.data;
+                setMessStatus(res.message);
                 setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
             }
         };
         createRepComment();
     };
-    // const handleSubmitReplayNews = (e) => {
-    //     e.preventDefault();
 
-    //     const dataRepComment = {
-    //         id_comment: idRep,
-    //         rep_comment: repPlayComent,
-    //     };
-    //     const createRepCommentNews = async () => {
-    //         setLoading(true);
-    //         try {
-    //             const result = await commentsApi.create(dataRepComment);
-    //             console.log('result', result);
-    //             setLoading(false);
-    //         } catch (error) {
-    //             console.log('Fail to create product', error);
-    //             setLoading(false);
-    //         }
-    //     };
-    //     // createRepCommentNews();
-    // };
     const handleActive = (index) => {
         if (render === index) {
             setRender('');
@@ -370,15 +366,12 @@ const DetailProduct = () => {
             setRender(index);
         }
     };
-    const handleReplyActive = (indexReply) => {
-        console.log('repPlayCommentNews', repPlayCommentNews);
-        console.log('indexReply', indexReply);
-        if (renderReply === indexReply) {
-            setRenderReply('');
-        } else {
-            setRenderReply(indexReply);
-        }
-    };
+
+    const imgUrl = imageSliderThumb?.url_image;
+    const urlhinh = imageSliderThumb?.collection_images.concat(imgUrl).map((img) => {
+        return { image: img };
+    });
+
     return (
         <>
             <div className={cx('detail-box')}>
@@ -387,9 +380,18 @@ const DetailProduct = () => {
                 {productDetail ? (
                     <div className={cx('content')}>
                         <div className={cx('article', 'c-6')}>
-                            <div className={cx('thumbnail-image')}>
-                                <img src={productDetail.url_image} />
-                            </div>
+                            <Carousel
+                                data={urlhinh.reverse()}
+                                time={2000}
+                                width="850px"
+                                height="500px"
+                                radius="10px"
+                                captionPosition="bottom"
+                                pauseIconSize="40px"
+                                slideImageFit="cover"
+                                thumbnails={true}
+                                thumbnailWidth="100px"
+                            />
                         </div>
                         <div className={cx('aside', 'c-6')}>
                             <div style={{ width: '100%' }}>
@@ -672,7 +674,9 @@ const DetailProduct = () => {
                                             onChange={(e) => setComments(e.target.value)}
                                             className={cx('form-addComment')}
                                         ></textarea>
-                                        <button type="submit">Gửi</button>
+                                        <button type="submit" className={cx('btn-seend_comment')}>
+                                            Gửi
+                                        </button>
                                     </form>
                                 ) : (
                                     'Đăng nhâp để bình luận sản phẩm.....!!!'
@@ -680,69 +684,61 @@ const DetailProduct = () => {
                                 <div className={cx('comment-list')}>
                                     {listComments?.map((cnnd, index) => (
                                         <div className={cx('cmnd-name')} key={index}>
-                                            <p className={cx('cmt-top-name')}>
-                                                <strong>{cnnd.user_name}</strong>
-                                            </p>
-                                            <div className={cx('cmt-content')}>{cnnd.content}</div>
-                                            <div
-                                                className={cx('cmt-command')}
-                                                onClick={(e) => {
-                                                    // listComments[index].showReply = true;
-                                                    // setRender(!render);
-                                                    itemreplay({ id: cnnd.id });
-                                                    handleActive(index);
-                                                }}
-                                            >
-                                                Trả lời
+                                            <div className={cx('cmnd_box')}>
+                                                <p className={cx('cmt-top-name')}>
+                                                    <strong>{cnnd.user_name}</strong>
+                                                </p>
+                                                <div className={cx('cmt-content')}>{cnnd.content}</div>
+                                                <div
+                                                    className={cx('cmt-command')}
+                                                    onClick={(e) => {
+                                                        itemreplay({ id: cnnd.id });
+                                                        handleActive(index);
+                                                    }}
+                                                >
+                                                    Trả lời
+                                                </div>
                                             </div>
 
+                                            <div className={cx('wrapper-answer-reply')}>
+                                                {cnnd?.rep_coment?.map((item, indexReply) => {
+                                                    if (item.is_active == 1) {
+                                                        return (
+                                                            <div className={cx('view-content_answer')} key={indexReply}>
+                                                                <>
+                                                                    <strong>{item.rep_user_name}</strong>
+                                                                    <div>{item.rep_comment}</div>
+                                                                    <div
+                                                                        className={cx('cmt-command')}
+                                                                        onClick={(e) => {
+                                                                            itemreplay({ id: cnnd.id });
+                                                                            handleActive(index);
+                                                                        }}
+                                                                    >
+                                                                        Trả lời
+                                                                    </div>
+                                                                </>
+                                                            </div>
+                                                        );
+                                                    } else {
+                                                        return false;
+                                                    }
+                                                })}
+                                            </div>
                                             <form
                                                 className={render === index ? cx('cmt-', 'active') : cx('cmt-')}
                                                 onSubmit={(e) => handleSubmitReplay(e)}
                                             >
-                                                <input
+                                                <textarea
                                                     value={repPlayComent}
                                                     name="txtContent"
-                                                    placeholder="Viết Câu Trả Lời"
                                                     width="100%"
                                                     onChange={(e) => setRepPlayComent(e.target.value)}
-                                                />
+                                                ></textarea>
+                                                <button type="submit" className={cx('btn-seend_comment')}>
+                                                    Gửi
+                                                </button>
                                             </form>
-                                            {cnnd?.rep_coment?.map((item, indexReply) => {
-                                                if (item.is_active == 1) {
-                                                    return (
-                                                        <div className={cx('view-content_answer')}>
-                                                            <>
-                                                                <strong>@{item.rep_user_name}</strong>
-                                                                <div>{item.rep_comment}</div>
-                                                                <div
-                                                                    className={cx('cmt-command')}
-                                                                    onClick={(e) => {
-                                                                        handleReplyActive(indexReply);
-                                                                    }}
-                                                                >
-                                                                    Trả lời
-                                                                </div>
-                                                                {/* <form
-                                                                    className={cx('cmt-')}
-                                                                    onSubmit={(e) => handleSubmitReplayNews(e)}
-                                                                >
-                                                                    <input
-                                                                        value={repPlayCommentNews}
-                                                                        placeholder="Viết Câu Trả Lời"
-                                                                        width="100%"
-                                                                        onChange={(e) =>
-                                                                            setRepPlayCommentNews(e.target.value)
-                                                                        }
-                                                                    />
-                                                                </form> */}
-                                                            </>
-                                                        </div>
-                                                    );
-                                                } else {
-                                                    return false;
-                                                }
-                                            })}
                                         </div>
                                     ))}
                                 </div>

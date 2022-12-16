@@ -8,7 +8,7 @@ import Slider from 'react-slick';
 import Loading from '~/components/Loading';
 import catePostApi from '~/api/catePostApi';
 import postsApi from '../../api/postApi';
-
+import Pagination from '~/components/Pagination';
 const cx = classNames.bind(styles);
 
 function TekZone() {
@@ -21,22 +21,45 @@ function TekZone() {
     };
     const { state } = useLocation();
     const data = state.data;
-    console.log('data', data);
+
     const [dataCategory, setDataCategory] = useState();
     const [loading, setLoading] = useState(false);
-    const [allSpost, setAllpost] = useState('');
+    const [allSpost, setAllpost] = useState([]);
+    const [pageSpost, setPageSpost] = useState([]);
+    const [page, setPage] = useState(1);
 
     useEffect(() => {
-        const getAllSpost = async () => {
-            const allSposts = await postsApi.getAllClient();
-            setAllpost(allSposts.data);
-            console.log('tin tức', allSposts.data.title);
-        };
         getAllSpost();
     }, []);
 
-    const handleCateId = (list) => {
-        console.log('danh mục', list);
+    const getAllSpost = async (params) => {
+        try {
+            const allSposts = await postsApi.getAllClient(params);
+            setAllpost(allSposts.data);
+            setPageSpost(allSposts.paginator);
+        } catch (error) {
+            console.log('Failed all POst', error);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            getAllSpost(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        if (page < pageSpost?.totalPages) {
+            const pageId = page + 1;
+            setPage(pageId);
+            getAllSpost(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        getAllSpost(`?page=${page}`);
     };
 
     return (
@@ -137,30 +160,29 @@ function TekZone() {
                         <h2>Mới nhất</h2>
                     </div>
                     <div className={cx('newsest')}>
-                        {Array.isArray(allSpost)
-                            ? allSpost.map((listPost) => (
-                                  <div className={cx('news-item')} key={listPost.id}>
-                                      <Link to={`/tekzonedetail/${listPost?.id}`}>
-                                          <div className={cx('img-item', 'c-4')}>
-                                              <img
-                                                  className={cx('img-post')}
-                                                  src={listPost.image}
-                                                  alt={listPost.title}
-                                              />
-                                          </div>
-                                          <div className={cx('title-item')}>
-                                              <h3>{listPost.title}</h3>
-                                              <div className={cx('time-post')}>
-                                                  <p>1 giờ trước</p>
-                                              </div>
-                                          </div>
-                                      </Link>
-                                  </div>
-                              ))
-                            : false}
-
+                        {allSpost.map((listPost, index) => (
+                            <div className={cx('news-item')} key={index}>
+                                <Link to={`/tekzonedetail/${listPost?.id}`}>
+                                    <div className={cx('img-item', 'c-4')}>
+                                        <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
+                                    </div>
+                                    <div className={cx('title-item')}>
+                                        <h3>{listPost.title}</h3>
+                                        <div className={cx('time-post')}>
+                                            <p>1 giờ trước</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
                         <div className={cx('viewmore-news')}>
-                            <a href="#">Xem thêm</a>
+                            <Pagination
+                                curentPage={page}
+                                totalPages={pageSpost?.totalPages}
+                                handlePrevPage={handlePrevPage}
+                                handleChangePage={handleChangePage}
+                                handleNextPage={handleNextPage}
+                            />
                         </div>
                     </div>
                 </div>
