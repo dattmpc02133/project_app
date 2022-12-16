@@ -53,7 +53,7 @@ const CreateProduct = () => {
                 const resultBrand = await brandApi.getAll();
                 setListBrand(resultBrand.data.data);
                 const resultColor = await colorApi.getAll();
-                setListColor(resultColor.data);
+                setListColor(resultColor.data.data);
                 const resultSubCate = await subCateProductApi.getAll();
                 setListSubCategory(resultSubCate.data);
                 const resultCate = await cateProductApi.getAll();
@@ -213,6 +213,7 @@ const CreateProduct = () => {
     const getColor = (id) => {
         if (id > 0) {
             let color = listColor.filter((item) => item.id == id);
+            console.log('color', color);
             return color[0].color_code;
         }
         return null;
