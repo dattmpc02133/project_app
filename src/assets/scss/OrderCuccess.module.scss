@@ -1,0 +1,100 @@
+.wrapper {
+    background-color: var(--BackGroundColor);
+    padding: 60px 0;
+    .order__wrapper {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        .order__block {
+            .oreder__heading {
+                h2 {
+                    font-size: 2.4rem;
+                    line-height: 4rem;
+                    margin-bottom: 10px;
+                }
+            }
+
+            .oreder__content {
+                padding: 20px 0;
+                .oreder__item {
+                    font-size: 1.6rem;
+                    display: flex;
+                    align-items: center;
+
+                    .oreder__item--title {
+                        min-width: 250px;
+                    }
+
+                    .oreder__item--content {
+                        flex: 1;
+                    }
+                }
+
+                .oreder__item + .oreder__item {
+                    padding-top: 20px;
+                }
+            }
+        }
+
+        .table__block {
+            width: 100%;
+            margin-top: 60px;
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                th {
+                    text-align: left;
+                }
+
+                .img__tbl {
+                    width: 50px;
+                    height: 50px;
+                    object-fit: cover;
+                }
+
+                .btn__tbl {
+                    cursor: pointer;
+                    &:hover {
+                        color: var(--primary-color-ad);
+                    }
+                }
+
+                .tbl__box--limit {
+                    line-height: 2rem;
+                    overflow: hidden;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    --webkit-user-select: none;
+                }
+
+                .tbl__20 {
+                    width: 20%;
+                }
+
+                th,
+                td {
+                    padding: 14px 10px;
+                    line-height: 1.8rem;
+                }
+
+                tr {
+                    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16);
+                }
+
+                .active {
+                    color: #00b489;
+                    background: none !important;
+                }
+
+                .an_active {
+                    color: #999;
+                }
+                // store
+                .amountActive {
+                    color: #cd201f;
+                }
+            }
+        }
+    }
+}

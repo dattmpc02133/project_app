@@ -67,6 +67,7 @@ import ListComment from './pages/Admin/ListComment';
 import ListCommentReply from './pages/Admin/ListCommentReply';
 import ListOrders from './pages/Admin/ListOrders';
 import OrderDetais from './pages/Admin/OrderDetais';
+import OrderCuccess from './pages/OrderCuccess';
 import WarehouseStore from './pages/Admin/WarehouseStore';
 import EditLogo from './pages/Admin/EditLogo';
 import ListLogo from './pages/Admin/ListLogo';
@@ -85,6 +86,7 @@ function App() {
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
+                    <Route path="/paycucess" element={<OrderCuccess />} />
                     <Route path="footer" element={<LayoutDetailFooter />}>
                         <Route path="insurance/:id" element={<Insurance />} />
                     </Route>

@@ -285,6 +285,7 @@ const DetailProduct = () => {
                         item.color_id == data.color_id &&
                         item.variant_id == data.variant_id
                     ) {
+                        listCartLocal[index].quantity++;
                         console.log('Cập nhật số lượng', listCartLocal[index]);
                     } else {
                         listCartLocal.push(data);
