@@ -251,6 +251,7 @@
             span {
                 display: flex;
                 align-items: center;
+                cursor: pointer;
                 gap: var(--GapPadding);
                 padding: var(--GapPadding) 30px var(--GapPadding) 0;
             }

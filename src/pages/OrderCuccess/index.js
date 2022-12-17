@@ -2,12 +2,49 @@ import classNames from 'classnames/bind';
 import style from '~/assets/scss/OrderCuccess.module.scss';
 import { useParams } from 'react-router-dom';
 import cartApi from '~/api/cartApi';
-import { useEffect, useState } from 'react';
+import Loading from '~/components/Loading';
+import { CartContext } from '~/Context/CartContext';
+import { useEffect, useState, useContext } from 'react';
 const cx = classNames.bind(style);
 const OrderCuccess = () => {
-    const [loading, setLoading] = useState(false);
     const [orders, setOrders] = useState(false);
+
+    const { loading, setLoading, deleteCart } = useContext(CartContext);
+
     useEffect(() => {
+        const url = window.location.href;
+        var index = url.indexOf('vnp_Amount');
+        let returnDataUrl = '';
+        if (index > 0) {
+            returnDataUrl = url.slice(index);
+        }
+
+        if (returnDataUrl != null) {
+            const cartInfo = JSON.parse(localStorage.getItem('cartInfo'));
+
+            const returnData = async () => {
+                try {
+                    const result = await cartApi.returnDataVnPay(returnDataUrl);
+                    const code = result.data.order_code;
+                    console.log('result', result);
+
+                    cartInfo.code = code;
+
+                    const resultCreteOrders = await cartApi.payVNPay(cartInfo);
+                    console.log('resultCreteOrders', resultCreteOrders);
+
+                    const resultGetOrder = await cartApi.getOrdersCode(code);
+                    console.log('resultGetOrder', resultGetOrder);
+                    setOrders(resultGetOrder?.data[0]);
+                    deleteCart();
+                } catch (error) {
+                    console.log('Failed to return data: ', error);
+                }
+            };
+
+            returnData();
+        }
+
         const getOrdersDetails = async () => {
             setLoading(true);
             try {
@@ -24,6 +61,7 @@ const OrderCuccess = () => {
     }, []);
     return (
         <div className={cx('wrapper')}>
+            {loading ? <Loading /> : ''}
             <div className={cx('order__wrapper', 'grid', 'wide')}>
                 <div className={cx('order__block')}>
                     <div className={cx('oreder__heading')}>

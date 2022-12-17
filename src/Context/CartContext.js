@@ -135,24 +135,24 @@ export const CartContextProvider = ({ children }) => {
         }
     };
 
-    const payCOD = async (data) => {
-        setLoading(true);
-        try {
-            const result = await cartApi.payCOD(data);
-            deleteCart();
-            setMessStatus(result.message);
-            setStatusHandle(true);
-            setModal(true);
-            setLoading(false);
-        } catch (error) {
-            console.log('Failed to pay: ', error);
-            const res = error.response.data;
-            setMessStatus(res.message);
-            setLoading(false);
-            setModal(true);
-            setStatusHandle(false);
-        }
-    };
+    // const payCOD = async (data) => {
+    //     setLoading(true);
+    //     try {
+    //         const result = await cartApi.payCOD(data);
+    //         deleteCart();
+    //         setMessStatus(result.message);
+    //         setStatusHandle(true);
+    //         setModal(true);
+    //         setLoading(false);
+    //     } catch (error) {
+    //         console.log('Failed to pay: ', error);
+    //         const res = error.response.data;
+    //         setMessStatus(res.message);
+    //         setLoading(false);
+    //         setModal(true);
+    //         setStatusHandle(false);
+    //     }
+    // };
 
     const deleteCart = async () => {
         setLoading(true);
@@ -198,7 +198,8 @@ export const CartContextProvider = ({ children }) => {
         handlePlusNumPro,
         handlePrevNumPro,
         deleteCartItem,
-        payCOD,
+        // payCOD,
+        deleteCart,
         loading,
         modal,
         messStatus,

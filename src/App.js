@@ -84,7 +84,7 @@ function App() {
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
-                    <Route path="/paycucess/:id/:slug" element={<OrderCuccess />} />
+                    <Route path="/paycucess" element={<OrderCuccess />} />
                     <Route path="footer" element={<LayoutDetailFooter />}>
                         <Route path="insurance/:id" element={<Insurance />} />
                     </Route>
