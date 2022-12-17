@@ -111,7 +111,7 @@ function TekZoneCate() {
                     <Slider {...settings}>
                         {catePostId?.post?.map((item, index) => (
                             <li key={index}>
-                                <Link onClick={handleSroll} to={`/tekzonedetail/${item.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${item.id}/${item?.slug}`}>
                                     <div className={cx('size-img-title')}>
                                         <img src={item.image} alt={item.title} />
                                         <h3 className={cx('title')}>{item.title}</h3>
@@ -141,7 +141,7 @@ function TekZoneCate() {
                     <div className={cx('newsest')}>
                         {catePostId?.post?.map((listPost, index) => (
                             <div className={cx('news-item')} key={index}>
-                                <Link onClick={handleSroll} to={`/tekzonedetail/${listPost.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${listPost?.id}/${listPost?.slug}`}>
                                     <div className={cx('img-item', 'c-4')}>
                                         <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
                                     </div>

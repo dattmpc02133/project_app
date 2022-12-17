@@ -103,7 +103,10 @@ function ListContact() {
                                               {/* <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td> */}
                                               <td className="text-center">
-                                                  <Link to={`/admin/contact/edit/${item.id}`} state={{ item }}>
+                                                  <Link
+                                                      to={`/admin/contact/edit/${item.id}/${item.slug}`}
+                                                      state={{ item }}
+                                                  >
                                                       Sửa
                                                   </Link>
                                               </td>

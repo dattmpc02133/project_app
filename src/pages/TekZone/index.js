@@ -80,7 +80,7 @@ function TekZone() {
                                     <img src={images.tekzone__1} alt="Slider1" />
                                     <h3>
                                         Cách tải Zing Play trên iOS đơn giản nhất, cho bạn thỏa sức giải trí với cổng
-                                        game hàng đầu Việt Nam
+                                        game hàng đầu Việt Namz
                                     </h3>
                                 </div>
                             </a>
@@ -116,7 +116,7 @@ function TekZone() {
                     <Slider {...settings}>
                         {allSpost.map((post, index) => (
                             <li key={index}>
-                                <Link onClick={handleSroll} to={`/tekzonedetail/${post?.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${post?.id}/${post?.slug}`}>
                                     <div className={cx('size-img-title')}>
                                         <img src={post.image} alt={post.title} />
                                         <h3 className={cx('title')}>{post.title}</h3>
@@ -153,7 +153,7 @@ function TekZone() {
                 <ul className={cx('list__cate')}>
                     {data.subs.map((list, index) => (
                         <li key={index}>
-                            <Link onClick={handleSroll} to={`/tekzonecate/${list.id}/${list.slug}`}>
+                            <Link onClick={handleSroll} to={`/tekzonecate/${list?.id}/${list?.slug}`}>
                                 <h3>{list?.name}</h3>
                             </Link>
                         </li>
@@ -167,7 +167,7 @@ function TekZone() {
                     <div className={cx('newsest')}>
                         {allSpost.map((listPost, index) => (
                             <div className={cx('news-item')} key={index}>
-                                <Link onClick={handleSroll} to={`/tekzonedetail/${listPost?.id}`}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${listPost?.id}/${listPost?.slug}`}>
                                     <div className={cx('img-item', 'c-4')}>
                                         <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
                                     </div>

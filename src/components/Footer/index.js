@@ -7,17 +7,20 @@ import images from '~/assets/images';
 import footerApi from '~/api/footerApi';
 import 'axios';
 import { Link } from 'react-router-dom';
-
+import logoApi from '../../api/logoApi';
 const cx = classNames.bind(styles);
 
 function Footer() {
     const [active, setActive] = useState();
     const [footerAll, setFooterAll] = useState([]);
+    const [logo, setLogo] = useState([]);
     useEffect(() => {
         const allFooter = async () => {
             try {
                 const footer = await footerApi.getAll();
                 setFooterAll(footer.data);
+                const getAllLogo = await logoApi.getAll();
+                setLogo(getAllLogo);
             } catch (error) {
                 console.log('lỗi footer', error);
             }
@@ -39,8 +42,8 @@ function Footer() {
             <footer className={cx('footer')}>
                 <div className={cx('footer__gird')}>
                     <div className={cx('footer__logo')}>
-                        <a href="#">
-                            <img src={images.logotest} className={cx('logo-left')} alt="logo1" />
+                        <a href="/">
+                            <img src={logo[0]?.image} className={cx('logo-left')} alt="logo1" />
                         </a>
                     </div>
                     {/* desktop */}

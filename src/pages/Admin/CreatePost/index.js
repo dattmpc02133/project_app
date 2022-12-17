@@ -7,6 +7,7 @@ import Modal from '~/components/Modal';
 import postsApi from '~/api/postApi';
 import catePostApi from '~/api/catePostApi';
 import Loading from '~/components/Loading';
+import TableImage from '~/components/TableImage';
 
 const CreatePost = () => {
     const [subsCategoiries, setSubCategories] = useState('');
@@ -22,6 +23,8 @@ const CreatePost = () => {
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
     const [message, setMessage] = useState('');
+    const [showImgTbl, setShowImgTbl] = useState(false);
+    const [statusImg, setStatusImg] = useState();
 
     useEffect(() => {
         const getAllSubs = async () => {
@@ -35,12 +38,6 @@ const CreatePost = () => {
         };
         getAllSubs();
     }, []);
-    // console.log('subs', subsCategoiries);
-    // console.log('title', titlePost);
-    // console.log('describe', describe);
-    // console.log('imgpost', imgPost);
-    // console.log('titlemeta', titleMeta);
-    // console.log('content', content);
 
     const handleSummit = (e) => {
         setLoading(true);
@@ -84,10 +81,26 @@ const CreatePost = () => {
         createPost();
     };
 
+    const handleShowFormListImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(false);
+    };
+
+    const handleShowFormImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(true);
+    };
+
+    const handleGetImg = (img) => {
+        setImgPost(...img);
+        setShowImgTbl(false);
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
+            {showImgTbl && <TableImage closeForm={setShowImgTbl} actionOne={handleGetImg} status={statusImg} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm bài viết mới</h2>
                 <p className="content__heading--subtitle">Bài viết</p>
@@ -153,20 +166,28 @@ const CreatePost = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Ảnh</label>
+                                <label htmlFor="imgProduct">Hình ảnh </label>
                             </div>
-                            <div className="input__text">
-                                <input
-                                    id="ip-name"
-                                    type="text"
-                                    className="input__text--ctrl"
-                                    placeholder="Tóm tắt"
-                                    required
-                                    value={imgPost}
-                                    onChange={(e) => setImgPost(e.target.value)}
-                                />
+                            <div className="input__text list__img">
+                                {imgPost ? (
+                                    <div className="img__box" onClick={() => handleShowFormImg()}>
+                                        <img className="img__box--item" src={imgPost} />
+                                    </div>
+                                ) : (
+                                    <div className="img__choose" onClick={() => handleShowFormImg()}>
+                                        Chọn ảnh...
+                                    </div>
+                                )}
                             </div>
                         </div>
+
+                        {/* {statusHandle == false && messErr.url_image ? (
+                            <div className="mess__block">
+                                <span className="messErrr">{messErr.url_image}</span>
+                            </div>
+                        ) : (
+                            false
+                        )} */}
 
                         <div className="input__group">
                             <div className="input__label">
