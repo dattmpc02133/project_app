@@ -11,6 +11,7 @@ import Dialog from '~/components/Dialog';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
 import { CartContext } from '~/Context/CartContext';
+import { UserContext } from '~/Context/UserContext';
 
 import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(style);
@@ -36,6 +37,8 @@ const Cart = () => {
     const [payMethod, setPayMethod] = useState(2);
 
     const [comfirm, setComfirm] = useState(false);
+    const [totalLocal, setTotalLocal] = useState(0);
+
     // const [modal, setModal] = useState(false);
     // const [messStatus, setMessStatus] = useState();
     // const [statusHandle, setStatusHandle] = useState();
@@ -43,8 +46,10 @@ const Cart = () => {
     const navigate = useNavigate();
 
     const {
+        getCart,
         listCart,
         setListCart,
+        listCartLocal,
         listProDettails,
         handleChangeVariantId,
         handleChangeColor,
@@ -62,6 +67,12 @@ const Cart = () => {
         setStatusHandle,
         setModal,
     } = useContext(CartContext);
+
+    const { user } = useContext(UserContext);
+
+    // useEffect(() => {
+    //     getCart();
+    // }, [user]);
 
     useEffect(() => {
         if (listCart != undefined) {
@@ -98,7 +109,17 @@ const Cart = () => {
             };
             getLocation();
         }
-    }, [listCart]);
+    }, [listCart, user]);
+
+    useEffect(() => {
+        if (listCartLocal != undefined) {
+            let total = 0;
+            listCartLocal?.map((item, index) => {
+                total += item.price * item.quantity;
+            });
+            setTotalLocal(total);
+        }
+    }, [listCartLocal]);
 
     const getVariantProduct = (id) => {
         const variantProduct = allProducts?.filter((item) => item.id == id);
@@ -209,7 +230,7 @@ const Cart = () => {
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
-            {listCart?.details?.length > 0 ? (
+            {listCart?.details?.length > 0 && (
                 <div className={cx('content-pay')}>
                     <div className={cx('yourCartBuyMore')}>
                         <Link to="/" className={cx('BuyMore')}>
@@ -580,12 +601,336 @@ const Cart = () => {
                         </div>
                     </form>
                 </div>
-            ) : (
+            )}
+
+            {listCart?.details == undefined && user != undefined && (
                 <div className={cx('content-pay')}>
                     <div className={cx('empty__cart')}>
                         <TbShoppingCartX className={cx('empty__cart--icon')} />
                         <p className={cx('empty__cart--text')}>Giỏ hàng của bạn chưa có sản phẩm nào !</p>
                     </div>
+                </div>
+            )}
+
+            {listCartLocal == undefined && user == undefined && (
+                <div className={cx('content-pay')}>
+                    <div className={cx('empty__cart')}>
+                        <TbShoppingCartX className={cx('empty__cart--icon')} />
+                        <p className={cx('empty__cart--text')}>Giỏ hàng của bạn chưa có sản phẩm nào !</p>
+                    </div>
+                </div>
+            )}
+
+            {listCartLocal?.length > 0 && (
+                <div className={cx('content-pay')}>
+                    <div className={cx('yourCartBuyMore')}>
+                        <Link to="/" className={cx('BuyMore')}>
+                            <SlArrowLeft style={{ fontSize: '1.3rem' }} /> Mua thêm sản phẩm khác
+                        </Link>
+                    </div>
+                    <form onSubmit={(e) => handlePay(e)}>
+                        <div className={cx('middleCart')}>
+                            <ul className={cx('listing-cart')}>
+                                {listCartLocal?.map((item, index) => (
+                                    <li key={index} className={cx('prd-item')}>
+                                        <div className={cx('imgsp')}>
+                                            <Link to="/iphone" className={cx('imgsp__link')}>
+                                                <img src={item?.image} />
+                                            </Link>
+                                            <div
+                                                className={cx('btn__delete--cart')}
+                                                onClick={() => {
+                                                    handleDeleteCartItem(
+                                                        item.product_id,
+                                                        item.variant_id,
+                                                        item.color_id,
+                                                    );
+                                                }}
+                                            >
+                                                <span>&times;</span>
+                                                Xóa
+                                            </div>
+                                        </div>
+                                        <div className={cx('prd-infosp')}>
+                                            <div className={cx('prd-name-price')}>
+                                                <Link>{item.name}</Link>
+                                                <span>
+                                                    {Number(item.price).toLocaleString()} đ
+                                                    <del>{Number(item.originalPrice).toLocaleString()} đ</del>
+                                                </span>
+                                            </div>
+
+                                            <div className={cx('prd-choose-color')}>
+                                                <div className={cx('prd-size-and-color')}>
+                                                    <select
+                                                        className={cx('prd-size-and-color')}
+                                                        onChange={(e) => handleChangeVariantId(e.target.value, index)}
+                                                        value={item.variant_id}
+                                                    >
+                                                        {getVariantProduct(item.product_id)?.map((variant, index) => (
+                                                            <option key={index} value={variant.id}>
+                                                                {variant.variant_name}GB
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    <select
+                                                        className={cx('prd-size-and-color')}
+                                                        onChange={(e) =>
+                                                            handleChangeColor(
+                                                                e.target.value,
+                                                                index,
+                                                                item.product_id,
+                                                                item.variant_id,
+                                                            )
+                                                        }
+                                                        value={item?.color_id}
+                                                    >
+                                                        <option value="">Chọn màu sắc</option>
+                                                        {getVariantDetails(item?.variant_id, item.product_id)?.map(
+                                                            (item, i) => (
+                                                                <option key={i} value={item.color_id}>
+                                                                    {item.color_name}
+                                                                </option>
+                                                            ),
+                                                        )}
+                                                    </select>
+                                                </div>
+                                                <div className={cx('prd-choosenumber')}>
+                                                    <div
+                                                        className={cx('minus')}
+                                                        onClick={() => handlePrevNumPro(index)}
+                                                    >
+                                                        -
+                                                    </div>
+                                                    <input
+                                                        type="number"
+                                                        value={item?.quantity}
+                                                        min="1"
+                                                        className={cx('number')}
+                                                    />
+                                                    <div className={cx('plus')} onClick={() => handlePlusNumPro(index)}>
+                                                        +
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className={cx('total-provisional')}>
+                                <span className={cx('total-quantity')}>
+                                    <label>Tạm tính </label>({listCartLocal?.length} sản phẩm) :
+                                </span>
+                                <div className={cx('total-money__block')}>
+                                    <span className={cx('total-money')}>{Number(totalLocal).toLocaleString()} đ</span>
+                                    {listCartLocal?.discount > 0 && (
+                                        <span className={cx('total-submoney')}>- {listCart?.discount_formatted}</span>
+                                    )}
+                                    {listCartLocal?.fee_ship > 0 && (
+                                        <span className={cx('total-submoney')}>+ {listCart?.fee_ship_formatted}</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className={cx('infor-customer')}>
+                                <h4>Thông tin khách hàng</h4>
+                                <form className={cx('form-customer')}>
+                                    <div className={cx('sex-customer')}>
+                                        <span>
+                                            <input
+                                                id="checkMale"
+                                                type="radio"
+                                                value="male"
+                                                name="gender"
+                                                checked
+                                                className={cx('cartnew-choose')}
+                                            />
+                                            <label htmlFor="checkMale">Anh</label>
+                                        </span>
+                                        <span>
+                                            <input
+                                                id="checkFemale"
+                                                type="radio"
+                                                value="female"
+                                                name="gender"
+                                                className={cx('cartnew-choose')}
+                                            />
+                                            <label htmlFor="checkFemale">Chị</label>
+                                        </span>
+                                    </div>
+
+                                    <div className={cx('form')}>
+                                        <div className={cx('fillname')}>
+                                            <input
+                                                type="text"
+                                                id="fullname"
+                                                className={cx('form__input')}
+                                                placeholder=" "
+                                                disabled
+                                                value={listCart?.user_name}
+                                            />
+                                            <label htmlFor="fullname" className={cx('form__label')}>
+                                                Họ và tên
+                                            </label>
+                                        </div>
+                                        <div className={cx('fillname')}>
+                                            <input
+                                                type="number"
+                                                id="phone"
+                                                value={listCart?.phone}
+                                                disabled
+                                                className={cx('form__input')}
+                                                placeholder=" "
+                                            />
+                                            <label htmlFor="phone" className={cx('form__label')}>
+                                                Số điện thoại
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className={cx('choosegetgoods')}>
+                                <h4> Chọn hình thức thanh toán </h4>
+                                <div className={cx('click-choose')}>
+                                    <span>
+                                        <input
+                                            type="radio"
+                                            value=""
+                                            id="cod"
+                                            name="checkPayMethoad"
+                                            onChange={() => setPayMethod(2)}
+                                            checked={payMethod == 2}
+                                            className={cx('cartnew-choose')}
+                                        />
+                                        <label for="cod">Ship COD</label>
+                                    </span>
+                                    <span>
+                                        <input
+                                            type="radio"
+                                            value=""
+                                            id="vnpay"
+                                            checked={payMethod == 5}
+                                            name="checkPayMethoad"
+                                            onChange={() => setPayMethod(5)}
+                                            className={cx('cartnew-choose')}
+                                        />
+                                        <label for="vnpay">Thanh toán VNPay</label>
+                                    </span>
+                                </div>
+                                <h4> Chọn địa chỉ giao hàng </h4>
+                                <div className={cx('choose-content')}>
+                                    <div className={cx('deli-address')}>
+                                        <form>
+                                            <div className={cx('cntry-district')}>
+                                                <div className={cx('form__address--haspass')}>
+                                                    <div className={cx('form__address', 'mr-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Tỉnh, thành phố
+                                                        </label>
+                                                        <select
+                                                            className={cx('form__address--ctrl')}
+                                                            onChange={(e) => changeProvinceId(e.target.value)}
+                                                            value={provinceId}
+                                                        >
+                                                            <option value>--Chọn tỉnh thành phố</option>
+                                                            {Array.isArray(provinceList) &&
+                                                                provinceList.map((item, index) => (
+                                                                    <option value={item.id}>{item.name}</option>
+                                                                ))}
+                                                        </select>
+                                                    </div>
+                                                    <div className={cx('form__address', 'ml-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Quận, huyện
+                                                        </label>
+                                                        <select
+                                                            className={cx('form__address--ctrl')}
+                                                            onChange={(e) => changeDistrictId(e.target.value)}
+                                                            value={districtId}
+                                                        >
+                                                            <option value>--Chọn quận huyện--</option>
+                                                            {Array.isArray(newListDistrict) &&
+                                                                newListDistrict.map((item, index) => (
+                                                                    <option value={item.id}>{item.name}</option>
+                                                                ))}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className={cx('form__address--haspass')}>
+                                                    <div className={cx('form__address', 'mr-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Phường xã, thị trấn
+                                                        </label>
+                                                        <select
+                                                            className={cx('form__address--ctrl')}
+                                                            onChange={(e) => changeWardId(e.target.value)}
+                                                            value={wardId}
+                                                        >
+                                                            <option value>--Chọn phường, xã, thị trấn</option>
+                                                            {Array.isArray(newListWarn) &&
+                                                                newListWarn.map((item, index) => (
+                                                                    <option value={item.id}>{item.name}</option>
+                                                                ))}
+                                                        </select>
+                                                    </div>
+                                                    <div className={cx('form__address', 'ml-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Địa chỉ cụ thể
+                                                        </label>
+                                                        <input
+                                                            className={cx('form__address--ctrl')}
+                                                            value={address}
+                                                            placeholder="271 Nguyễn Văn Linh"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('anotheroption')}>
+                                <div className={cx('customer-note')}>
+                                    <div className={cx('fillname')}>
+                                        <input
+                                            type="text"
+                                            id="notexeria"
+                                            className={cx('form__input')}
+                                            placeholder=" "
+                                        />
+                                        <label htmlFor="notexeria" className={cx('form__label')}>
+                                            Nhập ghi chú (nếu có)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('finaltotal')}>
+                                <div className={cx('area-total')}>
+                                    <div className={cx('discountcode')}>
+                                        <div className={cx('coupon-code ')}>
+                                            <span>Sử dụng mã giảm giá</span>
+                                        </div>
+                                        <div className={cx('applycode')}>
+                                            <div className={cx('applycode__text-input')}>
+                                                <input placeholder="Nhập mã giảm giá/ Phiếu mua hàng" />
+                                            </div>
+                                            <div className={cx('applycode__button')}>
+                                                <button type="button" className={'disabledbtn'}>
+                                                    Áp dụng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={cx('submitorder')}>
+                                    <button className={cx('btn__submit')}>THANH TOÁN</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             )}
         </div>

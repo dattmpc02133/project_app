@@ -6,10 +6,12 @@ import { AiOutlineShoppingCart, AiTwotoneTool } from 'react-icons/ai';
 import { RiLogoutBoxLine } from 'react-icons/ri';
 import { UserContext } from '~/Context/UserContext';
 import { CartContext } from '~/Context/CartContext';
+
+import loginApi from '~/api/loginApi';
 const cx = classNames.bind(styles);
 
 const AsideAccount = () => {
-    const { logout } = useContext(UserContext);
+    const { getUser, setLoading } = useContext(UserContext);
     const { getCart } = useContext(CartContext);
 
     const navigate = useNavigate();
@@ -19,8 +21,22 @@ const AsideAccount = () => {
     }
 
     const handleLogout = () => {
+        const logout = async () => {
+            setLoading(true);
+            try {
+                const result = await loginApi.logout();
+                localStorage.removeItem('token');
+                localStorage.removeItem('dataAd');
+                getUser();
+                getCart();
+                setLoading(false);
+                // setStatusLogin(false);
+            } catch (error) {
+                console.log('Failed to log out', error);
+                setLoading(false);
+            }
+        };
         logout();
-        getCart();
     };
     return (
         <div className={cx('l-3 m-6 c-12')}>
