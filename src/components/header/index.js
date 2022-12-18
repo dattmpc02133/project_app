@@ -12,6 +12,7 @@ import images from '../../assets/images';
 import { CartContext } from '~/Context/CartContext';
 import { UserContext } from '~/Context/UserContext';
 import searchApi from '../../api/searchApi';
+import logoApi from '../../api/logoApi';
 
 const cx = classNames.bind(styles);
 function Header() {
@@ -21,6 +22,7 @@ function Header() {
     const [cartNum, setCartNum] = useState();
     const [searchTerm, setSearchTerm] = useState('');
     const [findProduct, setFindProduct] = useState();
+    const [logo, setLogo] = useState([]);
 
     //
     const handleSearch = () => {
@@ -69,6 +71,24 @@ function Header() {
         fetchHeaderCategory();
         fetchSearchResults();
     }, [searchTerm]);
+
+    useEffect(() => {
+        const getLogoClient = async () => {
+            try {
+                const getLogoClient = await logoApi.getAllClient();
+                setLogo(getLogoClient);
+            } catch (error) {
+                console.log('Failed to fetch Logo: ', error);
+            }
+        };
+        getLogoClient();
+    }, []);
+    const handleSroll = () =>
+        window.scroll({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+        });
     return (
         <div className={cx('header')}>
             <div className={!search ? cx('head') : cx('head', 'active-search')}>
@@ -82,7 +102,15 @@ function Header() {
                 {/* Logo */}
                 <div className={cx('logo-personal')}>
                     <a href="/">
-                        <img className={cx('personal-logo')} src={images.logotest} alt="Logo" />
+                        {logo?.map((item, index) => (
+                            <img
+                                className={cx('personal-logo')}
+                                src={item?.image}
+                                key={index}
+                                onClick={handleSroll}
+                                alt="Logo"
+                            />
+                        ))}
                     </a>
                 </div>
 

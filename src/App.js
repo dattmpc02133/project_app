@@ -71,6 +71,8 @@ import OrderCuccess from './pages/OrderCuccess';
 import WarehouseStore from './pages/Admin/WarehouseStore';
 import EditLogo from './pages/Admin/EditLogo';
 import ListLogo from './pages/Admin/ListLogo';
+import ListImportslipDetail from './pages/Admin/ListImportslipDetail';
+import ListImportslip from './pages/Admin/ListImportslip';
 
 function App() {
     return (
@@ -152,6 +154,8 @@ function App() {
                     <Route path="store/list" element={<ListStore />} />
                     <Route path="store/edit/:id" element={<EditStore />} />
                     <Route path="importslip/add" element={<ProImportSlip />} />
+                    <Route path="importslip/list" element={<ListImportslip />} />
+                    <Route path="importslipdetail/list/:id/:code" element={<ListImportslipDetail />} />
 
                     {/* comment */}
                     <Route path="comment/listproductcomment" element={<ListProductComment />} />

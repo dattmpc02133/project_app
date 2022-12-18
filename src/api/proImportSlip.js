@@ -7,17 +7,24 @@ const proImportSlip = {
         return axiosClient.get(url, { params });
     },
     getProductSlip: (params) => {
-        const url = '/productsinfoimport';
-        return axiosClient.get(url, { params });
+        if (params) {
+            const url = `/productImportSlip/${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/productImportSlip';
+            return axiosClient.get(url);
+        }
     },
+
+    getById: (params) => {
+        const url = '/product_import_slip_details';
+        return axiosClient.get(url, params);
+    },
+
     create: (data) => {
         const url = '/productImportSlip';
         return axiosClient.post(url, data);
     },
-    // get: (id) => {
-    //     const url = `/products/${id}`;
-    //     return axiosClient.get(url);
-    // },
 };
 
 export default proImportSlip;

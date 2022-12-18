@@ -8,18 +8,22 @@ import footerApi from '~/api/footerApi';
 import 'axios';
 import { Link } from 'react-router-dom';
 import logoApi from '../../api/logoApi';
+import Loading from '~/components/Loading';
+
 const cx = classNames.bind(styles);
 
 function Footer() {
     const [active, setActive] = useState();
     const [footerAll, setFooterAll] = useState([]);
     const [logo, setLogo] = useState([]);
+    const [loading, setLoading] = useState(false);
+
     useEffect(() => {
         const allFooter = async () => {
             try {
                 const footer = await footerApi.getAll();
                 setFooterAll(footer.data);
-                const getAllLogo = await logoApi.getAll();
+                const getAllLogo = await logoApi.getAllClient();
                 setLogo(getAllLogo);
             } catch (error) {
                 console.log('lỗi footer', error);
@@ -46,11 +50,21 @@ function Footer() {
 
     return (
         <div className={cx('wrapper')}>
+            {loading ? <Loading /> : ''}
+
             <footer className={cx('footer')}>
                 <div className={cx('footer__gird')}>
                     <div className={cx('footer__logo')}>
                         <a href="/">
-                            <img src={logo[0]?.image} onClick={handleSroll} className={cx('logo-left')} alt="logo1" />
+                            {logo?.map((item, index) => (
+                                <img
+                                    src={item?.image}
+                                    key={index}
+                                    onClick={handleSroll}
+                                    className={cx('logo-left')}
+                                    alt="logo1"
+                                />
+                            ))}
                         </a>
                     </div>
                     {/* desktop */}

@@ -46,6 +46,16 @@ const postsApi = {
         const url = `/posts/${id}`;
         return axiosClient.delete(url);
     },
+
+    getFirts: () => {
+        const url = '/client/get-firts-new-post';
+        return axiosClient.get(url);
+    },
+
+    getTwoAfter: () => {
+        const url = '/client/get-two-post-after-new';
+        return axiosClient.get(url);
+    },
 };
 
 export default postsApi;
