@@ -22,7 +22,10 @@ const Category = () => {
     const handleSelect = () => {
         SetSelect(!select);
     };
-
+    useEffect(() => {
+        // 👇️ scroll to top on page load
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, []);
     useEffect(() => {
         const fetchAllCategory = async () => {
             try {
@@ -121,13 +124,6 @@ const Category = () => {
                                     subcategory_id: item?.subcategory_id,
                                 }}
                                 className={cx('olw-item-link')}
-                                onClick={() =>
-                                    window.scroll({
-                                        top: 0,
-                                        left: 0,
-                                        behavior: 'smooth',
-                                    })
-                                }
                             >
                                 <div className={cx('olw-newDiscount-head')}>
                                     <label>Moi</label>

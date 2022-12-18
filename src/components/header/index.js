@@ -24,6 +24,10 @@ function Header() {
     const [findProduct, setFindProduct] = useState();
     const [logo, setLogo] = useState([]);
 
+    useEffect(() => {
+        // 👇️ scroll to top on page load
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, []);
     //
     const handleSearch = () => {
         setSearch(!search);
@@ -186,6 +190,7 @@ function Header() {
                             to={`${data.slug}?id=${data.id}`}
                             state={{ id: data.id, data }}
                             className={cx('menu-link')}
+                            onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
                         >
                             <span>{data.name}</span>
                         </Link>

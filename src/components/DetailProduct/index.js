@@ -82,7 +82,7 @@ const DetailProduct = () => {
     const [productDetail, setProductDetail] = useState();
     const [listTypeGB, setListTypeGB] = useState();
     const [dataVariants, setDataVariants] = useState();
-    const [variantID, setVariantID] = useState('1');
+    const [variantID, setVariantID] = useState();
     const [itemColorActive, setItemColorActive] = useState();
 
     const [dataAllProVince, setDataAllProVince] = useState();
@@ -105,7 +105,11 @@ const DetailProduct = () => {
 
     //images slide detail
     const [imageSliderThumb, setImageSliderThumb] = useState();
-
+    // scroll
+    useEffect(() => {
+        // 👇️ scroll to top on page load
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, []);
     //Import GobalState
     const {
         addToCart,
@@ -120,11 +124,11 @@ const DetailProduct = () => {
     } = useContext(CartContext);
 
     const { user } = useContext(UserContext);
-
     //
     const listColors = useMemo(() => {
         if (dataVariants) {
             const results = dataVariants?.filter((variant) => variant?.variant_id == variantID);
+            console.log('results', results);
             if (results.length > 0) {
                 setItemColorActive(results[0]);
             }
@@ -169,6 +173,9 @@ const DetailProduct = () => {
                 setImageSliderThumb(ProductDetailItem);
                 setProductDetail(ProductDetailItem);
                 setListTypeGB(ProductDetailItem?.variants);
+                if (ProductDetailItem?.variants) {
+                    setVariantID(String(ProductDetailItem?.variants[0].id));
+                }
                 setDataVariants(ProductDetailItem?.dataVariants);
             } catch (error) {
                 console.log(error);
