@@ -8,6 +8,7 @@ import catePostApi from '~/api/catePostApi';
 import postApi from '~/api/postApi';
 import { useParams } from 'react-router-dom';
 import Modal from '~/components/Modal';
+import TableImage from '~/components/TableImage';
 
 const EditPost = () => {
     const [subsCategoiries, setSubCategories] = useState('');
@@ -24,6 +25,9 @@ const EditPost = () => {
     const [modal, setModal] = useState(false);
     const [message, setMessage] = useState('');
     // const [idSubCate, SetIdSubCate] = useState('');
+    const [showImgTbl, setShowImgTbl] = useState(false);
+    const [statusImg, setStatusImg] = useState();
+
     const params = useParams();
 
     useEffect(() => {
@@ -95,11 +99,25 @@ const EditPost = () => {
         };
         editPost();
     };
+    const handleShowFormListImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(false);
+    };
+    const handleShowFormImg = () => {
+        setShowImgTbl(true);
+        setStatusImg(true);
+    };
+
+    const handleGetImg = (img) => {
+        setImgPost(...img);
+        setShowImgTbl(false);
+    };
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
+            {showImgTbl && <TableImage closeForm={setShowImgTbl} actionOne={handleGetImg} status={statusImg} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Cập nhậtbài viết mới</h2>
                 <p className="content__heading--subtitle">Bài viết</p>
@@ -164,18 +182,18 @@ const EditPost = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Ảnh</label>
+                                <label htmlFor="imgProduct">Hình ảnh </label>
                             </div>
-                            <div className="input__text">
-                                <input
-                                    id="ip-name"
-                                    type="text"
-                                    required
-                                    className="input__text--ctrl"
-                                    placeholder="Tóm tắt"
-                                    value={imgPost}
-                                    onChange={(e) => setImgPost(e.target.value)}
-                                />
+                            <div className="input__text list__img">
+                                {imgPost ? (
+                                    <div className="img__box" onClick={() => handleShowFormImg()}>
+                                        <img className="img__box--item" src={imgPost} />
+                                    </div>
+                                ) : (
+                                    <div className="img__choose" onClick={() => handleShowFormImg()}>
+                                        Chọn ảnh...
+                                    </div>
+                                )}
                             </div>
                         </div>
 

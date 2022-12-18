@@ -5,11 +5,14 @@ import { TbShoppingCartX } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 import locationApi from '~/api/locationApi';
 import productApi from '~/api/productApi';
+import cartApi from '~/api/cartApi';
 import style from '~/assets/scss/Cart.module.scss';
 import Dialog from '~/components/Dialog';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
 import { CartContext } from '~/Context/CartContext';
+
+import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(style);
 const Cart = () => {
     // const [modal, setModal] = useState(false);
@@ -30,11 +33,14 @@ const Cart = () => {
     const [districtList, setDistrictList] = useState();
     const [newListDistrict, setNewListDistrict] = useState();
     const [newListWarn, setNewListWarn] = useState();
+    const [payMethod, setPayMethod] = useState(2);
 
     const [comfirm, setComfirm] = useState(false);
     // const [modal, setModal] = useState(false);
     // const [messStatus, setMessStatus] = useState();
     // const [statusHandle, setStatusHandle] = useState();
+
+    const navigate = useNavigate();
 
     const {
         listCart,
@@ -50,13 +56,12 @@ const Cart = () => {
         messStatus,
         statusHandle,
         setLoading,
-        payCOD,
+        deleteCart,
+        // payCOD,
         setMessStatus,
         setStatusHandle,
         setModal,
     } = useContext(CartContext);
-
-    console.log('allProducts', allProducts);
 
     useEffect(() => {
         if (listCart != undefined) {
@@ -130,12 +135,44 @@ const Cart = () => {
         e.preventDefault();
         const data = { ...listCart };
         data.details = listProDettails;
-        data.payment_method_id = 2;
         data.shipping_method_id = 5;
-
-        console.log(data);
-
-        // payCOD(data);
+        if (payMethod == 2) {
+            data.payment_method_id = payMethod;
+            const payCOD = async (data) => {
+                setLoading(true);
+                try {
+                    const result = await cartApi.payCOD(data);
+                    console.log(result);
+                    deleteCart();
+                    setMessStatus(result.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    // navigate();
+                    setLoading(false);
+                } catch (error) {
+                    console.log('Failed to pay: ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            payCOD(data);
+        } else if (payMethod == 5) {
+            data.payment_method_id = payMethod;
+            const vnPay = async () => {
+                try {
+                    const result = await cartApi.vnPay(data.total);
+                    localStorage.setItem('cartInfo', JSON.stringify(data));
+                    const url = result?.url;
+                    window.location = url;
+                } catch (error) {
+                    console.log('Failed to pay: ', error);
+                }
+            };
+            vnPay();
+        }
     };
 
     useEffect(() => {
@@ -167,8 +204,6 @@ const Cart = () => {
         setNewListWarn(fillerWard);
     }, [districtId]);
 
-    console.log('listCart: ', listCart);
-
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
@@ -184,11 +219,11 @@ const Cart = () => {
                     <form onSubmit={(e) => handlePay(e)}>
                         <div className={cx('middleCart')}>
                             <ul className={cx('listing-cart')}>
-                                {listCart?.details?.map((item, index) => (
+                                {listProDettails?.map((item, index) => (
                                     <li key={index} className={cx('prd-item')}>
                                         <div className={cx('imgsp')}>
                                             <Link to="/iphone" className={cx('imgsp__link')}>
-                                                <img src={item.product_image} />
+                                                <img src={listCart?.details[index].product_image} />
                                             </Link>
                                             <div
                                                 className={cx('btn__delete--cart')}
@@ -206,10 +241,10 @@ const Cart = () => {
                                         </div>
                                         <div className={cx('prd-infosp')}>
                                             <div className={cx('prd-name-price')}>
-                                                <Link>{item.product_name}</Link>
+                                                <Link>{listCart?.details[index].product_name}</Link>
                                                 <span>
-                                                    {item.price_formatted}
-                                                    <del>{item.original_price_formatted}</del>
+                                                    {listCart?.details[index].price_formatted}
+                                                    <del>{listCart?.details[index].original_price_formatted}</del>
                                                 </span>
                                             </div>
                                             {/* <div className={cx('prd-promo')}>
@@ -225,7 +260,7 @@ const Cart = () => {
                                                     <select
                                                         className={cx('prd-size-and-color')}
                                                         onChange={(e) => handleChangeVariantId(e.target.value, index)}
-                                                        value={item?.variant_id}
+                                                        value={item.variant_id}
                                                     >
                                                         {getVariantProduct(item.product_id)?.map((variant, index) => (
                                                             <option key={index} value={variant.id}>
@@ -366,7 +401,8 @@ const Cart = () => {
                                             value=""
                                             id="cod"
                                             name="checkPayMethoad"
-                                            checked
+                                            onChange={() => setPayMethod(2)}
+                                            checked={payMethod == 2}
                                             className={cx('cartnew-choose')}
                                         />
                                         <label for="cod">Ship COD</label>
@@ -376,7 +412,9 @@ const Cart = () => {
                                             type="radio"
                                             value=""
                                             id="vnpay"
+                                            checked={payMethod == 5}
                                             name="checkPayMethoad"
+                                            onChange={() => setPayMethod(5)}
                                             className={cx('cartnew-choose')}
                                         />
                                         <label for="vnpay">Thanh toán VNPay</label>

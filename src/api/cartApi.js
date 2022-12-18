@@ -22,6 +22,10 @@ const cartApi = {
         const url = '/orders';
         return axiosClient.post(url, data);
     },
+    payVNPay: (data) => {
+        const url = '/orders';
+        return axiosClient.post(url, data);
+    },
     deleteAll: () => {
         const url = 'carts/delete-cart';
         return axiosClient.delete(url);
@@ -48,6 +52,10 @@ const cartApi = {
         const url = `/orders/${id}`;
         return axiosClient.get(url);
     },
+    getOrdersCode(code) {
+        const url = `/client/getOrders?code=${code}`;
+        return axiosClient.get(url);
+    },
     getStatusOrder() {
         const url = `/order-status`;
         return axiosClient.get(url);
@@ -56,6 +64,15 @@ const cartApi = {
         const url = `/orders/${id}`;
         return axiosClient.put(url, data);
     },
+    vnPay(amount) {
+        const url = `vnpay/create?amount=${amount}&returnUrl=http://localhost:3000/paycucess`;
+        return axiosClient.post(url);
+    },
+    returnDataVnPay(data) {
+        const url = `/vnpay/returnData?${data}`;
+        return axiosClient.get(url);
+    },
+
     // login: (data) => {
     //     const url = '/posts';
     //     return axiosClient.post(url, data);

@@ -22,11 +22,10 @@ const Navbar = () => {
     const [openBrand, setOpenBrand] = useState(false);
     const [openStore, setOpenStore] = useState(false);
     const [openImportSlip, setOpenImportSlip] = useState(false);
-
     const [openContact, setOpenContact] = useState(false);
-
     const [openSubsPost, setOpenSubsPost] = useState(false);
     const [openCateSubsProduct, setCateSubsProduct] = useState(false);
+    const [openLogo, setOpenLogo] = useState(false);
 
     // comment
     const [openComment, setOpenComment] = useState(false);
@@ -66,17 +65,17 @@ const Navbar = () => {
                                 </NavLink>
                             </li>
                             <li className={cx('navbar__content--item')}>
-                                <NavLink to="phone" className={cx('navbar__content--link')}>
-                                    <TiPhoneOutline className={cx('navbar__content--icon')} />
-                                    Số điện thoại
+                                <NavLink to="listlogo" className={cx('navbar__content--link')}>
+                                    <TiLocationArrowOutline className={cx('navbar__content--icon')} />
+                                    Logo
                                 </NavLink>
                             </li>
-                            <li className={cx('navbar__content--item')}>
+                            {/* <li className={cx('navbar__content--item')}>
                                 <NavLink to="location" className={cx('navbar__content--link')}>
                                     <TiLocationArrowOutline className={cx('navbar__content--icon')} />
                                     Địa chỉ cửa hàng
                                 </NavLink>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                     {/* brand */}

@@ -7,17 +7,20 @@ import images from '~/assets/images';
 import footerApi from '~/api/footerApi';
 import 'axios';
 import { Link } from 'react-router-dom';
-
+import logoApi from '../../api/logoApi';
 const cx = classNames.bind(styles);
 
 function Footer() {
     const [active, setActive] = useState();
     const [footerAll, setFooterAll] = useState([]);
+    const [logo, setLogo] = useState([]);
     useEffect(() => {
         const allFooter = async () => {
             try {
                 const footer = await footerApi.getAll();
                 setFooterAll(footer.data);
+                const getAllLogo = await logoApi.getAll();
+                setLogo(getAllLogo);
             } catch (error) {
                 console.log('lỗi footer', error);
             }
@@ -34,13 +37,20 @@ function Footer() {
         }
     };
 
+    const handleSroll = () =>
+        window.scroll({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+        });
+
     return (
         <div className={cx('wrapper')}>
             <footer className={cx('footer')}>
                 <div className={cx('footer__gird')}>
                     <div className={cx('footer__logo')}>
-                        <a href="#">
-                            <img src={images.logotest} className={cx('logo-left')} alt="logo1" />
+                        <a href="/">
+                            <img src={logo[0]?.image} onClick={handleSroll} className={cx('logo-left')} alt="logo1" />
                         </a>
                     </div>
                     {/* desktop */}
@@ -51,7 +61,12 @@ function Footer() {
                                     <span>{item.name}</span>
                                     {item.footerContent.map((items, index) => {
                                         return (
-                                            <Link to={`footer/insurance/${items.id}`} state={{ items }} key={index}>
+                                            <Link
+                                                to={`footer/insurance/${items.id}`}
+                                                onClick={handleSroll}
+                                                state={{ items }}
+                                                key={index}
+                                            >
                                                 {items.title}
                                             </Link>
                                         );
@@ -96,7 +111,12 @@ function Footer() {
 
                                 <div className={active == index ? cx('show-active') : cx('show-none')}>
                                     {mobi.footerContent.map((items, index) => (
-                                        <Link to={`footer/insurance/${items.id}`} state={{ items }} key={index}>
+                                        <Link
+                                            to={`footer/insurance/${items.id}`}
+                                            onClick={handleSroll}
+                                            state={{ items }}
+                                            key={index}
+                                        >
                                             {items.title}
                                         </Link>
                                     ))}

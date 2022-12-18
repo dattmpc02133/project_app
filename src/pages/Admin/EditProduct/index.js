@@ -52,43 +52,41 @@ const EditProduct = () => {
     const [urlImage, setUrlImage] = useState();
     const [statusImg, setStatusImg] = useState();
 
+    const fetchData = async () => {
+        setLoading(true);
+        try {
+            const resultBrand = await brandApi.getAll();
+            setListBrand(resultBrand.data.data);
+            const resultColor = await colorApi.getAll();
+            setListColor(resultColor.data.data);
+            const resultListSubCate = await subCateProductApi.getAll();
+            setListSubCategory(resultListSubCate.data);
+            const resultCate = await cateProductApi.getAll();
+            setListCategory(resultCate.data);
+            const resultVariant = await variantApi.getAll();
+            setListVariant(resultVariant.data);
+
+            const resultProduct = await productApi.getById(params.id);
+            setProduct(resultProduct.data);
+            const resultSubCateById = await subCateProductApi.getById(resultProduct.data.subcategory_id);
+            // setOldSubCate(resultSubCate.data);
+            setBrand(resultSubCateById.data.brand_id);
+            setCategory(resultProduct.data.category);
+
+            const newListSubCate = resultListSubCate?.data?.filter(
+                (item) =>
+                    item.category_id == resultProduct.data.category && item.brand_id == resultSubCateById.data.brand_id,
+            );
+            setNewSubListCategory(newListSubCate);
+            setSubCategoryId(resultSubCateById.data.id);
+
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to get data', error);
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const resultBrand = await brandApi.getAll();
-                setListBrand(resultBrand.data.data);
-                const resultColor = await colorApi.getAll();
-                setListColor(resultColor.data.data);
-                const resultListSubCate = await subCateProductApi.getAll();
-                setListSubCategory(resultListSubCate.data);
-                const resultCate = await cateProductApi.getAll();
-                setListCategory(resultCate.data);
-                const resultVariant = await variantApi.getAll();
-                setListVariant(resultVariant.data);
-
-                const resultProduct = await productApi.getById(params.id);
-                setProduct(resultProduct.data);
-                const resultSubCateById = await subCateProductApi.getById(resultProduct.data.subcategory_id);
-                // setOldSubCate(resultSubCate.data);
-                setBrand(resultSubCateById.data.brand_id);
-                setCategory(resultProduct.data.category);
-
-                const newListSubCate = resultListSubCate?.data?.filter(
-                    (item) =>
-                        item.category_id == resultProduct.data.category &&
-                        item.brand_id == resultSubCateById.data.brand_id,
-                );
-                setNewSubListCategory(newListSubCate);
-                setSubCategoryId(resultSubCateById.data.id);
-
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to get data', error);
-                setLoading(false);
-            }
-        };
-
         fetchData();
     }, []);
 
@@ -128,6 +126,7 @@ const EditProduct = () => {
             description: description,
             url_image: urlImage,
             collection_images: image,
+            delete_variant_details: deleteVrDetails,
 
             specification_infomation: null,
             subcategory_id: subCategoryId,
@@ -146,6 +145,7 @@ const EditProduct = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                // fetchData();
                 setMessErr();
             } catch (error) {
                 console.log('Fail to create product', error);
@@ -160,6 +160,9 @@ const EditProduct = () => {
         updateProduct();
         console.log(data);
     };
+
+    console.log('Product: ', product);
+    console.log('FormVariant: ', formVariant);
 
     useEffect(() => {
         const arrvariant = [];
@@ -192,15 +195,18 @@ const EditProduct = () => {
     }, [metaTitle]);
 
     const addFormVariant = () => {
-        const newListFormVariant = [...formVariant, { GB: '', data: [{ color: '', price: '', discount: '' }] }];
+        const newListFormVariant = [
+            ...formVariant,
+            { GB: '', data: [{ color: '', price: '', discount: '', idSubVr: '' }] },
+        ];
         setFormVariant(newListFormVariant);
-        const newListFormSubVariant = [...formSubVariant, [{ color: '', price: '', discount: '' }]];
+        const newListFormSubVariant = [...formSubVariant, [{ color: '', price: '', discount: '', idSubVr: '' }]];
         setFormSubVariant(newListFormSubVariant);
     };
 
     const addFormSubVariant = (index) => {
         const newListFormSubVariant = [...formSubVariant];
-        newListFormSubVariant[index] = [...formSubVariant[index], { color: '', price: '', discount: '' }];
+        newListFormSubVariant[index] = [...formSubVariant[index], { color: '', price: '', discount: '', idSubVr: '' }];
         setFormSubVariant(newListFormSubVariant);
         const newListFormVariant = [...formVariant];
         newListFormVariant[index].data = newListFormSubVariant[index];
@@ -241,10 +247,19 @@ const EditProduct = () => {
         setFormVariant(newListFormVariant);
     };
 
-    const removeFormSubVarriant = (i, index) => {
+    const [deleteVrDetails, setDeleteVrDetails] = useState([]);
+    const removeFormSubVarriant = (i, index, id) => {
         const newFormSubVariant = [...formSubVariant];
         newFormSubVariant[index].splice(i, 1);
         setFormSubVariant(newFormSubVariant);
+        if (id) {
+            const result = deleteVrDetails.filter((item) => item === id);
+            if (result.length === 0) {
+                const arrDelete = [...deleteVrDetails];
+                arrDelete.push(id);
+                setDeleteVrDetails(arrDelete);
+            }
+        }
     };
 
     const removeFormVarriant = (e, i) => {
@@ -285,11 +300,11 @@ const EditProduct = () => {
 
                 // addFormVariant();
                 // const newListFormVariant = [...newFormVR, { GB: '', data: [{ color: '', price: '', discount: '' }] }];
-                newFormVR.push({ GB: '', data: [{ color: '', price: '', discount: '' }] });
+                newFormVR.push({ GB: '', data: [{ color: '', price: '', discount: '', idSubVr: '' }] });
 
                 setFormVariant(newFormVR);
                 // const newListFormSubVariant = [...newFormSubVR, [{ color: '', price: '', discount: '' }]];
-                newFormSubVR.push([{ color: '', price: '', discount: '' }]);
+                newFormSubVR.push([{ color: '', price: '', discount: '', idSubVr: '' }]);
                 setFormSubVariant(newFormSubVR);
                 arrVariantProduct.push(item.id);
                 setArrvariantProduct([...arrVariantProduct]);
@@ -339,7 +354,7 @@ const EditProduct = () => {
                 });
                 const tempArr = [];
                 listVByID.map((data, i) => {
-                    tempArr.push({ color: '', price: '', discount: '' });
+                    tempArr.push({ color: '', price: '', discount: '', idSubVr: '' });
                     newListFormSubVariant[index] = tempArr;
                     setFormSubVariant(newListFormSubVariant);
                     const newListFormVariant = [...formVariant];
@@ -350,10 +365,13 @@ const EditProduct = () => {
                     item.data[i].price = data.price;
                     item.data[i].color = data.color_id;
                     item.data[i].discount = data.discount;
+                    item.data[i].idSubVr = data.product_variant_detail_id;
                 });
             });
         }
     }, [arrVariantProduct]);
+
+    console.log('FormVariant: ', formVariant);
 
     const changeCategoryId = (e) => {
         const idCate = e.target.value;
@@ -651,6 +669,7 @@ const EditProduct = () => {
                                                                 onChange={(e) => handleChangeInputColor(e, i, index)}
                                                                 required
                                                                 value={data.color}
+                                                                disabled={data.idSubVr}
                                                             >
                                                                 <option value="">--Chọn màu sản phẩm--</option>
                                                                 {Array.isArray(listColor)
@@ -715,7 +734,9 @@ const EditProduct = () => {
                                                         {item.data.length > 1 ? (
                                                             <GoTrashcan
                                                                 className="close__icon"
-                                                                onClick={(e) => removeFormSubVarriant(i, index)}
+                                                                onClick={(e) =>
+                                                                    removeFormSubVarriant(i, index, data.idSubVr)
+                                                                }
                                                             />
                                                         ) : (
                                                             false

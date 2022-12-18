@@ -22,7 +22,7 @@ const ListOrders = () => {
         try {
             const result = await cartApi.getAllOrders(params);
             // setAllPost(allOrders.data);
-            console.log('data', result.data.length);
+            console.log('data', result);
             setListOrder(result.data);
             setPagination(result.paginator);
             setLoading(false);

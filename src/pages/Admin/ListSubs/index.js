@@ -122,7 +122,7 @@ function ListSubs() {
                                         <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
                                         <td>{items.updated_by == null ? 'Null' : items.updated_by}</td>
                                         <td className="text-center">
-                                            <Link to={`/admin/Subs/edit/${items.id}`} state={{ items }}>
+                                            <Link to={`/admin/Subs/edit/${items.id}/${items.slug}`} state={{ items }}>
                                                 Sửa
                                             </Link>
                                         </td>
