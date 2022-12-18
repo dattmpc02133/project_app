@@ -44,7 +44,12 @@ function AsideFooter() {
         };
         getByIdContent();
     }, [nameContent, params.id]);
-
+    const handleSroll = () =>
+        window.scroll({
+            top: 0,
+            left: 100,
+            behavior: 'smooth',
+        });
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
@@ -52,7 +57,7 @@ function AsideFooter() {
                 {Array.isArray(footer)
                     ? footer.map((items, index) => (
                           <li key={index} className={cx('list-item')}>
-                              <Link to={`insurance/${items.id}`} state={{ items }}>
+                              <Link to={`insurance/${items.id}`} onClick={handleSroll} state={{ items }}>
                                   {items.title}
                               </Link>
                           </li>
@@ -70,7 +75,7 @@ function AsideFooter() {
                     {Array.isArray(footer)
                         ? footer.map((items, index) => (
                               <li key={index} className={cx('list-item-li')} onClick={() => setActive(!active)}>
-                                  <Link to={`insurance/${items.id}`} state={{ items }}>
+                                  <Link to={`insurance/${items.id}`} onClick={handleSroll} state={{ items }}>
                                       {items.title}
                                   </Link>
                               </li>

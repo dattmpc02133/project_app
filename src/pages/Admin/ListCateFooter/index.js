@@ -125,7 +125,10 @@ function ListCatePost() {
                                               <td>{item.created_by == null ? 'Null' : item.created_by}</td>
                                               <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
                                               <td className="text-center">
-                                                  <Link to={`/admin/footer/edit/${item.id}`} state={{ item }}>
+                                                  <Link
+                                                      to={`/admin/footer/edit/${item?.id}/${item?.slug}`}
+                                                      state={{ item }}
+                                                  >
                                                       Sửa
                                                   </Link>
                                               </td>

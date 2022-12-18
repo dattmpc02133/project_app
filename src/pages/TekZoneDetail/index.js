@@ -32,6 +32,7 @@ function TekZoneDetail() {
     const [allCatePost, setAllCatePost] = useState([]);
     const [catePostAll, setCatePostAll] = useState([]);
     const [relateTo, setRelateTo] = useState([]);
+    const [time, setTime] = useState([]);
     useEffect(() => {
         const getById = async () => {
             setLoading(true);
@@ -42,6 +43,7 @@ function TekZoneDetail() {
                 setUser(byId.data.author);
                 setViews(byId.data.views);
                 setIdCatePost(byId.data.subcategory_id);
+                setTime(byId.data.created_at);
                 setLoading(false);
             } catch (error) {
                 console.log('lỗi lấy id bài viết', error);
@@ -97,7 +99,7 @@ function TekZoneDetail() {
 
                         <div className={cx('detail-user')}>
                             <span>{user}</span>
-                            <span className={cx('time')}>9 giờ trước</span>
+                            <span className={cx('time')}>{time}</span>
                         </div>
                     </div>
 
@@ -132,7 +134,7 @@ function TekZoneDetail() {
                         <Slider {...settings}>
                             {relateTo?.post?.map((item, index) => (
                                 <div className={cx('item-posts')} key={index}>
-                                    <Link onClick={handleSroll} to={`/tekzonedetail/${item.id}`}>
+                                    <Link onClick={handleSroll} to={`/tekzonedetail/${item.id}/${item.slug}`}>
                                         <div className={cx('img-slider')}>
                                             <img src={item.image} alt={item.title} />
                                         </div>
@@ -154,7 +156,7 @@ function TekZoneDetail() {
                         <div className={cx('newsest')}>
                             {relateTo?.post?.map((items, index) => (
                                 <div className={cx('news-item')} key={index}>
-                                    <Link onClick={handleSroll} to={`/tekzonedetail/${items.id}`}>
+                                    <Link onClick={handleSroll} to={`/tekzonedetail/${items.id}/${items?.slug}`}>
                                         <div className={cx('img-item')}>
                                             <img src={items.image} alt={items.title} />
                                         </div>
