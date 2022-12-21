@@ -139,7 +139,7 @@ export const CartContextProvider = ({ children }) => {
                 updateCart(data);
             }
         } else if (listCartLocal != undefined) {
-            if (Number(listCartLocal[index].quantity) >= 1) {
+            if (Number(listCartLocal[index].quantity) > 1) {
                 listCartLocal[index].quantity -= 1;
                 updateCart(listCartLocal);
             }
@@ -147,26 +147,31 @@ export const CartContextProvider = ({ children }) => {
     };
 
     const deleteCartItem = async (listIdDelete) => {
-        setLoading(true);
-        try {
-            const result = await cartApi.delete(
-                listIdDelete.current.idPro,
-                listIdDelete.current.idVar,
-                listIdDelete.current.idColor,
-            );
-            // setListProDettails([]);
-            setMessStatus(result.message);
-            setStatusHandle(true);
-            setModal(true);
-            getCart();
-            setLoading(false);
-        } catch (error) {
-            console.log('Failed to delete cart: ', error);
-            const res = error.response;
-            setMessStatus(res.message);
-            setLoading(false);
-            setModal(true);
-            setStatusHandle(false);
+        if (listCart?.details != undefined) {
+            setLoading(true);
+            try {
+                const result = await cartApi.delete(
+                    listIdDelete.current.idPro,
+                    listIdDelete.current.idVar,
+                    listIdDelete.current.idColor,
+                );
+                // setListProDettails([]);
+                setMessStatus(result.message);
+                setStatusHandle(true);
+                setModal(true);
+                getCart();
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to delete cart: ', error);
+                const res = error.response;
+                setMessStatus(res.message);
+                setLoading(false);
+                setModal(true);
+                setStatusHandle(false);
+            }
+        } else if (listCartLocal != undefined) {
+            listCartLocal.splice(listIdDelete.current, 1);
+            updateCart(listCartLocal);
         }
     };
 
@@ -225,6 +230,7 @@ export const CartContextProvider = ({ children }) => {
     const value = {
         getCart,
         addToCart,
+        setListCartLocal,
         listCart,
         listCartLocal,
         setListCart,
