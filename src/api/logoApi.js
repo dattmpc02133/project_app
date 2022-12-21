@@ -15,5 +15,10 @@ const LogoApi = {
         const url = `/logo/${id}`;
         return axiosClient.put(url, data);
     },
+
+    getAllClient: () => {
+        const url = '/client/logo/';
+        return axiosClient.get(url);
+    },
 };
 export default LogoApi;

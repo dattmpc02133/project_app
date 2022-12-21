@@ -46,6 +46,26 @@ const postsApi = {
         const url = `/posts/${id}`;
         return axiosClient.delete(url);
     },
+
+    getFirts: () => {
+        const url = '/client/posts/get-firts-new-post';
+        return axiosClient.get(url);
+    },
+
+    getTwoAfter: () => {
+        const url = '/client/posts/get-two-post-after-new';
+        return axiosClient.get(url);
+    },
+
+    getByFirtsSliderById: (id) => {
+        const url = `client/subcategories/get-firts-new-post-by-cate/${id}`;
+        return axiosClient.get(url);
+    },
+
+    getByTwoSliderById: (id) => {
+        const url = `client/subcategories/get-two-post-after-new/${id}`;
+        return axiosClient.get(url);
+    },
 };
 
 export default postsApi;

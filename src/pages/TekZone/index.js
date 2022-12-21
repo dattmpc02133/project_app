@@ -19,6 +19,8 @@ function TekZone() {
     const [allSpost, setAllpost] = useState([]);
     const [pageSpost, setPageSpost] = useState([]);
     const [page, setPage] = useState(1);
+    const [firtsNew, setFitsNew] = useState([]);
+    const [towPost, setTwoAfter] = useState([]);
     const settings = {
         dots: false,
         infinite: true,
@@ -29,6 +31,7 @@ function TekZone() {
 
     useEffect(() => {
         getAllSpost();
+        getPostNew();
     }, []);
 
     const getAllSpost = async (params) => {
@@ -38,6 +41,20 @@ function TekZone() {
             setPageSpost(allSposts.paginator);
         } catch (error) {
             console.log('Failed all POst', error);
+        }
+    };
+
+    const getPostNew = async () => {
+        setLoading(true);
+        try {
+            const postNew = await postsApi.getFirts();
+            setFitsNew(postNew);
+            const twoPostNew = await postsApi.getTwoAfter();
+            setTwoAfter(twoPostNew);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed get postnew', error);
+            setLoading(false);
         }
     };
 
@@ -74,40 +91,27 @@ function TekZone() {
             <div className={cx('tekzone')}>
                 <div className={cx('tekzone__list')}>
                     <ul className={cx('list__slider')}>
-                        <li className={cx('list-slider-one', 'c-8')}>
-                            <a href="#">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__1} alt="Slider1" />
-                                    <h3>
-                                        Cách tải Zing Play trên iOS đơn giản nhất, cho bạn thỏa sức giải trí với cổng
-                                        game hàng đầu Việt Namz
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
+                        {firtsNew?.map((item, index) => (
+                            <li className={cx('list-slider-one', 'c-8')} key={index}>
+                                <Link onClick={handleSroll} to={`/tekzonedetail/${item?.id}/${item?.slug}`}>
+                                    <div className={cx('size-img-title')}>
+                                        <img src={item.image} alt={item.title} />
+                                        <h3>{item.title}</h3>
+                                    </div>
+                                </Link>
+                            </li>
+                        ))}
                         <div className={cx('list-slider-two', 'c-4')}>
-                            <li>
-                                <a href="#">
-                                    <div className={cx('size-img-title')}>
-                                        <img src={images.tekzone__2} alt="Slider2" />
-                                        <h3 className={cx('title')}>
-                                            Cách cài nhạc chuông iPhone remix hay nhất, giúp người dùng cảm thấy thú vị
-                                            hơn khi có cuộc gọi đến
-                                        </h3>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div className={cx('size-img-title')}>
-                                        <img src={images.tekzone__3} alt="Slider3" />
-                                        <h3 className={cx('title')}>
-                                            Tháng 11 deal ngon hết ý cùng MacBook Air, giá cực tốt chỉ từ 22.69 triệu
-                                            đồng tại TopZone, nhanh tay tậu ngay
-                                        </h3>
-                                    </div>
-                                </a>
-                            </li>
+                            {towPost?.map((item, index) => (
+                                <li key={index}>
+                                    <Link onClick={handleSroll} to={`/tekzonedetail/${item?.id}/${item?.slug}`}>
+                                        <div className={cx('size-img-title')}>
+                                            <img src={item.image} alt={item.title} />
+                                            <h3 className={cx('title')}>{item.title}</h3>
+                                        </div>
+                                    </Link>
+                                </li>
+                            ))}
                         </div>
                     </ul>
                 </div>

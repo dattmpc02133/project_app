@@ -27,8 +27,8 @@ function ListProductSubs() {
     const getAllSubsProduct = async (params) => {
         try {
             const allSubs = await categoriesApi.getAllSubsProduct(params);
-            setSubsAll(allSubs.data.data);
-            setPageSubsProduct(allSubs.data);
+            setSubsAll(allSubs.data);
+            setPageSubsProduct(allSubs.paginator);
             console.log(allSubs.data);
         } catch (error) {
             console.log('lỗi lấy danh sách', error);
@@ -51,7 +51,7 @@ function ListProductSubs() {
                     setModal(true);
                     setLoading(false);
                     const allSubs = await categoriesApi.getAllSubsProduct(params);
-                    setSubsAll(allSubs.data.data);
+                    setSubsAll(allSubs.data);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;
@@ -73,7 +73,7 @@ function ListProductSubs() {
         }
     };
     const handleNextPage = () => {
-        if (page < pageSubsProduct?.last_page) {
+        if (page < pageSubsProduct?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
             getAllSubsProduct(`?page=${pageId}`);
@@ -145,7 +145,7 @@ function ListProductSubs() {
                     </div>
                     <Pagination
                         curentPage={page}
-                        totalPages={pageSubsProduct?.last_page}
+                        totalPages={pageSubsProduct?.totalPages}
                         handlePrevPage={handlePrevPage}
                         handleChangePage={handleChangePage}
                         handleNextPage={handleNextPage}

@@ -25,7 +25,6 @@ const Navbar = () => {
     const [openContact, setOpenContact] = useState(false);
     const [openSubsPost, setOpenSubsPost] = useState(false);
     const [openCateSubsProduct, setCateSubsProduct] = useState(false);
-    const [openLogo, setOpenLogo] = useState(false);
 
     // comment
     const [openComment, setOpenComment] = useState(false);
@@ -627,10 +626,42 @@ const Navbar = () => {
                             </li>
 
                             <li className={cx('navbar__content--item')}>
-                                <NavLink to="importslip/add" className={cx('navbar__content--link')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenImportSlip(!openImportSlip);
+                                    }}
+                                >
                                     <RiCalendarEventLine className={cx('navbar__content--icon')} />
                                     <span className={cx('navbar__content--text')}>Phiếu nhập hàng</span>
-                                </NavLink>
+                                    <BiChevronDown
+                                        className={
+                                            openImportSlip
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openImportSlip
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="importslip/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="importslip/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
                             </li>
                         </ul>
                     </div>
