@@ -6,6 +6,7 @@ import locationApi from '~/api/locationApi';
 import loginApi from '~/api/loginApi';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
+import FormOTP from '~/components/FormOTP';
 import styles from '../../assets/scss/LoginClient.module.scss';
 
 const cx = classNames.bind(styles);
@@ -125,6 +126,13 @@ function LoginClient() {
         }
     };
 
+    const [time, setTime] = useState(60);
+    if (time == 0) {
+        setMessStatus('Mã OTP hết hiệu lực');
+        setStatusHandle(false);
+        setModal(true);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!showFormRT) {
@@ -219,7 +227,7 @@ function LoginClient() {
         <div className={cx('wapper')}>
             {loading && <Loading />}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
-            {showForm && (
+            {/* {showForm && (
                 <div className={cx('modal__container')}>
                     <form className={cx('modal__form')} onSubmit={(e) => handleLogin(e)}>
                         <div className={cx('modal__heading')}>
@@ -239,6 +247,18 @@ function LoginClient() {
                         </div>
                     </form>
                 </div>
+            )} */}
+
+            {showForm && (
+                <FormOTP
+                    action={handleLogin}
+                    phone={phone}
+                    setOtp={setOtp}
+                    setShowForm={setShowForm}
+                    showform={showForm}
+                    time={time}
+                    setTime={setTime}
+                />
             )}
 
             <section>
