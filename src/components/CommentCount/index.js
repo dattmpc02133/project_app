@@ -1,21 +1,15 @@
-import { useEffect, useState } from 'react';
-import Loading from '~/components/Loading';
+import { useEffect, useState, useContext } from 'react';
+import { CommentContext } from '~/Context/CommentContext';
 
 import commentsApi from '../../api/commentsAPi';
 const CommentCount = () => {
-    const [loading, setLoading] = useState(false);
-    const [commentCount, setCommentCount] = useState();
-    const fetchCommentCount = async () => {
-        try {
-            const result = await commentsApi.getCommentCount();
-            setCommentCount(result.data);
-            setLoading(false);
-        } catch (error) {
-            console.log('Failed to fetch Store: ', error);
-            setLoading(false);
-        }
-    };
-    fetchCommentCount();
+    const { setLoading, setMessStatus, setStatusHandle, setModal, fetchCommentCount, commentCount } =
+        useContext(CommentContext);
+
+    useEffect(() => {
+        fetchCommentCount();
+    }, []);
+
     return (
         <div
             style={{

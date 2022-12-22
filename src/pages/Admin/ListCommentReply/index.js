@@ -1,6 +1,6 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Dialog from '~/components/Dialog';
@@ -9,8 +9,11 @@ import commentsApi from '../../../api/commentsAPi';
 
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/admin/Comment.module.scss';
+import { CommentContext } from '~/Context/CommentContext';
+
 const cx = classNames.bind(style);
 const ListCommentReply = () => {
+    const { fetchCommentCount } = useContext(CommentContext);
     const params = useParams();
     const [listReply, setListReply] = useState();
     const [loading, setLoading] = useState(false);
@@ -19,7 +22,7 @@ const ListCommentReply = () => {
     const [statusHandle, setStatusHandle] = useState(false);
     const [modal, setModal] = useState(false);
     const idStore = useRef();
-    console.log('idStore', idStore.current);
+
     const handleDelete = (id) => {
         setComfirm(true);
         idStore.current = id;
@@ -28,6 +31,7 @@ const ListCommentReply = () => {
         try {
             const result = await commentsApi.getCommentById(params.id);
             setListReply(result.data);
+            fetchCommentCount();
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Store: ', error);
