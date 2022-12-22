@@ -5,6 +5,7 @@ import productApi from '~/api/productApi';
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
 import { Link } from 'react-router-dom';
+import Pagination from '~/components/Pagination';
 
 const ListCatePost = () => {
     const [loading, setLoading] = useState(false);
@@ -13,15 +14,19 @@ const ListCatePost = () => {
     const [messStatus, setMessStatus] = useState(false);
     const [statusHandle, setStatusHandle] = useState(false);
     const [modal, setModal] = useState(false);
+    const [pagination, setPagination] = useState();
+    const [page, setPage] = useState(1);
     useEffect(() => {
         fetchProduct();
     }, []);
 
-    const fetchProduct = async () => {
+    const fetchProduct = async (params) => {
         setLoading(true);
         try {
-            const result = await productApi.getAll();
-            setListProduct(result.data);
+            const result = await productApi.getAllAddmin(params);
+            setListProduct(result.data.data);
+            console.log('result', result.data);
+            setPagination(result.data.last_page);
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
@@ -60,7 +65,27 @@ const ListCatePost = () => {
             deleteColor();
         }
     };
-    console.log(listProduct);
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchProduct(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        console.log(pagination);
+        if (page < pagination) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchProduct(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchProduct(`?page=${page}`);
+    };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -94,7 +119,7 @@ const ListCatePost = () => {
                                 {Array.isArray(listProduct)
                                     ? listProduct.map((item, index) => (
                                           <tr key={item.id}>
-                                              <td>{index + 1}</td>
+                                              <td>{10 * (page - 1) + index + 1}</td>
                                               <td className="tbl__20">
                                                   <p className="tbl__box--limit">{item.name}</p>
                                               </td>
@@ -144,6 +169,13 @@ const ListCatePost = () => {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pagination}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

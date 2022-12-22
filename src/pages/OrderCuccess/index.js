@@ -30,7 +30,7 @@ const OrderCuccess = () => {
                         console.log('resultGetOrder', resultGetOrder);
                         setOrders(resultGetOrder?.data[0]);
                         const cartLocal = JSON.parse(localStorage.getItem('listCart'));
-                        if (cartLocal && user == undefined) {
+                        if (cartLocal) {
                             localStorage.removeItem('listCart');
                             setListCartLocal([]);
                         } else {

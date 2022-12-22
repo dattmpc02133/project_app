@@ -227,7 +227,9 @@ function LoginHistoryCart() {
                                                                         <div
                                                                             className={cx('details__variant--content')}
                                                                         >
-                                                                            <p>{data.price}đ</p>
+                                                                            <p>
+                                                                                {Number(data.price).toLocaleString()}đ
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 </div>

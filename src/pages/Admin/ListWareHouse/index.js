@@ -6,6 +6,7 @@ import Loading from '~/components/Loading';
 
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
+import Pagination from '~/components/Pagination';
 
 const ListWareHouse = () => {
     const [loading, setLoading] = useState(false);
@@ -14,6 +15,8 @@ const ListWareHouse = () => {
     const [messStatus, setMessStatus] = useState(false);
     const [statusHandle, setStatusHandle] = useState(false);
     const [modal, setModal] = useState(false);
+    const [pagination, setPagination] = useState();
+    const [page, setPage] = useState(1);
 
     const idWarehouse = useRef();
 
@@ -48,20 +51,44 @@ const ListWareHouse = () => {
         }
     };
 
+    const fetchWareHouse = async (params) => {
+        setLoading(true);
+        try {
+            const result = await wareHouseApi.getAll(params);
+            setPagination(result.paginator.totalPages);
+            setListWareHouse(result.data);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch WareHouse: ', error);
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchWareHouse = async () => {
-            setLoading(true);
-            try {
-                const result = await wareHouseApi.getAll();
-                setListWareHouse(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to fetch WareHouse: ', error);
-                setLoading(false);
-            }
-        };
         fetchWareHouse();
     }, []);
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchWareHouse(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        console.log(pagination);
+        if (page < pagination) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchWareHouse(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchWareHouse(`?page=${page}`);
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -96,7 +123,7 @@ const ListWareHouse = () => {
                                 {Array.isArray(listWareHouse) &&
                                     listWareHouse.map((item, index) => (
                                         <tr key={item.id}>
-                                            <td>{index + 1}</td>
+                                            <td>{10 * (page - 1) + index + 1}</td>
                                             <td>
                                                 <Link to={`/admin/warehouse/store/${item.id}`}>{item.name}</Link>
                                             </td>
@@ -125,6 +152,13 @@ const ListWareHouse = () => {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pagination}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

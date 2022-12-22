@@ -3,13 +3,14 @@ import { BiCast, BiChevronDown, BiCollection, BiCreditCardFront, BiIntersect } f
 import { TiSocialInstagram, TiHomeOutline, TiLocationArrowOutline, TiPhoneOutline } from 'react-icons/ti';
 import { RiAncientGateLine, RiBankLine, RiCalendarEventLine, RiListUnordered } from 'react-icons/ri';
 import { BsGraphUp } from 'react-icons/bs';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import images from '~/assets/images';
 import style from '~/assets/scss/admin/Navbar.module.scss';
 import Loading from '~/components/Loading';
 import './style.css';
 import CommentCount from '../../CommentCount';
+import { CommentContext } from '~/Context/CommentContext';
 
 const cx = classNames.bind(style);
 const Navbar = () => {
@@ -32,7 +33,7 @@ const Navbar = () => {
 
     // comment
     const [openComment, setOpenComment] = useState(false);
-
+    const { commentCount } = useContext(CommentContext);
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
@@ -740,7 +741,7 @@ const Navbar = () => {
                     {/* brand */}
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
-                            <span className={cx('navbar__content--heading-title')}>Bình luận </span>
+                            <span className={cx('navbar__content--heading-title')}>Bình luận</span>
                             <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa bình luận</p>
                         </div>
                         <ul className={cx('navbar__content--list')}>
@@ -753,7 +754,7 @@ const Navbar = () => {
                                 >
                                     <BiCast className={cx('navbar__content--icon')} />
                                     <span className={cx('navbar__content--text')}>
-                                        Bình luận <CommentCount />
+                                        Bình luận {commentCount > 0 && <CommentCount />}
                                     </span>
                                     <BiChevronDown
                                         className={

@@ -43,6 +43,7 @@ const Category = () => {
         const fetchAllProducts = async () => {
             try {
                 const resData = await productApi.getAll();
+                console.log('resData', resData);
                 const ListProductsData = resData?.data?.filter((item) => item?.cartegory_id == CateID);
                 setListProducts(ListProductsData);
                 setItemColorActive(ListProductsData);

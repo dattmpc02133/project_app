@@ -12,7 +12,7 @@ function ListImportslip() {
     const [page, setPage] = useState(1);
     const [importSlip, setImportSlip] = useState([]);
     const [pageSlip, setPageSlip] = useState([]);
-    const [test, setTest] = useState();
+    const [openDetail, setOpenDetail] = useState();
     useEffect(() => {
         getProImportSlip();
     }, []);
@@ -23,6 +23,7 @@ function ListImportslip() {
             const getAllImportSlip = await proImportSlip.getAllProductSlip(params);
             setImportSlip(getAllImportSlip.data);
             setPageSlip(getAllImportSlip.paginator);
+            const getDetail = getAllImportSlip.data;
 
             setLoading(false);
         } catch (error) {
@@ -63,31 +64,29 @@ function ListImportslip() {
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
                                     <th>Tên cửa hàng</th>
-                                    <th>Tên Kho </th>
+                                    {/* <th>Tên Kho </th> */}
+                                    <th>Tên sản phẩm</th>
+                                    <th>Màu sản phẩm</th>
+                                    <th>Tên biến thể</th>
+                                    <th>Số lượng</th>
+                                    <th>Giá tiền</th>
                                     <th>Ngày Nhập hàng</th>
                                     <th>Người Nhập hàng</th>
-                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {importSlip?.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{index + 1}</td>
                                         <td>{item?.name}</td>
-                                        <td>{item?.warehouse}</td>
-
+                                        {/* <td>{item?.warehouse}</td> */}
+                                        <td>{item?.details?.product_info?.name}</td>
+                                        <td>{item?.details?.color?.name}</td>
+                                        <td>{item?.details?.variant?.variant_product?.variant_name}</td>
+                                        <td>{item?.details?.quantity_import}</td>
+                                        <td>{item?.details?.price_import}</td>
                                         <td>{item?.created_at == null ? 'Null' : item?.created_at}</td>
                                         <td>{item?.created_by == null ? 'Null' : item?.created_by}</td>
-                                        <td>
-                                            <Link
-                                                to={`/admin/importslipdetail/list/${item?.id}/${item.code}`}
-                                                state={item.id}
-                                            >
-                                                Chi tiết
-                                            </Link>
-                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
