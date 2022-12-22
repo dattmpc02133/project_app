@@ -3,8 +3,13 @@ import axiosClient from './axiosClient';
 // api/productApi.js
 const colorApi = {
     getAll: (params) => {
-        const url = '/colors/all';
-        return axiosClient.get(url, { params });
+        if (params) {
+            const url = `/colors/all${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/colors/all';
+            return axiosClient.get(url);
+        }
     },
     create: (data) => {
         const url = '/colors/create';

@@ -19,6 +19,8 @@ function Home() {
             setListProducts(dataHome.data);
         };
         fetchHome();
+
+        document.title = 'Trang chủ';
     }, []);
     // const ListProductsData = useMemo(() => {
     //     listProducts?.map((ListProductsLabels) => {

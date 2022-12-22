@@ -6,6 +6,15 @@ const productApi = {
         const url = '/client/products';
         return axiosClient.get(url, { params });
     },
+    getAllAddmin: (params) => {
+        if (params) {
+            const url = `/products${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/products';
+            return axiosClient.get(url);
+        }
+    },
     getHomeAll: (params) => {
         const url = '/client/getallproductbysubcategories';
         return axiosClient.get(url, { params });

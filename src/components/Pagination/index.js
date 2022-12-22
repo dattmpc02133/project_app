@@ -32,7 +32,9 @@ const Pagination = ({ curentPage, totalPages, handlePrevPage, handleChangePage, 
                                 className={cx('pagination__num--item')}
                                 onClick={() => handleChangePage(item)}
                             >
-                                <button className={cx('btn__num')}>{item}</button>
+                                <button className={curentPage == item ? cx('btn__num', 'active') : cx('btn__num')}>
+                                    {item}
+                                </button>
                             </div>
                         ))}
                 </div>
