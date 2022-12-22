@@ -119,6 +119,7 @@ const Cart = () => {
             };
             getLocation();
         }
+        document.title = 'Giỏ hàng';
     }, [listCart, user]);
 
     useEffect(() => {

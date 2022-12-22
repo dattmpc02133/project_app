@@ -704,8 +704,8 @@ const DetailProduct = () => {
                                         </div>
                                         <h3>{item.product_name}</h3>
                                         <span className={cx('price')}>
-                                            {item?.variantsDetailsByProduct[0].price}đ &nbsp;
-                                            {item?.variantsDetailsByProduct[0].discount}%
+                                            {item?.variantsDetailsByProduct[0]?.price}đ &nbsp;
+                                            {item?.variantsDetailsByProduct[0]?.discount}%
                                         </span>
                                     </Link>
                                 </div>
