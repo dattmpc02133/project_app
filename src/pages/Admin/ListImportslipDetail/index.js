@@ -2,7 +2,7 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
 import proImportSlip from '../../../api/proImportSlip';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 function ListImportslipDetail() {
     const [loading, setLoading] = useState(false);
@@ -10,13 +10,16 @@ function ListImportslipDetail() {
     const [importSlip, setImportSlip] = useState([]);
 
     const params = useParams();
-    console.log(params.id);
+    const state = useLocation();
+
+    const data = state.item;
+    console.log(data);
     useEffect(() => {
         const getAllProductSlipDetail = async () => {
             setLoading(true);
 
             try {
-                const getAllImportSlip = await proImportSlip.getAllProductSlip(params.id);
+                // const getAllImportSlip = await proImportSlip.getAllProductSlip(params.id);
 
                 const getByIdSlip = await proImportSlip.getAllProductSlipDetails();
 
@@ -54,7 +57,7 @@ function ListImportslipDetail() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {importSlipDetail?.map((item, index) => (
+                                {/* {importSlipDetail?.map((item, index) => (
                                     <tr key={index}>
                                         <td>{item?.product_id}</td>
                                         <td>{item?.color_id}</td>
@@ -62,7 +65,7 @@ function ListImportslipDetail() {
                                         <td>{item?.quantity_import}</td>
                                         <td>{item?.price_import}</td>
                                     </tr>
-                                ))}
+                                ))} */}
                             </tbody>
                         </table>
                     </div>
