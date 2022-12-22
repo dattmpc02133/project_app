@@ -103,7 +103,7 @@ function ListPost() {
                                     <th>Tên danh mục</th>
                                     <th>Trạng thái</th>
                                     <th>Người tạo</th>
-                                    <th>Người cập nhật</th>
+                                    {/* <th>Người cập nhật</th> */}
                                     <th colSpan="2" className="text-center">
                                         Thao tác
                                     </th>
@@ -118,8 +118,8 @@ function ListPost() {
                                         <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                             {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                         </td>
-                                        <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                        <td>{item.created_by == null ? '' : item.created_by}</td>
+                                        <td>{item.author == null ? 'Null' : item.author}</td>
+                                        {/* <td>{item.updated_by == null ? 'Null' : item.updated_by}</td> */}
                                         <td className="text-center">
                                             <Link to={`/admin/post/edit/${item.id}/${item.slug}`} state={{ item }}>
                                                 Sửa

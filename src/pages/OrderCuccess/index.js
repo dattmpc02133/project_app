@@ -4,60 +4,86 @@ import { useParams } from 'react-router-dom';
 import cartApi from '~/api/cartApi';
 import Loading from '~/components/Loading';
 import { CartContext } from '~/Context/CartContext';
+import { UserContext } from '~/Context/UserContext';
 import { useEffect, useState, useContext } from 'react';
 const cx = classNames.bind(style);
 const OrderCuccess = () => {
     const [orders, setOrders] = useState(false);
 
-    const { loading, setLoading, deleteCart } = useContext(CartContext);
+    const { loading, setLoading, deleteCart, setListCartLocal } = useContext(CartContext);
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         const url = window.location.href;
-        var index = url.indexOf('vnp_Amount');
-        let returnDataUrl = '';
-        if (index > 0) {
-            returnDataUrl = url.slice(index);
-        }
-
-        if (returnDataUrl != null) {
-            const cartInfo = JSON.parse(localStorage.getItem('cartInfo'));
-
-            const returnData = async () => {
-                try {
-                    const result = await cartApi.returnDataVnPay(returnDataUrl);
-                    const code = result.data.order_code;
-                    console.log('result', result);
-
-                    cartInfo.code = code;
-
-                    const resultCreteOrders = await cartApi.payVNPay(cartInfo);
-                    console.log('resultCreteOrders', resultCreteOrders);
-
-                    const resultGetOrder = await cartApi.getOrdersCode(code);
-                    console.log('resultGetOrder', resultGetOrder);
-                    setOrders(resultGetOrder?.data[0]);
-                    deleteCart();
-                } catch (error) {
-                    console.log('Failed to return data: ', error);
-                }
-            };
-
-            returnData();
-        }
-
-        const getOrdersDetails = async () => {
-            setLoading(true);
-            try {
-                const resultOrder = await cartApi.getOrdersId(57);
-                console.log(resultOrder);
-                setOrders(resultOrder.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Fail to get orders: ', error);
-                setLoading(false);
+        if (url.indexOf('madh') > 0) {
+            var index = url.indexOf('madh') + 5;
+            let returnDataUrl = '';
+            if (index > 0) {
+                returnDataUrl = url.slice(index);
             }
-        };
-        getOrdersDetails();
+
+            if (returnDataUrl != null) {
+                const cartInfo = JSON.parse(localStorage.getItem('cartInfo'));
+                const returnData = async () => {
+                    try {
+                        const resultGetOrder = await cartApi.getOrdersCode(returnDataUrl);
+                        console.log('resultGetOrder', resultGetOrder);
+                        setOrders(resultGetOrder?.data[0]);
+                        const cartLocal = JSON.parse(localStorage.getItem('listCart'));
+                        if (cartLocal && user == undefined) {
+                            localStorage.removeItem('listCart');
+                            setListCartLocal([]);
+                        } else {
+                            deleteCart();
+                        }
+                    } catch (error) {
+                        console.log('Failed to return data: ', error);
+                    }
+                };
+                returnData();
+            }
+        } else if (url.indexOf('vnp_Amount') > 0) {
+            var index = url.indexOf('vnp_Amount');
+            let returnDataUrl = '';
+            if (index > 0) {
+                returnDataUrl = url.slice(index);
+            }
+
+            if (returnDataUrl != null) {
+                const cartInfo = JSON.parse(localStorage.getItem('cartInfo'));
+
+                const returnData = async () => {
+                    try {
+                        const result = await cartApi.returnDataVnPay(returnDataUrl);
+                        const code = result.data.order_code;
+                        console.log('result', result);
+
+                        cartInfo.code = code;
+
+                        const resultCreteOrders = await cartApi.payVNPay(cartInfo);
+                        console.log('resultCreteOrders', resultCreteOrders);
+
+                        const resultGetOrder = await cartApi.getOrdersCode(code);
+                        console.log('resultGetOrder', resultGetOrder);
+                        setOrders(resultGetOrder?.data[0]);
+
+                        const cartLocal = JSON.parse(localStorage.getItem('listCart'));
+                        if (cartLocal && user == undefined) {
+                            localStorage.removeItem('listCart');
+                            setListCartLocal([]);
+                        } else {
+                            deleteCart();
+                            console.log('Delete cart');
+                        }
+                        console.log('Delete cart', user);
+                    } catch (error) {
+                        console.log('Failed to return data: ', error);
+                    }
+                };
+
+                returnData();
+            }
+        }
     }, []);
     return (
         <div className={cx('wrapper')}>

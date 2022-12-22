@@ -7,6 +7,7 @@ import loginApi from '~/api/loginApi';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
 import styles from '../../assets/scss/LoginClient.module.scss';
+
 const cx = classNames.bind(styles);
 
 function LoginClient() {
@@ -108,8 +109,6 @@ function LoginClient() {
             localStorage.setItem('dataAd', JSON.stringify(dataUser));
             localStorage.setItem('token', token);
             setLoginStatus(true);
-
-            console.log(result);
             setShowForm(false);
             setMessStatus(result.message);
             setLoading(false);

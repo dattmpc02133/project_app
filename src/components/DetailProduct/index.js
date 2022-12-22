@@ -114,6 +114,7 @@ const DetailProduct = () => {
     const {
         addToCart,
         loading,
+        getCart,
         modal,
         messStatus,
         statusHandle,
@@ -279,28 +280,52 @@ const DetailProduct = () => {
                 product_id: itemColorActive.product_id,
                 variant_id: itemColorActive.variant_id,
                 color_id: itemColorActive.color_id,
-                price: PriceDisCount,
+                name: productDetail.name,
+                price: Number(PriceDisCount).toFixed(0),
+                originalPrice: Number(itemColorActive?.price).toFixed(0),
                 image: imageSliderThumb.url_image,
                 quantity: 1,
             };
             const listProductLocal = localStorage.getItem('listCart');
+
             if (listProductLocal != undefined) {
                 const listCartLocal = JSON.parse(listProductLocal);
+                const result = listCartLocal.filter(
+                    (item) =>
+                        item.product_id == data.product_id &&
+                        item.color_id == data.color_id &&
+                        item.variant_id == data.variant_id,
+                );
                 listCartLocal?.map((item, index) => {
                     if (
                         item.product_id == data.product_id &&
                         item.color_id == data.color_id &&
                         item.variant_id == data.variant_id
                     ) {
+                        localStorage.removeItem('listCart');
                         listCartLocal[index].quantity++;
-                        console.log('Cập nhật số lượng', listCartLocal[index]);
-                    } else {
-                        listCartLocal.push(data);
-                        console.log('listCartLocal', listCartLocal);
+                        localStorage.setItem('listCart', JSON.stringify([...listCartLocal]));
+                        setMessStatus('Thêm sản phẩm vào giỏ hàng thành công');
+                        setStatusHandle(true);
+                        getCart();
+                        setModal(true);
                     }
                 });
+                if (result.length === 0) {
+                    localStorage.removeItem('listCart');
+                    listCartLocal.push(data);
+                    localStorage.setItem('listCart', JSON.stringify([...listCartLocal]));
+                    setMessStatus('Thêm sản phẩm vào giỏ hàng thành công');
+                    setStatusHandle(true);
+                    setModal(true);
+                    getCart();
+                }
             } else {
                 localStorage.setItem('listCart', JSON.stringify([data]));
+                setMessStatus('Thêm sản phẩm vào giỏ hàng thành công');
+                getCart();
+                setStatusHandle(true);
+                setModal(true);
             }
         }
     };

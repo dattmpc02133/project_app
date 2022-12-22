@@ -54,6 +54,7 @@ function TekZone() {
             setLoading(false);
         } catch (error) {
             console.log('Failed get postnew', error);
+            setLoading(false);
         }
     };
 

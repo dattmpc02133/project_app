@@ -27,8 +27,8 @@ function TekZoneCate() {
     const [loading, setLoading] = useState(false);
     const [allCatePost, setAllCatePost] = useState([]);
     const [catePostId, setCatePostId] = useState('');
-    const [firtsNew, setFitsNew] = useState([]);
-    const [towPost, setTwoAfter] = useState([]);
+    const [firtsNew, setFitsNew] = useState();
+    const [towPost, setTwoAfter] = useState();
     useEffect(() => {
         const getAllCatePost = async () => {
             setLoading(true);
@@ -49,14 +49,14 @@ function TekZoneCate() {
             setLoading(true);
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
-                setLoading(false);
                 setCatePostId(byIdCatePost.data);
+                setLoading(false);
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);
                 setLoading(false);
             }
         };
-        getPostNew();
+
         getByIdPost();
     }, [params.id]);
     const handleSroll = () =>
@@ -65,45 +65,57 @@ function TekZoneCate() {
             left: 100,
             behavior: 'smooth',
         });
-    const getPostNew = async () => {
-        setLoading(true);
-        try {
-            const postNew = await postsApi.getFirts();
-            setFitsNew(postNew);
-            const twoPostNew = await postsApi.getTwoAfter();
-            setTwoAfter(twoPostNew);
-            setLoading(false);
-        } catch (error) {
-            console.log('Failed get postnew', error);
-        }
-    };
+
+    useEffect(() => {
+        const getPostNew = async () => {
+            setLoading(true);
+            try {
+                const postNew = await postsApi.getByFirtsSliderById(params.id);
+                setFitsNew(postNew.data);
+
+                const twoPostNew = await postsApi.getByTwoSliderById(params.id);
+                setTwoAfter(twoPostNew.data);
+
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed get postnew', error);
+                setLoading(false);
+            }
+        };
+        getPostNew();
+    }, [params.id]);
+
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
             <div className={cx('tekzone')}>
                 <div className={cx('tekzone__list')}>
                     <ul className={cx('list__slider')}>
-                        {firtsNew?.map((item, index) => (
-                            <li className={cx('list-slider-one', 'c-8')} key={index}>
-                                <Link onClick={handleSroll} to={`/tekzonedetail/${item?.id}/${item?.slug}`}>
-                                    <div className={cx('size-img-title')}>
-                                        <img src={item.image} alt={item.title} />
-                                        <h3>{item.title}</h3>
-                                    </div>
-                                </Link>
-                            </li>
-                        ))}
-                        <div className={cx('list-slider-two', 'c-4')}>
-                            {towPost?.map((item, index) => (
-                                <li key={index}>
+                        {firtsNew?.map((items) =>
+                            items.posts.map((item, index) => (
+                                <li className={cx('list-slider-one', 'c-8')} key={index}>
                                     <Link onClick={handleSroll} to={`/tekzonedetail/${item?.id}/${item?.slug}`}>
                                         <div className={cx('size-img-title')}>
                                             <img src={item.image} alt={item.title} />
-                                            <h3 className={cx('title')}>{item.title}</h3>
+                                            <h3>{item.title}</h3>
                                         </div>
                                     </Link>
                                 </li>
-                            ))}
+                            )),
+                        )}
+                        <div className={cx('list-slider-two', 'c-4')}>
+                            {towPost?.map((items) =>
+                                items.posts.map((item, index) => (
+                                    <li key={index}>
+                                        <Link onClick={handleSroll} to={`/tekzonedetail/${item?.id}/${item?.slug}`}>
+                                            <div className={cx('size-img-title')}>
+                                                <img src={item.image} alt={item.title} />
+                                                <h3 className={cx('title')}>{item.title}</h3>
+                                            </div>
+                                        </Link>
+                                    </li>
+                                )),
+                            )}
                         </div>
                     </ul>
                 </div>

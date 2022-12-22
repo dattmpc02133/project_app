@@ -28,8 +28,9 @@ const ListCategoriesProduct = () => {
         try {
             setLoading(true);
             const result = await categoriesApi.getAll(params);
-            setListCate(result.data.data);
-            setPageCateProduct(result.data);
+            setListCate(result.data);
+
+            setPageCateProduct(result.paginator);
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
@@ -45,7 +46,7 @@ const ListCategoriesProduct = () => {
         }
     };
     const handleNextPage = () => {
-        if (page < pageCateProudct?.last_page) {
+        if (page < pageCateProudct?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
             fetchCatePost(`?page=${pageId}`);
@@ -74,7 +75,7 @@ const ListCategoriesProduct = () => {
                     setModal(true);
                     setLoading(false);
                     const result = await categoriesApi.getAll(params);
-                    setListCate(result.data.data);
+                    setListCate(result.data);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;
@@ -147,7 +148,7 @@ const ListCategoriesProduct = () => {
                     </div>
                     <Pagination
                         curentPage={page}
-                        totalPages={pageCateProudct?.last_page}
+                        totalPages={pageCateProudct?.totalPages}
                         handlePrevPage={handlePrevPage}
                         handleChangePage={handleChangePage}
                         handleNextPage={handleNextPage}

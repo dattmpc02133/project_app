@@ -26,7 +26,7 @@ function CreateProductSubs() {
         const getAllCate = async () => {
             try {
                 const cate = await categoriesApi.getAll();
-                setCategories(cate.data.data);
+                setCategories(cate.data);
                 // console.log(cate.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
