@@ -13,6 +13,7 @@ import style from '~/assets/scss/Cart.module.scss';
 import Dialog from '~/components/Dialog';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
+import FormOTP from '~/components/FormOTP';
 import { CartContext } from '~/Context/CartContext';
 import { UserContext } from '~/Context/UserContext';
 
@@ -301,9 +302,16 @@ const Cart = () => {
     };
 
     // console.log('listCart', listCart);
+    const [time, setTime] = useState(60);
+    if (time == 0) {
+        setMessStatus('Mã OTP hết hiệu lực');
+        setStatusHandle(false);
+        setModal(true);
+    }
 
     const handleConfirmPay = (e) => {
         e.preventDefault();
+        setShowForm(false);
         const dataRegister = {
             name,
             address,
@@ -318,10 +326,8 @@ const Cart = () => {
 
         if (statusLogin) {
             login(dataLogin);
-            console.log('Login');
         } else {
             register(dataRegister, dataLogin);
-            console.log('Register');
         }
     };
 
@@ -397,6 +403,18 @@ const Cart = () => {
 
             {/* OTP */}
             {showForm && (
+                <FormOTP
+                    action={handleConfirmPay}
+                    phone={phone}
+                    setOtp={setOtp}
+                    setShowForm={setShowForm}
+                    showform={showForm}
+                    time={time}
+                    setTime={setTime}
+                />
+            )}
+
+            {/* {showForm && (
                 <div className={cx('modal__container')}>
                     <form className={cx('modal__form')} onSubmit={(e) => handleConfirmPay(e)}>
                         <div className={cx('modal__heading')}>
@@ -416,7 +434,7 @@ const Cart = () => {
                         </div>
                     </form>
                 </div>
-            )}
+            )} */}
 
             {listCart?.details?.length > 0 && (
                 <div className={cx('content-pay')}>
@@ -809,7 +827,7 @@ const Cart = () => {
                 </div>
             )}
 
-            {listCartLocal?.length > 0 && (
+            {user == undefined && listCartLocal?.length > 0 && (
                 <div className={cx('content-pay')}>
                     <div className={cx('yourCartBuyMore')}>
                         <Link to="/" className={cx('BuyMore')}>
@@ -1103,7 +1121,7 @@ const Cart = () => {
                             </div>
 
                             <div className={cx('finaltotal')}>
-                                <div className={cx('area-total')}>
+                                {/* <div className={cx('area-total')}>
                                     <div className={cx('discountcode')}>
                                         <div className={cx('coupon-code ')}>
                                             <span>Sử dụng mã giảm giá</span>
@@ -1124,7 +1142,7 @@ const Cart = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className={cx('submitorder')}>
                                     <button className={cx('btn__submit')}>THANH TOÁN</button>
                                 </div>

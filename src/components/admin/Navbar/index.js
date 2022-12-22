@@ -9,6 +9,7 @@ import images from '~/assets/images';
 import style from '~/assets/scss/admin/Navbar.module.scss';
 import Loading from '~/components/Loading';
 import './style.css';
+import CommentCount from '../../CommentCount';
 
 const cx = classNames.bind(style);
 const Navbar = () => {
@@ -21,6 +22,7 @@ const Navbar = () => {
     const [openWareHouse, setOpenWareHouse] = useState(false);
     const [openCategories, setOpenCategories] = useState(false);
     const [openBrand, setOpenBrand] = useState(false);
+    const [openBanner, setOpenBanner] = useState(false);
     const [openStore, setOpenStore] = useState(false);
     const [openImportSlip, setOpenImportSlip] = useState(false);
     const [openContact, setOpenContact] = useState(false);
@@ -130,6 +132,54 @@ const Navbar = () => {
                         </ul>
                     </div>
                     {/* end */}
+                    {/* slider */}
+                    <div className={cx('navbar__content--block')}>
+                        <div className={cx('navbar__content--heading')}>
+                            <span className={cx('navbar__content--heading-title')}>Bảng hiệu</span>
+                            <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa bảng hiệu</p>
+                        </div>
+                        <ul className={cx('navbar__content--list')}>
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenBanner(!openBanner);
+                                    }}
+                                >
+                                    <BiCast className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Bảng hiệu </span>
+                                    <BiChevronDown
+                                        className={
+                                            openBanner
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openBanner
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="slideshow/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="brand/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    {/* end slider */}
                     {/* Category */}
                     {/* <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
@@ -690,7 +740,7 @@ const Navbar = () => {
                     {/* brand */}
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
-                            <span className={cx('navbar__content--heading-title')}>Bình luận</span>
+                            <span className={cx('navbar__content--heading-title')}>Bình luận </span>
                             <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa bình luận</p>
                         </div>
                         <ul className={cx('navbar__content--list')}>
@@ -702,7 +752,9 @@ const Navbar = () => {
                                     }}
                                 >
                                     <BiCast className={cx('navbar__content--icon')} />
-                                    <span className={cx('navbar__content--text')}>Bình luận </span>
+                                    <span className={cx('navbar__content--text')}>
+                                        Bình luận <CommentCount />
+                                    </span>
                                     <BiChevronDown
                                         className={
                                             openComment

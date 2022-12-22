@@ -6,20 +6,29 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
 import commentsApi from '../../../api/commentsAPi';
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import ImageUpload from '../../../components/ImageUpload';
+import { CommentContext } from '~/Context/CommentContext';
 
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/admin/Comment.module.scss';
 const cx = classNames.bind(style);
 const ListComment = () => {
+    const {
+        loading,
+        setLoading,
+        comfirm,
+        setComfirm,
+        messStatus,
+        setMessStatus,
+        statusHandle,
+        setStatusHandle,
+        modal,
+        setModal,
+        fetchCommentCount,
+    } = useContext(CommentContext);
     const { state } = useLocation();
     const { id: idProduct, comment: comment } = state;
-    const [loading, setLoading] = useState(false);
-    const [comfirm, setComfirm] = useState(false);
-    const [messStatus, setMessStatus] = useState(false);
-    const [statusHandle, setStatusHandle] = useState(false);
-    const [modal, setModal] = useState(false);
     const [resultGetComment, setResultGetComment] = useState();
     const [render, setRender] = useState(false);
     const idComment = useRef();
@@ -31,7 +40,6 @@ const ListComment = () => {
     const handleSelectActive = (e, id, content) => {
         e.preventDefault();
         const data = { content: content, is_active: e.target.value };
-        console.log('data', data);
         const EditStatusComment = async () => {
             setLoading(true);
             try {
@@ -42,6 +50,7 @@ const ListComment = () => {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
+                fetchCommentCount();
             } catch (error) {
                 console.log('Failed to Edit: ', error);
                 const res = error.response.data;
@@ -83,6 +92,7 @@ const ListComment = () => {
         try {
             const result = await commentsApi.getAll();
             const responComment = result?.data.filter((item) => item.id == idProduct);
+            console.log('responComment', responComment);
             setResultGetComment(responComment[0].comments);
             setLoading(false);
         } catch (error) {

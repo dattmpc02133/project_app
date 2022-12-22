@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
+import Pagination from '~/components/Pagination';
 
 const ListStore = () => {
     const [loading, setLoading] = useState(false);
@@ -14,6 +15,8 @@ const ListStore = () => {
     const [messStatus, setMessStatus] = useState(false);
     const [statusHandle, setStatusHandle] = useState(false);
     const [modal, setModal] = useState(false);
+    const [pagination, setPagination] = useState();
+    const [page, setPage] = useState(1);
 
     const idStore = useRef();
 
@@ -48,19 +51,43 @@ const ListStore = () => {
         }
     };
 
+    const fetchListColor = async () => {
+        try {
+            const result = await storeApi.getAll();
+            console.log('result', result);
+            setPagination(result.paginator.totalPages);
+            setListStore(result.data);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch Store: ', error);
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        const fetchListColor = async () => {
-            try {
-                const result = await storeApi.getAll();
-                setListStore(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to fetch Store: ', error);
-                setLoading(false);
-            }
-        };
         fetchListColor();
     }, []);
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchListColor(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        console.log(pagination);
+        if (page < pagination) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchListColor(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchListColor(`?page=${page}`);
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -93,7 +120,7 @@ const ListStore = () => {
                                 {Array.isArray(listStore)
                                     ? listStore.map((item, index) => (
                                           <tr key={item.id}>
-                                              <td>{index}</td>
+                                              <td>{10 * (page - 1) + index + 1}</td>
                                               <td>{item.name}</td>
                                               <td>{item.warehouse}</td>
                                               <td>{item.province}</td>
@@ -119,6 +146,13 @@ const ListStore = () => {
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pagination}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

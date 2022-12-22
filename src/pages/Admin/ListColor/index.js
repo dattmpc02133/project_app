@@ -5,6 +5,7 @@ import colorApi from '~/api/colorApi';
 
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
+import Pagination from '~/components/Pagination';
 
 const ListColor = () => {
     const [loading, setLoading] = useState(false);
@@ -13,6 +14,8 @@ const ListColor = () => {
     const [messStatus, setMessStatus] = useState(false);
     const [statusHandle, setStatusHandle] = useState(false);
     const [modal, setModal] = useState(false);
+    const [pagination, setPagination] = useState();
+    const [page, setPage] = useState(1);
 
     const idColor = useRef();
 
@@ -47,19 +50,42 @@ const ListColor = () => {
         }
     };
 
+    const fetchListColor = async (params) => {
+        try {
+            const result = await colorApi.getAll(params);
+            console.log(result.data);
+            setListColor(result.data.data);
+            setPagination(result.data.paginator.totalPages);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch Categories: ', error);
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        const fetchListColor = async () => {
-            try {
-                const result = await colorApi.getAll();
-                setListColor(result.data);
-                setLoading(false);
-            } catch (error) {
-                console.log('Failed to fetch Categories: ', error);
-                setLoading(false);
-            }
-        };
         fetchListColor();
     }, []);
+
+    const handlePrevPage = () => {
+        if (page > 1) {
+            const pageId = page - 1;
+            setPage(pageId);
+            fetchListColor(`?page=${pageId}`);
+        }
+    };
+    const handleNextPage = () => {
+        console.log(pagination);
+        if (page < pagination) {
+            const pageId = page + 1;
+            setPage(pageId);
+            fetchListColor(`?page=${pageId}`);
+        }
+    };
+
+    const handleChangePage = (page) => {
+        setPage(page);
+        fetchListColor(`?page=${page}`);
+    };
 
     return (
         <div className="wrapper">
@@ -89,32 +115,38 @@ const ListColor = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {Array.isArray(listCorlor)
-                                    ? listCorlor.map((item, index) => (
-                                          <tr key={item.id}>
-                                              <td>{index}</td>
-                                              <td>{item.name}</td>
-                                              <td>{item.color_code}</td>
-                                              <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                                  {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
-                                              </td>
-                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
-                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                              <td className="text-center btn__tbl">Sửa</td>
-                                              <td
-                                                  className="text-center btn__tbl"
-                                                  onClick={(e) => {
-                                                      handleDelete(item.id);
-                                                  }}
-                                              >
-                                                  Xóa
-                                              </td>
-                                          </tr>
-                                      ))
-                                    : false}
+                                {Array.isArray(listCorlor) &&
+                                    listCorlor.map((item, index) => (
+                                        <tr key={item.id}>
+                                            <td>{10 * (page - 1) + index + 1}</td>
+                                            <td>{item.name}</td>
+                                            <td>{item.color_code}</td>
+                                            <td className={item.is_active == 1 ? 'active' : 'an__active'}>
+                                                {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
+                                            </td>
+                                            <td>{item.created_by == null ? 'Null' : item.created_by}</td>
+                                            <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
+                                            <td className="text-center btn__tbl">Sửa</td>
+                                            <td
+                                                className="text-center btn__tbl"
+                                                onClick={(e) => {
+                                                    handleDelete(item.id);
+                                                }}
+                                            >
+                                                Xóa
+                                            </td>
+                                        </tr>
+                                    ))}
                             </tbody>
                         </table>
                     </div>
+                    <Pagination
+                        curentPage={page}
+                        totalPages={pagination}
+                        handlePrevPage={handlePrevPage}
+                        handleChangePage={handleChangePage}
+                        handleNextPage={handleNextPage}
+                    />
                 </div>
             </div>
         </div>

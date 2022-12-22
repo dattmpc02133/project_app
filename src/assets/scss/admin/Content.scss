@@ -71,6 +71,28 @@
                         }
                     }
                 }
+                // DAT
+                .list__images {
+                    // display: flex;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    .img__box-wrap {
+                        // width: 16.667%;
+                        // height: 100px;
+                        // overflow: hidden;
+                        cursor: pointer;
+                        img {
+                            width: 180px;
+                            height: 180px;
+                            object-fit: cover;
+                            margin: 10px 10px;
+                            padding: 4px;
+                            border: 1px solid #ccc;
+                            border-radius: 4px;
+                        }
+                    }
+                }
+                // end
 
                 .input__block {
                     padding: 20px;
