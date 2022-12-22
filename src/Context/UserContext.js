@@ -33,6 +33,7 @@ export const UserContextProvider = ({ children }) => {
         } catch (error) {
             console.log('Failed to get user: ', error);
             setLoading(false);
+            setUser();
         }
     };
 
@@ -55,31 +56,32 @@ export const UserContextProvider = ({ children }) => {
         }
     };
 
-    const logout = async () => {
-        setLoading(true);
-        try {
-            const result = await loginApi.logout();
-            localStorage.removeItem('token');
-            localStorage.removeItem('dataAd');
-            setUser();
-            setName();
-            setPhone();
-            setEmail();
-            setLoading(false);
-            setStatusLogin(false);
-        } catch (error) {
-            console.log('Failed to log out', error);
-            setLoading(false);
-        }
-    };
+    // const logout = async () => {
+    //     setLoading(true);
+    //     try {
+    //         const result = await loginApi.logout();
+    //         localStorage.removeItem('token');
+    //         localStorage.removeItem('dataAd');
+    //         setUser();
+    //         setName();
+    //         setPhone();
+    //         setEmail();
+    //         setLoading(false);
+    //         setStatusLogin(false);
+    //     } catch (error) {
+    //         console.log('Failed to log out', error);
+    //         setLoading(false);
+    //     }
+    // };
 
     const value = {
         email,
+        getUser,
         phone,
         user,
         name,
         updateDataUser,
-        logout,
+        // logout,
         modal,
         messStatus,
         statusHandle,

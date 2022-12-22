@@ -3,14 +3,18 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { SlArrowLeft } from 'react-icons/sl';
 import { TbShoppingCartX } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
+
 import locationApi from '~/api/locationApi';
 import productApi from '~/api/productApi';
 import cartApi from '~/api/cartApi';
+import loginApi from '~/api/loginApi';
+
 import style from '~/assets/scss/Cart.module.scss';
 import Dialog from '~/components/Dialog';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
 import { CartContext } from '~/Context/CartContext';
+import { UserContext } from '~/Context/UserContext';
 
 import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(style);
@@ -36,6 +40,16 @@ const Cart = () => {
     const [payMethod, setPayMethod] = useState(2);
 
     const [comfirm, setComfirm] = useState(false);
+    const [totalLocal, setTotalLocal] = useState(0);
+
+    const [phone, setPhone] = useState();
+    const [name, setName] = useState();
+    const [gender, setGender] = useState('Anh');
+    const [note, setNote] = useState();
+    const [couponCode, setCouponCode] = useState();
+    const [showForm, setShowForm] = useState(false);
+    const [otp, setOtp] = useState();
+
     // const [modal, setModal] = useState(false);
     // const [messStatus, setMessStatus] = useState();
     // const [statusHandle, setStatusHandle] = useState();
@@ -43,8 +57,12 @@ const Cart = () => {
     const navigate = useNavigate();
 
     const {
+        getCart,
         listCart,
         setListCart,
+        setListCartLocal,
+        addToCart,
+        listCartLocal,
         listProDettails,
         handleChangeVariantId,
         handleChangeColor,
@@ -62,6 +80,8 @@ const Cart = () => {
         setStatusHandle,
         setModal,
     } = useContext(CartContext);
+
+    const { getUser, user } = useContext(UserContext);
 
     useEffect(() => {
         if (listCart != undefined) {
@@ -98,7 +118,17 @@ const Cart = () => {
             };
             getLocation();
         }
-    }, [listCart]);
+    }, [listCart, user]);
+
+    useEffect(() => {
+        if (listCartLocal != undefined) {
+            let total = 0;
+            listCartLocal?.map((item, index) => {
+                total += item.price * item.quantity;
+            });
+            setTotalLocal(total);
+        }
+    }, [listCartLocal]);
 
     const getVariantProduct = (id) => {
         const variantProduct = allProducts?.filter((item) => item.id == id);
@@ -118,10 +148,15 @@ const Cart = () => {
     };
 
     const listIdDelete = useRef();
-    const handleDeleteCartItem = (idPro, idVar, idColor) => {
-        const listID = { idPro, idVar, idColor };
-        listIdDelete.current = listID;
-        setComfirm(true);
+    const handleDeleteCartItem = (idPro, idVar, idColor, index) => {
+        if (listCart?.details != undefined) {
+            const listID = { idPro, idVar, idColor };
+            listIdDelete.current = listID;
+            setComfirm(true);
+        } else if (listCartLocal != undefined) {
+            listIdDelete.current = index;
+            setComfirm(true);
+        }
     };
 
     const handleAction = (type) => {
@@ -138,40 +173,190 @@ const Cart = () => {
         data.shipping_method_id = 5;
         if (payMethod == 2) {
             data.payment_method_id = payMethod;
-            const payCOD = async (data) => {
-                setLoading(true);
-                try {
-                    const result = await cartApi.payCOD(data);
-                    console.log(result);
-                    deleteCart();
-                    setMessStatus(result.message);
-                    setStatusHandle(true);
-                    setModal(true);
-                    // navigate();
-                    setLoading(false);
-                } catch (error) {
-                    console.log('Failed to pay: ', error);
-                    const res = error.response.data;
-                    setMessStatus(res.message);
-                    setLoading(false);
-                    setModal(true);
-                    setStatusHandle(false);
-                }
-            };
+
             payCOD(data);
         } else if (payMethod == 5) {
             data.payment_method_id = payMethod;
-            const vnPay = async () => {
-                try {
-                    const result = await cartApi.vnPay(data.total);
-                    localStorage.setItem('cartInfo', JSON.stringify(data));
-                    const url = result?.url;
-                    window.location = url;
-                } catch (error) {
-                    console.log('Failed to pay: ', error);
+
+            vnPay(data);
+        }
+    };
+
+    const payCOD = async (data) => {
+        setLoading(true);
+        try {
+            const result = await cartApi.payCOD(data);
+            console.log(result);
+            // setMessStatus(result.message);
+            // setStatusHandle(true);
+            // setModal(true);
+
+            navigate(`/paycucess?madh=${result.data.order_code}`);
+            getCart();
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to pay: ', error);
+            const res = error.response.data;
+            setMessStatus(res.message);
+            setLoading(false);
+            setModal(true);
+            setStatusHandle(false);
+        }
+    };
+
+    const vnPay = async (data) => {
+        try {
+            const result = await cartApi.vnPay(data.total);
+            localStorage.setItem('cartInfo', JSON.stringify(data));
+            const url = result?.url;
+            window.location = url;
+        } catch (error) {
+            console.log('Failed to pay: ', error);
+        }
+    };
+
+    const cartLocal = JSON.parse(localStorage.getItem('listCart'));
+
+    const payLoacal = async () => {
+        const data = {
+            coupon_code: couponCode,
+            details: '',
+            discount: 0,
+            discount_formatted: '',
+            email: '',
+            fee_ship: '18000',
+            fee_ship_formatted: '18,000đ',
+            payment_method: null,
+            payment_method_id: payMethod,
+            phone: phone,
+            province_id: provinceId,
+            district_id: districtId,
+            ward_id: wardId,
+            shipping_method: null,
+            shipping_method_id: 5,
+            total: totalLocal,
+            address: address,
+        };
+
+        data.details = cartLocal;
+        data.shipping_method_id = 5;
+        if (payMethod == 2) {
+            data.payment_method_id = payMethod;
+
+            payCOD(data);
+        } else if (payMethod == 5) {
+            data.payment_method_id = payMethod;
+
+            vnPay(data);
+        }
+    };
+
+    const [statusLogin, setStatusLogin] = useState();
+    const handlePayLocal = (e) => {
+        e.preventDefault();
+
+        // console.log('data', data);
+        const checkLogin = async () => {
+            try {
+                const result = await loginApi.callsms(phone);
+                setShowForm(true);
+                setStatusLogin(true);
+            } catch (error) {
+                console.log('Check Error', error);
+                if (error.response.status == 404) {
+                    getSmsRegister(phone);
+                    setStatusLogin(false);
                 }
-            };
-            vnPay();
+
+                if (error.response.status != 404) {
+                    setMessStatus(error.response.data.message);
+                    setStatusHandle(false);
+                    setModal(true);
+                }
+            }
+        };
+
+        if (phone.length == 10) {
+            checkLogin();
+        } else {
+            setMessStatus('Số điện thoại không đúng định dạng!');
+            setStatusHandle(false);
+            setModal(true);
+        }
+
+        const getSmsRegister = async (phone) => {
+            setLoading(true);
+            try {
+                const resultSms = await loginApi.callsmsRT(phone);
+                setShowForm(true);
+                setLoading(false);
+            } catch (error) {
+                console.log('Failed to Register', error);
+                setLoading(false);
+                setMessStatus(error.response.data.message);
+                setStatusHandle(false);
+                setModal(true);
+            }
+        };
+    };
+
+    // console.log('listCart', listCart);
+
+    const handleConfirmPay = (e) => {
+        e.preventDefault();
+        const dataRegister = {
+            name,
+            address,
+            ward_id: wardId,
+            district_id: districtId,
+            province_id: provinceId,
+            phone,
+            password: otp,
+        };
+
+        const dataLogin = { phone, password: otp };
+
+        if (statusLogin) {
+            login(dataLogin);
+            console.log('Login');
+        } else {
+            register(dataRegister, dataLogin);
+            console.log('Register');
+        }
+    };
+
+    const register = async (dataRegister, dataLogin) => {
+        setLoading(true);
+        console.log(dataRegister);
+        try {
+            const resultRegister = await loginApi.register(dataRegister);
+            console.log(resultRegister);
+            login(dataLogin);
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to Register', error);
+            setLoading(false);
+        }
+    };
+
+    const login = async (dataLogin) => {
+        setLoading(true);
+        try {
+            const result = await loginApi.login(dataLogin);
+            const token = result.token.Bearer;
+            localStorage.setItem('token', token);
+            setShowForm(false);
+            setLoading(false);
+            getUser();
+            payLoacal();
+            // addCartLocalToDB();
+        } catch (error) {
+            console.log('Login failed: ', error);
+            const res = error.response.data;
+            setMessStatus(res.message.password);
+            setLoading(false);
+            setModal(true);
+            setStatusHandle(false);
         }
     };
 
@@ -209,7 +394,31 @@ const Cart = () => {
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
-            {listCart?.details?.length > 0 ? (
+
+            {/* OTP */}
+            {showForm && (
+                <div className={cx('modal__container')}>
+                    <form className={cx('modal__form')} onSubmit={(e) => handleConfirmPay(e)}>
+                        <div className={cx('modal__heading')}>
+                            <h2>Nhập mã OTP</h2>
+                            <p>Mã OTP đã được gửi vào số điện thoại {phone}</p>
+                        </div>
+                        <div className={cx('modal__main')}>
+                            <div className={cx('modal__content')}>
+                                <input type="text" onChange={(e) => setOtp(e.target.value)} placeholder="Mã OTP" />
+                            </div>
+                            <div className={cx('modal__btn--block')}>
+                                <div className={cx('modal__btn--close')} onClick={(e) => setShowForm(false)}>
+                                    Hủy
+                                </div>
+                                <button className={cx('modal__btn')}>Xác nhận</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            )}
+
+            {listCart?.details?.length > 0 && (
                 <div className={cx('content-pay')}>
                     <div className={cx('yourCartBuyMore')}>
                         <Link to="/" className={cx('BuyMore')}>
@@ -580,12 +789,348 @@ const Cart = () => {
                         </div>
                     </form>
                 </div>
-            ) : (
+            )}
+
+            {listCart?.details == undefined && user != undefined && (
                 <div className={cx('content-pay')}>
                     <div className={cx('empty__cart')}>
                         <TbShoppingCartX className={cx('empty__cart--icon')} />
                         <p className={cx('empty__cart--text')}>Giỏ hàng của bạn chưa có sản phẩm nào !</p>
                     </div>
+                </div>
+            )}
+
+            {(listCartLocal == undefined || listCartLocal.length == 0) && user == undefined && (
+                <div className={cx('content-pay')}>
+                    <div className={cx('empty__cart')}>
+                        <TbShoppingCartX className={cx('empty__cart--icon')} />
+                        <p className={cx('empty__cart--text')}>Giỏ hàng của bạn chưa có sản phẩm nào !</p>
+                    </div>
+                </div>
+            )}
+
+            {listCartLocal?.length > 0 && (
+                <div className={cx('content-pay')}>
+                    <div className={cx('yourCartBuyMore')}>
+                        <Link to="/" className={cx('BuyMore')}>
+                            <SlArrowLeft style={{ fontSize: '1.3rem' }} /> Mua thêm sản phẩm khác
+                        </Link>
+                    </div>
+                    <form onSubmit={(e) => handlePayLocal(e)}>
+                        <div className={cx('middleCart')}>
+                            <ul className={cx('listing-cart')}>
+                                {listCartLocal?.map((item, index) => (
+                                    <li key={index} className={cx('prd-item')}>
+                                        <div className={cx('imgsp')}>
+                                            <Link to="/iphone" className={cx('imgsp__link')}>
+                                                <img src={item?.image} />
+                                            </Link>
+                                            <div
+                                                className={cx('btn__delete--cart')}
+                                                onClick={() => {
+                                                    handleDeleteCartItem(
+                                                        item.product_id,
+                                                        item.variant_id,
+                                                        item.color_id,
+                                                        index,
+                                                    );
+                                                }}
+                                            >
+                                                <span>&times;</span>
+                                                Xóa
+                                            </div>
+                                        </div>
+                                        <div className={cx('prd-infosp')}>
+                                            <div className={cx('prd-name-price')}>
+                                                <Link>{item.name}</Link>
+                                                <span>
+                                                    {Number(item.price).toLocaleString()} đ
+                                                    <del>{Number(item.originalPrice).toLocaleString()} đ</del>
+                                                </span>
+                                            </div>
+
+                                            <div className={cx('prd-choose-color')}>
+                                                <div className={cx('prd-size-and-color')}>
+                                                    <select
+                                                        className={cx('prd-size-and-color')}
+                                                        onChange={(e) => handleChangeVariantId(e.target.value, index)}
+                                                        value={item.variant_id}
+                                                    >
+                                                        {getVariantProduct(item.product_id)?.map((variant, index) => (
+                                                            <option key={index} value={variant.id}>
+                                                                {variant.variant_name}GB
+                                                            </option>
+                                                        ))}
+                                                    </select>
+                                                    <select
+                                                        className={cx('prd-size-and-color')}
+                                                        onChange={(e) =>
+                                                            handleChangeColor(
+                                                                e.target.value,
+                                                                index,
+                                                                item.product_id,
+                                                                item.variant_id,
+                                                            )
+                                                        }
+                                                        value={item?.color_id}
+                                                    >
+                                                        <option value="">Chọn màu sắc</option>
+                                                        {getVariantDetails(item?.variant_id, item.product_id)?.map(
+                                                            (item, i) => (
+                                                                <option key={i} value={item.color_id}>
+                                                                    {item.color_name}
+                                                                </option>
+                                                            ),
+                                                        )}
+                                                    </select>
+                                                </div>
+                                                <div className={cx('prd-choosenumber')}>
+                                                    <div
+                                                        className={cx('minus')}
+                                                        onClick={() => handlePrevNumPro(index)}
+                                                    >
+                                                        -
+                                                    </div>
+                                                    <input
+                                                        type="number"
+                                                        value={item?.quantity}
+                                                        min="1"
+                                                        className={cx('number')}
+                                                    />
+                                                    <div className={cx('plus')} onClick={() => handlePlusNumPro(index)}>
+                                                        +
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+
+                            <div className={cx('total-provisional')}>
+                                <span className={cx('total-quantity')}>
+                                    <label>Tạm tính </label>({listCartLocal?.length} sản phẩm) :
+                                </span>
+                                <div className={cx('total-money__block')}>
+                                    <span className={cx('total-money')}>{Number(totalLocal).toLocaleString()} đ</span>
+                                    {listCartLocal?.discount > 0 && (
+                                        <span className={cx('total-submoney')}>- {listCart?.discount_formatted}</span>
+                                    )}
+                                    {listCartLocal?.fee_ship > 0 && (
+                                        <span className={cx('total-submoney')}>+ {listCart?.fee_ship_formatted}</span>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div className={cx('infor-customer')}>
+                                <h4>Thông tin khách hàng</h4>
+                                <form className={cx('form-customer')}>
+                                    <div className={cx('sex-customer')}>
+                                        <span>
+                                            <input
+                                                id="checkMale"
+                                                type="radio"
+                                                value="male"
+                                                name="gender"
+                                                checked={gender == 'Anh'}
+                                                onChange={() => setGender('Anh')}
+                                                className={cx('cartnew-choose')}
+                                            />
+                                            <label htmlFor="checkMale">Anh</label>
+                                        </span>
+                                        <span>
+                                            <input
+                                                id="checkFemale"
+                                                type="radio"
+                                                value="female"
+                                                name="gender"
+                                                onChange={() => setGender('Chị')}
+                                                checked={gender == 'Chị'}
+                                                className={cx('cartnew-choose')}
+                                            />
+                                            <label htmlFor="checkFemale">Chị</label>
+                                        </span>
+                                    </div>
+
+                                    <div className={cx('form')}>
+                                        <div className={cx('fillname')}>
+                                            <input
+                                                type="text"
+                                                id="fullname"
+                                                className={cx('form__input')}
+                                                placeholder=""
+                                                onChange={(e) => setName(e.target.value)}
+                                                value={name}
+                                            />
+                                            <label htmlFor="fullname" className={cx('form__label')}>
+                                                Họ và tên
+                                            </label>
+                                        </div>
+                                        <div className={cx('fillname')}>
+                                            <input
+                                                type="number"
+                                                id="phone"
+                                                className={cx('form__input')}
+                                                placeholder=""
+                                                value={phone}
+                                                onChange={(e) => setPhone(e.target.value)}
+                                            />
+                                            <label htmlFor="phone" className={cx('form__label')}>
+                                                Số điện thoại
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className={cx('choosegetgoods')}>
+                                <h4> Chọn hình thức thanh toán </h4>
+                                <div className={cx('click-choose')}>
+                                    <span>
+                                        <input
+                                            type="radio"
+                                            value=""
+                                            id="cod"
+                                            name="checkPayMethoad"
+                                            onChange={() => setPayMethod(2)}
+                                            checked={payMethod == 2}
+                                            className={cx('cartnew-choose')}
+                                        />
+                                        <label for="cod">Ship COD</label>
+                                    </span>
+                                    <span>
+                                        <input
+                                            type="radio"
+                                            value=""
+                                            id="vnpay"
+                                            checked={payMethod == 5}
+                                            name="checkPayMethoad"
+                                            onChange={() => setPayMethod(5)}
+                                            className={cx('cartnew-choose')}
+                                        />
+                                        <label for="vnpay">Thanh toán VNPay</label>
+                                    </span>
+                                </div>
+                                <h4> Chọn địa chỉ giao hàng </h4>
+                                <div className={cx('choose-content')}>
+                                    <div className={cx('deli-address')}>
+                                        <form>
+                                            <div className={cx('cntry-district')}>
+                                                <div className={cx('form__address--haspass')}>
+                                                    <div className={cx('form__address', 'mr-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Tỉnh, thành phố
+                                                        </label>
+                                                        <select
+                                                            className={cx('form__address--ctrl')}
+                                                            onChange={(e) => changeProvinceId(e.target.value)}
+                                                            value={provinceId}
+                                                        >
+                                                            <option value>--Chọn tỉnh thành phố</option>
+                                                            {Array.isArray(provinceList) &&
+                                                                provinceList.map((item, index) => (
+                                                                    <option value={item.id}>{item.name}</option>
+                                                                ))}
+                                                        </select>
+                                                    </div>
+                                                    <div className={cx('form__address', 'ml-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Quận, huyện
+                                                        </label>
+                                                        <select
+                                                            className={cx('form__address--ctrl')}
+                                                            onChange={(e) => changeDistrictId(e.target.value)}
+                                                            value={districtId}
+                                                        >
+                                                            <option value>--Chọn quận huyện--</option>
+                                                            {Array.isArray(newListDistrict) &&
+                                                                newListDistrict.map((item, index) => (
+                                                                    <option value={item.id}>{item.name}</option>
+                                                                ))}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className={cx('form__address--haspass')}>
+                                                    <div className={cx('form__address', 'mr-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Phường xã, thị trấn
+                                                        </label>
+                                                        <select
+                                                            className={cx('form__address--ctrl')}
+                                                            onChange={(e) => changeWardId(e.target.value)}
+                                                            value={wardId}
+                                                        >
+                                                            <option value>--Chọn phường, xã, thị trấn</option>
+                                                            {Array.isArray(newListWarn) &&
+                                                                newListWarn.map((item, index) => (
+                                                                    <option value={item.id}>{item.name}</option>
+                                                                ))}
+                                                        </select>
+                                                    </div>
+                                                    <div className={cx('form__address', 'ml-16')}>
+                                                        <label className={cx('form__address--label')}>
+                                                            Địa chỉ cụ thể
+                                                        </label>
+                                                        <input
+                                                            className={cx('form__address--ctrl')}
+                                                            value={address}
+                                                            onChange={(e) => setAddress(e.target.value)}
+                                                            placeholder="271 Nguyễn Văn Linh"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('anotheroption')}>
+                                <div className={cx('customer-note')}>
+                                    <div className={cx('fillname')}>
+                                        <input
+                                            type="text"
+                                            id="notexeria"
+                                            className={cx('form__input')}
+                                            placeholder=" "
+                                            value={note}
+                                            onChange={(e) => setNote(e.target.value)}
+                                        />
+                                        <label htmlFor="notexeria" className={cx('form__label')}>
+                                            Nhập ghi chú (nếu có)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={cx('finaltotal')}>
+                                <div className={cx('area-total')}>
+                                    <div className={cx('discountcode')}>
+                                        <div className={cx('coupon-code ')}>
+                                            <span>Sử dụng mã giảm giá</span>
+                                        </div>
+                                        <div className={cx('applycode')}>
+                                            <div className={cx('applycode__text-input')}>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Nhập mã giảm giá/ Phiếu mua hàng"
+                                                    value={couponCode}
+                                                    onChange={(e) => setCouponCode(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className={cx('applycode__button')}>
+                                                <button type="button" className={'disabledbtn'}>
+                                                    Áp dụng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={cx('submitorder')}>
+                                    <button className={cx('btn__submit')}>THANH TOÁN</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             )}
         </div>
