@@ -48,6 +48,7 @@ function ListImportslipDetail() {
                                 <tr>
                                     <th>Tên sản phẩm</th>
                                     <th>Màu sản phẩm</th>
+                                    <th>Biến thể</th>
                                     <th>Số lượng nhập</th>
                                     <th>Giá nhập</th>
                                 </tr>
@@ -57,6 +58,7 @@ function ListImportslipDetail() {
                                     <tr key={index}>
                                         <td>{item?.product_id}</td>
                                         <td>{item?.color_id}</td>
+                                        <td>{item?.pro_variant_id}</td>
                                         <td>{item?.quantity_import}</td>
                                         <td>{item?.price_import}</td>
                                     </tr>

@@ -12,15 +12,18 @@ function ListImportslip() {
     const [page, setPage] = useState(1);
     const [importSlip, setImportSlip] = useState([]);
     const [pageSlip, setPageSlip] = useState([]);
+    const [test, setTest] = useState();
     useEffect(() => {
         getProImportSlip();
     }, []);
+
     const getProImportSlip = async (params) => {
         setLoading(true);
         try {
             const getAllImportSlip = await proImportSlip.getAllProductSlip(params);
             setImportSlip(getAllImportSlip.data);
             setPageSlip(getAllImportSlip.paginator);
+
             setLoading(false);
         } catch (error) {
             console.log('Failed Product import slip', error);
@@ -74,7 +77,7 @@ function ListImportslip() {
                                         <td>{index + 1}</td>
                                         <td>{item?.name}</td>
                                         <td>{item?.warehouse}</td>
-                                        {/* <td>{item.subcategory_id}</td> */}
+
                                         <td>{item?.created_at == null ? 'Null' : item?.created_at}</td>
                                         <td>{item?.created_by == null ? 'Null' : item?.created_by}</td>
                                         <td>
