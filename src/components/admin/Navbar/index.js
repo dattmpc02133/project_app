@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import { BiCast, BiChevronDown, BiCollection, BiCreditCardFront, BiIntersect } from 'react-icons/bi';
 import { TiSocialInstagram, TiHomeOutline, TiLocationArrowOutline, TiPhoneOutline } from 'react-icons/ti';
 import { RiAncientGateLine, RiBankLine, RiCalendarEventLine, RiListUnordered } from 'react-icons/ri';
-import { BsGraphUp } from "react-icons/bs";
+import { BsGraphUp } from 'react-icons/bs';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import images from '~/assets/images';
@@ -82,7 +82,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                     {/* dashboard */}
-               
+
                     {/* endashboard */}
                     {/* brand */}
                     <div className={cx('navbar__content--block')}>
@@ -169,12 +169,12 @@ const Navbar = () => {
                                     >
                                         Thêm mới
                                     </NavLink>
-                                    <NavLink
+                                    {/* <NavLink
                                         to="brand/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách
-                                    </NavLink>
+                                    </NavLink> */}
                                 </div>
                             </li>
                         </ul>
