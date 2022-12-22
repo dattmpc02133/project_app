@@ -43,7 +43,15 @@
         .content {
             // padding: 72px 64px 80px;
             padding: 32px;
+           .box{
+            width: 240px;
+            height: 240px;
+            background-color: blue;
+            border-radius: 5px solid;
+           
+           }
         }
+      
     }
 }
 
@@ -55,4 +63,9 @@
 
 img {
     max-width: 100%;
+}
+h1 {
+    color: black;
+    border: none;
+    display: flex;
 }

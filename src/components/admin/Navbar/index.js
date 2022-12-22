@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import { BiCast, BiChevronDown, BiCollection, BiCreditCardFront, BiIntersect } from 'react-icons/bi';
 import { TiSocialInstagram, TiHomeOutline, TiLocationArrowOutline, TiPhoneOutline } from 'react-icons/ti';
 import { RiAncientGateLine, RiBankLine, RiCalendarEventLine, RiListUnordered } from 'react-icons/ri';
+import { BsGraphUp } from "react-icons/bs";
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import images from '~/assets/images';
@@ -25,6 +26,7 @@ const Navbar = () => {
     const [openContact, setOpenContact] = useState(false);
     const [openSubsPost, setOpenSubsPost] = useState(false);
     const [openCateSubsProduct, setCateSubsProduct] = useState(false);
+    const [openDashboard, setDashboard] = useState(false);
 
     // comment
     const [openComment, setOpenComment] = useState(false);
@@ -69,14 +71,17 @@ const Navbar = () => {
                                     Logo
                                 </NavLink>
                             </li>
-                            {/* <li className={cx('navbar__content--item')}>
-                                <NavLink to="location" className={cx('navbar__content--link')}>
-                                    <TiLocationArrowOutline className={cx('navbar__content--icon')} />
-                                    Địa chỉ cửa hàng
+                            <li className={cx('navbar__content--item')}>
+                                <NavLink to="dashboard" className={cx('navbar__content--link')}>
+                                    <BsGraphUp className={cx('navbar__content--icon')} />
+                                    Dashboard
                                 </NavLink>
-                            </li> */}
+                            </li>
                         </ul>
                     </div>
+                    {/* dashboard */}
+               
+                    {/* endashboard */}
                     {/* brand */}
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>
