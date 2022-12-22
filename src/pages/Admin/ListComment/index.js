@@ -83,6 +83,7 @@ const ListComment = () => {
         try {
             const result = await commentsApi.getAll();
             const responComment = result?.data.filter((item) => item.id == idProduct);
+            console.log('responComment', responComment);
             setResultGetComment(responComment[0].comments);
             setLoading(false);
         } catch (error) {

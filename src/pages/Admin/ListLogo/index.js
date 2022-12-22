@@ -9,7 +9,7 @@ import Pagination from '~/components/Pagination';
 
 function ListLogo() {
     const [loading, setLoading] = useState(false);
-    const [listCate, setListCate] = useState([]);
+    const [listCate, setListCate] = useState();
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [message, setMessage] = useState();
@@ -23,7 +23,7 @@ function ListLogo() {
         try {
             const result = await LogoApi.getAll();
             setListCate(result);
-            console.log(result.data);
+
             setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
@@ -51,8 +51,8 @@ function ListLogo() {
                                     <th>#</th>
                                     <th>Logo</th>
                                     <th>Trạng thái</th>
-                                    <th>Người tạo</th>
-                                    <th>Người cập nhật</th>
+
+                                    {/* <th>Người cập nhật</th> */}
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -66,8 +66,8 @@ function ListLogo() {
                                         <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                             {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                         </td>
-                                        <td>{item.created_by == null ? 'Null' : item.created_by}</td>
-                                        <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
+
+                                        {/* <td>{item.updated_by == null ? 'Null' : item.updated_by}</td> */}
                                         <td>
                                             <Link to={`/admin/listlogo/edit/${item?.id}`}>Sửa</Link>
                                         </td>

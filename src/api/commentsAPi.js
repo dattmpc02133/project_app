@@ -16,6 +16,10 @@ const commentsApi = {
         const url = `/replycommentByCommentID/${id}`;
         return axiosClient.get(url);
     },
+    getCommentCount: () => {
+        const url = `/comment_is_un_active`;
+        return axiosClient.get(url);
+    },
     update: (data, id) => {
         const url = `/comments/${id}`;
         return axiosClient.put(url, data);

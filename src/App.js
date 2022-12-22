@@ -73,6 +73,8 @@ import EditLogo from './pages/Admin/EditLogo';
 import ListLogo from './pages/Admin/ListLogo';
 import ListImportslipDetail from './pages/Admin/ListImportslipDetail';
 import ListImportslip from './pages/Admin/ListImportslip';
+import CreateSlideShow from './pages/Admin/CreateSlideShow';
+import Dashboard from './pages/Admin/Dashboard';
 
 function App() {
     return (
@@ -134,6 +136,11 @@ function App() {
                     <Route path="brand/list" element={<ListBrand />} />
                     <Route path="brand/edit/:id/:slug" element={<EditBrand />} />
 
+                    {/* Banner & SlideShow? */}
+                    <Route path="slideshow/add" element={<CreateSlideShow />} />
+                    {/* <Route path="slideshow/list" element={<ListBrand />} />
+                    <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} /> */}
+
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/store/:id" element={<WarehouseStore />} />
                     <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
@@ -167,6 +174,9 @@ function App() {
                     <Route path="contact/edit/:id/:slug" element={<EditContact />} />
                     <Route path="orders/list" element={<ListOrders />} />
                     <Route path="orders/details/:id/:code" element={<OrderDetais />} />
+
+                    {/* drb */}
+                    <Route path="dashboard" element={<Dashboard />} />
                 </Route>
             </Routes>
         </Router>

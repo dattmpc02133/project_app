@@ -26,8 +26,9 @@ function ListBrand() {
     const getAllBrand = async (params) => {
         try {
             const allBrands = await brandApi.getAll(params);
-            setBrandAll(allBrands.data.data);
-            setPageBrand(allBrands.data);
+            setBrandAll(allBrands.data);
+            setPageBrand(allBrands.paginator);
+            console.log(allBrands.data);
             console.log('phân trang', allBrands.data.last_page);
         } catch (error) {
             console.log('lỗi lấy danh sách', error);
@@ -42,7 +43,7 @@ function ListBrand() {
         }
     };
     const handleNextPage = () => {
-        if (page < pageBrand?.last_page) {
+        if (page < pageBrand?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
             getAllBrand(`?page=${pageId}`);
@@ -71,7 +72,7 @@ function ListBrand() {
                     setModal(true);
                     setLoading(false);
                     const getAllBrand = await brandApi.getAll();
-                    setBrandAll(getAllBrand.data.data);
+                    setBrandAll(getAllBrand.data);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;
@@ -145,7 +146,7 @@ function ListBrand() {
                     </div>
                     <Pagination
                         curentPage={page}
-                        totalPages={pageBrand?.last_page}
+                        totalPages={pageBrand?.totalPages}
                         handlePrevPage={handlePrevPage}
                         handleChangePage={handleChangePage}
                         handleNextPage={handleNextPage}
