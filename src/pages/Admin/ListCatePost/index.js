@@ -26,8 +26,8 @@ function ListCatePost() {
         setLoading(true);
         try {
             const result = await catePostApi.getAll(params);
-            setListCate(result.data.data);
-            setPageCatePost(result.data);
+            setListCate(result.data);
+            setPageCatePost(result.paginator);
             console.log(result.data);
             setLoading(false);
         } catch (error) {
@@ -44,7 +44,7 @@ function ListCatePost() {
         }
     };
     const handleNextPage = () => {
-        if (page < pageCatePost?.last_page) {
+        if (page < pageCatePost?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
             fetchCatePost(`?page=${pageId}`);
@@ -61,7 +61,7 @@ function ListCatePost() {
         deleteCatePosts.current = id;
     };
 
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const deleteFooter = async () => {
@@ -72,8 +72,8 @@ function ListCatePost() {
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const result = await catePostApi.getAll();
-                    setListCate(result.data.data);
+                    const result = await catePostApi.getAll(params);
+                    setListCate(result.data);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;
@@ -143,7 +143,7 @@ function ListCatePost() {
                     </div>
                     <Pagination
                         curentPage={page}
-                        totalPages={pageCatePost?.last_page}
+                        totalPages={pageCatePost?.totalPages}
                         handlePrevPage={handlePrevPage}
                         handleChangePage={handleChangePage}
                         handleNextPage={handleNextPage}

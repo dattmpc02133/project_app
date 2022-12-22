@@ -74,6 +74,7 @@ import ListLogo from './pages/Admin/ListLogo';
 import ListImportslipDetail from './pages/Admin/ListImportslipDetail';
 import ListImportslip from './pages/Admin/ListImportslip';
 import CreateSlideShow from './pages/Admin/CreateSlideShow';
+import Dashboard from './pages/Admin/Dashboard';
 
 function App() {
     return (
@@ -173,6 +174,9 @@ function App() {
                     <Route path="contact/edit/:id/:slug" element={<EditContact />} />
                     <Route path="orders/list" element={<ListOrders />} />
                     <Route path="orders/details/:id/:code" element={<OrderDetais />} />
+
+                    {/* drb */}
+                    <Route path="dashboard" element={<Dashboard />} />
                 </Route>
             </Routes>
         </Router>

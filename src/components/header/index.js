@@ -37,17 +37,17 @@ function Header() {
     };
 
     // Global State
-    const { listCart, getCart } = useContext(CartContext);
+    const { listCart, getCart, listCartLocal } = useContext(CartContext);
     const { user, name } = useContext(UserContext);
 
     useEffect(() => {
-        // if (user) {
-        //     getCart();
-        // }
-        if (listCart != undefined) {
+        if (user) {
+            // getCart();
             setCartNum(listCart?.details?.length);
+        } else {
+            setCartNum(listCartLocal?.length);
         }
-    }, [listCart]);
+    }, [listCart, listCartLocal, user]);
 
     useEffect(() => {
         getCart();
@@ -157,9 +157,9 @@ function Header() {
                 </form>
                 {/* search + cart */}
                 <div className={cx('search-cart')}>
-                    <div className={name != undefined ? cx('search-product', 'name-user') : cx('search-product')}>
-                        <Link to="login" className={name != undefined ? cx('name-block') : ''}>
-                            {name != undefined && <p>{name}</p>}
+                    <div className={user != undefined ? cx('search-product', 'name-user') : cx('search-product')}>
+                        <Link to="login" className={user != undefined ? cx('name-block') : ''}>
+                            {user != undefined && <p>{user.name}</p>}
                             <BiUserCircle className={cx('icon-search')} />
                         </Link>
                     </div>

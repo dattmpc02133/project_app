@@ -27,8 +27,9 @@ function ListSubs() {
     const getAllSubs = async (params) => {
         try {
             const allSubs = await catePostApi.getAllSubsPost(params);
-            setSubsAll(allSubs.data.data);
-            setPageSubsPost(allSubs.data);
+            setSubsAll(allSubs.data);
+            setPageSubsPost(allSubs.paginator);
+            console.log(allSubs);
         } catch (error) {
             console.log('lỗi lấy danh sách', error);
         }
@@ -42,7 +43,7 @@ function ListSubs() {
         }
     };
     const handleNextPage = () => {
-        if (page < pageSubsPost?.last_page) {
+        if (page < pageSubsPost?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
             getAllSubs(`?page=${pageId}`);
@@ -69,7 +70,7 @@ function ListSubs() {
                     setModal(true);
                     setLoading(false);
                     const allSubs = await catePostApi.getAllSubsPost(params);
-                    setSubsAll(allSubs.data.data);
+                    setSubsAll(allSubs.data);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;
@@ -169,7 +170,7 @@ function ListSubs() {
                     </div>
                     <Pagination
                         curentPage={page}
-                        totalPages={pageSubsPost?.last_page}
+                        totalPages={pageSubsPost?.totalPages}
                         handlePrevPage={handlePrevPage}
                         handleChangePage={handleChangePage}
                         handleNextPage={handleNextPage}
