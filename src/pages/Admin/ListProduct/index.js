@@ -51,7 +51,8 @@ const ListCatePost = () => {
                     setMessStatus(result.message);
                     setStatusHandle(true);
                     setModal(true);
-                    fetchProduct();
+                    // fetchProduct();
+                    fetchProduct(`?page=${page}`);
                     setLoading(false);
                 } catch (error) {
                     console.log('Failed to delete product ', error);

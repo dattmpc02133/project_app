@@ -66,6 +66,7 @@ const cartApi = {
     },
     vnPay(amount) {
         const url = `vnpay/create?amount=${amount}&returnUrl=http://localhost:3000/paycucess`;
+        // const url = `vnpay/create?amount=${amount}&returnUrl=${process.env.REACT_APP_DOMAIN_URL}/paycucess`;
         return axiosClient.post(url);
     },
     returnDataVnPay(data) {

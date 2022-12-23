@@ -34,8 +34,9 @@ const ListColor = () => {
                     setMessStatus(result.message);
                     setStatusHandle(true);
                     setModal(true);
-                    const resultGetColor = await colorApi.getAll();
-                    setListColor(resultGetColor.data);
+                    // const resultGetColor = await colorApi.getAll();
+                    // setListColor(resultGetColor.data);
+                    fetchListColor(`?page=${page}`);
                     setLoading(false);
                 } catch (error) {
                     console.log('Failed to delete color ', error);
@@ -120,7 +121,12 @@ const ListColor = () => {
                                         <tr key={item.id}>
                                             <td>{10 * (page - 1) + index + 1}</td>
                                             <td>{item.name}</td>
-                                            <td>{item.color_code}</td>
+                                            <td>
+                                                <div
+                                                    className="text-center box__corlor"
+                                                    style={{ backgroundColor: item.color_code }}
+                                                ></div>
+                                            </td>
                                             <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                 {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                             </td>
