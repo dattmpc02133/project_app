@@ -136,7 +136,7 @@ function LoginHistoryCart() {
                                                                 <h2>Tổng giá</h2>
                                                             </div>
                                                             <div className={cx('order__item--content')}>
-                                                                <p>{item.total_formatted}</p>
+                                                                <p>{Number(item.total).toLocaleString()}đ</p>
                                                             </div>
                                                         </div>
                                                         <div className={cx('order__item')}>

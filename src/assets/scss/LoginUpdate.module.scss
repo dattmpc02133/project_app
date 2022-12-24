@@ -243,6 +243,7 @@
                     }
                     .details__variant {
                         text-align: center;
+                        width: 20%;
                         .details__variant--heading {
                             p {
                                 font-size: 1.5rem;
@@ -255,6 +256,10 @@
                             align-items: center;
                             justify-content: center;
                             flex-direction: column;
+                            .details__name {
+                                width: 120px;
+                            }
+
                             .name__product {
                                 overflow: hidden;
                                 display: -webkit-box;
@@ -268,7 +273,7 @@
                             .details__variant--pro {
                                 display: flex;
                                 align-items: center;
-                                justify-content: flex-start;
+                                justify-content: center;
                                 width: 100%;
                                 p {
                                     line-height: 2.2rem;
