@@ -157,6 +157,12 @@ function Header() {
                 </form>
                 {/* search + cart */}
                 <div className={cx('search-cart')}>
+                    <div className={cx('search-product', 'name-user')}>
+                        <Link to="login" className={cx('name-block')}>
+                            {<p>Lịch sử mua hàng</p>}
+                            {/* <BiUserCircle className={cx('icon-search')} /> */}
+                        </Link>
+                    </div>
                     <div className={user != undefined ? cx('search-product', 'name-user') : cx('search-product')}>
                         <Link to="login" className={user != undefined ? cx('name-block') : ''}>
                             {user != undefined && <p>{user.name}</p>}

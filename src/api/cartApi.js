@@ -19,9 +19,13 @@ const cartApi = {
         return axiosClient.put(url, data);
     },
     payCOD: (data) => {
-        const url = '/orders';
+        const url = '/create-order';
         return axiosClient.post(url, data);
     },
+    // payCOD: (data) => {
+    //     const url = '/orders';
+    //     return axiosClient.post(url, data);
+    // },
     payVNPay: (data) => {
         const url = '/orders';
         return axiosClient.post(url, data);

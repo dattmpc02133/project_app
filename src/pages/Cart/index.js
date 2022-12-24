@@ -87,6 +87,7 @@ const Cart = () => {
     useEffect(() => {
         if (listCart != undefined) {
             setName(listCart?.user_name);
+            setAddress(listCart?.address);
             const getLocation = async () => {
                 setLoading(true);
                 try {
@@ -175,6 +176,11 @@ const Cart = () => {
         const data = { ...listCart };
         data.details = listProDettails;
         data.shipping_method_id = 5;
+        data.address = address;
+        data.ward_id = wardId;
+        data.province_id = provinceId;
+        data.district_id = districtId;
+        data.user_name = name;
         if (payMethod == 2) {
             data.payment_method_id = payMethod;
 
@@ -221,7 +227,7 @@ const Cart = () => {
 
     const cartLocal = JSON.parse(localStorage.getItem('listCart'));
 
-    const payLoacal = async () => {
+    const payLoacal = async (userData) => {
         const data = {
             coupon_code: couponCode,
             details: '',
@@ -244,9 +250,11 @@ const Cart = () => {
 
         data.details = cartLocal;
         data.shipping_method_id = 5;
+        data.user_id = userData.id;
+        data.user_name = userData.name;
+        localStorage.setItem('payData', JSON.stringify(data));
         if (payMethod == 2) {
             data.payment_method_id = payMethod;
-
             payCOD(data);
         } else if (payMethod == 5) {
             data.payment_method_id = payMethod;
@@ -352,12 +360,13 @@ const Cart = () => {
         setLoading(true);
         try {
             const result = await loginApi.login(dataLogin);
-            const token = result.token.Bearer;
-            localStorage.setItem('token', token);
+            // console.log(result.data);
+            // const token = result.token.Bearer;
+            // localStorage.setItem('token', token);
             setShowForm(false);
             setLoading(false);
-            getUser();
-            payLoacal();
+            // getUser();
+            payLoacal(result.data);
             // addCartLocalToDB();
         } catch (error) {
             console.log('Login failed: ', error);
@@ -723,6 +732,7 @@ const Cart = () => {
                                                         <input
                                                             className={cx('form__address--ctrl')}
                                                             value={address}
+                                                            onChange={(e) => setAddress(e.target.value)}
                                                             placeholder="271 Nguyễn Văn Linh"
                                                         />
                                                     </div>

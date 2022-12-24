@@ -11,6 +11,10 @@ const colorApi = {
             return axiosClient.get(url);
         }
     },
+    getAllClient: () => {
+        const url = 'allColor';
+        return axiosClient.get(url);
+    },
     create: (data) => {
         const url = '/colors/create';
         return axiosClient.post(url, data);

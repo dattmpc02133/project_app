@@ -3,7 +3,7 @@
     display: block;
     padding: 0;
 }
-h1 {
+.title__account {
     color: #fff;
     border-top: 2px #fff;
     text-align: center;
@@ -228,7 +228,7 @@ h1 {
                 flex-direction: column;
                 .details__item {
                     display: flex;
-                    align-items: center;
+                    align-items: flex-start;
                     justify-content: space-between;
                     width: 100%;
                     padding: 10px 30px;
@@ -251,13 +251,31 @@ h1 {
                             margin-bottom: 10px;
                         }
                         .details__variant--content {
-                            p {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            flex-direction: column;
+                            .name__product {
                                 overflow: hidden;
                                 display: -webkit-box;
                                 -webkit-box-orient: vertical;
                                 -webkit-line-clamp: 1;
                                 --webkit-user-select: none;
-                                width: 150px;
+                                width: 100px;
+                                line-height: 2.2rem;
+                            }
+
+                            .details__variant--pro {
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-start;
+                                width: 100%;
+                                p {
+                                    line-height: 2.2rem;
+                                }
+                                span {
+                                    padding: 0 4px;
+                                }
                             }
                         }
                     }

@@ -32,7 +32,7 @@ function LoginClient() {
     const [address, setAddress] = useState();
     const [name, setName] = useState();
     const [title, setTiltle] = useState({
-        titleForm: 'Đăng nhập',
+        titleForm: 'Nhập số điện thoại',
         titleBtn: 'Chưa có tài khoản',
     });
 
@@ -63,6 +63,8 @@ function LoginClient() {
         };
         listLocation();
     }, []);
+
+    document.title = title.titleForm;
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -163,6 +165,10 @@ function LoginClient() {
                     }
                 };
                 getSMS();
+            } else {
+                setMessStatus('Số điện thoại phải có 10 số');
+                setStatusHandle(false);
+                setModal(true);
             }
         } else {
             if (phone.length == 10) {
@@ -192,6 +198,10 @@ function LoginClient() {
                     }
                 };
                 getSMS();
+            } else {
+                setMessStatus('Số điện thoại phải có 10 số');
+                setStatusHandle(false);
+                setModal(true);
             }
         }
         //   const data = { phone };

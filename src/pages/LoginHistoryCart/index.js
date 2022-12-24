@@ -35,12 +35,14 @@ function LoginHistoryCart() {
         } else {
             getOrders();
         }
+
+        document.title = 'Quản lý đơn hàng';
     }, []);
     const getOrders = async (param) => {
         setLoading(true);
         try {
             const result = await cartApi.getOrders(param);
-            // console.log(result);
+            console.log(result);
             setPagination(result.paginator);
             setListOrder(result.data);
             setLoading(false);
@@ -83,7 +85,9 @@ function LoginHistoryCart() {
             {loading && <Loading />}
             <section>
                 <div className={cx('grid')}>
-                    <h1 className="title-big"> Tài khoản khách hàng </h1>
+                    <div className={cx('title__account')}>
+                        <h2>Tài khoản khách hàng</h2>
+                    </div>
                     <div className={cx('grid wide')}>
                         <div className={cx('row')}>
                             {/* <div className={cx('l-3 m-6 c-12')}>
@@ -186,38 +190,36 @@ function LoginHistoryCart() {
                                                                         <div
                                                                             className={cx('details__variant--heading')}
                                                                         >
-                                                                            <p>Tên sản phẩm</p>
+                                                                            <p>Sản phẩm</p>
                                                                         </div>
                                                                         <div
                                                                             className={cx('details__variant--content')}
                                                                         >
-                                                                            <p>{data.product_name}</p>
+                                                                            <p className={cx('name__product')}>
+                                                                                {data.product_name}
+                                                                            </p>
+                                                                            <div
+                                                                                className={cx('details__variant--pro')}
+                                                                            >
+                                                                                <p>{data.variant_name}GB</p>
+                                                                                <span>-</span>
+                                                                                <p>{data.color_name}</p>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                     <div className={cx('details__variant')}>
                                                                         <div
                                                                             className={cx('details__variant--heading')}
                                                                         >
-                                                                            <p>Dung lượng</p>
+                                                                            <p>Số lượng</p>
                                                                         </div>
                                                                         <div
                                                                             className={cx('details__variant--content')}
                                                                         >
-                                                                            <p>{data.variant_name}GB</p>
+                                                                            <p>{data.quantity}</p>
                                                                         </div>
                                                                     </div>
-                                                                    <div className={cx('details__variant')}>
-                                                                        <div
-                                                                            className={cx('details__variant--heading')}
-                                                                        >
-                                                                            <p>Màu sắc</p>
-                                                                        </div>
-                                                                        <div
-                                                                            className={cx('details__variant--content')}
-                                                                        >
-                                                                            <p>{data.color_name}</p>
-                                                                        </div>
-                                                                    </div>
+
                                                                     <div className={cx('details__variant')}>
                                                                         <div
                                                                             className={cx('details__variant--heading')}
@@ -229,6 +231,25 @@ function LoginHistoryCart() {
                                                                         >
                                                                             <p>
                                                                                 {Number(data.price).toLocaleString()}đ
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div className={cx('details__variant')}>
+                                                                        <div
+                                                                            className={cx('details__variant--heading')}
+                                                                        >
+                                                                            <p>Tổng</p>
+                                                                        </div>
+                                                                        <div
+                                                                            className={cx('details__variant--content')}
+                                                                        >
+                                                                            <p>
+                                                                                {(
+                                                                                    Number(data.price) *
+                                                                                    Number(data.quantity)
+                                                                                ).toLocaleString()}
+                                                                                đ
                                                                             </p>
                                                                         </div>
                                                                     </div>
