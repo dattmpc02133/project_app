@@ -59,8 +59,9 @@ const EditProduct = () => {
             const resultBrand = await brandApi.getAll();
             // console.log();
             setListBrand(resultBrand.data);
-            const resultColor = await colorApi.getAll();
-            setListColor(resultColor.data.data);
+            const resultColor = await colorApi.getAllClient();
+            console.log('resultColor', resultColor);
+            setListColor(resultColor.data);
             const resultListSubCate = await subCateProductApi.getAll();
             setListSubCategory(resultListSubCate.data);
             const resultCate = await cateProductApi.getAll();
@@ -188,7 +189,7 @@ const EditProduct = () => {
                 setVariant(arrvariant);
             });
         });
-    }, [formVariant]);
+    }, [formVariant, formSubVariant]);
 
     useEffect(() => {
         document.title = metaTitle;

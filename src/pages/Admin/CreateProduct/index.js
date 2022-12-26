@@ -55,8 +55,8 @@ const CreateProduct = () => {
             try {
                 const resultBrand = await brandApi.getAll();
                 setListBrand(resultBrand.data);
-                const resultColor = await colorApi.getAll();
-                setListColor(resultColor.data.data);
+                const resultColor = await colorApi.getAllClient();
+                setListColor(resultColor.data);
                 const resultSubCate = await subCateProductApi.getAll();
                 setListSubCategory(resultSubCate.data);
                 const resultCate = await cateProductApi.getAll();
@@ -115,7 +115,8 @@ const CreateProduct = () => {
                 setMessErr(res.message);
             }
         };
-        createProduct();
+        // createProduct();
+        console.log('Data', data);
     };
 
     useEffect(() => {
@@ -141,7 +142,7 @@ const CreateProduct = () => {
                 setVariant(arrvariant);
             });
         });
-    }, [formVariant]);
+    }, [formVariant, formSubVariant]);
 
     useEffect(() => {
         document.title = metaTitle;
@@ -169,13 +170,21 @@ const CreateProduct = () => {
         setFormVariant(inputData);
     };
 
+    function is_numeric(str) {
+        return /^\d+$/.test(str);
+    }
+
     const handleChangeInputPrice = (valueInput, i, index) => {
+        // console.log('valueInput', typeof);
+
+        // if (is_numeric(valueInput.target.value)) {
         const inputData = [...formSubVariant];
         const newListFormVariant = [...formVariant];
         inputData[index][i].price = valueInput.target.value;
         setFormSubVariant(inputData);
         newListFormVariant[index].data = formSubVariant[index];
         setFormVariant(newListFormVariant);
+        // }
     };
 
     const handleChangeInputColor = (valueInput, i, index) => {
@@ -256,6 +265,17 @@ const CreateProduct = () => {
     const handleGetImg = (img) => {
         setUrlImage(...img);
         setShowImgTbl(false);
+    };
+
+    const formmatNumber = (number) => {
+        if (number) {
+            // console.log(Number(number).toLocaleString());
+            // console.log(Number(number).toLocaleString());
+            const xuli = number.replaceAll('.', '');
+            number = xuli.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            console.log('number', number);
+            return number;
+        }
     };
 
     return (
@@ -577,7 +597,9 @@ const CreateProduct = () => {
                                                             <input
                                                                 type="number"
                                                                 required
+                                                                // value={formmatNumber(data.price)}
                                                                 value={data.price}
+                                                                min={0}
                                                                 onChange={(e) => handleChangeInputPrice(e, i, index)}
                                                                 className="input__block--check-ctrl"
                                                                 placeholder="Giá tiền sản phẩm..."

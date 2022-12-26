@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 
 import cartApi from '~/api/cartApi';
+import wareHouseApi from '~/api/wareHouseApi';
 
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
@@ -19,6 +20,8 @@ const ListStore = () => {
     const [orders, setOrders] = useState(false);
     const [statusList, setStatusList] = useState();
     const [statusId, setStatusId] = useState(false);
+    const [listWareHouse, setListWareHouse] = useState();
+    const [WareHouseId, setWareHouseId] = useState();
 
     const params = useParams();
 
@@ -31,6 +34,9 @@ const ListStore = () => {
                 const resultStatus = await cartApi.getStatusOrder();
                 setStatusList(resultStatus.data);
                 setStatusId(resultOrder.data.status);
+                const resultWareHouse = await wareHouseApi.getClient();
+                // console.log('resultWareHouse', resultWareHouse);
+                setListWareHouse(resultWareHouse.data);
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to get orders', error);
@@ -143,7 +149,7 @@ const ListStore = () => {
                             </div>
                             <div className="oreder__item">
                                 <p className="oreder__item--title">- Trạng thái đơn hàng: </p>
-                                <div>
+                                <div className="oreder__item--ctrl--block">
                                     <select
                                         className="oreder__item--ctrl"
                                         onChange={(e) => handleUpdateStatus(e.target.value)}
@@ -157,6 +163,21 @@ const ListStore = () => {
                                                 </option>
                                             ))}
                                     </select>
+                                    <select
+                                        className="oreder__item--ctrl"
+                                        onChange={(e) => setWareHouseId(e.target.value)}
+                                        value={WareHouseId}
+                                    >
+                                        <option>--Chọn kho--</option>
+                                        {Array.isArray(listWareHouse) &&
+                                            listWareHouse.map((item, index) => (
+                                                <option key={index} value={item.id}>
+                                                    {item.name}
+                                                </option>
+                                            ))}
+                                    </select>
+
+                                    <div className="oreder__item--btn">Duyệt đơn</div>
                                 </div>
                             </div>
                         </div>

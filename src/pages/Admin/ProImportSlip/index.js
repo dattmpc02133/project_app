@@ -92,6 +92,7 @@ const ProImportSlip = () => {
         const idProduct = e.target.value;
         setProductId(idProduct);
         const listVariant = listProduct?.filter((item) => item.id == idProduct);
+        console.log('listVariant', listVariant);
         setListVariant(listVariant[0]?.proVariant);
     };
 
@@ -102,6 +103,7 @@ const ProImportSlip = () => {
         const listColor = listVariant[0]?.proVariant.filter((item) => item.id == idVariant);
         // console.log(listColor[0]?.productVariantDetails);
         setListColor(listColor[0]?.productVariantDetails);
+        console.log('listColor', listColor);
         // setListVariant(listVariant[0]?.proVariant);
     };
 

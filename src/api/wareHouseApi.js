@@ -11,6 +11,10 @@ const wareHouseApi = {
             return axiosClient.get(url);
         }
     },
+    getClient: () => {
+        const url = '/getAllNoPaginate';
+        return axiosClient.get(url);
+    },
     create: (data) => {
         const url = '/warehouses';
         return axiosClient.post(url, data);
