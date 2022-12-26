@@ -3,8 +3,8 @@ import { BiCast, BiChevronDown, BiCollection, BiCreditCardFront, BiIntersect } f
 import { TiSocialInstagram, TiHomeOutline, TiLocationArrowOutline, TiPhoneOutline } from 'react-icons/ti';
 import { RiAncientGateLine, RiBankLine, RiCalendarEventLine, RiListUnordered } from 'react-icons/ri';
 import { BsGraphUp } from 'react-icons/bs';
-import { useState, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import { NavLink, Link } from 'react-router-dom';
 import images from '~/assets/images';
 import style from '~/assets/scss/admin/Navbar.module.scss';
 import Loading from '~/components/Loading';
@@ -33,20 +33,25 @@ const Navbar = () => {
 
     // comment
     const [openComment, setOpenComment] = useState(false);
+    const [admin, setAdmin] = useState(false);
     const { commentCount } = useContext(CommentContext);
+    useEffect(() => {
+        const dataObject = JSON.parse(localStorage.getItem('dataAd'));
+        setAdmin(dataObject);
+    }, []);
     return (
         <div className={cx('wrapper')}>
             {loading ? <Loading /> : ''}
             <div className={cx('navbar')}>
                 <div className={cx('navbar__top')}>
-                    <div className={cx('navbar__logo')}>
+                    <Link to="" className={cx('navbar__logo')}>
                         <img className={cx('logo__img')} src={images.logotest} />
-                    </div>
+                    </Link>
                     <div className={cx('navbar__user')}>
-                        <img className={cx('img__user')} src={images.user1} />
+                        {/* <img className={cx('img__user')} src={images.user1} /> */}
                         <div className={cx('info__user')}>
-                            <span className={cx('info__user--name')}>Trần Hoàng Khôi</span>
-                            <span className={cx('info__user--email')}>Khoithpc02042@fpt.edu.vn</span>
+                            <span className={cx('info__user--name')}>{admin.name}</span>
+                            <span className={cx('info__user--email')}>{admin.email}</span>
                         </div>
                     </div>
                 </div>
@@ -58,7 +63,7 @@ const Navbar = () => {
                             <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa cấu trúc giao diện</p>
                         </div>
                         <ul className={cx('navbar__content--list')}>
-                            <li className={cx('navbar__content--item')}>
+                            {/* <li className={cx('navbar__content--item')}>
                                 <NavLink
                                     // style={(isActive) => ({ color: isActive ? 'green' : 'blue' })}
                                     to="layout"
@@ -67,17 +72,17 @@ const Navbar = () => {
                                     <TiHomeOutline className={cx('navbar__content--icon')} />
                                     Trang chủ
                                 </NavLink>
+                            </li> */}
+                            <li className={cx('navbar__content--item')}>
+                                <NavLink to="dashboard" className={cx('navbar__content--link')}>
+                                    <BsGraphUp className={cx('navbar__content--icon')} />
+                                    Dashboard
+                                </NavLink>
                             </li>
                             <li className={cx('navbar__content--item')}>
                                 <NavLink to="listlogo" className={cx('navbar__content--link')}>
                                     <TiLocationArrowOutline className={cx('navbar__content--icon')} />
                                     Logo
-                                </NavLink>
-                            </li>
-                            <li className={cx('navbar__content--item')}>
-                                <NavLink to="dashboard" className={cx('navbar__content--link')}>
-                                    <BsGraphUp className={cx('navbar__content--icon')} />
-                                    Dashboard
                                 </NavLink>
                             </li>
                         </ul>

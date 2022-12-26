@@ -82,6 +82,7 @@ import ListSlideShowSub from './pages/Admin/ListSlideShowSub';
 import ListSlideShowDetailSubs from './pages/Admin/ListSlideShowDetailSubs';
 import ListDetailSubSlide from './pages/Admin/ListDetailSubSlide';
 import EditSlideShowSub from './pages/Admin/EditSlideShowSub';
+import Navigate from './components/admin/Navigate';
 
 function App() {
     return (
@@ -92,7 +93,7 @@ function App() {
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
                     <Route path="/tekzonecate/:id/:slug" element={<TekZoneCate />} />
-                    <Route path="/tin-tuc" element={<TekZone />} />
+                    <Route path="/daimond" element={<TekZone />} />
                     <Route path="/tekzonedetail/:id/:slug" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
@@ -109,7 +110,7 @@ function App() {
 
                 <Route path="login-admin" element={<LoginAdmin />} />
                 <Route path="admin" element={<LayoutAdmin />}>
-                    <Route index element={<NotFound />} />
+                    <Route index element={<Navigate />} />
                     <Route path="layout" element={<NotFound />} />
                     <Route path="phone" element={<NotFound />} />
                     <Route path="location" element={<NotFound />} />
@@ -144,6 +145,15 @@ function App() {
                     <Route path="brand/edit/:id/:slug" element={<EditBrand />} />
 
                     {/* Banner & SlideShow? */}
+                    {/* <Route path="slideshow/add" element={<CreateSlideShow />} />
+                    <Route path="slideshow/list" element={<ListBrand />} />
+                    <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} />
+
+                    <Route path="warehouse/list" element={<ListWareHouse />} />
+                    <Route path="warehouse/store/:id" element={<WarehouseStore />} />
+                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} /> */}
+
+                    {/* Banner & SlideShow? */}
                     <Route path="slideshow/add" element={<CreateSlideShow />} />
                     <Route path="slideshow/list" element={<ListSlideShow />} />
                     <Route path="slideshow/listdetails/:id" element={<ListSlideShowDetails />} />
@@ -154,14 +164,6 @@ function App() {
                     <Route path="slideshow/listdetailsubslide/:id" element={<ListDetailSubSlide />} />
                     <Route path="slideshow/editSub/:id" element={<EditSlideShowSub />} />
 
-                    {/* <Route path="slideshow/listdetailsubs/:id" element={<ListSlideShowDetailSubs />} /> */}
-
-                    {/* <Route path="slideshow/list" element={<ListBrand />} />
-                    <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} /> */}
-
-                    <Route path="warehouse/list" element={<ListWareHouse />} />
-                    <Route path="warehouse/store/:id" element={<WarehouseStore />} />
-                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                     {/* subs */}
                     <Route path="subs/add" element={<CreateSubs />} />
                     <Route path="subs/list" element={<ListSubs />} />

@@ -8,7 +8,7 @@ import Modal from '~/components/Modal';
 import TableImage from '~/components/TableImage';
 
 import classNames from 'classnames/bind';
-import style from '~/assets/scss/admin/DashBoard.module.scss';
+import style from '~/assets/scss/admin/Dashboard.module.scss';
 
 import React, { PureComponent } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
