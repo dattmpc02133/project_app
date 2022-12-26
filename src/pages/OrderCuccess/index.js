@@ -33,13 +33,7 @@ const OrderCuccess = () => {
                             const resultGetOrder = await cartApi.getOrdersCode(returnDataUrl);
                             console.log('resultGetOrder', resultGetOrder);
                             setOrders(resultGetOrder?.data[0]);
-                            const cartLocal = JSON.parse(localStorage.getItem('listCart'));
-                            if (cartLocal) {
-                                localStorage.removeItem('listCart');
-                                setListCartLocal([]);
-                            } else {
-                                deleteCart();
-                            }
+                            deleteCart();
                         } catch (error) {
                             console.log('Failed to return data: ', error);
                         }
@@ -71,14 +65,7 @@ const OrderCuccess = () => {
                             console.log('resultGetOrder', resultGetOrder);
                             setOrders(resultGetOrder?.data[0]);
 
-                            const cartLocal = JSON.parse(localStorage.getItem('listCart'));
-                            if (cartLocal && user == undefined) {
-                                localStorage.removeItem('listCart');
-                                setListCartLocal([]);
-                            } else {
-                                deleteCart();
-                                console.log('Delete cart');
-                            }
+                            deleteCart();
                             console.log('Delete cart', user);
                         } catch (error) {
                             console.log('Failed to return data: ', error);
