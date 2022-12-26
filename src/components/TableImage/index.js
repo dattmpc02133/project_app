@@ -134,11 +134,15 @@ const TableImage = ({ closeForm, action, actionOne, status }) => {
 
     const handleAction = (type) => {
         if (type) {
+            const data = {
+                names: listImg,
+            };
+
             setComfirm(false);
             const deleteImage = async () => {
                 setLoading(true);
                 try {
-                    const result = await imageApi.deleteImg(listImg);
+                    const result = await imageApi.deleteImg(data);
                     setMessStatus(result.message);
                     setStatusHandle(true);
                     setModal(true);
