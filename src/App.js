@@ -75,6 +75,13 @@ import ListImportslipDetail from './pages/Admin/ListImportslipDetail';
 import ListImportslip from './pages/Admin/ListImportslip';
 import CreateSlideShow from './pages/Admin/CreateSlideShow';
 import Dashboard from './pages/Admin/Dashboard';
+import ListSlideShow from './pages/Admin/ListSlideShow';
+import ListSlideShowDetails from './pages/Admin/ListSlideShowDetails';
+import EditSlideShow from './pages/Admin/EditSlideShow';
+import ListSlideShowSub from './pages/Admin/ListSlideShowSub';
+import ListSlideShowDetailSubs from './pages/Admin/ListSlideShowDetailSubs';
+import ListDetailSubSlide from './pages/Admin/ListDetailSubSlide';
+import EditSlideShowSub from './pages/Admin/EditSlideShowSub';
 import Navigate from './components/admin/Navigate';
 
 function App() {
@@ -138,13 +145,25 @@ function App() {
                     <Route path="brand/edit/:id/:slug" element={<EditBrand />} />
 
                     {/* Banner & SlideShow? */}
-                    <Route path="slideshow/add" element={<CreateSlideShow />} />
+                    {/* <Route path="slideshow/add" element={<CreateSlideShow />} />
                     <Route path="slideshow/list" element={<ListBrand />} />
                     <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} />
 
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/store/:id" element={<WarehouseStore />} />
-                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
+                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} /> */}
+
+                    {/* Banner & SlideShow? */}
+                    <Route path="slideshow/add" element={<CreateSlideShow />} />
+                    <Route path="slideshow/list" element={<ListSlideShow />} />
+                    <Route path="slideshow/listdetails/:id" element={<ListSlideShowDetails />} />
+                    <Route path="slideshow/edit/:id" element={<EditSlideShow />} />
+                    {/* sub */}
+                    <Route path="slideshow/listsub" element={<ListSlideShowSub />} />
+                    <Route path="slideshow/listdetailsubs/:id" element={<ListSlideShowDetailSubs />} />
+                    <Route path="slideshow/listdetailsubslide/:id" element={<ListDetailSubSlide />} />
+                    <Route path="slideshow/editSub/:id" element={<EditSlideShowSub />} />
+
                     {/* subs */}
                     <Route path="subs/add" element={<CreateSubs />} />
                     <Route path="subs/list" element={<ListSubs />} />
