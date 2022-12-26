@@ -96,7 +96,7 @@ function EditLogo() {
                                 <div className="input__text list__img">
                                     {logo ? (
                                         <div className="img__box" onClick={() => handleShowFormImg()}>
-                                            <img className="img__box--item" src={logo} />
+                                            <img src={logo} style={{ width: 180 }} />
                                         </div>
                                     ) : (
                                         <div className="img__choose" onClick={() => handleShowFormImg()}>

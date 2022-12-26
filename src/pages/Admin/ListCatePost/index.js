@@ -26,7 +26,6 @@ function ListCatePost() {
             setListCate(result.data);
             setPageCatePost(result.paginator);
             // setLoading(false);
-            console.log(result);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
             // setLoading(false);
