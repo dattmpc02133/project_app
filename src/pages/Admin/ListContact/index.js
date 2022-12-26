@@ -23,7 +23,11 @@ function ListContact() {
 
     useEffect(() => {
         const params = `?name=${searchContact}`;
-        fetchContact(params);
+        if (searchContact.length > 3) {
+            fetchContact(params);
+        } else if (searchContact.length === 0) {
+            fetchContact();
+        }
     }, [searchContact]);
 
     const fetchContact = async (params) => {
@@ -71,9 +75,7 @@ function ListContact() {
                 try {
                     const dltFooter = await footerApi.deleteContact(deleteContact.current);
                     setMessStatus(dltFooter.message);
-                    const result = await footerApi.getAllContact();
-                    setListContact(result.data);
-
+                    fetchContact(params);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
