@@ -2,7 +2,7 @@ import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
 import colorApi from '~/api/colorApi';
-
+import { Link } from 'react-router-dom';
 import Dialog from '~/components/Dialog';
 import Modal from '~/components/Modal';
 import Pagination from '~/components/Pagination';
@@ -155,7 +155,16 @@ const ListColor = () => {
                                             </td>
                                             <td>{item.created_by == null ? 'Null' : item.created_by}</td>
                                             <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
-                                            <td className="text-center btn__tbl">Sửa</td>
+                                            <td className="text-center btn__tbl ">
+                                                          <Link
+                                                          
+                                                              to={`/admin/color/edit/${item.id}`}
+                                                              state={{ item }}
+                                                          >
+                                                              Sửa
+                                                          </Link>
+                                                      
+                                                </td>
                                             <td
                                                 className="text-center btn__tbl"
                                                 onClick={(e) => {

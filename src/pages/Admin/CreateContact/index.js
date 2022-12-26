@@ -73,8 +73,8 @@ function CreateContact() {
             {loading ? <Loading /> : ''}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
-                <h2 className="content__heading--title">Thêm nội duy và chính sách</h2>
-                <p className="content__heading--subtitle">Thêm nội duy và chính sách</p>
+                <h2 className="content__heading--title">Thêm danh mục liên hệ</h2>
+                <p className="content__heading--subtitle">Thêm liên hệ</p>
             </div>
 
             <div className="content__wrapper">
@@ -82,7 +82,7 @@ function CreateContact() {
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Danh mục liên hệ</label>
+                                <label htmlFor="ip-name">Danh mục Footer</label>
                             </div>
                             <div className="input__text">
                                 <select
@@ -95,7 +95,7 @@ function CreateContact() {
                                     </option>
 
                                     {contact.map((item, index) => (
-                                        <option key={index} value={(item.id = 1)}>
+                                        <option key={index} value={(item.id='1')}>
                                             {item.name}
                                         </option>
                                     ))}

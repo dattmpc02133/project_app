@@ -23,6 +23,14 @@ const colorApi = {
         const url = `/colors/${id}`;
         return axiosClient.delete(url);
     },
+    update: (data, id) => {
+        const url = `/colors/${id}`;
+        return axiosClient.patch(url, data);
+    },
+    getById: (id) => {
+        const url = `/colors/${id}`;
+        return axiosClient.get(url);
+    },
     // get: (id) => {
     //     const url = `/products/${id}`;
     //     return axiosClient.get(url);

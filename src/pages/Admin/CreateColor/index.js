@@ -69,7 +69,7 @@ const CreateCatePost = () => {
                                     type="text"
                                     onChange={(e) => changeName(e)}
                                     className="input__text--ctrl"
-                                    placeholder="Tên màu sắc...VD:Đỏ"
+                                    placeholder="VD:Đỏ"
                                 />
                             </div>
                         </div>
@@ -92,7 +92,7 @@ const CreateCatePost = () => {
                                     type="text"
                                     onChange={(e) => changeColorCode(e)}
                                     className="input__text--ctrl"
-                                    placeholder="Mã màu... Vd:#FFF"
+                                    placeholder=" Vd:#FFF"
                                 />
                             </div>
                         </div>
@@ -105,7 +105,7 @@ const CreateCatePost = () => {
                         )}
 
                         <div className="btn__form">
-                            <button className="btn__form--ctrl">Thêm tin màu sắc</button>
+                            <button className="btn__form--ctrl">Thêm màu sắc</button>
                         </div>
                     </form>
                 </div>
