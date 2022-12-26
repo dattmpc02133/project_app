@@ -23,7 +23,7 @@ const catePostApi = {
 
     getAllSubs: (params) => {
         if (params) {
-            const url = `/admin/subcategories/${params}`;
+            const url = `/admin/subcategories${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/admin/subcategories';
@@ -79,6 +79,11 @@ const catePostApi = {
 
     getSearchCatePost: (name) => {
         const url = `/admin/categories_post?name=${name}`;
+        return axiosClient.get(url);
+    },
+
+    getAll: (params) => {
+        const url = '/client/categories_post';
         return axiosClient.get(url);
     },
 

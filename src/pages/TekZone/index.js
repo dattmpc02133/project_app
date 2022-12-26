@@ -39,6 +39,7 @@ function TekZone() {
             const allSposts = await postsApi.getAllClient(params);
             setAllpost(allSposts.data);
             setPageSpost(allSposts.paginator);
+            console.log(allSposts);
         } catch (error) {
             console.log('Failed all POst', error);
         }
