@@ -28,6 +28,9 @@ const CreateProduct = () => {
     const [listBrand, setListBrand] = useState([]);
     const [listColor, setListColor] = useState([]);
     const [listSubCategory, setListSubCategory] = useState([]);
+    //
+    const [specification, setSpecification] = useState([]);
+    // /
     const [listCategory, setListCategory] = useState([]);
     const [newSubListCategory, setNewSubListCategory] = useState([]);
     const [subCategoryId, setSubCategoryId] = useState([]);
@@ -84,7 +87,7 @@ const CreateProduct = () => {
             description: description,
             url_image: urlImage,
             collection_images: image,
-            specification_infomation: null,
+            specification_infomation: specification,
             subcategory_id: subCategoryId,
 
             variant_ids: variant,
@@ -454,6 +457,21 @@ const CreateProduct = () => {
                                         : false}
                                 </select>
                             </div>
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Mô tả sản phẩm</label>
+                            </div>
+                            <CKEditor
+                                editor={Editor}
+                                data="Mô tả sản phẩm..."
+                                onChange={(event, editor) => {
+                                    const data = editor.getData();
+                                    setSpecification(data);
+                                }}
+                                required
+                            />
                         </div>
 
                         <div className="input__group">

@@ -22,6 +22,7 @@ const EditProduct = () => {
     const [category, setCategory] = useState('');
     const [image, setImage] = useState('');
     const [description, setDescription] = useState('');
+    const [specification, setSpecification] = useState('');
     const [metaTitle, setMetaTitle] = useState('');
     const [metaKeywords, setMetaKeywords] = useState('');
     const [metaDescription, setMetaDescription] = useState('');
@@ -129,7 +130,7 @@ const EditProduct = () => {
             collection_images: image,
             delete_variant_details: deleteVrDetails,
 
-            specification_infomation: null,
+            specification_infomation: specification,
             subcategory_id: subCategoryId,
             variant_ids: variant,
             colors_by_variant_id: colorByVariant,
@@ -294,7 +295,8 @@ const EditProduct = () => {
         product.url_image && setUrlImage(product.url_image);
         product.collection_images && setImage(product.collection_images);
 
-        product.description ? setDescription(product.description) : console.log('Not Found');
+        product.description && setDescription(product.description);
+        product.description && setSpecification(product.specification_infomation);
         if (Array.isArray(product.variants) && product.variants.length > 0 && newFormVR.length == 0) {
             product.variants.map((item, index) => {
                 // const newArr = [...arrVariantProduct, item.id];
@@ -610,6 +612,20 @@ const EditProduct = () => {
                                 onChange={(event, editor) => {
                                     const data = editor.getData();
                                     setDescription(data);
+                                }}
+                            />
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Thông số</label>
+                            </div>
+                            <CKEditor
+                                editor={Editor}
+                                data={specification}
+                                onChange={(event, editor) => {
+                                    const data = editor.getData();
+                                    setSpecification(data);
                                 }}
                             />
                         </div>
