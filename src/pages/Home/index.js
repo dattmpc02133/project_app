@@ -40,8 +40,6 @@ function Home() {
             setRender(!render);
         }
     };
-    let PriceDisCount = [];
-    // let PriceDisCount = itemColorActive?.price * ((100 - itemColorActive?.discount) / 100);
     return (
         <>
             <Slideshow />

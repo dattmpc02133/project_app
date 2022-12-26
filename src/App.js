@@ -84,6 +84,10 @@ import ListSlideShowDetailSubs from './pages/Admin/ListSlideShowDetailSubs';
 import ListDetailSubSlide from './pages/Admin/ListDetailSubSlide';
 import EditSlideShowSub from './pages/Admin/EditSlideShowSub';
 import Navigate from './components/admin/Navigate';
+import CreateVariant from './pages/Admin/CreateVariant';
+import ListVariant from './pages/Admin/ListBrand';
+import ListVariants from './pages/Admin/ListVariant';
+import EditVariant from './pages/Admin/EditVariant';
 
 function App() {
     return (
@@ -177,6 +181,11 @@ function App() {
                     <Route path="productsub/add" element={<CreateProductSubs />} />
                     <Route path="productsub/list" element={<ListProductSubs />} />
                     <Route path="productsub/edit/:id/:slug" element={<EditProductSubs />} />
+
+                    {/* create variant */}
+                    <Route path="variant/add" element={<CreateVariant />} />
+                    <Route path="variant/list" element={<ListVariants />} />
+                    <Route path="variant/edit/:id" element={<EditVariant />} />
 
                     <Route path="store/add" element={<CreateStore />} />
                     <Route path="store/list" element={<ListStore />} />
