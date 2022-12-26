@@ -31,8 +31,8 @@ function ListDetailSubSlide() {
     const fetchSlideShowsDetails = async () => {
         setLoading(true);
         try {
-            const data = state.item;
-            setListSlideShowMain(data?.details);
+            const resSlideSub = await slideShowApi.getByWarnDetail(param.id);
+            setListSlideShowMain(resSlideSub?.details);
             setLoading(false);
         } catch (error) {
             setLoading(false);
