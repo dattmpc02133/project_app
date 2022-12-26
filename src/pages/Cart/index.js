@@ -137,6 +137,7 @@ const Cart = () => {
 
     const getVariantProduct = (id) => {
         const variantProduct = allProducts?.filter((item) => item.id == id);
+        console.log('variantProduct', variantProduct);
         if (variantProduct != undefined) {
             return variantProduct[0]?.variants;
         }
@@ -181,6 +182,7 @@ const Cart = () => {
         data.province_id = provinceId;
         data.district_id = districtId;
         data.user_name = name;
+        console.log('data', data);
         if (payMethod == 2) {
             data.payment_method_id = payMethod;
 
@@ -899,7 +901,7 @@ const Cart = () => {
                                                     >
                                                         {getVariantProduct(item.product_id)?.map((variant, index) => (
                                                             <option key={index} value={variant.id}>
-                                                                {variant.variant_name}GB
+                                                                {variant.variant_name}
                                                             </option>
                                                         ))}
                                                     </select>
