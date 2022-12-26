@@ -30,7 +30,7 @@ function Home() {
     // console.log('ListProductsData', ListProductsData);
     const ChangeVariant = ({ itemVariant, listVariants, itemProduct }) => {
         const result = listVariants?.filter((element) => {
-            console.log('itemVariant', itemVariant?.id);
+            // console.log('itemVariant', itemVariant?.id);
             if (element?.variant_id == itemVariant?.id) {
                 return element;
             }
@@ -40,6 +40,8 @@ function Home() {
             setRender(!render);
         }
     };
+    let PriceDisCount = [];
+    // let PriceDisCount = itemColorActive?.price * ((100 - itemColorActive?.discount) / 100);
     return (
         <>
             <Slideshow />
@@ -53,7 +55,6 @@ function Home() {
                             <div className={cx('slide-owl-stage')}>
                                 {ListPrd?.products?.map((item, indexProduct) => {
                                     if (!ListPrd?.showMore && indexProduct < 4) {
-                                        console.log('ListPrd', ListPrd);
                                         return (
                                             <div className={cx('olw-item')} key={indexProduct}>
                                                 <Link
@@ -98,11 +99,46 @@ function Home() {
                                                     <h3>{item.name}</h3>
 
                                                     <span className={cx('price')}>
+                                                        {/* { PriceDisCount = itemColorActive?.price * ((100 -
+                                                        itemColorActive?.discount) / 100);} */}
                                                         <>
-                                                            {Number(
-                                                                item.price || item?.variantsDetailsByProduct[0]?.price,
-                                                            ).toLocaleString()}
-                                                            đ
+                                                            {/* {Number(
+                                                                item.price *
+                                                                    ((100 -
+                                                                        item?.variantsDetailsByProduct[0]?.discount) /
+                                                                        100) ||
+                                                                    item?.variantsDetailsByProduct[0]?.price,
+                                                            ).toLocaleString()} */}
+                                                            {console.log(
+                                                                'đâsd',
+
+                                                                item,
+                                                            )}
+                                                            {item.price
+                                                                ? Number(
+                                                                      item.price *
+                                                                          ((100 -
+                                                                              item?.variantsDetailsByProduct[0]
+                                                                                  ?.discount) /
+                                                                              100),
+                                                                  ).toLocaleString()
+                                                                : Number(
+                                                                      item?.variantsDetailsByProduct[0]?.price *
+                                                                          ((100 -
+                                                                              item?.variantsDetailsByProduct[0]
+                                                                                  ?.discount) /
+                                                                              100),
+                                                                  ).toLocaleString()}
+                                                            đ &nbsp;
+                                                            <del style={{ color: '#666' }}>
+                                                                {Number(
+                                                                    item.price ||
+                                                                        item?.variantsDetailsByProduct[0]?.price,
+                                                                ).toLocaleString()}
+                                                                đ
+                                                            </del>{' '}
+                                                            &nbsp;
+                                                            {item?.variantsDetailsByProduct[0]?.discount}%
                                                         </>
                                                     </span>
                                                 </Link>
