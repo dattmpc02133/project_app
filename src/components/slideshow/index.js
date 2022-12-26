@@ -43,7 +43,6 @@ const Slideshow = () => {
                 const ResSlide = resData?.data;
                 const slideDetail = ResSlide?.details?.map((item) => item);
                 setSlideImagesMain(slideDetail);
-                console.log('slideDetail', slideDetail);
             } catch (error) {
                 console.log(error);
             }

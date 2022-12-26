@@ -4,10 +4,11 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiUserCircle } from 'react-icons/bi';
 import { CiSearch } from 'react-icons/ci';
 import { VscChromeClose, VscListSelection } from 'react-icons/vsc';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import cateProductApi from '~/api/cateProductApi';
 import styles from '~/assets/scss/header.module.scss';
 import images from '../../assets/images';
+import './styles.css';
 
 import { CartContext } from '~/Context/CartContext';
 import { UserContext } from '~/Context/UserContext';
@@ -157,6 +158,14 @@ function Header() {
                 </form>
                 {/* search + cart */}
                 <div className={cx('search-cart')}>
+                    {user == undefined && (
+                        <div className={cx('search-product', 'name-user')}>
+                            <Link to="login" className={cx('name-block')}>
+                                {<p>Lịch sử mua hàng</p>}
+                                {/* <BiUserCircle className={cx('icon-search')} /> */}
+                            </Link>
+                        </div>
+                    )}
                     <div className={user != undefined ? cx('search-product', 'name-user') : cx('search-product')}>
                         <Link to="login" className={user != undefined ? cx('name-block') : ''}>
                             {user != undefined && <p>{user.name}</p>}
@@ -186,14 +195,14 @@ function Header() {
             <ul className={!open ? cx('menu', 'menu-new') : cx('SubMenu-Item')}>
                 {categories?.map((data, index) => (
                     <li className={cx('menu-item')} key={index}>
-                        <Link
+                        <NavLink
                             to={`${data.slug}?id=${data.id}`}
                             state={{ id: data.id, data }}
                             className={cx('menu-link')}
                             onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
                         >
                             <span>{data.name}</span>
-                        </Link>
+                        </NavLink>
                     </li>
                 ))}
             </ul>

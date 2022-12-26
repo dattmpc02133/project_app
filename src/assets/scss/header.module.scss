@@ -68,12 +68,14 @@
     list-style-type: none;
     .menu-item {
         padding: 0px;
+        position: relative;
         .menu-link {
             position: relative;
             display: block;
             padding: 4px 0;
             text-decoration: none;
             transition: all 0.5s linear;
+            // background-color: transparent !important;
 
             span {
                 display: block;
@@ -367,6 +369,7 @@
             padding: 10px;
             .menu-link {
                 border-bottom: 1px solid #f5f5f7;
+                background-color: transparent !important;
                 span {
                     color: var(--color--primary);
                 }
@@ -434,5 +437,10 @@
         .search-product {
             display: block;
         }
+    }
+}
+@media (max-width: 500px) {
+    .search-cart {
+        display: flex;
     }
 }

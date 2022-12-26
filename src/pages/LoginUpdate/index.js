@@ -62,7 +62,7 @@ function LoginUpdate() {
                 const resultDistricts = await locationApi.getAllDistricts();
                 setDistrictList(resultDistricts.data);
 
-                setProvinceId(user.province_id);
+                setProvinceId(user?.province_id);
                 const fillerDis = resultDistricts.data?.filter((item) => item.province_id == provinceId);
                 setNewListDistrict(fillerDis);
 
@@ -70,12 +70,12 @@ function LoginUpdate() {
                 const resultWard = await locationApi.getAllWard();
                 setWardList(resultWard.data);
 
-                setDistrictId(user.district_id);
+                setDistrictId(user?.district_id);
                 const fillerWard = wardList?.filter((item) => item.district_id == user.district_id);
                 setNewListWarn(fillerWard);
-                setWardId(user.ward_id);
-                setAddress(user.address);
-                setEmail(user.email);
+                setWardId(user?.ward_id);
+                setAddress(user?.address);
+                setEmail(user?.email);
                 setLoading(false);
             } catch (error) {
                 console.log('Failed to get user: ', error);
@@ -83,6 +83,7 @@ function LoginUpdate() {
             }
         };
         getUser();
+        document.title = 'Tài khoản';
     }, [user, statusLogin]);
 
     useEffect(() => {
@@ -116,7 +117,9 @@ function LoginUpdate() {
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <section>
                 <div className={cx('grid')}>
-                    <h1 className="title-big">Tài khoản khách hàng</h1>
+                    <div className={cx('title__account')}>
+                        <h2>Tài khoản khách hàng</h2>
+                    </div>
                     <div className={cx('grid wide')}>
                         <div className={cx('row')}>
                             {/* <div className={cx('l-3 m-6 c-12')}>
@@ -151,7 +154,7 @@ function LoginUpdate() {
                                         <div className={cx('info-group')}>
                                             <h4 className={cx('type-name')}>Họ và tên</h4>
                                             <input
-                                                autocomplete="username"
+                                                autoComplete="username"
                                                 id="login__username"
                                                 type="text"
                                                 name="username"
@@ -166,7 +169,7 @@ function LoginUpdate() {
                                         <div className={cx('info-group')}>
                                             <h4 className={cx('type-name')}>Email</h4>
                                             <input
-                                                autocomplete="username"
+                                                autoComplete="username"
                                                 id="login__username"
                                                 type="text"
                                                 name="username"

@@ -1,7 +1,7 @@
 .carousel-slide-box {
     display: block;
     overflow: hidden;
-    margin: 0 auto 80px;
+    margin: 0 auto;
     .btn-class {
         display: block;
         overflow: hidden;
@@ -11,7 +11,7 @@
         border-radius: 12px;
         text-align: center;
         color: var(--sub-white-color);
-        margin: 14px auto 57px;
+        margin: 14px auto 10px;
         position: relative;
         .btn-add-More {
             color: var(--sub-white-color);
@@ -31,7 +31,8 @@
         align-items: center;
         display: flex;
         justify-content: center;
-        margin: 0 auto 50px;
+        margin: 0 auto;
+        padding: 50px;
         line-height: 4rem;
         color: var(--sub-white-color);
         .personal_auth-logo {
@@ -96,6 +97,7 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            width: 100%;
 
             .olw-newDiscount-head {
                 display: flex;
@@ -159,9 +161,11 @@
                     display: flex;
                     overflow: hidden;
                     text-align: center;
-                    align-items: center;
                     flex-wrap: nowrap;
                     gap: 5px;
+                    align-items: normal;
+                    justify-content: left;
+                    overflow: auto;
                     li {
                         display: inline-block;
                         vertical-align: middle;
@@ -185,12 +189,44 @@
         }
     }
 }
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     .slide-cate-product {
+        max-width: 100%;
+        min-width: 100%;
+        width: 100%;
+        margin: auto;
         .slide-owl-stage {
+            flex-wrap: wrap;
+            width: 100%;
+            display: flex;
             .olw-item {
-                max-width: 36%;
+                width: 45%;
                 margin: 10px;
+                display: flex;
+            }
+            .olw-item-link {
+                width: 100%;
+            }
+        }
+    }
+}
+@media (max-width: 500px) and (max-width: 767px) {
+    .slide-cate-product {
+        max-width: 100%;
+        min-width: 100%;
+        width: 100%;
+        margin: auto;
+        .slide-owl-stage {
+            flex-wrap: wrap;
+            width: 100%;
+            display: flex;
+            .olw-item {
+                width: 100%;
+                margin: 10px;
+                display: flex;
+            }
+            .olw-item-link {
+                width: 100%;
             }
         }
     }
