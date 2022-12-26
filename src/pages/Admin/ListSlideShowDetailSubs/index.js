@@ -26,7 +26,6 @@ function ListSlideShowDetailSubs() {
         setComfirm(true);
         deleteSlide.current = id;
     };
-    console.log(' param.id', param.id);
     const fetchSlideShowsDetailSubs = async () => {
         setLoading(true);
         try {
@@ -54,14 +53,7 @@ function ListSlideShowDetailSubs() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-            } catch (error) {
-                console.log('Failed to Edit: ', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-            }
+            } catch (error) {}
         };
 
         EditStatusSlideSub();
