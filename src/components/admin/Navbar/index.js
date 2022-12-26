@@ -170,12 +170,18 @@ const Navbar = () => {
                                     >
                                         Thêm mới
                                     </NavLink>
-                                    {/* <NavLink
-                                        to="brand/list"
+                                    <NavLink
+                                        to="slideshow/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
-                                        Danh sách
-                                    </NavLink> */}
+                                        Danh sách bảng hiệu
+                                    </NavLink>
+                                    <NavLink
+                                        to="slideshow/listSub"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách bảng hiệu phụ
+                                    </NavLink>
                                 </div>
                             </li>
                         </ul>
@@ -746,7 +752,7 @@ const Navbar = () => {
                         </div>
                         <ul className={cx('navbar__content--list')}>
                             <li className={cx('navbar__content--item')}>
-                                <p
+                                <div
                                     className={cx('navbar__content--link')}
                                     onClick={() => {
                                         setOpenComment(!openComment);
@@ -763,7 +769,7 @@ const Navbar = () => {
                                                 : cx('navbar__content--icon--arrow')
                                         }
                                     />
-                                </p>
+                                </div>
                                 <div
                                     className={
                                         openComment

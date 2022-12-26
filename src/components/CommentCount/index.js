@@ -3,8 +3,7 @@ import { CommentContext } from '~/Context/CommentContext';
 
 import commentsApi from '../../api/commentsAPi';
 const CommentCount = () => {
-    const { setLoading, setMessStatus, setStatusHandle, setModal, fetchCommentCount, commentCount } =
-        useContext(CommentContext);
+    const { fetchCommentCount, commentCount } = useContext(CommentContext);
 
     useEffect(() => {
         fetchCommentCount();

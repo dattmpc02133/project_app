@@ -44,50 +44,31 @@ const CreateSlideShow = () => {
     const OnchangeText = (value, index) => {
         if (image) {
             image[index].name = value;
-            setDataNews(...image);
-            setImage([...image]);
-
-            // console.log('image[index]', image[index]);
+            setDataNews([...image]);
         }
     };
 
-    console.log('dataNew', dataNews);
-    // useEffect(() => {
-    //     const news = result?.map((item) => {
-    //         return item;
-    //     });
-    //     setDataNews(news);
-    // }, []);
     const handleSubmit = (e) => {
         e.preventDefault();
+        const urlImage = [];
+        const UrlLinks = [];
+        dataNews?.map((item) => {
+            urlImage.push(item.url);
+            UrlLinks.push(item.name);
+        });
         const data = {
             title: nameSlideTitle,
-            images: dataNews.url,
-            links: dataNews.name,
+            images: urlImage,
+            links: UrlLinks,
         };
-        console.log('data', data);
         const CreateSlideShow = async () => {
             setLoading(true);
             try {
-                const result = await slideShowApi.create();
-                console.log(result);
-                setLoading(false);
-                setMessStatus(result.status);
-                setStatusHandle(true);
-                setModal(true);
-                setLoading(false);
-                setNameSlideUrl('');
-            } catch (error) {
-                console.log('Fail to create product', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-                setLoading(false);
-            }
+                const result = await slideShowApi.create(data);
+                console.log('result', result);
+            } catch (error) {}
         };
-        // CreateSlideShow();
+        CreateSlideShow();
     };
 
     return (
@@ -104,7 +85,7 @@ const CreateSlideShow = () => {
             )}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới bảng hiệu</h2>
-                <p className="content__heading--subtitle">Bảng hiệu</p>
+                <div className="content__heading--subtitle">Bảng hiệu</div>
             </div>
 
             <div className="content__wrapper">
@@ -135,12 +116,12 @@ const CreateSlideShow = () => {
                                         {image ? (
                                             image?.map((data, index) => (
                                                 <div className="img__box-wrap" key={index}>
-                                                    <img className="img__box--item" src={data.url} />
+                                                    <img className="img__box--item" src={data?.url} />
                                                     <div className="input__label">
                                                         <label htmlFor="ip-name">Url bảng hiệu</label>
                                                         <div className="input__text">
                                                             <input
-                                                                value={data.name}
+                                                                value={data?.name}
                                                                 id="ip-name"
                                                                 type="text"
                                                                 className="input__text--ctrl"
