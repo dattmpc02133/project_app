@@ -38,8 +38,8 @@ function ListLogo() {
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
 
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục tin tức</h2>
-                <p className="content__heading--subtitle">Danh mục tin tức</p>
+                <h2 className="content__heading--title">Danh sách logo </h2>
+                {/* <p className="content__heading--subtitle">Danh mục tin tức</p> */}
             </div>
 
             <div className="content__wrapper">
@@ -51,8 +51,6 @@ function ListLogo() {
                                     <th>#</th>
                                     <th>Logo</th>
                                     <th>Trạng thái</th>
-
-                                    {/* <th>Người cập nhật</th> */}
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>

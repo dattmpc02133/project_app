@@ -82,7 +82,9 @@ import ListSlideShowSub from './pages/Admin/ListSlideShowSub';
 import ListSlideShowDetailSubs from './pages/Admin/ListSlideShowDetailSubs';
 import ListDetailSubSlide from './pages/Admin/ListDetailSubSlide';
 import EditSlideShowSub from './pages/Admin/EditSlideShowSub';
-
+import CreateUser from './pages/Admin/CreateUser';
+import ListUsers from './pages/Admin/ListUsers';
+import EditUsers from './pages/Admin/EditUsers';
 function App() {
     return (
         <Router>
@@ -92,7 +94,7 @@ function App() {
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
                     <Route path="/tekzonecate/:id/:slug" element={<TekZoneCate />} />
-                    <Route path="/tin-tuc" element={<TekZone />} />
+                    <Route path=":slug/:id" element={<TekZone />} />
                     <Route path="/tekzonedetail/:id/:slug" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
@@ -195,6 +197,12 @@ function App() {
 
                     {/* drb */}
                     <Route path="dashboard" element={<Dashboard />} />
+
+                    {/* account */}
+
+                    <Route path="account/add" element={<CreateUser />} />
+                    <Route path="account/list" element={<ListUsers />} />
+                    <Route path="account/edit/:id/:slug" element={<EditUsers />} />
                 </Route>
             </Routes>
         </Router>

@@ -30,6 +30,20 @@ const loginApi = {
         const url = '/auth/register';
         return axiosClient.post(url, data);
     },
+
+    getAllUser: (params) => {
+        if (params) {
+            const url = `/users${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = `/users`;
+            return axiosClient.get(url);
+        }
+    },
+    deleteUser: (id) => {
+        const url = `users/${id}`;
+        return axiosClient.delete(url);
+    },
     // login: (data) => {
     //     const url = '/posts';
     //     return axiosClient.post(url, data);

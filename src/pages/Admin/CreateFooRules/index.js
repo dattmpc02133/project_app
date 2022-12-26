@@ -91,13 +91,13 @@ function CreateFooRules() {
                                 </select>
                             </div>
                         </div>
-                        {message && typeof message == 'string' ? (
+                        {/* {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
                             </div>
                         ) : (
                             false
-                        )}
+                        )} */}
                         <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tên nội duy và chính sách</label>
@@ -113,13 +113,13 @@ function CreateFooRules() {
                             </div>
                         </div>
 
-                        {message && typeof message == 'string' ? (
+                        {/* {message && typeof message == 'string' ? (
                             <div className="input__group">
                                 <span className={('input__group--mess', 'suscess')}>{message}</span>
                             </div>
                         ) : (
                             false
-                        )}
+                        )} */}
 
                         <div className="input__group">
                             <div className="input__label">

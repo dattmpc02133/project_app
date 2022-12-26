@@ -30,6 +30,11 @@ const brandApi = {
         const url = `/admin/brands/${id}`;
         return axiosClient.get(url);
     },
+
+    getNotPage: (params) => {
+        const url = 'admin/brands-not-paginate';
+        return axiosClient.get(url);
+    },
 };
 
 export default brandApi;
