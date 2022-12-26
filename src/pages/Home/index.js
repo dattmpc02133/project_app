@@ -89,7 +89,7 @@ function Home() {
                                                                     className={variant.id == 1 ? cx('active') : ''}
                                                                     // style={{ border: '1px solid #ccc' }}
                                                                 >
-                                                                    {variant.variant_name}GB
+                                                                    {variant.variant_name}
                                                                 </li>
                                                             ))}
                                                         </ul>

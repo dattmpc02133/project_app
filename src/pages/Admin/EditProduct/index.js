@@ -65,7 +65,8 @@ const EditProduct = () => {
             setListSubCategory(resultListSubCate.data);
             const resultCate = await cateProductApi.getAll();
             setListCategory(resultCate.data);
-            const resultVariant = await variantApi.getAll();
+            const resultVariant = await variantApi.getAllClient();
+            console.log('resultVariant', resultVariant);
             setListVariant(resultVariant.data);
 
             const resultProduct = await productApi.getById(params.id);
@@ -88,6 +89,7 @@ const EditProduct = () => {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -142,7 +144,7 @@ const EditProduct = () => {
             setLoading(true);
             try {
                 const result = await productApi.update(data, params.id);
-                console.log(result);
+                // console.log(result);
                 setMessStatus(result.status);
                 setStatusHandle(true);
                 setModal(true);
@@ -160,11 +162,8 @@ const EditProduct = () => {
             }
         };
         updateProduct();
-        console.log(data);
+        // console.log(data);
     };
-
-    console.log('Product: ', product);
-    console.log('FormVariant: ', formVariant);
 
     useEffect(() => {
         const arrvariant = [];
@@ -189,7 +188,6 @@ const EditProduct = () => {
                 setVariant(arrvariant);
             });
         });
-        console.log(formVariant);
     }, [formVariant]);
 
     useEffect(() => {
@@ -304,7 +302,6 @@ const EditProduct = () => {
                 // addFormVariant();
                 // const newListFormVariant = [...newFormVR, { GB: '', data: [{ color: '', price: '', discount: '' }] }];
                 newFormVR.push({ GB: '', data: [{ color: '', price: '', discount: '', idSubVr: '' }] });
-
                 setFormVariant(newFormVR);
                 // const newListFormSubVariant = [...newFormSubVR, [{ color: '', price: '', discount: '' }]];
                 newFormSubVR.push([{ color: '', price: '', discount: '', idSubVr: '' }]);
@@ -373,8 +370,6 @@ const EditProduct = () => {
             });
         }
     }, [arrVariantProduct]);
-
-    console.log('FormVariant: ', formVariant);
 
     const changeCategoryId = (e) => {
         const idCate = e.target.value;
@@ -618,7 +613,7 @@ const EditProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Thông số</label>
+                                <label htmlFor="ip-name">Thông số kỹ thuật</label>
                             </div>
                             <CKEditor
                                 editor={Editor}
