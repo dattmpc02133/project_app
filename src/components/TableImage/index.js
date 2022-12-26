@@ -129,16 +129,20 @@ const TableImage = ({ closeForm, action, actionOne, status }) => {
 
     const handleDelete = (id) => {
         setComfirm(true);
-        console.log('listImg', listImg);
+        // console.log('listImg', listImg);
     };
 
     const handleAction = (type) => {
         if (type) {
+            const data = {
+                names: listImg,
+            };
+
             setComfirm(false);
             const deleteImage = async () => {
                 setLoading(true);
                 try {
-                    const result = await imageApi.delete(listImage);
+                    const result = await imageApi.deleteImg(data);
                     setMessStatus(result.message);
                     setStatusHandle(true);
                     setModal(true);
@@ -154,6 +158,7 @@ const TableImage = ({ closeForm, action, actionOne, status }) => {
                 }
             };
             deleteImage();
+            console.log('listImage', listImg);
         }
     };
 

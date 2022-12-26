@@ -178,7 +178,7 @@ function Home() {
                                                                         )
                                                                     }
                                                                 >
-                                                                    {variant.variant_name}GB
+                                                                    {variant.variant_name}
                                                                 </li>
                                                             ))}
                                                         </ul>

@@ -19,15 +19,30 @@ const LoginAdmin = () => {
     const [loginStatus, setLoginStatus] = useState(false);
     const navigate = useNavigate();
 
+    const objDataAd = localStorage.getItem('token');
     useEffect(() => {
-        const objDataAd = JSON.parse(localStorage.getItem('dataAd'));
-        if (objDataAd != null && objDataAd.role_id != 2) {
-            navigate('/admin');
+        if (objDataAd) {
+            const getUser = async () => {
+                setLoading(true);
+                try {
+                    const resultUser = await loginApi.getUser();
+                    console.log(resultUser.data);
+                    setLoading(false);
+                    if (resultUser.data.role_id != 2) {
+                        navigate('/admin');
+                    }
+                } catch (error) {
+                    console.log('sai');
+                    setLoading(false);
+                }
+            };
+            getUser();
         }
-        document.title = 'Login';
-    }, [loginStatus]);
 
-    console.log(loginStatus);
+        document.title = 'Login';
+    }, [loginStatus, objDataAd]);
+
+    console.log(objDataAd);
 
     const submitLogin = (e) => {
         e.preventDefault();

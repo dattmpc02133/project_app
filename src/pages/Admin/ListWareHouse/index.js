@@ -57,6 +57,7 @@ const ListWareHouse = () => {
             const result = await wareHouseApi.getAll(params);
             setPagination(result.paginator.totalPages);
             setListWareHouse(result.data);
+            console.log('setListWareHouse', setListWareHouse);
             // setLoading(false);
         } catch (error) {
             console.log('Failed to fetch WareHouse: ', error);

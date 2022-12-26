@@ -60,14 +60,20 @@ const cartApi = {
         const url = `/client/getOrders?code=${code}`;
         return axiosClient.get(url);
     },
-    getStatusOrder() {
-        const url = `/order-status`;
+    getStatusOrder(id) {
+        const url = `/get-order-status-process/${id}`;
         return axiosClient.get(url);
     },
     updateStatus(id, data) {
         const url = `/orders/${id}`;
         return axiosClient.put(url, data);
     },
+
+    approveOrders(id, data) {
+        const url = `/orders/approve-order/${id}`;
+        return axiosClient.post(url, data);
+    },
+
     vnPay(amount) {
         const url = `vnpay/create?amount=${amount}&returnUrl=http://localhost:3000/paycucess`;
         // const url = `vnpay/create?amount=${amount}&returnUrl=${process.env.REACT_APP_DOMAIN_URL}/paycucess`;
