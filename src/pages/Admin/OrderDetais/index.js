@@ -31,7 +31,8 @@ const ListStore = () => {
             try {
                 const resultOrder = await cartApi.getOrdersId(params.id);
                 setOrders(resultOrder.data);
-                const resultStatus = await cartApi.getStatusOrder();
+                setWareHouseId(resultOrder.data.warehouse_id);
+                const resultStatus = await cartApi.getStatusOrder(params.code);
                 setStatusList(resultStatus.data);
                 setStatusId(resultOrder.data.status);
                 const resultWareHouse = await wareHouseApi.getClient();
@@ -45,7 +46,7 @@ const ListStore = () => {
         };
         getOrdersDetails();
     }, []);
-    console.log(orders);
+
     const handleUpdateStatus = (id) => {
         setStatusId(id);
         const data = {
@@ -78,10 +79,39 @@ const ListStore = () => {
             }
         };
 
-        updateStatus();
+        if (id != 10 && id != 11) {
+            updateStatus();
+        }
     };
 
-    console.log('statusList', statusList);
+    // console.log('statusList', statusList);
+
+    const handleCheckOrders = () => {
+        const data = {
+            warehouse_id: WareHouseId,
+        };
+
+        const approveOrders = async (code, data) => {
+            setLoading(true);
+            try {
+                const result = await cartApi.approveOrders(code, data);
+                console.log(result);
+                setModal(true);
+                setMessStatus(result.message);
+                setStatusHandle(true);
+                setLoading(false);
+            } catch (error) {
+                console.log('Fail to update approveOrders', error);
+                setLoading(false);
+            }
+        };
+
+        if (WareHouseId) {
+            approveOrders(params.code, data);
+        }
+    };
+
+    console.log('orders', orders);
 
     return (
         <div className="wrapper">
@@ -163,21 +193,34 @@ const ListStore = () => {
                                                 </option>
                                             ))}
                                     </select>
-                                    <select
-                                        className="oreder__item--ctrl"
-                                        onChange={(e) => setWareHouseId(e.target.value)}
-                                        value={WareHouseId}
-                                    >
-                                        <option>--Chọn kho--</option>
-                                        {Array.isArray(listWareHouse) &&
-                                            listWareHouse.map((item, index) => (
-                                                <option key={index} value={item.id}>
-                                                    {item.name}
-                                                </option>
-                                            ))}
-                                    </select>
 
-                                    <div className="oreder__item--btn">Duyệt đơn</div>
+                                    <div style={{ display: 'flex' }}>
+                                        <select
+                                            className="oreder__item--ctrl"
+                                            style={{ marginLeft: '20px' }}
+                                            onChange={(e) => setWareHouseId(e.target.value)}
+                                            value={WareHouseId}
+                                            disabled={statusId > 11}
+                                        >
+                                            <option>--Chọn kho--</option>
+                                            {Array.isArray(listWareHouse) &&
+                                                listWareHouse.map((item, index) => (
+                                                    <option key={index} value={item.id}>
+                                                        {item.name}
+                                                    </option>
+                                                ))}
+                                        </select>
+                                        {statusId == 10 ||
+                                            (statusId == 11 && (
+                                                <div
+                                                    disabled={statusId > 11}
+                                                    className="oreder__item--btn"
+                                                    onClick={() => handleCheckOrders()}
+                                                >
+                                                    Duyệt đơn
+                                                </div>
+                                            ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
