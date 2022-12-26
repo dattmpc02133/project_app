@@ -461,11 +461,11 @@ const CreateProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Mô tả sản phẩm</label>
+                                <label htmlFor="ip-name">Thông số kỹ thuật</label>
                             </div>
                             <CKEditor
                                 editor={Editor}
-                                data="Mô tả sản phẩm..."
+                                data="Thông số kỹ thuật..."
                                 onChange={(event, editor) => {
                                     const data = editor.getData();
                                     setSpecification(data);

@@ -613,7 +613,7 @@ const EditProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Thông số</label>
+                                <label htmlFor="ip-name">Thông số kỹ thuật</label>
                             </div>
                             <CKEditor
                                 editor={Editor}
