@@ -386,7 +386,6 @@
         font-size: 15px;
         line-height: var(--p-m-primary);
         text-align: center;
-        height: 40px;
         margin: 0 0 5px;
     }
     span {
@@ -568,5 +567,42 @@
         max-width: 100% !important;
         flex: 0 0 100%;
         padding: 0 10px;
+    }
+}
+
+@media (max-width: 500px) {
+    .description-box {
+        .olw-img-slide {
+            width: 150px;
+            height: 150px;
+        }
+    }
+    .aside {
+        .popup-list-store {
+            .list-store {
+                width: 100%;
+                max-height: 680px;
+                position: fixed;
+                top: 61px;
+                margin: 0;
+                border-radius: 0;
+                .tab-list-store {
+                    max-height: 100%;
+                    width: 100%;
+                }
+                .tab-item-wrap {
+                    padding: 15px 0 15px 15px;
+                }
+            }
+            .tab-store {
+                flex-direction: column;
+                width: 100%;
+                gap: 0 !important;
+                .ts-province,
+                .ts-district {
+                    width: 100% !important;
+                }
+            }
+        }
     }
 }

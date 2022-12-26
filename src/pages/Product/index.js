@@ -16,7 +16,6 @@ function Product() {
                         iPhone
                     </span> */}
                 </a>
-                {/* <Slideshow style={{ borderRadius: '20px' }} /> */}
                 <>
                     <Category />
                 </>
