@@ -36,7 +36,7 @@ function EditProductSubs() {
     useEffect(() => {
         const getAllBrand = async () => {
             try {
-                const allBrand = await brandApi.getAll();
+                const allBrand = await brandApi.getNotPage();
                 setAllBrand(allBrand.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục brand', error);

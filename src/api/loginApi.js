@@ -44,6 +44,11 @@ const loginApi = {
         const url = `users/${id}`;
         return axiosClient.delete(url);
     },
+
+    getByIdUser: (id) => {
+        const url = `users/${id}`;
+        return axiosClient.get(url);
+    },
     // login: (data) => {
     //     const url = '/posts';
     //     return axiosClient.post(url, data);

@@ -75,6 +75,8 @@ const ListStore = () => {
         updateStatus();
     };
 
+    console.log('statusList', statusList);
+
     return (
         <div className="wrapper">
             {/* {loading ? <Loading /> : ''}
@@ -146,6 +148,7 @@ const ListStore = () => {
                                         className="oreder__item--ctrl"
                                         onChange={(e) => handleUpdateStatus(e.target.value)}
                                         value={statusId}
+                                        disabled={statusList == 16 || statusList == 15 || statusList == 14}
                                     >
                                         {Array.isArray(statusList) &&
                                             statusList.map((item, index) => (

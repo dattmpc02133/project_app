@@ -5,6 +5,7 @@ import imageApi from '~/api/imageApi';
 import Pagination from '~/components/Pagination';
 import Loading from '~/components/Loading';
 import ImageUpload from '~/components/ImageUpload';
+import Dialog from '~/components/Dialog';
 import { RiCloseFill } from 'react-icons/ri';
 const cx = classNames.bind(style);
 
@@ -15,6 +16,11 @@ const TableImage = ({ closeForm, action, actionOne, status }) => {
     const [page, setPage] = useState(1);
     const [upload, setUpload] = useState(false);
     const [listImg, setListImg] = useState([]);
+
+    const [comfirm, setComfirm] = useState(false);
+    const [messStatus, setMessStatus] = useState(false);
+    const [statusHandle, setStatusHandle] = useState(false);
+    const [modal, setModal] = useState(false);
 
     useEffect(() => {
         getImg();
@@ -117,15 +123,44 @@ const TableImage = ({ closeForm, action, actionOne, status }) => {
                 return false;
             }
         } else {
-            console.log('Không Phải mãng');
             return false;
+        }
+    };
+
+    const handleDelete = (id) => {
+        setComfirm(true);
+        console.log('listImg', listImg);
+    };
+
+    const handleAction = (type) => {
+        if (type) {
+            setComfirm(false);
+            const deleteImage = async () => {
+                setLoading(true);
+                try {
+                    const result = await imageApi.delete(listImage);
+                    setMessStatus(result.message);
+                    setStatusHandle(true);
+                    setModal(true);
+                    getImg();
+                    setLoading(false);
+                } catch (error) {
+                    console.log('Failed to delete color ', error);
+                    const res = error.response.data;
+                    setMessStatus(res.message);
+                    setLoading(false);
+                    setModal(true);
+                    setStatusHandle(false);
+                }
+            };
+            deleteImage();
         }
     };
 
     return (
         <div className={cx('wrapper')}>
             {loading && <Loading />}
-
+            {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />}
             <div className={cx('content')}>
                 <div className={cx('table__wrapper')}>
                     <div className={cx('table__heading')}>
@@ -139,6 +174,9 @@ const TableImage = ({ closeForm, action, actionOne, status }) => {
                         </div>
 
                         <div className={cx('table__heading--right')}>
+                            <div className={cx('table__heading--btn')} onClick={() => handleDelete()}>
+                                <p>Xóa</p>
+                            </div>
                             <div className={cx('table__heading--btn')} onClick={() => handleSubmit()}>
                                 <p>Chọn</p>
                             </div>

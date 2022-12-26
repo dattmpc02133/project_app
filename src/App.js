@@ -75,6 +75,7 @@ import ListImportslipDetail from './pages/Admin/ListImportslipDetail';
 import ListImportslip from './pages/Admin/ListImportslip';
 import CreateSlideShow from './pages/Admin/CreateSlideShow';
 import Dashboard from './pages/Admin/Dashboard';
+import EditColor from './pages/Admin/EditColor';
 import ListSlideShow from './pages/Admin/ListSlideShow';
 import ListSlideShowDetails from './pages/Admin/ListSlideShowDetails';
 import EditSlideShow from './pages/Admin/EditSlideShow';
@@ -85,6 +86,8 @@ import EditSlideShowSub from './pages/Admin/EditSlideShowSub';
 import CreateUser from './pages/Admin/CreateUser';
 import ListUsers from './pages/Admin/ListUsers';
 import EditUsers from './pages/Admin/EditUsers';
+import Navigate from './components/admin/Navigate';
+
 function App() {
     return (
         <Router>
@@ -94,9 +97,8 @@ function App() {
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
                     <Route path="/tekzonecate/:id/:slug" element={<TekZoneCate />} />
-                    <Route path=":slug/:id" element={<TekZone />} />
+                    <Route path="/tin-tuc" element={<TekZone />} />
                     <Route path="/tekzonedetail/:id/:slug" element={<TekZoneDetail />} />
-                    <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="/paycucess" element={<OrderCuccess />} />
@@ -111,7 +113,7 @@ function App() {
 
                 <Route path="login-admin" element={<LoginAdmin />} />
                 <Route path="admin" element={<LayoutAdmin />}>
-                    <Route index element={<NotFound />} />
+                    <Route index element={<Navigate />} />
                     <Route path="layout" element={<NotFound />} />
                     <Route path="phone" element={<NotFound />} />
                     <Route path="location" element={<NotFound />} />
@@ -146,6 +148,15 @@ function App() {
                     <Route path="brand/edit/:id/:slug" element={<EditBrand />} />
 
                     {/* Banner & SlideShow? */}
+                    {/* <Route path="slideshow/add" element={<CreateSlideShow />} />
+                    <Route path="slideshow/list" element={<ListBrand />} />
+                    <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} />
+
+                    <Route path="warehouse/list" element={<ListWareHouse />} />
+                    <Route path="warehouse/store/:id" element={<WarehouseStore />} />
+                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} /> */}
+
+                    {/* Banner & SlideShow? */}
                     <Route path="slideshow/add" element={<CreateSlideShow />} />
                     <Route path="slideshow/list" element={<ListSlideShow />} />
                     <Route path="slideshow/listdetails/:id" element={<ListSlideShowDetails />} />
@@ -156,14 +167,6 @@ function App() {
                     <Route path="slideshow/listdetailsubslide/:id" element={<ListDetailSubSlide />} />
                     <Route path="slideshow/editSub/:id" element={<EditSlideShowSub />} />
 
-                    {/* <Route path="slideshow/listdetailsubs/:id" element={<ListSlideShowDetailSubs />} /> */}
-
-                    {/* <Route path="slideshow/list" element={<ListBrand />} />
-                    <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} /> */}
-
-                    <Route path="warehouse/list" element={<ListWareHouse />} />
-                    <Route path="warehouse/store/:id" element={<WarehouseStore />} />
-                    <Route path="warehouse/edit/:id" element={<EditWareHouse />} />
                     {/* subs */}
                     <Route path="subs/add" element={<CreateSubs />} />
                     <Route path="subs/list" element={<ListSubs />} />
@@ -203,6 +206,8 @@ function App() {
                     <Route path="account/add" element={<CreateUser />} />
                     <Route path="account/list" element={<ListUsers />} />
                     <Route path="account/edit/:id/:slug" element={<EditUsers />} />
+                    {/* ecitcolor */}
+                    <Route path="color/edit/:id" element={<EditColor />} />
                 </Route>
             </Routes>
         </Router>

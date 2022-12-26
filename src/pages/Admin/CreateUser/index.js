@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import locationApi from '~/api/locationApi';
+
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import Modal from '~/components/Modal';
-import loginApi from '../../../api/loginApi';
-import FormOTP from '~/components/FormOTP';
-import Dialog from '~/components/Dialog';
-import roleApi from '../../../api/roleApi';
+import loginApi from '~/api/loginApi';
 import usersApi from '~/api/usersApi';
+import roleApi from '~/api/roleApi';
 const CreateUser = () => {
     const [loading, setLoading] = useState(false);
     const [modal, setModal] = useState(false);
@@ -26,109 +25,11 @@ const CreateUser = () => {
     const [phoneUsers, setPhoneUsers] = useState();
     const [changeRole, setChangeRole] = useState();
     const [otpUser, setOtpUser] = useState();
-    const [showForm, setShowForm] = useState(false);
-    const [comfirm, setComfirm] = useState(false);
-    const [roleUser, setRoleUser] = useState();
-    const [statusLogin, setStatusLogin] = useState();
     const [allRole, setAllRole] = useState([]);
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // setShowForm(false);
-
-    //     const checkLogin = async () => {
-    //         try {
-    //             const result = await loginApi.callsms(phoneUsers);
-    //             setMessStatus('Tài khoản đã tồn tại');
-    //             setStatusHandle(false);
-    //             setModal(true);
-    //         } catch (error) {
-    //             console.log('Check Error', error);
-    //             if (error.response.status == 404) {
-    //                 getSmsRegister(phoneUsers);
-    //                 setStatusLogin(false);
-    //             }
-    //             if (error.response.status != 404) {
-    //                 setMessStatus(error.response.data.message);
-    //                 setStatusHandle(false);
-    //                 setModal(true);
-    //             }
-    //         }
-    //     };
-
-    //     if (phoneUsers.length == 10) {
-    //         checkLogin();
-    //     } else {
-    //         setMessStatus('Số điện thoại không đúng định dạng!');
-    //         setStatusHandle(false);
-    //         setModal(true);
-    //     }
-
-    //     const getSmsRegister = async (phone) => {
-    //         setLoading(true);
-    //         try {
-    //             const resultSms = await loginApi.callsmsRT(phone);
-    //             setShowForm(true);
-    //             setLoading(false);
-    //         } catch (error) {
-    //             console.log('Failed to Register', error);
-    //             setLoading(false);
-    //             setMessStatus(error.response.data.message);
-    //             setStatusHandle(false);
-    //             setModal(true);
-    //         }
-    //     };
-    // };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // setShowForm(false);
-    //     const dataRegister = {
-    //         name: nameUsers,
-    //         phone: phoneUsers,
-    //         password: otpUser,
-    //         province_id: provinceId,
-    //         district_id: districtId,
-    //         ward_id: wardId,
-    //         address: address,
-    //         role_id: roleUser,
-    //     };
-
-    //     const register = async (dataRegister) => {
-    //         setLoading(true);
-    //         // console.log('danh', dataRegister);
-    //         try {
-    //             const resultRegister = await loginApi.register(dataRegister);
-    //             setMessStatus(resultRegister.message);
-    //             setStatusHandle(true);
-    //             setModal(true);
-    //             setLoading(false);
-
-    //             setLoading(false);
-    //         } catch (error) {
-    //             console.log('Failed to Register', error);
-    //             const res = error.response.data;
-    //             setMessStatus(res.message);
-    //             setLoading(false);
-    //             setModal(true);
-    //             setStatusHandle(false);
-    //         }
-    //     };
-
-    //     // const dataLogin = { phone: phoneUsers, password: otpUser };
-
-    //     if (statusLogin) {
-    //         setMessStatus('Tài khoản đã tồn tại!');
-    //         setStatusHandle(false);
-    //         setModal(true);
-    //     } else {
-    //         register(dataRegister);
-    //     }
-    // };
-
     const handleSubmit = (e) => {
-        setLoading(true);
         e.preventDefault();
+        // setShowForm(false);
         const data = {
             name: nameUsers,
             phone: phoneUsers,
@@ -137,10 +38,12 @@ const CreateUser = () => {
             district_id: districtId,
             ward_id: wardId,
             address: address,
-            role_id: roleUser,
+            role_id: changeRole,
         };
+
         console.log(data);
-        const createSubs = async () => {
+        const createdUser = async () => {
+            setLoading(true);
             try {
                 const result = await usersApi.create(data);
                 setMessStatus(result.message);
@@ -148,16 +51,16 @@ const CreateUser = () => {
                 setModal(true);
                 setLoading(false);
             } catch (error) {
-                console.log('Failed to create user: ', error);
+                console.log('Failed to createL: ', error);
                 const res = error.response.data;
+                console.log(res);
                 setMessStatus(res.message);
-                setLoading(false);
                 setModal(true);
                 setStatusHandle(false);
+                setLoading(false);
             }
         };
-
-        createSubs();
+        createdUser();
     };
 
     useEffect(() => {
@@ -193,10 +96,6 @@ const CreateUser = () => {
         setNewListWarn(fillerWard);
     }, [districtId]);
 
-    useEffect(() => {
-        getRoleUser();
-    }, []);
-
     const getRoleUser = async () => {
         try {
             const roleUser = await roleApi.getAll();
@@ -205,6 +104,10 @@ const CreateUser = () => {
             console.log('Failed to get role user', error);
         }
     };
+
+    useEffect(() => {
+        getRoleUser();
+    }, []);
 
     return (
         <div className="wrapper">
@@ -261,13 +164,13 @@ const CreateUser = () => {
                             </div>
                             <div className="input__text">
                                 <input
-                                    value={otpUser}
+                                    // value={name}
                                     id="name"
                                     required
                                     type="text"
                                     onChange={(e) => setOtpUser(e.target.value)}
                                     className="input__text--ctrl"
-                                    placeholder="12345678..."
+                                    placeholder="12345****"
                                 />
                             </div>
                         </div>
@@ -280,9 +183,11 @@ const CreateUser = () => {
                                 <select
                                     className="input__text--ctrl"
                                     required
-                                    onChange={(e) => setRoleUser(e.target.value)}
+                                    onChange={(e) => setChangeRole(e.target.value)}
                                 >
-                                    <option selected>Chọn vai trò</option>
+                                    <option value="0" selected>
+                                        Chọn vai trò
+                                    </option>
 
                                     {allRole?.map((item, index) => (
                                         <option value={item.id} key={index}>

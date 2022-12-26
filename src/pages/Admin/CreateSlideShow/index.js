@@ -5,7 +5,8 @@ import brandApi from '~/api/brandApi';
 import Modal from '~/components/Modal';
 import ImageUpload from '../../../components/ImageUpload';
 import TableImage from '~/components/TableImage';
-import slideShowApi from '../../../api/slideShowApi';
+import slideShowApi from '~/api/slideShowApi';
+import categoriesApi from '~/api/categoriesApi';
 
 const CreateSlideShow = () => {
     const [loading, setLoading] = useState(false);
@@ -21,11 +22,29 @@ const CreateSlideShow = () => {
     const [statusImg, setStatusImg] = useState();
     const [nameSlideTitle, setNameSlideTitle] = useState();
     const [dataNews, setDataNews] = useState();
+
+    const [selectActive, setSelectActive] = useState();
+    const [selectActiveID, setSelectActiveID] = useState();
+    const [detailSub, setDetailSub] = useState();
+    const [active, setActive] = useState();
     const handleShowFormListImg = () => {
         setShowImgTbl(true);
         setStatusImg(false);
     };
 
+    const handleSelectActive = (e) => {
+        setSelectActiveID(e);
+    };
+    useEffect(() => {
+        const fetchCate = async () => {
+            try {
+                const ResCate = await categoriesApi.getAll();
+                setSelectActive(ResCate.data);
+                setLoading(false);
+            } catch (error) {}
+        };
+        fetchCate();
+    }, []);
     const handleGetListImg = (img) => {
         const dataNews = img?.map((data) => {
             const object = {};
@@ -49,6 +68,7 @@ const CreateSlideShow = () => {
     };
 
     const handleSubmit = (e) => {
+        setLoading(true);
         e.preventDefault();
         const urlImage = [];
         const UrlLinks = [];
@@ -60,12 +80,15 @@ const CreateSlideShow = () => {
             title: nameSlideTitle,
             images: urlImage,
             links: UrlLinks,
+            category_id: selectActiveID,
         };
         const CreateSlideShow = async () => {
-            setLoading(true);
             try {
                 const result = await slideShowApi.create(data);
-                console.log('result', result);
+                setMessStatus(result.message);
+                setStatusHandle(true);
+                setModal(true);
+                setLoading(false);
             } catch (error) {}
         };
         CreateSlideShow();
@@ -107,16 +130,39 @@ const CreateSlideShow = () => {
                                 </div>
                             </div>
 
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Tên bảng hiệu phụ</label>
+                                <div className="input__text">
+                                    <select
+                                        value={selectActiveID}
+                                        onChange={(e) => handleSelectActive(e.target.value)}
+                                        className="input__text--ctrl"
+                                    >
+                                        <option>Chọn bảng hiệu phụ</option>
+                                        {selectActive?.map((item, i) => (
+                                            <option key={i} value={item.id}>
+                                                {item.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
                             <div className="input__group">
                                 <div className="input__group">
                                     <div className="input__label">
                                         <label htmlFor="imgProduct">Hình ảnh bảng hiệu (danh sách)</label>
                                     </div>
+
                                     <div className="list__images">
                                         {image ? (
                                             image?.map((data, index) => (
                                                 <div className="img__box-wrap" key={index}>
-                                                    <img className="img__box--item" src={data?.url} />
+                                                    <img
+                                                        className="img__box--item"
+                                                        src={data?.url}
+                                                        onClick={() => handleShowFormListImg()}
+                                                    />
                                                     <div className="input__label">
                                                         <label htmlFor="ip-name">Url bảng hiệu</label>
                                                         <div className="input__text">

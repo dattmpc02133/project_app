@@ -34,6 +34,7 @@ export const UserContextProvider = ({ children }) => {
             console.log('Failed to get user: ', error);
             setLoading(false);
             setUser();
+            localStorage.removeItem('token');
         }
     };
 

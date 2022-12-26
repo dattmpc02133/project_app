@@ -1,7 +1,7 @@
 import axiosClient from './axiosClient';
 
 const roleApi = {
-    getAll: (params) => {
+    getAll: () => {
         const url = '/get-roles-by-lvl';
         return axiosClient.get(url);
     },

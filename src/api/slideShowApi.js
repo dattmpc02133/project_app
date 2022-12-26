@@ -46,5 +46,9 @@ const slideShowApi = {
         const url = `/active_slide_cate`;
         return axiosClient.post(url, data);
     },
+    getByWarnDetail: (id) => {
+        const url = `/getSlideshow/${id}`;
+        return axiosClient.get(url);
+    },
 };
 export default slideShowApi;

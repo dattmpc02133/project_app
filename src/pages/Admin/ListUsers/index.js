@@ -162,7 +162,7 @@ function ListCatePost() {
                                         <td>{item.created_by == null ? 'Null' : item.created_by}</td>
                                         <td>{item.updated_by == null ? 'Null' : item.updated_by}</td> */}
                                         <td className="text-center">
-                                            <Link to={`/admin/account/edit/${item?.id}/${item?.slug}`}>Sửa</Link>
+                                            <Link to={`/admin/account/edit/${item?.id}/${item?.phone}`}>Sửa</Link>
                                         </td>
                                         <td className="text-center">
                                             <Link
