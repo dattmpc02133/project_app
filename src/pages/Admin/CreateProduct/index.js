@@ -113,7 +113,6 @@ const CreateProduct = () => {
             }
         };
         createProduct();
-        console.log('data', data);
     };
 
     useEffect(() => {
@@ -213,7 +212,6 @@ const CreateProduct = () => {
     const getColor = (id) => {
         if (id > 0) {
             let color = listColor.filter((item) => item.id == id);
-            console.log('color', color);
             return color[0].color_code;
         }
         return null;

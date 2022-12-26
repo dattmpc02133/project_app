@@ -24,6 +24,7 @@ const CreateSlideShow = () => {
     const [dataNews, setDataNews] = useState();
 
     const [selectActive, setSelectActive] = useState();
+    const [selectActiveID, setSelectActiveID] = useState();
     const [detailSub, setDetailSub] = useState();
     const [active, setActive] = useState();
     const handleShowFormListImg = () => {
@@ -32,11 +33,7 @@ const CreateSlideShow = () => {
     };
 
     const handleSelectActive = (e) => {
-        setDetailSub(e.target.value);
-    };
-    const ChangeDistrictPostById = (item) => {
-        console.log('item');
-        console.log('item', item);
+        setSelectActiveID(e);
     };
     useEffect(() => {
         const fetchCate = async () => {
@@ -83,9 +80,8 @@ const CreateSlideShow = () => {
             title: nameSlideTitle,
             images: urlImage,
             links: UrlLinks,
-            category_id: detailSub,
+            category_id: selectActiveID,
         };
-        console.log('dâta', data);
         const CreateSlideShow = async () => {
             try {
                 const result = await slideShowApi.create(data);
@@ -138,18 +134,14 @@ const CreateSlideShow = () => {
                                 <label htmlFor="ip-name">Tên bảng hiệu phụ</label>
                                 <div className="input__text">
                                     <select
-                                        value={selectActive}
-                                        onChange={(e) => handleSelectActive(e)}
+                                        value={selectActiveID}
+                                        onChange={(e) => handleSelectActive(e.target.value)}
                                         className="input__text--ctrl"
                                     >
-                                        <option>{selectActive ? selectActive.name : 'Chọn bảng hiệu phụ'}</option>
+                                        <option>Chọn bảng hiệu phụ</option>
                                         {selectActive?.map((item, i) => (
-                                            <option
-                                                key={i}
-                                                value={item.id}
-                                                onClick={() => ChangeDistrictPostById({ item: item?.name })}
-                                            >
-                                                {item?.name}
+                                            <option key={i} value={item.id}>
+                                                {item.name}
                                             </option>
                                         ))}
                                     </select>
