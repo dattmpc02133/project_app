@@ -139,8 +139,8 @@ function App() {
 
                     {/* Banner & SlideShow? */}
                     <Route path="slideshow/add" element={<CreateSlideShow />} />
-                    {/* <Route path="slideshow/list" element={<ListBrand />} />
-                    <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} /> */}
+                    <Route path="slideshow/list" element={<ListBrand />} />
+                    <Route path="slideshow/edit/:id/:slug" element={<EditBrand />} />
 
                     <Route path="warehouse/list" element={<ListWareHouse />} />
                     <Route path="warehouse/store/:id" element={<WarehouseStore />} />
