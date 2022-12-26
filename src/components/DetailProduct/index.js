@@ -810,7 +810,10 @@ const DetailProduct = () => {
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            <div className={cx('specifiti')}>{productDetail?.specification_infomation}</div>
+                            <div
+                                className={cx('specifiti')}
+                                dangerouslySetInnerHTML={{ __html: productDetail?.specification_infomation }}
+                            ></div>
                         </TabPanel>
                     </Tabs>
                 </div>
