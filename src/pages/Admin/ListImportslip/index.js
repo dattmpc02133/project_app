@@ -13,22 +13,23 @@ function ListImportslip() {
     const [importSlip, setImportSlip] = useState([]);
     const [pageSlip, setPageSlip] = useState([]);
     const [openDetail, setOpenDetail] = useState();
+    const [searchSlip, setSearchSlip] = useState('');
     useEffect(() => {
-        getProImportSlip();
-    }, []);
+        const params = `?name=${searchSlip}`;
+        if (searchSlip.length > 3) {
+            getProImportSlip(params);
+        } else if (searchSlip.length === 0) {
+            getProImportSlip();
+        }
+    }, [searchSlip]);
 
     const getProImportSlip = async (params) => {
-        setLoading(true);
         try {
             const getAllImportSlip = await proImportSlip.getAllProductSlip(params);
             setImportSlip(getAllImportSlip.data);
             setPageSlip(getAllImportSlip.paginator);
-            const getDetail = getAllImportSlip.data;
-
-            setLoading(false);
         } catch (error) {
             console.log('Failed Product import slip', error);
-            setLoading(false);
         }
     };
     const handlePrevPage = () => {
@@ -50,6 +51,10 @@ function ListImportslip() {
         setPage(page);
         getProImportSlip(`?page=${page}`);
     };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -60,6 +65,20 @@ function ListImportslip() {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchSlip}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchSlip(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

@@ -33,8 +33,8 @@ const EditPost = () => {
     useEffect(() => {
         const getAllSubs = async () => {
             try {
-                const allSubs = await catePostApi.getAll();
-                setAllSubs(allSubs.data.data);
+                const allSubs = await catePostApi.getCatePost();
+                setAllSubs(allSubs.data);
             } catch (error) {
                 console.log('Lỗi lấy subs', error);
             }

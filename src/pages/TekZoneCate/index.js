@@ -34,7 +34,7 @@ function TekZoneCate() {
             setLoading(true);
             try {
                 const allCatePost = await catePostApi.getAll();
-                setAllCatePost(allCatePost.data.data);
+                setAllCatePost(allCatePost.data);
                 setLoading(false);
             } catch (error) {
                 console.log('lỗi lây danh mục', error);
@@ -50,6 +50,7 @@ function TekZoneCate() {
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
                 setCatePostId(byIdCatePost.data);
+                console.log(byIdCatePost.data);
                 setLoading(false);
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);
@@ -149,7 +150,7 @@ function TekZoneCate() {
 
                 <div className={cx('newsest__list')}>
                     <div className={cx('title-new')}>
-                        <h2>{catePostId.name}</h2>
+                        <h2>Bài viết liên quan</h2>
                     </div>
                     <div className={cx('newsest')}>
                         {catePostId?.post?.map((listPost, index) => (
@@ -161,32 +162,16 @@ function TekZoneCate() {
                                     <div className={cx('title-item')}>
                                         <h3>{listPost.title}</h3>
                                         <div className={cx('time-post')}>
-                                            <p>1 giờ trước</p>
+                                            <p>{listPost.updated_at}</p>
                                         </div>
                                     </div>
                                 </Link>
                             </div>
                         ))}
 
-                        {/* {allSpost?.map((listPost) => (
-                            <div className={cx('news-item')} key={listPost.id}>
-                                <Link to={`/tekzonedetail/${listPost.id}`}>
-                                    <div className={cx('img-item', 'c-4')}>
-                                        <img className={cx('img-post')} src={listPost.image} alt={listPost.title} />
-                                    </div>
-                                    <div className={cx('title-item')}>
-                                        <h3>{listPost.title}</h3>
-                                        <div className={cx('time-post')}>
-                                            <p>1 giờ trước</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))} */}
-
-                        <div className={cx('viewmore-news')}>
+                        {/* <div className={cx('viewmore-news')}>
                             <span>Xem thêm</span>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

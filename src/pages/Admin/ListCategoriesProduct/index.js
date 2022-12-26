@@ -19,22 +19,27 @@ const ListCategoriesProduct = () => {
     const [comfirm, setComfirm] = useState(false);
     const [page, setPage] = useState(1);
     const [pageCateProudct, setPageCateProduct] = useState([]);
+    const [cateProduct, setCateProduct] = useState('');
 
     useEffect(() => {
-        fetchCatePost();
-    }, []);
+        const params = `?name=${cateProduct}`;
+        if (cateProduct.length > 2) {
+            fetchCateProduct(params);
+        } else if (cateProduct.length === 0) {
+            fetchCateProduct();
+        }
+    }, [cateProduct]);
 
-    const fetchCatePost = async (params) => {
+    const fetchCateProduct = async (params) => {
         try {
-            setLoading(true);
+            // setLoading(true);
             const result = await categoriesApi.getAll(params);
             setListCate(result.data);
-
             setPageCateProduct(result.paginator);
-            setLoading(false);
+            // setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -42,20 +47,20 @@ const ListCategoriesProduct = () => {
         if (page > 1) {
             const pageId = page - 1;
             setPage(pageId);
-            fetchCatePost(`?page=${pageId}`);
+            fetchCateProduct(`?page=${pageId}`);
         }
     };
     const handleNextPage = () => {
         if (page < pageCateProudct?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
-            fetchCatePost(`?page=${pageId}`);
+            fetchCateProduct(`?page=${pageId}`);
         }
     };
 
     const handleChangePage = (page) => {
         setPage(page);
-        fetchCatePost(`?page=${page}`);
+        fetchCateProduct(`?page=${page}`);
     };
 
     const handleDelete = (id) => {
@@ -89,6 +94,11 @@ const ListCategoriesProduct = () => {
         }
     };
 
+    const handleSearch = (e) => {
+        console.log('e');
+        e.preventDefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -101,6 +111,20 @@ const ListCategoriesProduct = () => {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={cateProduct}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setCateProduct(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

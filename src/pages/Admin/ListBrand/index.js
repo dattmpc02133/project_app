@@ -18,18 +18,23 @@ function ListBrand() {
     const [page, setPage] = useState(1);
     const [pageBrand, setPageBrand] = useState([]);
     const deleteBrands = useRef();
-
+    const [searchBrand, setSearchBrand] = useState('');
     useEffect(() => {
-        getAllBrand();
-    }, []);
+        const params = `?name=${searchBrand}`;
+
+        if (searchBrand.length > 3) {
+            getAllBrand(params);
+        } else if (searchBrand.length === 0) {
+            getAllBrand();
+        }
+    }, [searchBrand]);
 
     const getAllBrand = async (params) => {
         try {
             const allBrands = await brandApi.getAll(params);
             setBrandAll(allBrands.data);
+            console.log(allBrands);
             setPageBrand(allBrands.paginator);
-            console.log(allBrands.data);
-            console.log('phân trang', allBrands.data.last_page);
         } catch (error) {
             console.log('lỗi lấy danh sách', error);
         }
@@ -85,6 +90,10 @@ function ListBrand() {
             getDeletBrand();
         }
     };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -96,6 +105,20 @@ function ListBrand() {
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchBrand}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchBrand(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

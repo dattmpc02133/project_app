@@ -22,11 +22,12 @@ function EditSubs() {
     useEffect(() => {
         const getAllCate = async () => {
             try {
-                const cate = await catePostApi.getAll();
-                setCategories(cate.data.data);
+                const cate = await catePostApi.getCatePost();
+
+                setCategories(cate.data);
 
                 const brand = await brandApi.getAll();
-                setAllBrand(brand.data.data);
+                setAllBrand(brand.data);
                 console.log(cate.data);
                 console.log(brand.data.data);
             } catch (error) {

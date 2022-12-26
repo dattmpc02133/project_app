@@ -12,23 +12,28 @@ const ListOrders = () => {
     const [listOrder, setListOrder] = useState();
     const [pagination, setPagination] = useState();
     const [page, setPage] = useState(1);
-
+    const [searchOrder, setsearchOrder] = useState('');
     useEffect(() => {
-        getOrders();
-    }, []);
+        const params = `?code=${searchOrder}`;
+        if (searchOrder.length > 3) {
+            getOrders(params);
+        } else if (searchOrder.length === 0) {
+            getOrders();
+        }
+    }, [searchOrder]);
 
     const getOrders = async (params) => {
-        setLoading(true);
+        // setLoading(true);
         try {
             const result = await cartApi.getAllOrders(params);
             // setAllPost(allOrders.data);
-            console.log('data', result);
+            // console.log('data', result);
             setListOrder(result.data);
             setPagination(result.paginator);
-            setLoading(false);
+            // setLoading(false);
         } catch (error) {
             console.log('Failed to get orders', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -52,10 +57,14 @@ const ListOrders = () => {
         getOrders(`?page=${page}`);
     };
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
-            {/* {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />} */}
+
             <div className="content__heading">
                 <h2 className="content__heading--title">Danh sách đơn hàng</h2>
                 <p className="content__heading--subtitle">Đơn hàng</p>
@@ -63,6 +72,20 @@ const ListOrders = () => {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchOrder}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setsearchOrder(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

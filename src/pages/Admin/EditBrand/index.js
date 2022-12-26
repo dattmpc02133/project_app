@@ -21,6 +21,7 @@ function EditBrand() {
             try {
                 const byIdBrand = await brandApi.getById(params.id);
                 // setBrandsId(byIdBrand.data.is_post);
+                console.log(byIdBrand);
                 setNameBrand(byIdBrand.data.brand_name);
                 setSelectActive(byIdBrand.data.is_active);
             } catch (error) {

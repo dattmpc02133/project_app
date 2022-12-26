@@ -8,7 +8,7 @@ const categoriesApi = {
 
     getAll: (params) => {
         if (params) {
-            const url = `/admin/categories_products/${params}`;
+            const url = `/admin/categories_products${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/admin/categories_products';
@@ -38,7 +38,7 @@ const categoriesApi = {
 
     getAllSubsProduct: (params) => {
         if (params) {
-            const url = `/admin/subcategoriesProducts/${params}`;
+            const url = `/admin/subcategoriesProducts${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/admin/subcategoriesProducts';

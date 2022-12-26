@@ -24,7 +24,7 @@ function EditProductSubs() {
         const getAllCate = async () => {
             try {
                 const cate = await categoriesApi.getAll();
-                setCategories(cate.data.data);
+                setCategories(cate.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -37,7 +37,7 @@ function EditProductSubs() {
         const getAllBrand = async () => {
             try {
                 const allBrand = await brandApi.getAll();
-                setAllBrand(allBrand.data.data);
+                setAllBrand(allBrand.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục brand', error);
             }

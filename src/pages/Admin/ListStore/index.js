@@ -17,7 +17,7 @@ const ListStore = () => {
     const [modal, setModal] = useState(false);
     const [pagination, setPagination] = useState();
     const [page, setPage] = useState(1);
-
+    const [searchStore, setSearchStore] = useState('');
     const idStore = useRef();
 
     const handleDelete = (id) => {
@@ -51,21 +51,26 @@ const ListStore = () => {
         }
     };
 
-    const fetchListColor = async () => {
+    const fetchListColor = async (params) => {
         try {
-            const result = await storeApi.getAll();
+            const result = await storeApi.getAll(params);
             console.log('result', result);
             setPagination(result.paginator.totalPages);
             setListStore(result.data);
-            setLoading(false);
+            // setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Store: ', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
     useEffect(() => {
-        fetchListColor();
-    }, []);
+        const params = `?name=${searchStore}`;
+        if (searchStore.length > 3) {
+            fetchListColor(params);
+        } else if (searchStore.length === 0) {
+            fetchListColor();
+        }
+    }, [searchStore]);
 
     const handlePrevPage = () => {
         if (page > 1) {
@@ -88,6 +93,10 @@ const ListStore = () => {
         fetchListColor(`?page=${page}`);
     };
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -100,6 +109,20 @@ const ListStore = () => {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchStore}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchStore(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

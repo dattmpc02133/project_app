@@ -17,22 +17,28 @@ function ListFooRules() {
     const [modal, setModal] = useState(false);
     const [page, setPage] = useState(1);
     const [cateFooter, setCateFooter] = useState([]);
+    const [searchRules, setSearchRules] = useState('');
     const deleteContent = useRef();
     useEffect(() => {
-        fetchCatePost();
-    }, []);
+        const params = `?title=${searchRules}`;
+        if (searchRules.length > 3) {
+            fetchFooterRules(params);
+        } else if (searchRules.length === 0) {
+            fetchFooterRules();
+        }
+    }, [searchRules]);
 
-    const fetchCatePost = async (params) => {
-        setLoading(true);
+    const fetchFooterRules = async (params) => {
+        // setLoading(true);
         try {
             const result = await footerApi.getAllContentFoo(params);
             setListCate(result.data);
             setCateFooter(result.paginator);
-            setLoading(false);
+            // setLoading(false);
             // console.log('data', result.data);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -40,20 +46,20 @@ function ListFooRules() {
         if (page > 1) {
             const pageId = page - 1;
             setPage(pageId);
-            fetchCatePost(`?page=${pageId}`);
+            fetchFooterRules(`?page=${pageId}`);
         }
     };
     const handleNextPage = () => {
         if (page < cateFooter?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
-            fetchCatePost(`?page=${pageId}`);
+            fetchFooterRules(`?page=${pageId}`);
         }
     };
 
     const handleChangePage = (page) => {
         setPage(page);
-        fetchCatePost(`?page=${page}`);
+        fetchFooterRules(`?page=${page}`);
     };
 
     const handleDelete = (id) => {
@@ -87,6 +93,10 @@ function ListFooRules() {
         }
     };
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -98,13 +108,27 @@ function ListFooRules() {
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchRules}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchRules(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Tên danh mục</th>
                                     <th>Tiêu đề nội dung</th>
+                                    <th>Tên danh mục</th>
                                     <th>Trạng thái</th>
                                     <th>Người tạo</th>
                                     <th>Người cập nhật</th>
@@ -118,8 +142,8 @@ function ListFooRules() {
                                     ? listCate.map((item, index) => (
                                           <tr key={item.id}>
                                               <td>{10 * (page - 1) + index + 1}</td>
-                                              <td>{item.category_name}</td>
                                               <td>{item.title}</td>
+                                              <td>{item.category_name}</td>
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                               </td>

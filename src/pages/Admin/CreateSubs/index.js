@@ -41,7 +41,7 @@ function CreateSubs() {
         const getAllBrand = async () => {
             try {
                 const brand = await brandApi.getAll();
-                setAllBrands(brand.data.data);
+                setAllBrands(brand.data);
             } catch (error) {
                 console.log('thương hiệu', error);
             }

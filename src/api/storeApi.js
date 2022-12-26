@@ -3,8 +3,13 @@ import axiosClient from './axiosClient';
 // api/productApi.js
 const storeApi = {
     getAll: (params) => {
-        const url = '/getStore';
-        return axiosClient.get(url, { params });
+        if (params) {
+            const url = `/getStore${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/getStore';
+            return axiosClient.get(url);
+        }
     },
     create: (data) => {
         const url = '/admin/stores';

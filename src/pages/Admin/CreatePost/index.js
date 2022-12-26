@@ -29,9 +29,9 @@ const CreatePost = () => {
     useEffect(() => {
         const getAllSubs = async () => {
             try {
-                const allSubs = await catePostApi.getAll();
-                setAllSubs(allSubs.data.data);
-                console.log(allSubs.data.data);
+                const allSubs = await catePostApi.getCatePost();
+                setAllSubs(allSubs.data);
+                console.log(allSubs.data);
             } catch (error) {
                 console.log('Lỗi lấy subs', error);
             }

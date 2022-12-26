@@ -128,29 +128,6 @@ function TekZone() {
                                 </Link>
                             </li>
                         ))}
-                        {/* 
-                        <li>
-                            <a href="#">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__2} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Cách cài nhạc chuông iPhone remix hay nhất, giúp người dùng cảm thấy thú vị hơn
-                                        khi có cuộc gọi đến
-                                    </h3>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <div className={cx('size-img-title')}>
-                                    <img src={images.tekzone__3} alt="Slider2" />
-                                    <h3 className={cx('title')}>
-                                        Tháng 11 deal ngon hết ý cùng MacBook Air, giá cực tốt chỉ từ 22.69 triệu đồng
-                                        tại TopZone, nhanh tay tậu ngay
-                                    </h3>
-                                </div>
-                            </a>
-                        </li> */}
                     </Slider>
                 </div>
 
@@ -178,7 +155,7 @@ function TekZone() {
                                     <div className={cx('title-item')}>
                                         <h3>{listPost.title}</h3>
                                         <div className={cx('time-post')}>
-                                            <p>1 giờ trước</p>
+                                            <p>{listPost.updated_at}</p>
                                         </div>
                                     </div>
                                 </Link>

@@ -36,7 +36,7 @@ function AsideFooter() {
                 const getByIdContents = await footerApi.getIdContentClient(params.id);
                 setNameContent(getByIdContents.data.title);
                 setLoading(false);
-                console.log('getAllContents', getByIdContents);
+                // console.log('getAllContents', getByIdContents);
             } catch (error) {
                 console.log('lỗi lấy id content', error);
                 setLoading(false);

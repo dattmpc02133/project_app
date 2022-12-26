@@ -4,7 +4,7 @@ import axiosClient from './axiosClient';
 const postsApi = {
     getAll: (params) => {
         if (params) {
-            const url = `/posts/${params}`;
+            const url = `/posts${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/posts';
@@ -14,7 +14,7 @@ const postsApi = {
 
     getAllClient: (params) => {
         if (params) {
-            const url = `client/load-post/${params}`;
+            const url = `client/load-post${params}`;
             return axiosClient.get(url);
         } else {
             const url = 'client/load-post/';
