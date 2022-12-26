@@ -44,7 +44,6 @@ function ListSlideShowDetailSubs() {
     const handleSelectActive = (e, id) => {
         e.preventDefault();
         const data = { category_id: param.id, slide_id: id, is_active: e.target.value };
-        console.log('dâta', data);
         const EditStatusSlideSub = async () => {
             setLoading(true);
             try {
