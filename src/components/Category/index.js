@@ -1,10 +1,13 @@
+import { Slide } from 'react-slideshow-image';
 import { Link, useLocation } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import style from '~/assets/scss/Category.module.scss';
+import '~/assets/scss/styleCate.css';
 import React, { useEffect, useState } from 'react';
 import productApi from '~/api/productApi';
 import cateProductApi from '~/api/cateProductApi';
 import { useMemo } from 'react';
+import slideShowApi from '../../api/slideShowApi';
 const cx = classNames.bind(style);
 const Category = () => {
     const { search } = useLocation();
@@ -19,6 +22,17 @@ const Category = () => {
     const [listProducts, setListProducts] = useState();
     const [itemProductsActive, setItemColorActive] = useState();
     const [render, setRender] = useState(false);
+    const [imageSlideCate, setImagesSlideCate] = useState();
+
+    useEffect(() => {
+        const fetchSlides = async () => {
+            try {
+                const dataSlide = await slideShowApi.getSlideCate(CateID);
+                setImagesSlideCate(dataSlide?.data?.details);
+            } catch (error) {}
+        };
+        fetchSlides();
+    }, [CateID]);
     const handleSelect = () => {
         SetSelect(!select);
     };
@@ -43,7 +57,6 @@ const Category = () => {
         const fetchAllProducts = async () => {
             try {
                 const resData = await productApi.getAll();
-                console.log('resData', resData);
                 const ListProductsData = resData?.data?.filter((item) => item?.cartegory_id == CateID);
                 setListProducts(ListProductsData);
                 setItemColorActive(ListProductsData);
@@ -51,7 +64,6 @@ const Category = () => {
         };
         fetchAllProducts();
     }, [CateID]);
-
     const handleChangeTypeSubById = ({ item, index }) => {
         if (listProducts) {
             const resultKQ = listProducts.filter((itemID) => {
@@ -73,6 +85,23 @@ const Category = () => {
     };
     return (
         <>
+            {/* slide */}
+            {imageSlideCate ? (
+                <Slide autoplay={false} infinite={true}>
+                    {imageSlideCate?.map((slideImage, index) => (
+                        <div className="each-slide-effect" key={index}>
+                            <div>
+                                <Link to={slideImage?.url}>
+                                    <img style={{ width: '100%' }} src={slideImage?.image} />
+                                </Link>
+                            </div>
+                        </div>
+                    ))}
+                </Slide>
+            ) : (
+                ''
+            )}
+
             <div className={cx('menuByCategory')}>
                 <div className={cx('ft-Category')}>
                     {/* <div className={cx('item-Link')} onClick={()=>{}}>Tất cả sản phẩm</div> */}

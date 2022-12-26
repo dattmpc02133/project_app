@@ -18,17 +18,14 @@ function CreateSubs() {
     const [dataBrand, setDataBrand] = useState('');
     const [allBrand, setAllBrands] = useState([]);
 
-    console.log('select', dataselect);
-    console.log('Input', dataInput);
-    console.log('brand', dataBrand);
-
     const navigate = useNavigate();
 
     useEffect(() => {
         const getAllCate = async () => {
             try {
-                const cate = await catePostApi.getAll();
+                const cate = await catePostApi.getCatePost();
                 setCategories(cate.data);
+                console.log(cate);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -53,19 +50,14 @@ function CreateSubs() {
         setLoading(true);
         e.preventDefault();
         const data = { category_id: dataselect, name: dataInput, brand_id: dataBrand, is_post: 1 };
-        console.log('data', data);
+
         const createSubs = async () => {
             try {
                 const result = await catePostApi.createdSubs(data);
                 setMessStatus(result.message);
-                console.log(result);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setDataBrand('');
-                setDataInput('');
-                setDateSelect('');
-                // navigate('/admin/subs/list');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;

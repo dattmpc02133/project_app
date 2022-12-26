@@ -71,12 +71,11 @@ function ListSubs() {
             const getDeletSubs = async () => {
                 try {
                     const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
-                    setMessage(deletesSubs.status);
+                    setMessStatus(deletesSubs.status);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const allSubs = await catePostApi.getAllSubsPost(params);
-                    setSubsAll(allSubs.data);
+                    getAllSubs(params);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;

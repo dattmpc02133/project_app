@@ -26,7 +26,6 @@ function ListCatePost() {
             setListCate(result.data);
             setPageCatePost(result.paginator);
             // setLoading(false);
-            console.log(result);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
             // setLoading(false);
@@ -69,19 +68,17 @@ function ListCatePost() {
         deleteCatePosts.current = id;
     };
 
-    const handleAction = (type, params) => {
+    const handleAction = (type) => {
         if (type) {
             setComfirm(false);
-            const deleteFooter = async () => {
+            const deleteFooter = async (params) => {
                 try {
                     const dltFooter = await catePostApi.deleteCatePost(deleteCatePosts.current);
-                    setMessage(dltFooter.message);
-                    console.log(dltFooter.message);
+                    setMessStatus(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const result = await catePostApi.getAll(params);
-                    setListCate(result.data);
+                    fetchCatePost(params);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;

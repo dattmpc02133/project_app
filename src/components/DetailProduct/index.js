@@ -25,6 +25,9 @@ import cartApi from '~/api/cartApi';
 import { CartContext } from '~/Context/CartContext';
 import { UserContext } from '~/Context/UserContext';
 
+// GLobal State
+import { CommentContext } from '~/Context/CommentContext';
+
 // tab descriptions
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -123,13 +126,12 @@ const DetailProduct = () => {
         setStatusHandle,
         setModal,
     } = useContext(CartContext);
-
+    const { fetchComments } = useContext(CommentContext);
     const { user } = useContext(UserContext);
     //
     const listColors = useMemo(() => {
         if (dataVariants) {
             const results = dataVariants?.filter((variant) => variant?.variant_id == variantID);
-            console.log('results', results);
             if (results.length > 0) {
                 setItemColorActive(results[0]);
             }
@@ -362,7 +364,6 @@ const DetailProduct = () => {
             setLoading(true);
             try {
                 const result = await commentsApi.create(data);
-                console.log(result);
                 setLoading(false);
                 setMessStatus(result.message);
                 setStatusHandle(true);
@@ -402,7 +403,6 @@ const DetailProduct = () => {
             setLoading(true);
             try {
                 const result = await commentsApi.create(dataRepComment);
-                console.log('result', result);
                 setLoading(false);
                 setMessStatus(result.message);
                 setStatusHandle(true);
@@ -640,7 +640,7 @@ const DetailProduct = () => {
                                                                 <FcApproval /> Có hàng
                                                             </small>
                                                         </div>
-                                                        <a className={cx('oder-store')}>Đặt giữ hàng</a>
+                                                        {/* <a className={cx('oder-store')}>Đặt giữ hàng</a>d */}
                                                     </li>
                                                 );
                                             })}
@@ -681,7 +681,7 @@ const DetailProduct = () => {
             </div>
             <div className={cx('description-box')}>
                 <div className={cx('description-product')}>
-                    <strong className={cx('description-access')}>Phụ kiện gợi ý cho iPhone</strong>
+                    <strong className={cx('description-access')}>Phụ kiện gợi ý</strong>
                     <Slider {...settings}>
                         {listProductsBySubCate?.map((item, index) => {
                             return (
@@ -704,7 +704,7 @@ const DetailProduct = () => {
                                         </div>
                                         <h3>{item.product_name}</h3>
                                         <span className={cx('price')}>
-                                            {item?.variantsDetailsByProduct[0]?.price}đ &nbsp;
+                                            {Number(item?.variantsDetailsByProduct[0]?.price).toLocaleString()}đ &nbsp;
                                             {item?.variantsDetailsByProduct[0]?.discount}%
                                         </span>
                                     </Link>

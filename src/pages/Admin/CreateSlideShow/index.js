@@ -5,7 +5,8 @@ import brandApi from '~/api/brandApi';
 import Modal from '~/components/Modal';
 import ImageUpload from '../../../components/ImageUpload';
 import TableImage from '~/components/TableImage';
-import slideShowApi from '../../../api/slideShowApi';
+import slideShowApi from '~/api/slideShowApi';
+import categoriesApi from '~/api/categoriesApi';
 
 const CreateSlideShow = () => {
     const [loading, setLoading] = useState(false);
@@ -21,11 +22,29 @@ const CreateSlideShow = () => {
     const [statusImg, setStatusImg] = useState();
     const [nameSlideTitle, setNameSlideTitle] = useState();
     const [dataNews, setDataNews] = useState();
+
+    const [selectActive, setSelectActive] = useState();
+    const [selectActiveID, setSelectActiveID] = useState();
+    const [detailSub, setDetailSub] = useState();
+    const [active, setActive] = useState();
     const handleShowFormListImg = () => {
         setShowImgTbl(true);
         setStatusImg(false);
     };
 
+    const handleSelectActive = (e) => {
+        setSelectActiveID(e);
+    };
+    useEffect(() => {
+        const fetchCate = async () => {
+            try {
+                const ResCate = await categoriesApi.getAll();
+                setSelectActive(ResCate.data);
+                setLoading(false);
+            } catch (error) {}
+        };
+        fetchCate();
+    }, []);
     const handleGetListImg = (img) => {
         const dataNews = img?.map((data) => {
             const object = {};
@@ -44,50 +63,35 @@ const CreateSlideShow = () => {
     const OnchangeText = (value, index) => {
         if (image) {
             image[index].name = value;
-            setDataNews(...image);
-            setImage([...image]);
-
-            // console.log('image[index]', image[index]);
+            setDataNews([...image]);
         }
     };
 
-    console.log('dataNew', dataNews);
-    // useEffect(() => {
-    //     const news = result?.map((item) => {
-    //         return item;
-    //     });
-    //     setDataNews(news);
-    // }, []);
     const handleSubmit = (e) => {
+        setLoading(true);
         e.preventDefault();
+        const urlImage = [];
+        const UrlLinks = [];
+        dataNews?.map((item) => {
+            urlImage.push(item.url);
+            UrlLinks.push(item.name);
+        });
         const data = {
             title: nameSlideTitle,
-            images: dataNews.url,
-            links: dataNews.name,
+            images: urlImage,
+            links: UrlLinks,
+            category_id: selectActiveID,
         };
-        console.log('data', data);
         const CreateSlideShow = async () => {
-            setLoading(true);
             try {
-                const result = await slideShowApi.create();
-                console.log(result);
-                setLoading(false);
-                setMessStatus(result.status);
+                const result = await slideShowApi.create(data);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setNameSlideUrl('');
-            } catch (error) {
-                console.log('Fail to create product', error);
-                const res = error.response.data;
-                setMessStatus(res.message);
-                setLoading(false);
-                setModal(true);
-                setStatusHandle(false);
-                setLoading(false);
-            }
+            } catch (error) {}
         };
-        // CreateSlideShow();
+        CreateSlideShow();
     };
 
     return (
@@ -104,7 +108,7 @@ const CreateSlideShow = () => {
             )}
             <div className="content__heading">
                 <h2 className="content__heading--title">Thêm mới bảng hiệu</h2>
-                <p className="content__heading--subtitle">Bảng hiệu</p>
+                <div className="content__heading--subtitle">Bảng hiệu</div>
             </div>
 
             <div className="content__wrapper">
@@ -126,21 +130,44 @@ const CreateSlideShow = () => {
                                 </div>
                             </div>
 
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Tên bảng hiệu phụ</label>
+                                <div className="input__text">
+                                    <select
+                                        value={selectActiveID}
+                                        onChange={(e) => handleSelectActive(e.target.value)}
+                                        className="input__text--ctrl"
+                                    >
+                                        <option>Chọn bảng hiệu phụ</option>
+                                        {selectActive?.map((item, i) => (
+                                            <option key={i} value={item.id}>
+                                                {item.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
                             <div className="input__group">
                                 <div className="input__group">
                                     <div className="input__label">
                                         <label htmlFor="imgProduct">Hình ảnh bảng hiệu (danh sách)</label>
                                     </div>
+
                                     <div className="list__images">
                                         {image ? (
                                             image?.map((data, index) => (
                                                 <div className="img__box-wrap" key={index}>
-                                                    <img className="img__box--item" src={data.url} />
+                                                    <img
+                                                        className="img__box--item"
+                                                        src={data?.url}
+                                                        onClick={() => handleShowFormListImg()}
+                                                    />
                                                     <div className="input__label">
                                                         <label htmlFor="ip-name">Url bảng hiệu</label>
                                                         <div className="input__text">
                                                             <input
-                                                                value={data.name}
+                                                                value={data?.name}
                                                                 id="ip-name"
                                                                 type="text"
                                                                 className="input__text--ctrl"

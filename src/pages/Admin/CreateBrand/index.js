@@ -22,13 +22,11 @@ const CreateBrand = () => {
             setLoading(true);
             try {
                 const result = await brandApi.create(data);
-                console.log(result);
-                setLoading(false);
                 setMessStatus(result.status);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setNameBrand('');
+                console.log(result);
             } catch (error) {
                 console.log('Fail to create product', error);
                 const res = error.response.data;

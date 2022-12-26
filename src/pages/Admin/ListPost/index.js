@@ -24,18 +24,17 @@ function ListPost() {
         deletePost.current = id;
     };
 
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const deleteFooter = async () => {
                 try {
                     const dltFooter = await postApi.deletePost(deletePost.current);
-                    setMessage(dltFooter.message);
+                    setMessStatus(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const allPosts = await postApi.getAll();
-                    setAllPost(allPosts.data);
+                    getAllPost(params);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;

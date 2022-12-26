@@ -59,14 +59,10 @@ function EditContact() {
         const updateContacts = async () => {
             try {
                 const result = await footerApi.updateContacts(data, params.id);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setSelected('');
-                setInputService('');
-                setInputPhone('');
-                setInputTime('');
             } catch (error) {
                 console.log('update không thành công', error);
                 const res = error.response.data;

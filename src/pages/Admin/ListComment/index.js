@@ -92,7 +92,6 @@ const ListComment = () => {
         try {
             const result = await commentsApi.getAll();
             const responComment = result?.data.filter((item) => item.id == idProduct);
-            console.log('responComment', responComment);
             setResultGetComment(responComment[0].comments);
             setLoading(false);
         } catch (error) {
@@ -138,51 +137,42 @@ const ListComment = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {resultGetComment?.map(
-                                    (item, index) => (
-                                        console.log('item', item),
-                                        (
-                                            <>
-                                                <tr key={index}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{item.created_by}</td>
-                                                    <td>{item.content}</td>
-                                                    <td>
-                                                        <form>
-                                                            <select
-                                                                onChange={(e) =>
-                                                                    handleSelectActive(e, item.id, item.content)
-                                                                }
-                                                                value={item.is_active}
-                                                                className={
-                                                                    item.is_active == 1
-                                                                        ? cx('input__ACTIVE')
-                                                                        : cx('input__')
-                                                                }
-                                                            >
-                                                                <option value="1">Đã duyệt</option>
-                                                                <option value="0">Chờ duyệt</option>
-                                                            </select>
-                                                        </form>
-                                                    </td>
-                                                    <td className="text-center btn__tbl">
-                                                        <Link to={`/admin/comment/listcommentreply/${item.id}`}>
-                                                            Xem trả lời
-                                                        </Link>
-                                                    </td>
-                                                    <td
-                                                        className="text-center btn__tbl"
-                                                        onClick={(e) => {
-                                                            handleDelete(item.id);
-                                                        }}
+                                {resultGetComment?.map((item, index) => (
+                                    <>
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.created_by}</td>
+                                            <td>{item.content}</td>
+                                            <td>
+                                                <form>
+                                                    <select
+                                                        onChange={(e) => handleSelectActive(e, item.id, item.content)}
+                                                        value={item.is_active}
+                                                        className={
+                                                            item.is_active == 1 ? cx('input__ACTIVE') : cx('input__')
+                                                        }
                                                     >
-                                                        Xóa
-                                                    </td>
-                                                </tr>
-                                            </>
-                                        )
-                                    ),
-                                )}
+                                                        <option value="1">Đã duyệt</option>
+                                                        <option value="0">Chờ duyệt</option>
+                                                    </select>
+                                                </form>
+                                            </td>
+                                            <td className="text-center btn__tbl">
+                                                <Link to={`/admin/comment/listcommentreply/${item.id}`}>
+                                                    Xem trả lời
+                                                </Link>
+                                            </td>
+                                            <td
+                                                className="text-center btn__tbl"
+                                                onClick={(e) => {
+                                                    handleDelete(item.id);
+                                                }}
+                                            >
+                                                Xóa
+                                            </td>
+                                        </tr>
+                                    </>
+                                ))}
                             </tbody>
                             {/* <ImageUpload /> */}
                         </table>

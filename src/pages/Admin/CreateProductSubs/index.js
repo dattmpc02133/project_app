@@ -61,9 +61,6 @@ function CreateProductSubs() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setDataBrand('');
-                setDataInput('');
-                setDateSelect('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;

@@ -38,7 +38,7 @@ function EditLogo() {
             setLoading(true);
             try {
                 const logoId = await logoApi.getById(params.id);
-                console.log(logoId.data, 'id');
+
                 setLogo(logoId.data.image);
                 setLoading(false);
             } catch (error) {
@@ -58,8 +58,8 @@ function EditLogo() {
         const editLogo = async () => {
             try {
                 const post = await logoApi.editLogo(data, params.id);
-                setMessStatus(post.status);
-                setMessage(post.message);
+                setMessStatus(post.message);
+                // setMessage(post.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
@@ -96,7 +96,7 @@ function EditLogo() {
                                 <div className="input__text list__img">
                                     {logo ? (
                                         <div className="img__box" onClick={() => handleShowFormImg()}>
-                                            <img className="img__box--item" src={logo} />
+                                            <img src={logo} style={{ width: 180 }} />
                                         </div>
                                     ) : (
                                         <div className="img__choose" onClick={() => handleShowFormImg()}>

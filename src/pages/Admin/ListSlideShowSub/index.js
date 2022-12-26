@@ -1,47 +1,51 @@
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useState, useEffect, useRef } from 'react';
-import LogoApi from '~/api/logoApi';
 import { Link } from 'react-router-dom';
 import Modal from '~/components/Modal';
 import Dialog from '~/components/Dialog';
 import Pagination from '~/components/Pagination';
-
-function ListLogo() {
+import slideShowApi from '~/api/slideShowApi';
+function ListSlideShowSub() {
+    const [listSlideShow, setListSlideShow] = useState();
     const [loading, setLoading] = useState(false);
-    const [listCate, setListCate] = useState();
+    const [message, setMessage] = useState();
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
-    const [message, setMessage] = useState();
     const [modal, setModal] = useState(false);
+    const [deleteBrand, SetDeleteBrand] = useState();
+    const [comfirm, setComfirm] = useState(false);
     const [page, setPage] = useState(1);
-    useEffect(() => {
-        fetchCatePost();
-    }, []);
-    const fetchCatePost = async () => {
+    const [pageBrand, setPageBrand] = useState([]);
+    const deleteSlide = useRef();
+
+    const handleDelete = (id) => {
+        setComfirm(true);
+        deleteSlide.current = id;
+    };
+    const fetchSlideShows = async () => {
         setLoading(true);
         try {
-            const result = await LogoApi.getAll();
-            setListCate(result);
-
+            const resSlide = await slideShowApi.getSlideAd();
+            setListSlideShow(resSlide.data);
             setLoading(false);
         } catch (error) {
-            console.log('Failed to fetch Categories: ', error);
             setLoading(false);
         }
     };
+    useEffect(() => {
+        fetchSlideShows();
+    }, []);
 
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
             {/* {comfirm && <Dialog closeDialog={setComfirm} action={handleAction} />} */}
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
-
             <div className="content__heading">
-                <h2 className="content__heading--title">Danh sách danh mục tin tức</h2>
-                <p className="content__heading--subtitle">Danh mục tin tức</p>
+                <h2 className="content__heading--title">Danh sách danh mục bảng hiệu phụ</h2>
+                <p className="content__heading--subtitle">Danh mục bảng hiệu phụ</p>
             </div>
-
             <div className="content__wrapper">
                 <div className="content__main">
                     <div className="table__block">
@@ -49,27 +53,19 @@ function ListLogo() {
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Logo</th>
-                                    <th>Trạng thái</th>
-
-                                    {/* <th>Người cập nhật</th> */}
-                                    <th>Thao tác</th>
+                                    <th>Tên bảng hiệu</th>
+                                    <th colSpan="2" className="text-center">
+                                        Thao tác
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {listCate?.map((item, index) => (
-                                    <tr key={index}>
+                                {listSlideShow?.map((item, index) => (
+                                    <tr key={item.id}>
                                         <td>{index + 1}</td>
-                                        <td>
-                                            <img src={item.image} style={{ width: 80 }} />
-                                        </td>
-                                        <td className={item.is_active == 1 ? 'active' : 'an__active'}>
-                                            {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
-                                        </td>
-
-                                        {/* <td>{item.updated_by == null ? 'Null' : item.updated_by}</td> */}
-                                        <td>
-                                            <Link to={`/admin/listlogo/edit/${item?.id}`}>Sửa</Link>
+                                        <td>{item?.name}</td>
+                                        <td className="text-center">
+                                            <Link to={`/admin/slideshow/listdetailsubs/${item.id}`}>Chi tiết</Link>
                                         </td>
                                     </tr>
                                 ))}
@@ -82,4 +78,4 @@ function ListLogo() {
     );
 }
 
-export default ListLogo;
+export default ListSlideShowSub;

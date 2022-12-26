@@ -160,8 +160,8 @@ const ListCatePost = () => {
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                               </td>
-                                              <td>{item.created_by == null ? 'Null' : item.created_by}</td>
-                                              <td>{item.updated_by == null ? 'Null' : item.updated_by}</td>
+                                              <td>{item.create_by_name}</td>
+                                              <td>{item.update_by_name}</td>
                                               <td className="text-center btn__tbl">
                                                   <Link to={`/admin/product/edit/${item.id}/${item.slug}`}>Sửa</Link>
                                               </td>
