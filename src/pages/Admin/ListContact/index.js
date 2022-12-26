@@ -126,7 +126,7 @@ function ListContact() {
                                 <tr>
                                     <th>#</th>
                                     <th>Dịch vụ</th>
-                                    <th>Tên danh mục</th>
+                                    <th>Tên danh mục Footer</th>
                                     <th>Số diện thoại</th>
                                     <th>Thời gian liên hệ</th>
                                     <th colSpan="2" className="text-center">

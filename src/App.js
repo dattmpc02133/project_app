@@ -75,6 +75,7 @@ import ListImportslipDetail from './pages/Admin/ListImportslipDetail';
 import ListImportslip from './pages/Admin/ListImportslip';
 import CreateSlideShow from './pages/Admin/CreateSlideShow';
 import Dashboard from './pages/Admin/Dashboard';
+import EditColor from './pages/Admin/EditColor';
 import ListSlideShow from './pages/Admin/ListSlideShow';
 import ListSlideShowDetails from './pages/Admin/ListSlideShowDetails';
 import EditSlideShow from './pages/Admin/EditSlideShow';
@@ -197,6 +198,8 @@ function App() {
 
                     {/* drb */}
                     <Route path="dashboard" element={<Dashboard />} />
+                    {/* ecitcolor */}
+                    <Route path="color/edit/:id" element={<EditColor />} />
                 </Route>
             </Routes>
         </Router>
