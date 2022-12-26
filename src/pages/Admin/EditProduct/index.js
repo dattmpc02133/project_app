@@ -22,6 +22,7 @@ const EditProduct = () => {
     const [category, setCategory] = useState('');
     const [image, setImage] = useState('');
     const [description, setDescription] = useState('');
+    const [specification, setSpecification] = useState('');
     const [metaTitle, setMetaTitle] = useState('');
     const [metaKeywords, setMetaKeywords] = useState('');
     const [metaDescription, setMetaDescription] = useState('');
@@ -56,14 +57,16 @@ const EditProduct = () => {
         setLoading(true);
         try {
             const resultBrand = await brandApi.getAll();
-            setListBrand(resultBrand.data.data);
+            // console.log();
+            setListBrand(resultBrand.data);
             const resultColor = await colorApi.getAll();
             setListColor(resultColor.data.data);
             const resultListSubCate = await subCateProductApi.getAll();
             setListSubCategory(resultListSubCate.data);
             const resultCate = await cateProductApi.getAll();
             setListCategory(resultCate.data);
-            const resultVariant = await variantApi.getAll();
+            const resultVariant = await variantApi.getAllClient();
+            console.log('resultVariant', resultVariant);
             setListVariant(resultVariant.data);
 
             const resultProduct = await productApi.getById(params.id);
@@ -86,6 +89,7 @@ const EditProduct = () => {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         fetchData();
     }, []);
@@ -128,7 +132,7 @@ const EditProduct = () => {
             collection_images: image,
             delete_variant_details: deleteVrDetails,
 
-            specification_infomation: null,
+            specification_infomation: specification,
             subcategory_id: subCategoryId,
             variant_ids: variant,
             colors_by_variant_id: colorByVariant,
@@ -140,7 +144,7 @@ const EditProduct = () => {
             setLoading(true);
             try {
                 const result = await productApi.update(data, params.id);
-                console.log(result);
+                // console.log(result);
                 setMessStatus(result.status);
                 setStatusHandle(true);
                 setModal(true);
@@ -158,11 +162,8 @@ const EditProduct = () => {
             }
         };
         updateProduct();
-        console.log(data);
+        // console.log(data);
     };
-
-    console.log('Product: ', product);
-    console.log('FormVariant: ', formVariant);
 
     useEffect(() => {
         const arrvariant = [];
@@ -187,7 +188,6 @@ const EditProduct = () => {
                 setVariant(arrvariant);
             });
         });
-        console.log(formVariant);
     }, [formVariant]);
 
     useEffect(() => {
@@ -293,7 +293,8 @@ const EditProduct = () => {
         product.url_image && setUrlImage(product.url_image);
         product.collection_images && setImage(product.collection_images);
 
-        product.description ? setDescription(product.description) : console.log('Not Found');
+        product.description && setDescription(product.description);
+        product.description && setSpecification(product.specification_infomation);
         if (Array.isArray(product.variants) && product.variants.length > 0 && newFormVR.length == 0) {
             product.variants.map((item, index) => {
                 // const newArr = [...arrVariantProduct, item.id];
@@ -301,7 +302,6 @@ const EditProduct = () => {
                 // addFormVariant();
                 // const newListFormVariant = [...newFormVR, { GB: '', data: [{ color: '', price: '', discount: '' }] }];
                 newFormVR.push({ GB: '', data: [{ color: '', price: '', discount: '', idSubVr: '' }] });
-
                 setFormVariant(newFormVR);
                 // const newListFormSubVariant = [...newFormSubVR, [{ color: '', price: '', discount: '' }]];
                 newFormSubVR.push([{ color: '', price: '', discount: '', idSubVr: '' }]);
@@ -370,8 +370,6 @@ const EditProduct = () => {
             });
         }
     }, [arrVariantProduct]);
-
-    console.log('FormVariant: ', formVariant);
 
     const changeCategoryId = (e) => {
         const idCate = e.target.value;
@@ -542,13 +540,12 @@ const EditProduct = () => {
                                     required
                                 >
                                     <option>--Chọn danh thương hiệu--</option>
-                                    {Array.isArray(listBrand)
-                                        ? listBrand.map((item, index) => (
-                                              <option key={index} value={item.id}>
-                                                  {item.brand_name}
-                                              </option>
-                                          ))
-                                        : console.log('Ko phải Arr')}
+                                    {listBrand &&
+                                        listBrand.map((item, index) => (
+                                            <option key={index} value={item.id}>
+                                                {item.brand_name}
+                                            </option>
+                                        ))}
                                 </select>
                             </div>
                         </div>
@@ -610,6 +607,20 @@ const EditProduct = () => {
                                 onChange={(event, editor) => {
                                     const data = editor.getData();
                                     setDescription(data);
+                                }}
+                            />
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
+                                <label htmlFor="ip-name">Thông số kỹ thuật</label>
+                            </div>
+                            <CKEditor
+                                editor={Editor}
+                                data={specification}
+                                onChange={(event, editor) => {
+                                    const data = editor.getData();
+                                    setSpecification(data);
                                 }}
                             />
                         </div>

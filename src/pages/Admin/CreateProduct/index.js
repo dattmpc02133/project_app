@@ -28,6 +28,9 @@ const CreateProduct = () => {
     const [listBrand, setListBrand] = useState([]);
     const [listColor, setListColor] = useState([]);
     const [listSubCategory, setListSubCategory] = useState([]);
+    //
+    const [specification, setSpecification] = useState([]);
+    // /
     const [listCategory, setListCategory] = useState([]);
     const [newSubListCategory, setNewSubListCategory] = useState([]);
     const [subCategoryId, setSubCategoryId] = useState([]);
@@ -58,7 +61,7 @@ const CreateProduct = () => {
                 setListSubCategory(resultSubCate.data);
                 const resultCate = await cateProductApi.getAll();
                 setListCategory(resultCate.data);
-                const resultVariant = await variantApi.getAll();
+                const resultVariant = await variantApi.getAllClient();
                 setListVariant(resultVariant.data);
 
                 setLoading(false);
@@ -84,7 +87,7 @@ const CreateProduct = () => {
             description: description,
             url_image: urlImage,
             collection_images: image,
-            specification_infomation: null,
+            specification_infomation: specification,
             subcategory_id: subCategoryId,
 
             variant_ids: variant,
@@ -458,6 +461,21 @@ const CreateProduct = () => {
 
                         <div className="input__group">
                             <div className="input__label">
+                                <label htmlFor="ip-name">Thông số kỹ thuật</label>
+                            </div>
+                            <CKEditor
+                                editor={Editor}
+                                data="Thông số kỹ thuật..."
+                                onChange={(event, editor) => {
+                                    const data = editor.getData();
+                                    setSpecification(data);
+                                }}
+                                required
+                            />
+                        </div>
+
+                        <div className="input__group">
+                            <div className="input__label">
                                 <label htmlFor="ip-name">Mô tả sản phẩm</label>
                             </div>
                             <CKEditor
@@ -503,7 +521,7 @@ const CreateProduct = () => {
                                                 {Array.isArray(listVariant)
                                                     ? listVariant.map((item, index) => (
                                                           <option key={index} value={item.id}>
-                                                              {item.variant_name}GB
+                                                              {item.variant_name}
                                                           </option>
                                                       ))
                                                     : false}

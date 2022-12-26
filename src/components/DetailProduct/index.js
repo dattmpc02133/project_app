@@ -481,7 +481,7 @@ const DetailProduct = () => {
                                                 key={index}
                                                 onClick={() => handleChangeTypeGB({ itemTypeGB })}
                                             >
-                                                {itemTypeGB?.variant_name}GB
+                                                {itemTypeGB?.variant_name}
                                             </div>
                                         ))}
                                     </div>

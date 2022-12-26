@@ -24,6 +24,7 @@ const LoginAdmin = () => {
         if (objDataAd != null && objDataAd.role_id != 2) {
             navigate('/admin');
         }
+        document.title = 'Login';
     }, [loginStatus]);
 
     console.log(loginStatus);

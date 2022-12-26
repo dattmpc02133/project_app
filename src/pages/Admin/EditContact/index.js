@@ -81,7 +81,7 @@ function EditContact() {
             {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
             <div className="content__heading">
                 <h2 className="content__heading--title">Sửa thông tin liên hệ </h2>
-                <p className="content__heading--subtitle">Sửa thông tin liên hệ</p>
+                <p className="content__heading--subtitle">Sửa liên hệ</p>
             </div>
 
             <div className="content__wrapper">
@@ -89,7 +89,7 @@ function EditContact() {
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="ip-name">Danh mục Footer content</label>
+                                <label htmlFor="ip-name">Danh mục Footer</label>
                             </div>
 
                             <div className="input__text">
@@ -101,7 +101,7 @@ function EditContact() {
                                     <option value="0">Chọn danh mục</option>
 
                                     {cateContact.map((data, index) => (
-                                        <option key={index} value={data.id} selected>
+                                        <option key={index} value={data.id='1'} selected>
                                             {data.name}
                                         </option>
                                     ))}
