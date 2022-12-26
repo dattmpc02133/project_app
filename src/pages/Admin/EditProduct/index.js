@@ -56,7 +56,8 @@ const EditProduct = () => {
         setLoading(true);
         try {
             const resultBrand = await brandApi.getAll();
-            setListBrand(resultBrand.data.data);
+            // console.log();
+            setListBrand(resultBrand.data);
             const resultColor = await colorApi.getAll();
             setListColor(resultColor.data.data);
             const resultListSubCate = await subCateProductApi.getAll();
@@ -542,13 +543,12 @@ const EditProduct = () => {
                                     required
                                 >
                                     <option>--Chọn danh thương hiệu--</option>
-                                    {Array.isArray(listBrand)
-                                        ? listBrand.map((item, index) => (
-                                              <option key={index} value={item.id}>
-                                                  {item.brand_name}
-                                              </option>
-                                          ))
-                                        : console.log('Ko phải Arr')}
+                                    {listBrand &&
+                                        listBrand.map((item, index) => (
+                                            <option key={index} value={item.id}>
+                                                {item.brand_name}
+                                            </option>
+                                        ))}
                                 </select>
                             </div>
                         </div>

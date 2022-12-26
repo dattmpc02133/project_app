@@ -58,7 +58,7 @@ const CreateProduct = () => {
                 setListSubCategory(resultSubCate.data);
                 const resultCate = await cateProductApi.getAll();
                 setListCategory(resultCate.data);
-                const resultVariant = await variantApi.getAll();
+                const resultVariant = await variantApi.getAllClient();
                 setListVariant(resultVariant.data);
 
                 setLoading(false);
@@ -503,7 +503,7 @@ const CreateProduct = () => {
                                                 {Array.isArray(listVariant)
                                                     ? listVariant.map((item, index) => (
                                                           <option key={index} value={item.id}>
-                                                              {item.variant_name}GB
+                                                              {item.variant_name}
                                                           </option>
                                                       ))
                                                     : false}
