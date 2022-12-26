@@ -53,6 +53,7 @@ function Home() {
                             <div className={cx('slide-owl-stage')}>
                                 {ListPrd?.products?.map((item, indexProduct) => {
                                     if (!ListPrd?.showMore && indexProduct < 4) {
+                                        console.log('ListPrd', ListPrd);
                                         return (
                                             <div className={cx('olw-item')} key={indexProduct}>
                                                 <Link

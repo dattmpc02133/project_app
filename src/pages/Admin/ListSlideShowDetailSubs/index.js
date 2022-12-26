@@ -116,8 +116,8 @@ function ListSlideShowDetailSubs() {
                                                 value={item?.is_active}
                                                 className={item.is_active == 1 ? cx('input__ACTIVE') : cx('input__')}
                                             >
-                                                <option value="1">Đã duyệt</option>
-                                                <option value="0">Chờ duyệt</option>
+                                                <option value="1">Đã kích hoạt</option>
+                                                <option value="0">Chờ kích hoạt</option>
                                             </select>
                                         </td>
                                         <td className="text-center">
