@@ -40,7 +40,7 @@ function CreateProductSubs() {
         const getAllBrand = async () => {
             try {
                 const brand = await brandApi.getAll();
-                setAllBrands(brand.data.data);
+                setAllBrands(brand.data);
                 console.log('dat', brand.data);
             } catch (error) {
                 console.log('thương hiệu', error);
@@ -61,9 +61,6 @@ function CreateProductSubs() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setDataBrand('');
-                setDataInput('');
-                setDateSelect('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;

@@ -18,11 +18,18 @@ function ListProductSubs() {
     const [modal, setModal] = useState(false);
     const [pageSubsProduct, setPageSubsProduct] = useState([]);
     const [page, setPage] = useState(1);
+    const [subsProduct, setSubsProduct] = useState('');
     const deletcSubs = useRef();
 
     useEffect(() => {
-        getAllSubsProduct();
-    }, []);
+        const params = `?name=${subsProduct}`;
+
+        if (subsProduct.length > 3) {
+            getAllSubsProduct(params);
+        } else if (subsProduct.length === 0) {
+            getAllSubsProduct();
+        }
+    }, [subsProduct]);
 
     const getAllSubsProduct = async (params) => {
         try {
@@ -46,12 +53,11 @@ function ListProductSubs() {
             const getDeletSubs = async () => {
                 try {
                     const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
-                    setMessage(deletesSubs.status);
+                    setMessStatus(deletesSubs.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const allSubs = await categoriesApi.getAllSubsProduct(params);
-                    setSubsAll(allSubs.data);
+                    getAllSubsProduct(params);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;
@@ -85,6 +91,11 @@ function ListProductSubs() {
         getAllSubsProduct(`?page=${page}`);
     };
 
+    const handleSearch = (e) => {
+        console.log('e');
+        e.preventDefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -96,6 +107,20 @@ function ListProductSubs() {
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onClick={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={subsProduct}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSubsProduct(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

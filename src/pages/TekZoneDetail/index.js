@@ -128,7 +128,7 @@ function TekZoneDetail() {
 
                 <div className={cx('related-posts')}>
                     <div className={cx('posts-title')}>
-                        <h3> {relateTo.name}</h3>
+                        <h3> Bài viết liên quan</h3>
                     </div>
                     <div className={cx('slider')}>
                         <Slider {...settings}>
@@ -151,7 +151,7 @@ function TekZoneDetail() {
                 <div className={cx('posts-mobile')}>
                     <div className={cx('newsest__list')}>
                         <div className={cx('title-new')}>
-                            <h2>{relateTo.name}</h2>
+                            <h2> Bài viết liên quan</h2>
                         </div>
                         <div className={cx('newsest')}>
                             {relateTo?.post?.map((items, index) => (

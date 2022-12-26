@@ -5,19 +5,10 @@ const catePostApi = {
         const url = '/admin/categories';
         return axiosClient.post(url, data);
     },
-    getAll: (params) => {
-        if (params) {
-            const url = `/admin/categories_post/${params}`;
-            return axiosClient.get(url);
-        } else {
-            const url = '/admin/categories_post';
-            return axiosClient.get(url);
-        }
-    },
 
     getCatePost: (params) => {
         if (params) {
-            const url = `/admin/categories_post/${params}`;
+            const url = `/admin/categories_post${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/admin/categories_post';
@@ -78,13 +69,23 @@ const catePostApi = {
 
     getAllSubsPost: (params) => {
         if (params) {
-            const url = `/admin/subcategoriesIsPosts/${params}`;
+            const url = `/admin/subcategoriesIsPosts${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/admin/subcategoriesIsPosts';
             return axiosClient.get(url);
         }
     },
+
+    getSearchCatePost: (name) => {
+        const url = `/admin/categories_post?name=${name}`;
+        return axiosClient.get(url);
+    },
+
+    // getSearchCatePost: (name) => {
+    //     const url = `/admin/categories?name=${name}`;
+    //     return axiosClient.get(url);
+    // },
 };
 
 export default catePostApi;

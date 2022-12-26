@@ -10,13 +10,11 @@ const CreateCatePost = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [nameCateProduct, setnameCateProduct] = useState('');
-    const [selection, setSelection] = useState();
+
     const [messStatus, setMessStatus] = useState();
     const [statusHandle, setStatusHandle] = useState();
     const [modal, setModal] = useState(false);
     const [resultKq, setResultKq] = useState([]);
-    const [isPost, setIsPost] = useState([]);
-    const [page, setPage] = useState(1);
 
     const navigate = useNavigate();
 
@@ -32,11 +30,10 @@ const CreateCatePost = () => {
             try {
                 const result = await categoriesApi.create(data);
                 setResultKq(result.data);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setnameCateProduct('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;
@@ -48,18 +45,6 @@ const CreateCatePost = () => {
         };
         createCategories();
     };
-
-    // useEffect(() => {
-    //     const getAllIsPost = async () => {
-    //         try {
-    //             const getIsPost = await catePostApi.getAll();
-    //             setIsPost(getIsPost.data.is_post);
-    //         } catch (error) {
-    //             console.log('Failed to all', error);
-    //         }
-    //     };
-    //     getAllIsPost();
-    // }, []);
 
     return (
         <div className="wrapper">
@@ -73,22 +58,6 @@ const CreateCatePost = () => {
             <div className="content__wrapper">
                 <div className="content__main">
                     <form onSubmit={(e) => handleSubmit(e)} className="form__content">
-                        {/* <div className="input__group">
-                            <div className="input__label">
-                                <label htmlFor="ip-name">Tên danh mục tin tức</label>
-                            </div>
-                            <div className="input__text">
-                                <select
-                                    value={selection}
-                                    className="input__text--ctrl"
-                                    onChange={(e) => setSelection(e.target.value)}
-                                >
-                                    <option>Chọn</option>
-                                    <option value="1">Thêm danh mục tin tức </option>
-                                </select>
-                            </div>
-                        </div> */}
-
                         <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Tên danh mục tin tức</label>

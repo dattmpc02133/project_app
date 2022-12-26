@@ -92,7 +92,7 @@ function App() {
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
                     <Route path="/tekzonecate/:id/:slug" element={<TekZoneCate />} />
-                    <Route path="/daimond" element={<TekZone />} />
+                    <Route path="/tin-tuc" element={<TekZone />} />
                     <Route path="/tekzonedetail/:id/:slug" element={<TekZoneDetail />} />
                     <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />

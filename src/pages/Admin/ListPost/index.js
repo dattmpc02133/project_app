@@ -18,6 +18,7 @@ function ListPost() {
     const [pagePost, setPagePost] = useState([]);
     const [page, setPage] = useState(1);
     const [allPost, setAllPost] = useState([]);
+    const [post, setPost] = useState('');
     const handleDelete = (id) => {
         setComfirm(true);
         deletePost.current = id;
@@ -29,7 +30,7 @@ function ListPost() {
             const deleteFooter = async () => {
                 try {
                     const dltFooter = await postApi.deletePost(deletePost.current);
-                    setMessage(dltFooter.message);
+                    setMessStatus(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
@@ -49,8 +50,13 @@ function ListPost() {
     };
 
     useEffect(() => {
-        getAllPost();
-    }, []);
+        const params = `?title=${post}`;
+        if (post.length > 3) {
+            getAllPost(params);
+        } else if (post.length === 0) {
+            getAllPost();
+        }
+    }, [post]);
 
     const getAllPost = async (params) => {
         try {
@@ -81,7 +87,10 @@ function ListPost() {
         setPage(page);
         getAllPost(`?page=${page}`);
     };
-
+    const handleSearch = (e) => {
+        console.log('e');
+        e.preventDefault();
+    };
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -94,6 +103,20 @@ function ListPost() {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onClick={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={post}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setPost(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

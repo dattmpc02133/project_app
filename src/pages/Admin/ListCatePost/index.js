@@ -16,25 +16,33 @@ function ListCatePost() {
     const [pageCatePost, setPageCatePost] = useState([]);
     const deleteCatePosts = useRef();
     const [comfirm, setComfirm] = useState(false);
-
     const [page, setPage] = useState(1);
+    const [searchCatePost, setSearchCatePost] = useState('');
 
-    useEffect(() => {
-        fetchCatePost();
-    }, []);
     const fetchCatePost = async (params) => {
-        setLoading(true);
+        // setLoading(true);
         try {
-            const result = await catePostApi.getAll(params);
+            const result = await catePostApi.getCatePost(params);
             setListCate(result.data);
             setPageCatePost(result.paginator);
-            console.log(result.data);
-            setLoading(false);
+            // setLoading(false);
+            console.log(result);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
+
+    useEffect(() => {
+        const params = `?name=${searchCatePost}`;
+        if (searchCatePost.length > 3) {
+            fetchCatePost(params);
+        } else if (searchCatePost.length === 0) {
+            fetchCatePost();
+        }
+
+        // getSearchCate();
+    }, [searchCatePost]);
 
     const handlePrevPage = () => {
         if (page > 1) {
@@ -61,19 +69,17 @@ function ListCatePost() {
         deleteCatePosts.current = id;
     };
 
-    const handleAction = (type, params) => {
+    const handleAction = (type) => {
         if (type) {
             setComfirm(false);
-            const deleteFooter = async () => {
+            const deleteFooter = async (params) => {
                 try {
                     const dltFooter = await catePostApi.deleteCatePost(deleteCatePosts.current);
-                    setMessage(dltFooter.message);
-                    console.log(dltFooter.message);
+                    setMessStatus(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const result = await catePostApi.getAll(params);
-                    setListCate(result.data);
+                    fetchCatePost(params);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;
@@ -85,6 +91,10 @@ function ListCatePost() {
             };
             deleteFooter();
         }
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
     };
 
     return (
@@ -100,6 +110,20 @@ function ListCatePost() {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchCatePost}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchCatePost(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

@@ -86,6 +86,8 @@ const Cart = () => {
 
     useEffect(() => {
         if (listCart != undefined) {
+            setName(listCart?.user_name);
+            setAddress(listCart?.address);
             const getLocation = async () => {
                 setLoading(true);
                 try {
@@ -107,10 +109,11 @@ const Cart = () => {
                     setWardList(resultWard.data);
 
                     setDistrictId(listCart.district_id);
-                    const fillerWard = wardList?.filter((item) => item.district_id == listCart.district_id);
-                    setNewListWarn(fillerWard);
+                    const fillerWard = resultWard?.data?.filter((item) => item.district_id == listCart.district_id);
                     setWardId(listCart.ward_id);
+                    setNewListWarn(fillerWard);
                     setAddress(listCart.address);
+
                     setLoading(false);
                 } catch (error) {
                     console.log('Failed to get location: ', error);
@@ -120,7 +123,7 @@ const Cart = () => {
             getLocation();
         }
         document.title = 'Giỏ hàng';
-    }, [listCart, user]);
+    }, [listCart]);
 
     useEffect(() => {
         if (listCartLocal != undefined) {
@@ -173,6 +176,11 @@ const Cart = () => {
         const data = { ...listCart };
         data.details = listProDettails;
         data.shipping_method_id = 5;
+        data.address = address;
+        data.ward_id = wardId;
+        data.province_id = provinceId;
+        data.district_id = districtId;
+        data.user_name = name;
         if (payMethod == 2) {
             data.payment_method_id = payMethod;
 
@@ -219,7 +227,7 @@ const Cart = () => {
 
     const cartLocal = JSON.parse(localStorage.getItem('listCart'));
 
-    const payLoacal = async () => {
+    const payLoacal = async (userData) => {
         const data = {
             coupon_code: couponCode,
             details: '',
@@ -242,9 +250,11 @@ const Cart = () => {
 
         data.details = cartLocal;
         data.shipping_method_id = 5;
+        data.user_id = userData.id;
+        data.user_name = userData.name;
+        localStorage.setItem('payData', JSON.stringify(data));
         if (payMethod == 2) {
             data.payment_method_id = payMethod;
-
             payCOD(data);
         } else if (payMethod == 5) {
             data.payment_method_id = payMethod;
@@ -350,12 +360,13 @@ const Cart = () => {
         setLoading(true);
         try {
             const result = await loginApi.login(dataLogin);
-            const token = result.token.Bearer;
-            localStorage.setItem('token', token);
+            // console.log(result.data);
+            // const token = result.token.Bearer;
+            // localStorage.setItem('token', token);
             setShowForm(false);
             setLoading(false);
-            getUser();
-            payLoacal();
+            // getUser();
+            payLoacal(result.data);
             // addCartLocalToDB();
         } catch (error) {
             console.log('Login failed: ', error);
@@ -566,7 +577,7 @@ const Cart = () => {
                             <div className={cx('infor-customer')}>
                                 <h4>Thông tin khách hàng</h4>
                                 <form className={cx('form-customer')}>
-                                    <div className={cx('sex-customer')}>
+                                    {/* <div className={cx('sex-customer')}>
                                         <span>
                                             <input
                                                 id="checkMale"
@@ -588,7 +599,7 @@ const Cart = () => {
                                             />
                                             <label htmlFor="checkFemale">Chị</label>
                                         </span>
-                                    </div>
+                                    </div> */}
 
                                     <div className={cx('form')}>
                                         <div className={cx('fillname')}>
@@ -596,9 +607,11 @@ const Cart = () => {
                                                 type="text"
                                                 id="fullname"
                                                 className={cx('form__input')}
-                                                placeholder=" "
-                                                disabled
-                                                value={listCart?.user_name}
+                                                placeholder=""
+                                                // disabled
+                                                required
+                                                onChange={(e) => setName(e.target.value)}
+                                                value={name}
                                             />
                                             <label htmlFor="fullname" className={cx('form__label')}>
                                                 Họ và tên
@@ -611,7 +624,9 @@ const Cart = () => {
                                                 value={listCart?.phone}
                                                 disabled
                                                 className={cx('form__input')}
-                                                placeholder=" "
+                                                required
+                                                // onChange={() => setName(e.target.value)}
+                                                placeholder=""
                                             />
                                             <label htmlFor="phone" className={cx('form__label')}>
                                                 Số điện thoại
@@ -633,7 +648,7 @@ const Cart = () => {
                                             checked={payMethod == 2}
                                             className={cx('cartnew-choose')}
                                         />
-                                        <label for="cod">Ship COD</label>
+                                        <label htmlFor="cod">Ship COD</label>
                                     </span>
                                     <span>
                                         <input
@@ -645,7 +660,7 @@ const Cart = () => {
                                             onChange={() => setPayMethod(5)}
                                             className={cx('cartnew-choose')}
                                         />
-                                        <label for="vnpay">Thanh toán VNPay</label>
+                                        <label htmlFor="vnpay">Thanh toán VNPay</label>
                                     </span>
                                 </div>
                                 <h4> Chọn địa chỉ giao hàng </h4>
@@ -666,7 +681,9 @@ const Cart = () => {
                                                             <option value>--Chọn tỉnh thành phố</option>
                                                             {Array.isArray(provinceList) &&
                                                                 provinceList.map((item, index) => (
-                                                                    <option value={item.id}>{item.name}</option>
+                                                                    <option key={index} value={item.id}>
+                                                                        {item.name}
+                                                                    </option>
                                                                 ))}
                                                         </select>
                                                     </div>
@@ -682,7 +699,9 @@ const Cart = () => {
                                                             <option value>--Chọn quận huyện--</option>
                                                             {Array.isArray(newListDistrict) &&
                                                                 newListDistrict.map((item, index) => (
-                                                                    <option value={item.id}>{item.name}</option>
+                                                                    <option key={index} value={item.id}>
+                                                                        {item.name}
+                                                                    </option>
                                                                 ))}
                                                         </select>
                                                     </div>
@@ -700,7 +719,9 @@ const Cart = () => {
                                                             <option value>--Chọn phường, xã, thị trấn</option>
                                                             {Array.isArray(newListWarn) &&
                                                                 newListWarn.map((item, index) => (
-                                                                    <option value={item.id}>{item.name}</option>
+                                                                    <option key={index} value={item.id}>
+                                                                        {item.name}
+                                                                    </option>
                                                                 ))}
                                                         </select>
                                                     </div>
@@ -711,6 +732,7 @@ const Cart = () => {
                                                         <input
                                                             className={cx('form__address--ctrl')}
                                                             value={address}
+                                                            onChange={(e) => setAddress(e.target.value)}
                                                             placeholder="271 Nguyễn Văn Linh"
                                                         />
                                                     </div>
@@ -943,8 +965,8 @@ const Cart = () => {
 
                             <div className={cx('infor-customer')}>
                                 <h4>Thông tin khách hàng</h4>
-                                <form className={cx('form-customer')}>
-                                    <div className={cx('sex-customer')}>
+                                <div className={cx('form-customer')}>
+                                    {/* <div className={cx('sex-customer')}>
                                         <span>
                                             <input
                                                 id="checkMale"
@@ -963,13 +985,14 @@ const Cart = () => {
                                                 type="radio"
                                                 value="female"
                                                 name="gender"
+                                                required
                                                 onChange={() => setGender('Chị')}
                                                 checked={gender == 'Chị'}
                                                 className={cx('cartnew-choose')}
                                             />
                                             <label htmlFor="checkFemale">Chị</label>
                                         </span>
-                                    </div>
+                                    </div> */}
 
                                     <div className={cx('form')}>
                                         <div className={cx('fillname')}>
@@ -980,6 +1003,7 @@ const Cart = () => {
                                                 placeholder=""
                                                 onChange={(e) => setName(e.target.value)}
                                                 value={name}
+                                                required
                                             />
                                             <label htmlFor="fullname" className={cx('form__label')}>
                                                 Họ và tên
@@ -992,6 +1016,7 @@ const Cart = () => {
                                                 className={cx('form__input')}
                                                 placeholder=""
                                                 value={phone}
+                                                required
                                                 onChange={(e) => setPhone(e.target.value)}
                                             />
                                             <label htmlFor="phone" className={cx('form__label')}>
@@ -999,7 +1024,7 @@ const Cart = () => {
                                             </label>
                                         </div>
                                     </div>
-                                </form>
+                                </div>
                             </div>
                             <div className={cx('choosegetgoods')}>
                                 <h4> Chọn hình thức thanh toán </h4>
@@ -1032,7 +1057,7 @@ const Cart = () => {
                                 <h4> Chọn địa chỉ giao hàng </h4>
                                 <div className={cx('choose-content')}>
                                     <div className={cx('deli-address')}>
-                                        <form>
+                                        <div>
                                             <div className={cx('cntry-district')}>
                                                 <div className={cx('form__address--haspass')}>
                                                     <div className={cx('form__address', 'mr-16')}>
@@ -1041,13 +1066,16 @@ const Cart = () => {
                                                         </label>
                                                         <select
                                                             className={cx('form__address--ctrl')}
+                                                            required
                                                             onChange={(e) => changeProvinceId(e.target.value)}
                                                             value={provinceId}
                                                         >
-                                                            <option value>--Chọn tỉnh thành phố</option>
+                                                            <option value="">--Chọn tỉnh thành phố</option>
                                                             {Array.isArray(provinceList) &&
                                                                 provinceList.map((item, index) => (
-                                                                    <option value={item.id}>{item.name}</option>
+                                                                    <option key={index} value={item.id}>
+                                                                        {item.name}
+                                                                    </option>
                                                                 ))}
                                                         </select>
                                                     </div>
@@ -1056,14 +1084,17 @@ const Cart = () => {
                                                             Quận, huyện
                                                         </label>
                                                         <select
+                                                            required
                                                             className={cx('form__address--ctrl')}
                                                             onChange={(e) => changeDistrictId(e.target.value)}
                                                             value={districtId}
                                                         >
-                                                            <option value>--Chọn quận huyện--</option>
+                                                            <option value="">--Chọn quận huyện--</option>
                                                             {Array.isArray(newListDistrict) &&
                                                                 newListDistrict.map((item, index) => (
-                                                                    <option value={item.id}>{item.name}</option>
+                                                                    <option key={index} value={item.id}>
+                                                                        {item.name}
+                                                                    </option>
                                                                 ))}
                                                         </select>
                                                     </div>
@@ -1077,8 +1108,9 @@ const Cart = () => {
                                                             className={cx('form__address--ctrl')}
                                                             onChange={(e) => changeWardId(e.target.value)}
                                                             value={wardId}
+                                                            required
                                                         >
-                                                            <option value>--Chọn phường, xã, thị trấn</option>
+                                                            <option value="">--Chọn phường, xã, thị trấn</option>
                                                             {Array.isArray(newListWarn) &&
                                                                 newListWarn.map((item, index) => (
                                                                     <option value={item.id}>{item.name}</option>
@@ -1094,11 +1126,12 @@ const Cart = () => {
                                                             value={address}
                                                             onChange={(e) => setAddress(e.target.value)}
                                                             placeholder="271 Nguyễn Văn Linh"
+                                                            required
                                                         />
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

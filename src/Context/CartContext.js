@@ -131,7 +131,8 @@ export const CartContextProvider = ({ children }) => {
     const handlePrevNumPro = (index) => {
         if (listCart?.details != undefined) {
             const inputData = [...listProDettails];
-            if (Number(inputData[index].quantity) >= 1) {
+            console.log(inputData[index].quantity);
+            if (Number(inputData[index].quantity) > 1) {
                 inputData[index].quantity = Number(inputData[index].quantity) - 1;
                 setListProDettails(inputData);
                 const data = { ...listCart };

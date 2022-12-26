@@ -21,6 +21,7 @@ function EditBrand() {
             try {
                 const byIdBrand = await brandApi.getById(params.id);
                 // setBrandsId(byIdBrand.data.is_post);
+                console.log(byIdBrand);
                 setNameBrand(byIdBrand.data.brand_name);
                 setSelectActive(byIdBrand.data.is_active);
             } catch (error) {
@@ -38,12 +39,10 @@ function EditBrand() {
         const EditBrand = async () => {
             try {
                 const result = await brandApi.update(data, params.id);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setNameBrand('');
-                setSelectActive('');
             } catch (error) {
                 console.log('Failed to Edit: ', error);
                 const res = error.response.data;

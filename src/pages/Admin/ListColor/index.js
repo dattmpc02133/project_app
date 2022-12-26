@@ -16,7 +16,7 @@ const ListColor = () => {
     const [modal, setModal] = useState(false);
     const [pagination, setPagination] = useState();
     const [page, setPage] = useState(1);
-
+    const [searchColor, setSearchColor] = useState('');
     const idColor = useRef();
 
     const handleDelete = (id) => {
@@ -34,8 +34,9 @@ const ListColor = () => {
                     setMessStatus(result.message);
                     setStatusHandle(true);
                     setModal(true);
-                    const resultGetColor = await colorApi.getAll();
-                    setListColor(resultGetColor.data);
+                    // const resultGetColor = await colorApi.getAll();
+                    // setListColor(resultGetColor.data);
+                    fetchListColor(`?page=${page}`);
                     setLoading(false);
                 } catch (error) {
                     console.log('Failed to delete color ', error);
@@ -56,15 +57,20 @@ const ListColor = () => {
             console.log(result.data);
             setListColor(result.data.data);
             setPagination(result.data.paginator.totalPages);
-            setLoading(false);
+            // setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
     useEffect(() => {
-        fetchListColor();
-    }, []);
+        const params = `?name=${searchColor}`;
+        if (searchColor.length > 1) {
+            fetchListColor(params);
+        } else {
+            fetchListColor();
+        }
+    }, [searchColor]);
 
     const handlePrevPage = () => {
         if (page > 1) {
@@ -87,6 +93,10 @@ const ListColor = () => {
         fetchListColor(`?page=${page}`);
     };
 
+    const handleSearch = (e) => {
+        e.preventdefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -99,6 +109,20 @@ const ListColor = () => {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onClick={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchColor}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchColor(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>
@@ -120,7 +144,12 @@ const ListColor = () => {
                                         <tr key={item.id}>
                                             <td>{10 * (page - 1) + index + 1}</td>
                                             <td>{item.name}</td>
-                                            <td>{item.color_code}</td>
+                                            <td>
+                                                <div
+                                                    className="text-center box__corlor"
+                                                    style={{ backgroundColor: item.color_code }}
+                                                ></div>
+                                            </td>
                                             <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                 {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                             </td>

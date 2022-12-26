@@ -210,7 +210,7 @@
                 display: inline-block;
                 background: #323232;
                 display: flex;
-                padding: 12px 8px;
+
                 overflow: hidden;
                 border-radius: 12px;
                 .img-slider {
@@ -218,14 +218,23 @@
                     img {
                         border-radius: 12px 12px 0 0;
                         width: 100%;
+                        height: 150px;
+                        object-fit: cover;
                     }
                 }
 
                 .title-posts {
                     padding: 8px;
+
                     h3 {
-                        font-size: 1.4rem;
-                        line-height: 1.6rem;
+                        display: block;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        font-size: 1.5rem;
+                        line-height: 1.8rem;
+                        -webkit-line-clamp: 2;
                     }
                 }
 

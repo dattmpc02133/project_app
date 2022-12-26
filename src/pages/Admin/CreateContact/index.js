@@ -52,14 +52,14 @@ function CreateContact() {
             setLoading(true);
             try {
                 const result = await footerApi.createContact(data);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
             } catch (error) {
                 console.log('Thêm không thành công: ', error);
-                // const res = error.response.data;
-                // setMessStatus(res.message);
+                const res = error.response.data;
+                setMessStatus(res.message);
                 setModal(true);
                 setStatusHandle(false);
                 setLoading(false);

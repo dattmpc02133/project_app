@@ -51,7 +51,7 @@ const CreateProduct = () => {
             setLoading(true);
             try {
                 const resultBrand = await brandApi.getAll();
-                setListBrand(resultBrand.data.data);
+                setListBrand(resultBrand.data);
                 const resultColor = await colorApi.getAll();
                 setListColor(resultColor.data.data);
                 const resultSubCate = await subCateProductApi.getAll();

@@ -33,8 +33,8 @@ const EditPost = () => {
     useEffect(() => {
         const getAllSubs = async () => {
             try {
-                const allSubs = await catePostApi.getAll();
-                setAllSubs(allSubs.data.data);
+                const allSubs = await catePostApi.getCatePost();
+                setAllSubs(allSubs.data);
             } catch (error) {
                 console.log('Lỗi lấy subs', error);
             }
@@ -75,19 +75,12 @@ const EditPost = () => {
             setLoading(true);
             try {
                 const post = await postApi.editPost(data, params.id);
-                setMessage(post.message);
-                setMessStatus(post.status);
+                setMessStatus(post.message);
+                // setMessStatus(post.status);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
                 console.log(post);
-                setSubCategories('');
-                setTitlePost('');
-                setDescribe('');
-                setImgPost('');
-                setContent('');
-                setTitleMeta('');
-                setMetaKeyWord('');
             } catch (error) {
                 console.log('lỗi khi thêm', error);
                 const res = error.response.data;

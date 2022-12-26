@@ -266,6 +266,59 @@
                 color: #cd201f;
             }
         }
+        .form__search {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 12px 20px;
+            .input__group {
+                position: relative;
+                width: 50%;
+                z-index: 999;
+                .input__label {
+                    padding-bottom: 10px;
+                    color: var(--primary-color-ad);
+                }
+
+                .input__text {
+                    .input__text--ctrl {
+                        border: 1px solid #ccc;
+                        width: 100%;
+                        padding: 10px;
+                        border-radius: 4px;
+                        font-size: 1.4rem;
+                        &:focus {
+                            border-color: var(--primary-color-ad);
+                        }
+                    }
+                }
+            }
+
+            .input__group + .input__group {
+                margin-top: 20px;
+            }
+
+            .btn__form {
+                padding-left: 15px;
+                .btn__form--ctrl {
+                    font-size: 1.6rem;
+                    cursor: pointer;
+                    padding: 10px 20px;
+                    color: #fff;
+                    background-color: var(--primary-color-ad);
+                    transition: all 0.3s;
+                    &:hover {
+                        background-color: var(--btn-color-ad);
+                    }
+                }
+            }
+
+            .mess__block {
+                margin: 10px 0 20px 0;
+            }
+            .messErrr {
+                color: #cd201f;
+            }
+        }
 
         .oreder__block {
             .oreder__heading {
@@ -326,6 +379,12 @@
         border-collapse: collapse;
         th {
             text-align: left;
+        }
+
+        .box__corlor {
+            width: 30px;
+            height: 30px;
+            border: 1px solid;
         }
 
         .img__tbl {

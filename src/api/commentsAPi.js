@@ -9,8 +9,13 @@ const commentsApi = {
         return axiosClient.get(url, { params });
     },
     getAll: (params) => {
-        const url = '/productsHaveComment';
-        return axiosClient.get(url, { params });
+        if (params) {
+            const url = `/productsHaveComment${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/productsHaveComment';
+            return axiosClient.get(url);
+        }
     },
     getCommentById: (id) => {
         const url = `/replycommentByCommentID/${id}`;

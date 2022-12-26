@@ -47,7 +47,7 @@ const footerApi = {
 
     getAllContentFoo: (params) => {
         if (params) {
-            const url = `/footer-content/${params}`;
+            const url = `/footer-content${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/footer-content';
@@ -57,7 +57,7 @@ const footerApi = {
 
     getAllFooter: (params) => {
         if (params) {
-            const url = `/footer-category/${params}`;
+            const url = `/footer-category${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/footer-category';
@@ -94,8 +94,13 @@ const footerApi = {
     },
 
     getAllContact: (params) => {
-        const url = '/contact';
-        return axiosClient.get(url, { params });
+        if (params) {
+            const url = `/contact${params}`;
+            return axiosClient.get(url);
+        } else {
+            const url = '/contact';
+            return axiosClient.get(url);
+        }
     },
     getIdContact: (id) => {
         const url = `/contact/${id}`;
@@ -128,10 +133,10 @@ const footerApi = {
         return axiosClient.delete(url);
     },
 
-    getAllContact: (params) => {
-        const url = '/contact';
-        return axiosClient.get(url, { params });
-    },
+    // getAllContact: (params) => {
+    //     const url = '/contact';
+    //     return axiosClient.get(url, { params });
+    // },
     getIdContact: (id) => {
         const url = `/contact/${id}`;
         return axiosClient.get(url);

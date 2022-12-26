@@ -17,22 +17,28 @@ function ListCatePost() {
     const [comfirm, setComfirm] = useState(false);
     const [pageFooter, setPageFooter] = useState([]);
     const [page, setPage] = useState(1);
+    const [searchCateFooter, setSearchCateFooter] = useState('');
     const deleteCateFoo = useRef();
 
     useEffect(() => {
-        fetchCatePost();
-    }, []);
+        const params = `?name=${searchCateFooter}`;
+        if (searchCateFooter.length > 3) {
+            fetchCateFooter(params);
+        } else if (searchCateFooter.length === 0) {
+            fetchCateFooter();
+        }
+    }, [searchCateFooter]);
 
-    const fetchCatePost = async (params) => {
-        setLoading(true);
+    const fetchCateFooter = async (params) => {
+        // setLoading(true);
         try {
             const result = await footerApi.getAllFooter(params);
             setListCate(result.data);
             setPageFooter(result.paginator);
-            setLoading(false);
+            // setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -41,18 +47,17 @@ function ListCatePost() {
         deleteCateFoo.current = id;
     };
 
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const deleteFooter = async () => {
                 try {
                     const dltFooter = await footerApi.delete(deleteCateFoo.current);
-                    setMessage(dltFooter.message);
+                    setMessStatus(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const result = await footerApi.getAllFooter();
-                    setListCate(result.data);
+                    fetchCateFooter(params);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;
@@ -70,20 +75,24 @@ function ListCatePost() {
         if (page > 1) {
             const pageId = page - 1;
             setPage(pageId);
-            fetchCatePost(`?page=${pageId}`);
+            fetchCateFooter(`?page=${pageId}`);
         }
     };
     const handleNextPage = () => {
         if (page < pageFooter?.totalPages) {
             const pageId = page + 1;
             setPage(pageId);
-            fetchCatePost(`?page=${pageId}`);
+            fetchCateFooter(`?page=${pageId}`);
         }
     };
 
     const handleChangePage = (page) => {
         setPage(page);
-        fetchCatePost(`?page=${page}`);
+        fetchCateFooter(`?page=${page}`);
+    };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
     };
 
     return (
@@ -98,6 +107,20 @@ function ListCatePost() {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchCateFooter}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchCateFooter(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

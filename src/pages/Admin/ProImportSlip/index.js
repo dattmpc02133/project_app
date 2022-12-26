@@ -124,7 +124,7 @@ const ProImportSlip = () => {
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
                         <div className="input__group">
                             <div className="input__label">
-                                <label htmlFor="name">Tên cửa hàng</label>
+                                <label htmlFor="name">Tiêu đề phiếu nhập</label>
                             </div>
                             <div className="input__text">
                                 <input

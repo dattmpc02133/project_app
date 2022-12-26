@@ -19,10 +19,16 @@ function ListSubs() {
     const [pageSubsPost, setPageSubsPost] = useState([]);
     const deletcSubs = useRef();
     const [comfirm, setComfirm] = useState(false);
+    const [cateSubs, setCateSubs] = useState('');
 
     useEffect(() => {
-        getAllSubs();
-    }, []);
+        const params = `?name=${cateSubs}`;
+        if (cateSubs.length > 3) {
+            getAllSubs(params);
+        } else if (cateSubs.length === 0) {
+            getAllSubs();
+        }
+    }, [cateSubs]);
 
     const getAllSubs = async (params) => {
         try {
@@ -65,12 +71,11 @@ function ListSubs() {
             const getDeletSubs = async () => {
                 try {
                     const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
-                    setMessage(deletesSubs.status);
+                    setMessStatus(deletesSubs.status);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const allSubs = await catePostApi.getAllSubsPost(params);
-                    setSubsAll(allSubs.data);
+                    getAllSubs(params);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;
@@ -85,6 +90,10 @@ function ListSubs() {
         }
     };
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -96,6 +105,20 @@ function ListSubs() {
             </div>
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onSubmit={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={cateSubs}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setCateSubs(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>

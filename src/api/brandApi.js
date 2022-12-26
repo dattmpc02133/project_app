@@ -4,7 +4,7 @@ import axiosClient from './axiosClient';
 const brandApi = {
     getAll: (params) => {
         if (params) {
-            const url = `/admin/brands/${params}`;
+            const url = `/admin/brands${params}`;
             return axiosClient.get(url);
         } else {
             const url = '/admin/brands';

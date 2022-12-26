@@ -19,9 +19,13 @@ const cartApi = {
         return axiosClient.put(url, data);
     },
     payCOD: (data) => {
-        const url = '/orders';
+        const url = '/create-order';
         return axiosClient.post(url, data);
     },
+    // payCOD: (data) => {
+    //     const url = '/orders';
+    //     return axiosClient.post(url, data);
+    // },
     payVNPay: (data) => {
         const url = '/orders';
         return axiosClient.post(url, data);
@@ -66,6 +70,7 @@ const cartApi = {
     },
     vnPay(amount) {
         const url = `vnpay/create?amount=${amount}&returnUrl=http://localhost:3000/paycucess`;
+        // const url = `vnpay/create?amount=${amount}&returnUrl=${process.env.REACT_APP_DOMAIN_URL}/paycucess`;
         return axiosClient.post(url);
     },
     returnDataVnPay(data) {

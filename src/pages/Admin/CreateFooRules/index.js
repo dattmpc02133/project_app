@@ -41,14 +41,10 @@ function CreateFooRules() {
         const createFooter = async () => {
             try {
                 const result = await footerApi.createContent(data);
-                setMessage(result.message);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setDateSelect('');
-                setDataInput('');
-                setEditContent('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;

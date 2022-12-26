@@ -38,11 +38,10 @@ function EditFooter() {
         const EditFooter = async () => {
             try {
                 const result = await footerApi.update(data, params.id);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setNameFooter('');
             } catch (error) {
                 console.log('Failed to Edit: ', error);
                 const res = error.response.data;

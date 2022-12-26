@@ -16,21 +16,27 @@ const ListCatePost = () => {
     const [modal, setModal] = useState(false);
     const [pagination, setPagination] = useState();
     const [page, setPage] = useState(1);
+    const [searchProduct, setSearchProduct] = useState('');
     useEffect(() => {
-        fetchProduct();
-    }, []);
+        const params = `?name=${searchProduct}`;
+        if (searchProduct.length > 3) {
+            fetchProduct(params);
+        } else if (searchProduct.length === 0) {
+            fetchProduct();
+        }
+    }, [searchProduct]);
 
     const fetchProduct = async (params) => {
-        setLoading(true);
+        // setLoading(true);
         try {
             const result = await productApi.getAllAddmin(params);
             setListProduct(result.data.data);
             console.log('result', result.data);
             setPagination(result.data.last_page);
-            setLoading(false);
+            // setLoading(false);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
-            setLoading(false);
+            // setLoading(false);
         }
     };
 
@@ -51,7 +57,8 @@ const ListCatePost = () => {
                     setMessStatus(result.message);
                     setStatusHandle(true);
                     setModal(true);
-                    fetchProduct();
+                    // fetchProduct();
+                    fetchProduct(`?page=${page}`);
                     setLoading(false);
                 } catch (error) {
                     console.log('Failed to delete product ', error);
@@ -86,6 +93,11 @@ const ListCatePost = () => {
         setPage(page);
         fetchProduct(`?page=${page}`);
     };
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
@@ -98,6 +110,20 @@ const ListCatePost = () => {
 
             <div className="content__wrapper">
                 <div className="content__main">
+                    <form className="form__search row" onClick={(e) => handleSearch(e)}>
+                        <div className="input__group">
+                            <div className="input__text">
+                                <input
+                                    value={searchProduct}
+                                    id="ip-name"
+                                    type="text"
+                                    className="input__text--ctrl"
+                                    placeholder="Tìm kiếm danh mục..."
+                                    onChange={(e) => setSearchProduct(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </form>
                     <div className="table__block">
                         <table className="table">
                             <thead>
@@ -106,7 +132,7 @@ const ListCatePost = () => {
                                     <th>Tên sản phẩm</th>
                                     <th>Mã sản phẩm</th>
                                     <th>Hình ảnh</th>
-                                    <th>Thương hiệu</th>
+
                                     <th>Trạng thái</th>
                                     <th>Người thêm</th>
                                     <th>Người cập nhật</th>
@@ -130,7 +156,7 @@ const ListCatePost = () => {
                                                       <img className="img__tbl" src={item.url_image} />
                                                   </div>
                                               </td>
-                                              <td>{item.brand_name}</td>
+                                              {/* <td>{item.brand_name}</td> */}
                                               <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                                   {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}
                                               </td>
