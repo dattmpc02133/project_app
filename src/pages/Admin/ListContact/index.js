@@ -68,7 +68,7 @@ function ListContact() {
         deleteContact.current = id;
     };
 
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const delContact = async () => {
