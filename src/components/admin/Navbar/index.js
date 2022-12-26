@@ -23,6 +23,7 @@ const Navbar = () => {
     const [openColor, setOpenColor] = useState(false);
     const [openWareHouse, setOpenWareHouse] = useState(false);
     const [openCategories, setOpenCategories] = useState(false);
+    const [openVariant, setOpenVariant] = useState(false);
     const [openBrand, setOpenBrand] = useState(false);
     const [openBanner, setOpenBanner] = useState(false);
     const [openStore, setOpenStore] = useState(false);
@@ -626,6 +627,46 @@ const Navbar = () => {
                                     </NavLink>
                                     <NavLink
                                         to="product/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+
+                            {/* variant */}
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenVariant(!openVariant);
+                                    }}
+                                >
+                                    <BiCast className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Biến thể </span>
+                                    <BiChevronDown
+                                        className={
+                                            openVariant
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openVariant
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="variant/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="variant/list"
                                         className={cx('navbar__content--link', 'navbar__content--link-dd')}
                                     >
                                         Danh sách

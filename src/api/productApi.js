@@ -43,6 +43,27 @@ const productApi = {
         const url = `/products/${id}`;
         return axiosClient.delete(url);
     },
+    // product variant
+    createVariant: (data) => {
+        const url = `/product_variants`;
+        return axiosClient.post(url, data);
+    },
+    getVariants: (data) => {
+        const url = `/client/product_variants`;
+        return axiosClient.get(url, data);
+    },
+    deleteVariants: (id) => {
+        const url = `/product_variants/${id}`;
+        return axiosClient.delete(url);
+    },
+    getByIdVariant: (id) => {
+        const url = `/product_variants/${id}`;
+        return axiosClient.get(url);
+    },
+    updateVariants: (data, id) => {
+        const url = `/product_variants/${id}`;
+        return axiosClient.patch(url, data);
+    },
 };
 
 export default productApi;
