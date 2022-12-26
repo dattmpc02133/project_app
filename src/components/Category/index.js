@@ -115,7 +115,7 @@ const Category = () => {
                         </div>
                     ))}
                 </div>
-                <div className={cx('ft-sort')}>
+                {/* <div className={cx('ft-sort')}>
                     <div className={cx('sortOder')} onClick={handleSelect}>
                         Xếp theo: Mới ra mắt
                     </div>
@@ -141,7 +141,7 @@ const Category = () => {
                             </a>
                         </li>
                     </ul>
-                </div>
+                </div> */}
             </div>
             <div className={cx('container-productbox')}>
                 {itemProductsActive?.map((item, index) => {
@@ -176,7 +176,7 @@ const Category = () => {
                                                     )
                                                 }
                                             >
-                                                {variant.variant_name}GB
+                                                {variant.variant_name}
                                             </li>
                                         ))}
                                     </ul>

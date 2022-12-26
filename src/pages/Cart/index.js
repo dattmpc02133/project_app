@@ -503,7 +503,7 @@ const Cart = () => {
                                                     >
                                                         {getVariantProduct(item.product_id)?.map((variant, index) => (
                                                             <option key={index} value={variant.id}>
-                                                                {variant.variant_name}GB
+                                                                {variant.variant_name}
                                                             </option>
                                                         ))}
                                                     </select>
