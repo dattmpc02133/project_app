@@ -70,10 +70,10 @@ function ListContact() {
             const delContact = async () => {
                 try {
                     const dltFooter = await footerApi.deleteContact(deleteContact.current);
-                    setMessage(dltFooter.message);
+                    setMessStatus(dltFooter.message);
                     const result = await footerApi.getAllContact();
                     setListContact(result.data);
-                    setMessStatus(result.status);
+
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);

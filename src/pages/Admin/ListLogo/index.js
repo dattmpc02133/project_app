@@ -61,7 +61,7 @@ function ListLogo() {
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>
-                                            <img src={item.image} style={{ width: 60 }} />
+                                            <img src={item.image} style={{ width: 80 }} />
                                         </td>
                                         <td className={item.is_active == 1 ? 'active' : 'an__active'}>
                                             {item.is_active == 1 ? 'Đang kích hoạt' : 'Chưa kích hoạt'}

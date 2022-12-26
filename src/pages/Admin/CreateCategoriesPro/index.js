@@ -24,11 +24,10 @@ function CreateCategoriesPro() {
             try {
                 const result = await categoriesApi.create(data);
                 setResultKq(result.data);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setnameCateProduct('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;

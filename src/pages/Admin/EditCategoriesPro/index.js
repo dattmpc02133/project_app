@@ -31,12 +31,11 @@ const EditCategoriesPro = () => {
             try {
                 const result = await catePostApi.updateCatePost(data, params.id);
                 setResultKq(result.data);
-                setMessStatus(result.status);
-                console.log(result.status);
+                setMessStatus(result.message);
+
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setNameCatePost('');
             } catch (error) {
                 console.log('Failed to update: ', error);
                 const res = error.response.data;

@@ -19,6 +19,7 @@ function ListBrand() {
     const [pageBrand, setPageBrand] = useState([]);
     const deleteBrands = useRef();
     const [searchBrand, setSearchBrand] = useState('');
+
     useEffect(() => {
         const params = `?name=${searchBrand}`;
 
@@ -65,19 +66,18 @@ function ListBrand() {
         deleteBrands.current = id;
     };
 
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const getDeletBrand = async () => {
                 setLoading(true);
                 try {
                     const deleteBrand = await brandApi.delete(deleteBrands.current);
-                    setMessage(deleteBrand.message);
+                    setMessStatus(deleteBrand.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const getAllBrand = await brandApi.getAll();
-                    setBrandAll(getAllBrand.data);
+                    getAllBrand(params);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;

@@ -21,11 +21,10 @@ function CreateFooter() {
         const createFooter = async () => {
             try {
                 const result = await footerApi.create(data);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setCateFooter('');
             } catch (error) {
                 console.log('Failed to create: ', error);
                 const res = error.response.data;

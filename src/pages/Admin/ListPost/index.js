@@ -30,7 +30,7 @@ function ListPost() {
             const deleteFooter = async () => {
                 try {
                     const dltFooter = await postApi.deletePost(deletePost.current);
-                    setMessage(dltFooter.message);
+                    setMessStatus(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);

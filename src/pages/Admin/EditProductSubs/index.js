@@ -57,9 +57,6 @@ function EditProductSubs() {
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setDataBrand('');
-                setDataCate('');
-                setDataName('');
             } catch (error) {
                 console.log('Failed to Update: ', error);
                 const res = error.response.data;

@@ -60,13 +60,10 @@ function EditFooRules() {
         const updateContents = async () => {
             try {
                 const result = await footerApi.updateContent(data, params.id);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setIdSelect('');
-                setNameInput('');
-                setContent('');
             } catch (error) {
                 console.log('Failed to update: ', error);
                 const res = error.response.data;

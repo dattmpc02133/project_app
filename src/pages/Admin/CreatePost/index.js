@@ -56,19 +56,11 @@ const CreatePost = () => {
         const createPost = async () => {
             try {
                 const post = await postsApi.createPost(data);
-                setMessStatus(post.status);
-                setMessage(post.message);
+                setMessStatus(post.message);
+                // setMessage(post.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-
-                setSubCategories('');
-                setTitlePost('');
-                setDescribe('');
-                setImgPost('');
-                setTitleMeta('');
-                setMetaKeyWord('');
-                setContent('');
             } catch (error) {
                 console.log('lỗi khi thêm', error);
                 const res = error.response.data;

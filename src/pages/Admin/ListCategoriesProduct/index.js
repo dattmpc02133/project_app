@@ -74,13 +74,12 @@ const ListCategoriesProduct = () => {
             const deleteFooter = async () => {
                 try {
                     const dltFooter = await categoriesApi.deleteCateProduct(deleteCatePosts.current);
-                    setMessage(dltFooter.message);
-                    console.log(dltFooter.message);
+                    setMessStatus(dltFooter.message);
+                    // console.log(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const result = await categoriesApi.getAll(params);
-                    setListCate(result.data);
+                    fetchCateProduct(params);
                 } catch (error) {
                     console.log('Failed to delete: ', error);
                     const res = error.response.data;

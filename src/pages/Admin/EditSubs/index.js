@@ -28,8 +28,6 @@ function EditSubs() {
 
                 const brand = await brandApi.getAll();
                 setAllBrand(brand.data);
-                console.log(cate.data);
-                console.log(brand.data.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
             }
@@ -46,13 +44,10 @@ function EditSubs() {
         const EditSubs = async () => {
             try {
                 const result = await catePostApi.editSubs(data, params.id);
-                setMessStatus(result.status);
+                setMessStatus(result.message);
                 setStatusHandle(true);
                 setModal(true);
                 setLoading(false);
-                setDataBrand('');
-                setDataCate('');
-                setDataName('');
             } catch (error) {
                 console.log('Failed to Update: ', error);
                 const res = error.response.data;

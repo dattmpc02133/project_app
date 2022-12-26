@@ -53,12 +53,11 @@ function ListProductSubs() {
             const getDeletSubs = async () => {
                 try {
                     const deletesSubs = await catePostApi.deleteSubs(deletcSubs.current);
-                    setMessage(deletesSubs.status);
+                    setMessStatus(deletesSubs.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
-                    const allSubs = await categoriesApi.getAllSubsProduct(params);
-                    setSubsAll(allSubs.data);
+                    getAllSubsProduct(params);
                 } catch (error) {
                     console.log('lỗi khi xóa', error);
                     const res = error.response.data;

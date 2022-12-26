@@ -35,7 +35,7 @@ function ListFooRules() {
             setListCate(result.data);
             setCateFooter(result.paginator);
             // setLoading(false);
-            // console.log('data', result.data);
+            console.log('data', result);
         } catch (error) {
             console.log('Failed to fetch Categories: ', error);
             // setLoading(false);
@@ -67,19 +67,17 @@ function ListFooRules() {
         deleteContent.current = id;
     };
 
-    const handleAction = (type) => {
+    const handleAction = (type, params) => {
         if (type) {
             setComfirm(false);
             const deleteFooter = async () => {
                 try {
                     const dltFooter = await footerApi.deleteContent(deleteContent.current);
-                    setMessage(dltFooter.message);
-                    const result = await footerApi.getAllContent();
-                    setListCate(result.data);
-                    setMessStatus(result.status);
+                    setMessStatus(dltFooter.message);
                     setStatusHandle(true);
                     setModal(true);
                     setLoading(false);
+                    fetchFooterRules(params);
                 } catch (error) {
                     console.log('Lỗi xóa', error);
                     const res = error.response.data;
