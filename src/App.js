@@ -88,6 +88,7 @@ import CreateVariant from './pages/Admin/CreateVariant';
 import ListVariant from './pages/Admin/ListBrand';
 import ListVariants from './pages/Admin/ListVariant';
 import EditVariant from './pages/Admin/EditVariant';
+// import ListWareHouse from './pages/Admin/ListWareHouse';
 
 function App() {
     return (
@@ -132,6 +133,7 @@ function App() {
                     <Route path="color/add" element={<CreateColor />} />
                     <Route path="color/list" element={<ListColor />} />
                     <Route path="warehouse/add" element={<CreateWareHouse />} />
+                    <Route path="warehouse/list" element={<ListWareHouse />} />
                     {/* footer */}
                     <Route path="footer/add" element={<CreateFooter />} />
                     <Route path="footer/list" element={<ListCateFooter />} />
