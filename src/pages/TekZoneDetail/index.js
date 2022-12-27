@@ -94,7 +94,7 @@ function TekZoneDetail() {
                 <div className={cx('detail-contents')}>
                     <div className={cx('detail-title-user')}>
                         <div className={cx('detail-title')}>
-                            <h1>{title}</h1>
+                            <h2 className={cx('title')}>{title}</h2>
                         </div>
 
                         <div className={cx('detail-user')}>

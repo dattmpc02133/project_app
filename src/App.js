@@ -83,6 +83,9 @@ import ListSlideShowSub from './pages/Admin/ListSlideShowSub';
 import ListSlideShowDetailSubs from './pages/Admin/ListSlideShowDetailSubs';
 import ListDetailSubSlide from './pages/Admin/ListDetailSubSlide';
 import EditSlideShowSub from './pages/Admin/EditSlideShowSub';
+import CreateUser from './pages/Admin/CreateUser';
+import ListUsers from './pages/Admin/ListUsers';
+import EditUsers from './pages/Admin/EditUsers';
 import Navigate from './components/admin/Navigate';
 import CreateVariant from './pages/Admin/CreateVariant';
 import ListVariant from './pages/Admin/ListBrand';
@@ -99,9 +102,8 @@ function App() {
                     <Route path=":slug" element={<Product />} />
                     <Route path="/productDetail" element={<DetailProduct />} />
                     <Route path="/tekzonecate/:id/:slug" element={<TekZoneCate />} />
-                    <Route path="/daimond" element={<TekZone />} />
+                    <Route path="/tin-tuc" element={<TekZone />} />
                     <Route path="/tekzonedetail/:id/:slug" element={<TekZoneDetail />} />
-                    <Route path="/topcare" element={<TopCare />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/pay" element={<Pay />} />
                     <Route path="/paycucess" element={<OrderCuccess />} />
@@ -209,6 +211,12 @@ function App() {
 
                     {/* drb */}
                     <Route path="dashboard" element={<Dashboard />} />
+
+                    {/* account */}
+
+                    <Route path="account/add" element={<CreateUser />} />
+                    <Route path="account/list" element={<ListUsers />} />
+                    <Route path="account/edit/:id/:slug" element={<EditUsers />} />
                     {/* ecitcolor */}
                     <Route path="color/edit/:id" element={<EditColor />} />
                 </Route>

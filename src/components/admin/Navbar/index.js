@@ -11,6 +11,7 @@ import Loading from '~/components/Loading';
 import './style.css';
 import CommentCount from '../../CommentCount';
 import { CommentContext } from '~/Context/CommentContext';
+import logoApi from '~/api/logoApi';
 
 const cx = classNames.bind(style);
 const Navbar = () => {
@@ -31,11 +32,30 @@ const Navbar = () => {
     const [openSubsPost, setOpenSubsPost] = useState(false);
     const [openCateSubsProduct, setCateSubsProduct] = useState(false);
     const [openDashboard, setDashboard] = useState(false);
-
+    const [openUsers, setOpenUsers] = useState(false);
     // comment
     const [openComment, setOpenComment] = useState(false);
     const [admin, setAdmin] = useState(false);
     const { commentCount } = useContext(CommentContext);
+
+    const [logo, setLogo] = useState();
+
+    useEffect(() => {
+        fetchCatePost();
+    }, []);
+    const fetchCatePost = async () => {
+        setLoading(true);
+        try {
+            const result = await logoApi.getAll();
+            setLogo(result);
+
+            setLoading(false);
+        } catch (error) {
+            console.log('Failed to fetch Categories: ', error);
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         const dataObject = JSON.parse(localStorage.getItem('dataAd'));
         setAdmin(dataObject);
@@ -45,11 +65,12 @@ const Navbar = () => {
             {loading ? <Loading /> : ''}
             <div className={cx('navbar')}>
                 <div className={cx('navbar__top')}>
-                    <Link to="" className={cx('navbar__logo')}>
-                        <img className={cx('logo__img')} src={images.logotest} />
-                    </Link>
+                    <div className={cx('navbar__logo')}>
+                        {logo?.map((item, index) => (
+                            <img className={cx('logo__img')} key={index} src={item?.image} />
+                        ))}
+                    </div>
                     <div className={cx('navbar__user')}>
-                        {/* <img className={cx('img__user')} src={images.user1} /> */}
                         <div className={cx('info__user')}>
                             <span className={cx('info__user--name')}>{admin.name}</span>
                             <span className={cx('info__user--email')}>{admin.email}</span>
@@ -88,9 +109,54 @@ const Navbar = () => {
                             </li>
                         </ul>
                     </div>
-                    {/* dashboard */}
-
-                    {/* endashboard */}
+                    {/* user */}
+                    <div className={cx('navbar__content--block')}>
+                        <div className={cx('navbar__content--heading')}>
+                            <span className={cx('navbar__content--heading-title')}>Tài khoản</span>
+                            {/* <p className={cx('navbar__content--heading-subtitle')}>Chỉnh sửa thương hiệu</p> */}
+                        </div>
+                        <ul className={cx('navbar__content--list')}>
+                            <li className={cx('navbar__content--item')}>
+                                <p
+                                    className={cx('navbar__content--link')}
+                                    onClick={() => {
+                                        setOpenUsers(!openUsers);
+                                    }}
+                                >
+                                    <BiCast className={cx('navbar__content--icon')} />
+                                    <span className={cx('navbar__content--text')}>Tài khoản </span>
+                                    <BiChevronDown
+                                        className={
+                                            openUsers
+                                                ? cx('navbar__content--icon--arrow', 'open')
+                                                : cx('navbar__content--icon--arrow')
+                                        }
+                                    />
+                                </p>
+                                <div
+                                    className={
+                                        openUsers
+                                            ? cx('navbar__content--dropdown', 'open')
+                                            : cx('navbar__content--dropdown')
+                                    }
+                                >
+                                    <NavLink
+                                        to="account/add"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Thêm mới
+                                    </NavLink>
+                                    <NavLink
+                                        to="account/list"
+                                        className={cx('navbar__content--link', 'navbar__content--link-dd')}
+                                    >
+                                        Danh sách
+                                    </NavLink>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    {/* user */}
                     {/* brand */}
                     <div className={cx('navbar__content--block')}>
                         <div className={cx('navbar__content--heading')}>

@@ -26,7 +26,7 @@ function EditSubs() {
 
                 setCategories(cate.data);
 
-                const brand = await brandApi.getAll();
+                const brand = await brandApi.getNotPage();
                 setAllBrand(brand.data);
             } catch (error) {
                 console.log('lỗi lấy danh mục', error);
@@ -39,7 +39,7 @@ function EditSubs() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const data = { category_id: dataCate, name: dataName, brand_id: dataBrand };
+        const data = { category_id: dataCate, name: dataName, brand_id: 61, is_post: 1 };
         console.log('data', data);
         const EditSubs = async () => {
             try {
@@ -87,7 +87,7 @@ function EditSubs() {
             <div className="content__wrapper">
                 <div className="content__main">
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
-                        <div className="input__group">
+                        {/* <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Danh mục Thương Hiệu</label>
                             </div>
@@ -108,7 +108,7 @@ function EditSubs() {
                                     ))}
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="input__group">
                             <div className="input__label">

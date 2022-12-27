@@ -39,7 +39,7 @@ function CreateProductSubs() {
     useEffect(() => {
         const getAllBrand = async () => {
             try {
-                const brand = await brandApi.getAll();
+                const brand = await brandApi.getNotPage();
                 setAllBrands(brand.data);
                 console.log('dat', brand.data);
             } catch (error) {

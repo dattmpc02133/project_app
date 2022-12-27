@@ -37,7 +37,7 @@ function CreateSubs() {
     useEffect(() => {
         const getAllBrand = async () => {
             try {
-                const brand = await brandApi.getAll();
+                const brand = await brandApi.getNotPage();
                 setAllBrands(brand.data);
             } catch (error) {
                 console.log('thương hiệu', error);
@@ -49,7 +49,7 @@ function CreateSubs() {
     const handleSubmit = (e) => {
         setLoading(true);
         e.preventDefault();
-        const data = { category_id: dataselect, name: dataInput, brand_id: dataBrand, is_post: 1 };
+        const data = { category_id: dataselect, name: dataInput, brand_id: 61, is_post: 1 };
 
         const createSubs = async () => {
             try {
@@ -83,7 +83,7 @@ function CreateSubs() {
             <div className="content__wrapper">
                 <div className="content__main">
                     <form className="form__content" onSubmit={(e) => handleSubmit(e)}>
-                        <div className="input__group">
+                        {/* <div className="input__group">
                             <div className="input__label">
                                 <label htmlFor="ip-name">Danh mục Thương Hiệu</label>
                             </div>
@@ -104,7 +104,7 @@ function CreateSubs() {
                                     ))}
                                 </select>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="input__group">
                             <div className="input__label">

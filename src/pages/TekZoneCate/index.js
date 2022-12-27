@@ -35,6 +35,7 @@ function TekZoneCate() {
             try {
                 const allCatePost = await catePostApi.getAll();
                 setAllCatePost(allCatePost.data);
+
                 setLoading(false);
             } catch (error) {
                 console.log('lỗi lây danh mục', error);
@@ -50,7 +51,6 @@ function TekZoneCate() {
             try {
                 const byIdCatePost = await catePostApi.getByIdCatePost(params.id);
                 setCatePostId(byIdCatePost.data);
-                console.log(byIdCatePost.data);
                 setLoading(false);
             } catch (error) {
                 console.log('Lỗi lấy ib cate post', error);

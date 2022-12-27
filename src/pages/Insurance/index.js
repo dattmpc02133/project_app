@@ -30,7 +30,7 @@ function Insurance() {
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-container')}>
                 <div className={cx('wrapper-titles')}>
-                    <h1>{title}</h1>
+                    <h2 className={cx(title)}>{title}</h2>
                 </div>
                 <div className={cx('wrapper-content')}>
                     <p dangerouslySetInnerHTML={{ __html: content }}></p>
