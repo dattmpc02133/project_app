@@ -5,7 +5,6 @@ import footerApi from '~/api/footerApi';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Modal from '~/components/Modal';
 
-import { CKEditor } from '@ckeditor/ckeditor5-react';
 
 function CreateContact() {
     const [loading, setLoading] = useState(false);
@@ -20,10 +19,10 @@ function CreateContact() {
     const [inputtime, setDatatime] = useState('');
 
     // console.log('Editor', editContent);
-    console.log('id', dataselect);
-    console.log('service', inputservice);
-    console.log('phone', inputphone);
-    console.log('time', inputtime);
+    // console.log('id', dataselect);
+    // console.log('service', inputservice);
+    // console.log('phone', inputphone);
+    // console.log('time', inputtime);
 
     useEffect(() => {
         const getAllContact = async () => {

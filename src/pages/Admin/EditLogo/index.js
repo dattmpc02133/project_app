@@ -1,9 +1,11 @@
+
 import '~/assets/scss/admin/Content.scss';
 import Loading from '~/components/Loading';
 import { useEffect, useState } from 'react';
 import logoApi from '../../../api/logoApi';
 import Modal from '~/components/Modal';
 import TableImage from '~/components/TableImage';
+
 import { useParams } from 'react-router-dom';
 
 function EditLogo() {
@@ -77,7 +79,7 @@ function EditLogo() {
     return (
         <div className="wrapper">
             {loading ? <Loading /> : ''}
-            {modal && <Modal closeModal={setModal} message={messStatus} status={statusHandle} />}
+            {modal && <Modal closeModal={setModal} message={messStatus}  status={statusHandle} />}
             {showImgTbl && <TableImage closeForm={setShowImgTbl} actionOne={handleGetImg} status={statusImg} />}
 
             <div className="content__heading">
