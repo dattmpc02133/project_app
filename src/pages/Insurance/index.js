@@ -3,6 +3,7 @@ import styles from '../../assets/scss/Insurance.module.scss';
 import { useLocation, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import footerApi from '../../api/footerApi';
+import './table.css';
 const cx = classNames.bind(styles);
 
 function Insurance() {
